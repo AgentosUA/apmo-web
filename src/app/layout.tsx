@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 
-import './globals.scss';
 import Head from 'next/head';
+
+// import 'leaflet/dist/leaflet.css';
+import './globals.scss';
 
 export const metadata: Metadata = {
   title: 'Arma Planner Online',
@@ -17,8 +19,11 @@ export default function RootLayout({
     <html lang='en'>
       <Head>
         <link
-          href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.css'
+          rel='stylesheet'
+          href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
           type='text/css'
+          integrity='sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY='
+          crossorigin=''
         />
       </Head>
       <body>{children}</body>
