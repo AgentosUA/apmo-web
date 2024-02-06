@@ -17,15 +17,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <Head>
-        <link
-          rel='stylesheet'
-          href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
-          type='text/css'
-          integrity='sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY='
-          crossorigin=''
-        />
-      </Head>
       <body>{children}</body>
     </html>
   );

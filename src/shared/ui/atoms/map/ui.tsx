@@ -14,17 +14,18 @@ const Map: FC<{
       <MapContainer
         className={className}
         center={[0, 0]}
-        zoom={0}
+        zoom={3.5}
         minZoom={0}
         maxZoom={9}
         style={{
           minHeight: '100vh',
         }}>
         <TileLayer
+          url='https://stats.wogames.info/img/locations/chernarus/{z}/{x}/{y}.png'
+          tileSize={256}
           minZoom={0}
           maxZoom={9}
-          tileSize={256}
-          url='https://stats.wogames.info/img/locations/chernarus/{z}/{x}/{y}.png'
+          noWrap
         />
         <br />
       </MapContainer>
