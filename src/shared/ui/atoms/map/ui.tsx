@@ -1,6 +1,8 @@
 import { FC } from 'react';
 
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
+
+import { CRS } from 'leaflet';
 
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
@@ -9,11 +11,15 @@ import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 const Map: FC<{
   className?: string;
 }> = ({ className }) => {
+  // const map = useMap();
+
   return (
     <div id='map'>
       <MapContainer
         className={className}
         center={[0, 0]}
+        crs={CRS.Simple}
+        zoomControl={false}
         zoom={3.5}
         minZoom={0}
         maxZoom={9}
@@ -28,6 +34,7 @@ const Map: FC<{
           noWrap
         />
         <br />
+        <Marker position={[0.100, 100]} title='test' />
       </MapContainer>
     </div>
   );
