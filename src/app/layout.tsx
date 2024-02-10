@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 
-import Head from 'next/head';
-
-// import 'leaflet/dist/leaflet.css';
-import './globals.scss';
+import '@/shared/ui/styles/reset.scss';
+import '@/shared/ui/styles/global.scss';
 
 export const metadata: Metadata = {
   title: 'Arma Planner Online',
