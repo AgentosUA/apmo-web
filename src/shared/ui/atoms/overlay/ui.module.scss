@@ -2,6 +2,43 @@
   position: fixed;
   width: 100%;
   height: 30px;
-  z-index: 1000;
   background: linear-gradient(180deg, #3C3C3C 0%, #1A1A1A 100%);
+  z-index: 1000;
+}
+
+.headerTitle {
+  margin-left: 20px;
+  color: #FAFAFA;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+.menu {
+  padding: 10px 0;
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  min-width: 122px;
+  min-height: 100px;
+  background: rgba($color: #000, $alpha: 0.7);
+  z-index: 1000;
+}
+
+.item {
+  color: #FAFAFA;
+  display: block;
+  padding: 4px 0 4px 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: .3s;
+
+  &:hover {
+    background: rgba($color: #fff, $alpha: 0.2);
+    transition: .3s;
+  }
+}
+
+.itemActive {
+  background: rgba($color: #fff, $alpha: 0.2);
 }

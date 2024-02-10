@@ -1,10 +1,12 @@
 'use client';
+
 import dynamic from 'next/dynamic';
 
 import { useMounted } from '@/shared/ui/hooks/use-mounted';
 
-import styles from './page.module.scss';
 import { Overlay } from '@/shared/ui/atoms/overlay';
+
+import styles from './page.module.scss';
 
 const MyAwesomeMap = dynamic(() => import('@/shared/ui/atoms/map/ui'), {
   ssr: false,
@@ -17,7 +19,8 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <Overlay.Header />
+      <Overlay.Header title='untitled plan' />
+      <Overlay.Menu />
 
       <MyAwesomeMap />
     </main>
