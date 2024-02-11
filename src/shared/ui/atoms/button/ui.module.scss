@@ -1,0 +1,18 @@
+.button {
+  min-width: 127px;
+  height: 20px;
+  padding-left: 6px;
+  text-align: left;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  background: #000;
+
+  &:hover {
+    background: #fff;
+    color: #000;
+  }
+}
