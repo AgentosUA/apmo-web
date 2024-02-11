@@ -14,6 +14,7 @@ export default function CreateMission() {
       id: 0,
       name: 'Chernarus Autumn',
       image: '/maps/chernarus-autumn.jpg',
+      author: 'Bohemia Interactive',
     },
   ];
 
@@ -39,8 +40,8 @@ export default function CreateMission() {
             ))}
           </div>
           <div className={styles.mapPreview}>
-            <h2 className={styles.mapTitle}>Map name</h2>
-            <p className={styles.author}>by Bohemia Interactive</p>
+            <h2 className={styles.mapTitle}>{selectedMap.name}</h2>
+            <p className={styles.author}>by {selectedMap.author}</p>
             <Image
               className={styles.mapImage}
               width={380}
