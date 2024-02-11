@@ -40,7 +40,7 @@ const myCRS = extend({}, CRS.Simple, {
   ),
 });
 
-const Map: FC<{
+const ArmaMap: FC<{
   className?: string;
 }> = ({ className }) => {
   return (
@@ -71,4 +71,4 @@ const Map: FC<{
   );
 };
 
-export default Map;
+export default ArmaMap;

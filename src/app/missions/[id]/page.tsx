@@ -8,7 +8,7 @@ import { Overlay } from '@/shared/ui/atoms/overlay';
 
 import styles from './page.module.scss';
 
-const MyAwesomeMap = dynamic(() => import('@/shared/ui/atoms/map/ui'), {
+const ArmaMap = dynamic(() => import('@/shared/ui/atoms/arma-map/ui'), {
   ssr: false,
 });
 
@@ -22,7 +22,7 @@ export default function Page() {
       <Overlay.Header title='untitled plan' />
       <Overlay.Menu />
 
-      <MyAwesomeMap />
+      <ArmaMap />
     </main>
   );
 }
