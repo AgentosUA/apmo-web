@@ -12,7 +12,7 @@ const MyAwesomeMap = dynamic(() => import('@/shared/ui/atoms/map/ui'), {
   ssr: false,
 });
 
-export default function Home() {
+export default function Page() {
   const isMounted = useMounted();
 
   if (!isMounted) return <h2>loading</h2>;

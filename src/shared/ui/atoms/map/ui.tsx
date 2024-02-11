@@ -8,6 +8,9 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 
+import styles from './ui.module.scss';
+import classNames from 'classnames';
+
 const mapSize = 15360;
 const mapOffset = 1024;
 
@@ -43,7 +46,7 @@ const Map: FC<{
   return (
     <div id='map'>
       <MapContainer
-        className={className}
+        className={classNames(styles.map, className)}
         center={[mapSize / 1.9, mapSize / 2]}
         crs={myCRS}
         zoomControl={false}
