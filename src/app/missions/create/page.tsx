@@ -1,13 +1,30 @@
 'use client';
 
+import { observer } from 'mobx-react-lite';
+
+import { ArmaMap } from '@/widgets/arma-map';
+import { MapSelection } from '@/widgets/map-selection';
+import { mapsEntity } from '@/entities/maps';
+
 import styles from './page.module.scss';
 
-import { MapSelection } from '@/widgets/map-selection';
+import { NewMissionOverlay } from '@/widgets/new-map-overlay';
 
-export default function CreateMission() {
+const CreateMissionPage = observer(() => {
+  if (!mapsEntity.selectedMap) {
+    return (
+      <main className={styles.main}>
+        <MapSelection />
+      </main>
+    );
+  }
+
   return (
-    <main className={styles.main}>
-      <MapSelection />
-    </main>
+    <>
+      <ArmaMap />
+      <NewMissionOverlay />
+    </>
   );
-}
+});
+
+export default CreateMissionPage;

@@ -29,6 +29,8 @@ const mapList = [
     name: 'Reshmaan',
     description: 'Reshmaan Province',
     dir: 'reshmaan',
+    image: '/maps/chernarus-autumn.jpg',
+    author: 'Bohemia Interactive',
   },
   {
     id: '2',
@@ -47,6 +49,8 @@ const mapList = [
     name: 'Chernarus',
     description: 'Chernarus',
     dir: 'chernarus',
+    image: '/maps/chernarus-autumn.jpg',
+    author: 'Bohemia Interactive',
   },
   {
     id: '3',
@@ -65,6 +69,8 @@ const mapList = [
     name: 'Utes',
     description: 'Utes',
     dir: 'utes',
+    image: '/maps/chernarus-autumn.jpg',
+    author: 'Bohemia Interactive',
   },
   {
     id: '4',
@@ -83,6 +89,8 @@ const mapList = [
     name: 'Shapur_baf',
     description: 'Shapur',
     dir: 'shapur',
+    image: '/maps/chernarus-autumn.jpg',
+    author: 'Bohemia Interactive',
   },
   {
     id: '5',
@@ -101,6 +109,8 @@ const mapList = [
     name: 'WL_Route191',
     description: 'Schwemlitz',
     dir: 'schwemlitz',
+    image: '/maps/chernarus-autumn.jpg',
+    author: 'Bohemia Interactive',
   },
   {
     id: '6',
@@ -119,6 +129,8 @@ const mapList = [
     name: 'Takistan',
     description: 'Takistan',
     dir: 'takistan',
+    image: '/maps/chernarus-autumn.jpg',
+    author: 'Bohemia Interactive',
   },
   {
     id: '7',
@@ -137,6 +149,8 @@ const mapList = [
     name: 'ProvingGrounds_PMC',
     description: 'Proving Grounds',
     dir: 'provinggrounds',
+    image: '/maps/chernarus-autumn.jpg',
+    author: 'Bohemia Interactive',
   },
   {
     id: '8',
@@ -155,6 +169,8 @@ const mapList = [
     name: 'mbg_celle2',
     description: 'Celle 2',
     dir: 'celle2',
+    image: '/maps/chernarus-autumn.jpg',
+    author: 'Bohemia Interactive',
   },
   {
     id: '9',
@@ -173,6 +189,8 @@ const mapList = [
     name: 'IsolaDiCapraia',
     description: 'Isola di Capraia',
     dir: 'capraia',
+    image: '/maps/chernarus-autumn.jpg',
+    author: 'Bohemia Interactive',
   },
   {
     id: '10',
@@ -1290,6 +1308,6 @@ const mapList = [
     description: 'Šumava',
     dir: 'sumava',
   },
-];
+].sort((a, b) => a.name.localeCompare(b.name));
 
 export { mapList, markers };

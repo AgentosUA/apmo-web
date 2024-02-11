@@ -1,21 +1,27 @@
+'use client';
+
 import { FC, useState } from 'react';
 
 import Link from 'next/link';
 import Image from 'next/image';
+
 import classNames from 'classnames';
+
+import { observer } from 'mobx-react-lite';
 
 import { Button } from '@/shared/ui/atoms/button';
 
-import { maps as defaultMaps } from './data';
+import { mapsEntity } from '@/entities/maps';
 
 import styles from './ui.module.scss';
 
 const MapSelection: FC<{
-  maps?: typeof defaultMaps;
   backUrl?: string;
   continueUrl?: string;
-}> = ({ backUrl = '/', continueUrl = '/', maps = defaultMaps }) => {
-  const [selectedMap, onSelectMap] = useState(maps[0]);
+}> = observer(({ backUrl = '/', continueUrl }) => {
+  const mapList = mapsEntity.getMaps();
+
+  const [selectedMap, onSelectMap] = useState(mapsEntity.defaultMap);
 
   return (
     <section className={styles.wrapper}>
@@ -23,7 +29,7 @@ const MapSelection: FC<{
         <h1 className={styles.title}>Select Map</h1>
         <div className={styles.selectAndPreview}>
           <div className={styles.list}>
-            {maps.map((item) => (
+            {mapList.map((item) => (
               <div
                 key={item.id}
                 className={classNames(styles.listItem, {
@@ -32,18 +38,23 @@ const MapSelection: FC<{
                 onClick={() => onSelectMap(item)}>
                 {/* image */}
 
-                <p className={styles.listItemText}>{item.name}</p>
+                <p className={styles.listItemText}>
+                  {item.description || item.name}
+                </p>
               </div>
             ))}
           </div>
           <div className={styles.mapPreview}>
-            <h2 className={styles.mapTitle}>{selectedMap.name}</h2>
+            <h2 className={styles.mapTitle}>
+              {selectedMap.description || selectedMap.name}
+            </h2>
             <p className={styles.author}>by {selectedMap.author}</p>
             <Image
               className={styles.mapImage}
+              priority
               width={380}
               height={404.75}
-              src={selectedMap.image}
+              src={selectedMap.image ?? ''}
               alt='map preview'
             />
           </div>
@@ -53,12 +64,19 @@ const MapSelection: FC<{
         <Link href={backUrl}>
           <Button>Back</Button>
         </Link>
-        <Link href={continueUrl}>
-          <Button>Continue</Button>
-        </Link>
+        {!continueUrl && (
+          <Button onClick={() => mapsEntity.selectMap(selectedMap)}>
+            Continue
+          </Button>
+        )}
+        {continueUrl && (
+          <Link href={continueUrl}>
+            <Button>Continue</Button>
+          </Link>
+        )}
       </div>
     </section>
   );
-};
+});
 
 export { MapSelection };

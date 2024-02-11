@@ -23,3 +23,17 @@ a:visited {
   color: #fff;
   text-decoration: none;
 }
+
+// scrolls
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #fff;
+}

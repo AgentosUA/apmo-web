@@ -1,16 +1,11 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-
 import { useMounted } from '@/shared/ui/hooks/use-mounted';
 
 import { Overlay } from '@/shared/ui/atoms/overlay';
 
 import styles from './page.module.scss';
-
-const ArmaMap = dynamic(() => import('@/shared/ui/atoms/arma-map/ui'), {
-  ssr: false,
-});
+// import { ArmaMap } from '@/widgets/arma-map';
 
 export default function Page() {
   const isMounted = useMounted();
@@ -22,7 +17,7 @@ export default function Page() {
       <Overlay.Header title='untitled plan' />
       <Overlay.Menu />
 
-      <ArmaMap />
+      {/* <ArmaMap selectedMap={} /> */}
     </main>
   );
 }
