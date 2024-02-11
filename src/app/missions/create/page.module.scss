@@ -67,15 +67,13 @@
 
   color: #fff;
 
-  &:hover {
-    color: #000;
-
-    animation: white-blink 2s infinite;
-  }
 }
 
-.listItemActive {
-  background: #A16C14;
+.listItemActive,
+.listItem:hover {
+  color: #000;
+
+  animation: white-blink 2s infinite;
 }
 
 .listItemText {

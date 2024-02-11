@@ -12,7 +12,22 @@
   background: #000;
 
   &:hover {
-    background: #fff;
     color: #000;
+
+    animation: white-blink 2s infinite;
+  }
+}
+
+@keyframes white-blink {
+  0% {
+    background: rgba($color: #fff, $alpha: 0.5);
+  }
+
+  50% {
+    background: rgba($color: #fff, $alpha: 1);
+  }
+
+  100% {
+    background: rgba($color: #fff, $alpha: 0.5);
   }
 }
