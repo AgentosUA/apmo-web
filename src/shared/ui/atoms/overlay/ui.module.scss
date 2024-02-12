@@ -37,11 +37,10 @@
 }
 
 .item {
-  color: #FAFAFA;
-  display: block;
-  padding: 4px 0 4px 10px;
   display: flex;
   align-items: center;
+  padding: 4px 4px 4px 10px;
+  color: #FAFAFA;
   cursor: pointer;
   transition: .3s;
 
