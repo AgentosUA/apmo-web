@@ -10,14 +10,14 @@
   align-items: center;
 }
 
-.headerTitle {
+.header-title {
   margin-left: 5px;
   color: #FAFAFA;
   font-size: 20px;
   line-height: 30px;
 }
 
-.backArrowIcon {
+.back-arrow-icon {
   margin-left: 5px;
 
   &:hover {
@@ -51,6 +51,6 @@
   }
 }
 
-.itemActive {
+.item-active {
   background: rgba($color: #fff, $alpha: 0.2);
 }

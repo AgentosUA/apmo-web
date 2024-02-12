@@ -57,7 +57,7 @@
   background: rgba($color: #070B0A, $alpha: 0.7);
 }
 
-.navigationItem {
+.navigation-item {
   position: relative;
   display: flex;
   justify-content: center;
@@ -86,7 +86,7 @@
   }
 }
 
-.navigationItemImage {
+.navigation-item-image {
   position: absolute;
   top: 0;
   left: 0;
@@ -97,7 +97,7 @@
   object-fit: cover;
 }
 
-.navigationItemText {
+.navigation-item-text {
   font-size: 22px;
   text-align: center;
   color: #fff;
