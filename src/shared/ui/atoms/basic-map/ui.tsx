@@ -23,8 +23,9 @@ const BasicMap: FC<
     mapSize: number;
     minZoom: number;
     maxZoom: number;
+    scale?: number;
   }>
-> = ({ className, children, mapSize = 0, name }) => {
+> = ({ className, children, mapSize = 0, name, maxZoom }) => {
   const armaCRS = extend({}, CRS.Simple, {
     projection: Projection.LonLat,
     transformation: transformation(
@@ -54,7 +55,7 @@ const BasicMap: FC<
           url={`https://stats.wogames.info/img/locations/${name}/{z}/{x}/{y}.png`}
           tileSize={256}
           minZoom={0}
-          maxZoom={9}
+          maxZoom={maxZoom}
           noWrap
         />
         {children}

@@ -24,10 +24,13 @@ const Header: FC<{
 
 const MenuItem: FC<
   PropsWithChildren<{
+    onClick?: () => void;
     isActive?: boolean;
   }>
-> = ({ children, isActive }) => (
-  <p className={classNames(styles.item, { [styles.itemActive]: isActive })}>
+> = ({ children, isActive, onClick }) => (
+  <p
+    onClick={onClick}
+    className={classNames(styles.item, { [styles.itemActive]: isActive })}>
     {children}
   </p>
 );

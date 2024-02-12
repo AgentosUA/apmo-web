@@ -1,5 +1,7 @@
 import { markerNames } from '@/shared/data/marker';
 import { Icon } from 'leaflet';
+import { FC, PropsWithChildren, useMemo, useRef } from 'react';
+import { Marker } from 'react-leaflet';
 
 const MarkerIcons = markerNames.map(
   (markerName) =>
@@ -11,4 +13,41 @@ const MarkerIcons = markerNames.map(
     })
 );
 
-export { MarkerIcons };
+const ArmaMarker: FC<
+  PropsWithChildren<{
+    x: number;
+    y: number;
+    icon: Icon;
+    draggable?: boolean;
+    onUpdatePosition?: (x: number, y: number) => void;
+  }>
+> = ({ children, x, y, icon, draggable = true, onUpdatePosition }) => {
+  const markerRef = useRef(null);
+
+  const eventHandlers = useMemo(
+    () => ({
+      dragend() {
+        const marker = markerRef.current;
+        if (marker != null) {
+          const { lat, lng } = marker.getLatLng();
+
+          onUpdatePosition?.(lng, lat);
+        }
+      },
+    }),
+    []
+  );
+
+  return (
+    <Marker
+      position={[y, x]}
+      icon={icon}
+      draggable={draggable}
+      ref={markerRef}
+      eventHandlers={eventHandlers}>
+      {children}
+    </Marker>
+  );
+};
+
+export { ArmaMarker, MarkerIcons };

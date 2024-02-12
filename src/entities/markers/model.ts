@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, observable } from 'mobx';
 
 enum SWTMarkerTypeID {
   text,
@@ -19,19 +19,23 @@ type SWTMarkerType = [
 ];
 
 class MarkersModel {
-  missionsMarkers: SWTMarkerType[] = [];
-  swtMarkers: SWTMarkerType[] = [
-    ['[WFA]Agentos ', [5338.1, 8603.2], 15, 9, 0, 1, '', []],
-    ['EPIC', [3847.55, 8867.41], 33, 8, 0, 1, '', []],
-    ['Chiki-airport', [4580.42, 10226.6], 33, 8, 0, 1, '', []],
-  ];
-
   constructor() {
     makeAutoObservable(this);
   }
 
+  isLoading = false;
+  missionsMarkers: SWTMarkerType[] = [];
+  swtMarkers: SWTMarkerType[] = [
+    // ['test', [160, 4864], 33, 9, 0, 1, '', []],
+    ['zero', [0, 0], 33, 9, 0, 1, '', []],
+  ];
+
   setSWTMarkers = (markers: []) => {
     this.swtMarkers = markers;
+  };
+
+  clearMissionMarkers = () => {
+    this.swtMarkers = [];
   };
 
   clearSWTMarkers = () => {
@@ -42,8 +46,25 @@ class MarkersModel {
     this.missionsMarkers = markers;
   };
 
+  SWTMarkerFromClipboard = async () => {
+    this.isLoading = true;
+    const text = await navigator.clipboard.readText();
+
+    this.setSWTMarkers(JSON.parse(text));
+    this.isLoading = false;
+  };
+
+  SWTMarkerToClipboard = () => {
+    const text = JSON.stringify(this.swtMarkers);
+    navigator.clipboard.writeText(text);
+  };
+
+  updateMarker = (id: number, x: number, y: number) => {
+    this.swtMarkers[id][SWTMarkerTypeID.coordinates] = [x, y];
+  };
+
   clearMarkers = () => {
-    this.clearMarkers();
+    this.clearMissionMarkers();
     this.clearSWTMarkers();
   };
 }
