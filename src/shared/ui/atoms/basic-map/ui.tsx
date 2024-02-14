@@ -6,33 +6,28 @@ import { MapContainer, TileLayer } from 'react-leaflet';
 
 import { CRS, Projection, extend, transformation } from 'leaflet';
 
-import 'leaflet/dist/leaflet.css';
-import 'leaflet-defaulticon-compatibility';
-import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
-
 import classNames from 'classnames';
 
 import styles from './ui.module.scss';
-
-const mapOffset = 1024;
 
 const BasicMap: FC<
   PropsWithChildren<{
     className?: string;
     name: string;
-    mapSize: number;
+    mapSize?: number;
     minZoom: number;
     maxZoom: number;
     scale?: number;
   }>
-> = ({ className, children, mapSize = 0, name, maxZoom }) => {
+> = ({ className, children, name, minZoom = 0, maxZoom }) => {
+  const mapSize = 8192;
   const armaCRS = extend({}, CRS.Simple, {
     projection: Projection.LonLat,
     transformation: transformation(
-      0.015625,
-      0 * 0.015625,
-      -0.015625,
-      (mapSize + mapOffset) * 0.015625
+      256 / mapSize,
+      0,
+      -256 / mapSize,
+      mapSize * (256 / mapSize)
     ),
   });
 
@@ -52,12 +47,55 @@ const BasicMap: FC<
           minHeight: '100vh',
         }}>
         <TileLayer
-          url={`https://stats.wogames.info/img/locations/${name}/{z}/{x}/{y}.png`}
+          url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/terrain/{z}/{x}_{y}.png`}
           tileSize={256}
-          minZoom={0}
+          minZoom={minZoom}
+          maxZoom={maxZoom}
+          noWrap
+          detectRetina
+        />
+        <TileLayer
+          url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/bushes/{z}/{x}_{y}.png`}
+          tileSize={256}
+          minZoom={minZoom}
+          maxZoom={maxZoom}
+          noWrap
+          detectRetina
+        />
+        <TileLayer
+          url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/count_main/{z}/{x}_{y}.png`}
+          tileSize={256}
+          minZoom={minZoom}
+          maxZoom={maxZoom}
+          noWrap
+          detectRetina
+        />
+        <TileLayer
+          url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/count/{z}/{x}_{y}.png`}
+          tileSize={256}
+          minZoom={minZoom}
           maxZoom={maxZoom}
           noWrap
         />
+
+        <TileLayer
+          url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/roads/{z}/{x}_{y}.png`}
+          tileSize={256}
+          minZoom={minZoom}
+          maxZoom={maxZoom}
+          noWrap
+          detectRetina
+        />
+
+        <TileLayer
+          url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/objects/{z}/{x}_{y}.png`}
+          tileSize={256}
+          minZoom={minZoom}
+          maxZoom={maxZoom}
+          noWrap
+          detectRetina
+        />
+
         {children}
       </MapContainer>
     </div>

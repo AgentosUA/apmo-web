@@ -4,7 +4,7 @@ import { makeAutoObservable, makeObservable } from 'mobx';
 
 class MapsModel {
   selectedMap: (typeof mapList)[0] | null = null;
-  defaultMap = mapList[7];
+  defaultMap = mapList[0];
 
   constructor() {
     makeAutoObservable(this);

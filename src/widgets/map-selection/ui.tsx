@@ -38,16 +38,12 @@ const MapSelection: FC<{
                 onClick={() => onSelectMap(item)}>
                 {/* image */}
 
-                <p className={styles.listItemText}>
-                  {item.description || item.name}
-                </p>
+                <p className={styles.listItemText}>{item.name}</p>
               </div>
             ))}
           </div>
           <div className={styles.mapPreview}>
-            <h2 className={styles.mapTitle}>
-              {selectedMap.description || selectedMap.name}
-            </h2>
+            <h2 className={styles.mapTitle}>{selectedMap.name}</h2>
             <p className={styles.author}>by {selectedMap.author}</p>
             <Image
               className={styles.mapImage}

@@ -4,7 +4,7 @@ import '@/shared/ui/styles/reset.scss';
 import '@/shared/ui/styles/global.scss';
 
 export const metadata: Metadata = {
-  title: 'Arma Planner Online: Create your plan for Arma 3!',
+  title: 'Arma Plan Maker Online: Create your plan for Arma 3!',
   description: 'Create your plan for Arma 3!',
 };
 
