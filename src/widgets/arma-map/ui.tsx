@@ -25,23 +25,23 @@ const ArmaMap = observer(() => {
   return (
     <BasicMap
       name={mapsEntity.selectedMap.dir}
-      minZoom={1}
+      minZoom={0}
       maxZoom={Number(mapsEntity.selectedMap.zoom)}
       mapSize={Number(mapsEntity.selectedMap.width) ?? 0}>
       {markersEntity.swtMarkers.map((marker, index) => {
         return (
           <ArmaMarker
-            key={marker[SWTMarkerTypeID.coordinates][0]}
+            key={marker.id}
             icon={MarkerIcon(
-              markerNames[marker[SWTMarkerTypeID.type]],
-              markerColorNames[marker[SWTMarkerTypeID.color]]
+              markerNames[marker.data[SWTMarkerTypeID.type]],
+              markerColorNames[marker.data[SWTMarkerTypeID.color]]
             )}
-            x={marker[SWTMarkerTypeID.coordinates][0]}
-            y={marker[SWTMarkerTypeID.coordinates][1]}
+            x={marker.data[SWTMarkerTypeID.coordinates][0]}
+            y={marker.data[SWTMarkerTypeID.coordinates][1]}
             onUpdatePosition={(x, y) => markersEntity.updateMarker(index, x, y)}
-            color={markerColorNames[marker[SWTMarkerTypeID.color]]}
+            color={markerColorNames[marker.data[SWTMarkerTypeID.color]]}
             draggable>
-            {marker[SWTMarkerTypeID.text]}
+            {marker.data[SWTMarkerTypeID.text]}
           </ArmaMarker>
         );
       })}

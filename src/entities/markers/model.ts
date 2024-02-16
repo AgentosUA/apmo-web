@@ -1,4 +1,6 @@
+import { generateRandomId } from '@/shared/utils/string';
 import { makeAutoObservable, observable } from 'mobx';
+import { getValidSWTMarkers } from './lib';
 
 enum SWTMarkerTypeID {
   text,
@@ -18,23 +20,47 @@ type SWTMarkerType = [
   []
 ];
 
+type MarkerType = {
+  id: string | number;
+  data: SWTMarkerType;
+};
+
 class MarkersModel {
   constructor() {
     makeAutoObservable(this);
   }
 
-  isLoading = false;
+  isMissionLoading = false;
+  isSWTLoading = false;
   missionsMarkers: SWTMarkerType[] = [];
-  swtMarkers: SWTMarkerType[] = [
-    ['blue', [3070.07, 5372.62], 15, 9, 0, 1, '', []],
-    // ['red', [3061.42, 5199.73], 15, 3, 0, 1, '', []],
-    // ['green', [3070.07, 5035.48], 15, 8, 0, 1, '', []],
-    // ['black', [3057.1, 4875.56], 15, 1, 0, 1, '', []],
-    // ['white', [3048.46, 4711.31], 15, 11, 0, 1, '', []],
-    // ['yelloow', [3044.14, 4577.33], 15, 6, 0, 1, '', []],
+  swtMarkers: MarkerType[] = [
+    {
+      id: generateRandomId(),
+      data: ['blue', [3070.07, 5372.62], 67, 9, 0, 1, '', []],
+    },
+    {
+      id: generateRandomId(),
+      data: ['red', [3061.42, 5199.73], 15, 3, 0, 1, '', []],
+    },
+    {
+      id: generateRandomId(),
+      data: ['green', [3070.07, 5035.48], 15, 8, 0, 1, '', []],
+    },
+    {
+      id: generateRandomId(),
+      data: ['black', [3057.1, 4875.56], 15, 1, 0, 1, '', []],
+    },
+    {
+      id: generateRandomId(),
+      data: ['white', [3048.46, 4711.31], 15, 11, 0, 1, '', []],
+    },
+    {
+      id: generateRandomId(),
+      data: ['yellow', [3044.14, 4577.33], 15, 6, 0, 1, '', []],
+    },
   ];
 
-  setSWTMarkers = (markers: []) => {
+  setSWTMarkers = (markers: MarkerType[]) => {
     this.swtMarkers = markers;
   };
 
@@ -51,20 +77,38 @@ class MarkersModel {
   };
 
   SWTMarkerFromClipboard = async () => {
-    this.isLoading = true;
-    const text = await navigator.clipboard.readText();
+    try {
+      this.isSWTLoading = true;
 
-    this.setSWTMarkers(JSON.parse(text));
-    this.isLoading = false;
+      const text = await navigator.clipboard.readText();
+      const data = JSON.parse(text) as unknown;
+
+      const swtMarkers = getValidSWTMarkers(data);
+
+      const parsedMarkers = swtMarkers.map((item) => ({
+        id: generateRandomId(),
+        data: item,
+      }));
+
+      this.setSWTMarkers(parsedMarkers as MarkerType[]);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.isSWTLoading = false;
+    }
   };
 
   SWTMarkerToClipboard = () => {
-    const text = JSON.stringify(this.swtMarkers);
+    const text = JSON.stringify(this.swtMarkers.map((marker) => marker.data));
     navigator.clipboard.writeText(text);
   };
 
   updateMarker = (id: number, x: number, y: number) => {
-    this.swtMarkers[id][SWTMarkerTypeID.coordinates] = [x, y];
+    const index = this.swtMarkers.findIndex((marker) => marker.id === id);
+
+    if (index === -1) return;
+
+    this.swtMarkers[index].data[SWTMarkerTypeID.coordinates] = [x, y];
   };
 
   clearMarkers = () => {
@@ -76,3 +120,5 @@ class MarkersModel {
 const markersEntity = new MarkersModel();
 
 export { MarkersModel, SWTMarkerTypeID, markersEntity };
+
+export type { MarkerType, SWTMarkerType };

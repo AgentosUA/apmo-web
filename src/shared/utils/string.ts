@@ -1,3 +1,7 @@
+const generateRandomId = (length?: 40) => {
+  return Math.random().toString(length).substr(2, length);
+};
+
 const kebabize = (str: string) => {
   return str
     .split('')
@@ -9,4 +13,4 @@ const kebabize = (str: string) => {
     .join('');
 };
 
-export { kebabize };
+export { kebabize, generateRandomId };

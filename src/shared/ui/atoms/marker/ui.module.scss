@@ -21,7 +21,7 @@
 }
 
 .ColorYellowFilter {
-  // filter: brightness(0) saturate(100%) invert(87%) sepia(84%) saturate(755%) hue-rotate(359deg) brightness(107%) contrast(100%)
+  filter: brightness(0) saturate(100%) invert(87%) sepia(84%) saturate(755%) hue-rotate(359deg) brightness(107%) contrast(100%)
 }
 
 .ColorKhakiFilter {
@@ -29,11 +29,11 @@
 }
 
 .ColorGreenFilter {
-  color: rgba(0, 128, 0, 0.9);
+  filter: brightness(0) saturate(100%) invert(26%) sepia(94%) saturate(3048%) hue-rotate(91deg) brightness(92%) contrast(106%);
 }
 
 .ColorBlueFilter {
-  filter: brightness(0) saturate(100%) invert(87%) sepia(84%) saturate(755%) hue-rotate(359deg) brightness(107%) contrast(100%);
+  filter: brightness(0) saturate(100%) invert(9%) sepia(100%) saturate(7476%) hue-rotate(248deg) brightness(91%) contrast(144%);
 }
 
 .ColorPinkFilter {
@@ -73,7 +73,7 @@
 }
 
 .colorIndependentFilter {
-  color: rgba(0, 128, 0, 0.9);
+  filter: brightness(0) saturate(100%) invert(26%) sepia(94%) saturate(3048%) hue-rotate(91deg) brightness(92%) contrast(106%);
 }
 
 .colorCivilianFilter {
