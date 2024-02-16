@@ -12,6 +12,8 @@ import { observer } from 'mobx-react-lite';
 import { ArmaMarker, MarkerIcon } from '@/shared/ui/atoms/marker';
 import { useMounted } from '@/shared/ui/hooks';
 import { markerColorNames, markerNames } from '@/shared/data/marker';
+import { CreateMarker } from '@/features/markers/create-marker/ui';
+import { createMarkerEntity } from '@/features/markers/create-marker';
 
 const ArmaMap = observer(() => {
   const isMounted = useMounted();
@@ -27,7 +29,16 @@ const ArmaMap = observer(() => {
       name={mapsEntity.selectedMap.dir}
       minZoom={0}
       maxZoom={Number(mapsEntity.selectedMap.zoom)}
-      mapSize={Number(mapsEntity.selectedMap.width) ?? 0}>
+      mapSize={Number(mapsEntity.selectedMap.width) ?? 0}
+      onDoubleClick={(event) => {
+        createMarkerEntity.open();
+        createMarkerEntity.setMarkerPosition(
+          event.latlng.lat,
+          event.latlng.lng
+        );
+      }}>
+      <CreateMarker />
+
       {markersEntity.swtMarkers.map((marker, index) => {
         return (
           <ArmaMarker

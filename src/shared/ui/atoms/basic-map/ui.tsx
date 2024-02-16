@@ -59,6 +59,15 @@ const BasicMap: FC<
     ),
   });
 
+  const layers = [
+    'terrain',
+    'bushes',
+    'count_main',
+    'count',
+    'roads',
+    'objects',
+  ];
+
   return (
     <div id='map'>
       <MapContainer
@@ -73,55 +82,18 @@ const BasicMap: FC<
         wheelPxPerZoomLevel={500}
         markerZoomAnimation>
         <MapHandlers onDoubleClick={onDoubleClick} />
-        <TileLayer
-          url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/terrain/{z}/{x}_{y}.png`}
-          tileSize={256}
-          minZoom={minZoom}
-          maxZoom={maxZoom}
-          noWrap
-          detectRetina
-        />
-        <TileLayer
-          url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/bushes/{z}/{x}_{y}.png`}
-          tileSize={256}
-          minZoom={minZoom}
-          maxZoom={maxZoom}
-          noWrap
-          detectRetina
-        />
-        <TileLayer
-          url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/count_main/{z}/{x}_{y}.png`}
-          tileSize={256}
-          minZoom={minZoom}
-          maxZoom={maxZoom}
-          noWrap
-          detectRetina
-        />
-        <TileLayer
-          url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/count/{z}/{x}_{y}.png`}
-          tileSize={256}
-          minZoom={minZoom}
-          maxZoom={maxZoom}
-          noWrap
-        />
 
-        <TileLayer
-          url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/roads/{z}/{x}_{y}.png`}
-          tileSize={256}
-          minZoom={minZoom}
-          maxZoom={maxZoom}
-          noWrap
-          detectRetina
-        />
-
-        <TileLayer
-          url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/objects/{z}/{x}_{y}.png`}
-          tileSize={256}
-          minZoom={minZoom}
-          maxZoom={maxZoom}
-          noWrap
-          detectRetina
-        />
+        {layers.map((layer) => (
+          <TileLayer
+            key={layer}
+            url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/${layer}/{z}/{x}_{y}.png`}
+            tileSize={256}
+            minZoom={minZoom}
+            maxZoom={maxZoom}
+            noWrap
+            detectRetina
+          />
+        ))}
 
         {children}
       </MapContainer>
