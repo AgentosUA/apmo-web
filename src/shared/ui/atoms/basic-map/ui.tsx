@@ -19,8 +19,7 @@ const BasicMap: FC<
     maxZoom: number;
     scale?: number;
   }>
-> = ({ className, children, name, minZoom = 0, maxZoom }) => {
-  const mapSize = 8192;
+> = ({ className, children, mapSize = 0, name, minZoom = 0, maxZoom }) => {
   const armaCRS = extend({}, CRS.Simple, {
     projection: Projection.LonLat,
     transformation: transformation(
@@ -39,6 +38,7 @@ const BasicMap: FC<
         crs={armaCRS}
         zoomControl={false}
         zoom={2}
+        doubleClickZoom={false}
         worldCopyJump={false}
         maxBoundsViscosity={0.7}
         wheelPxPerZoomLevel={500}

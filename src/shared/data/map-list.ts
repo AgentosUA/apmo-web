@@ -8,10 +8,10 @@ const markers = [
 const mapList = [
   {
     id: '1',
-    width: '8192',
-    height: '8192',
-    offset: '300',
-    zoom: '7',
+    width: 8192,
+    height: 8192,
+    offset: 300,
+    zoom: 7,
     name: 'Stratis',
     dir: 'stratis',
     image: '/maps/chernarus-autumn.jpg',
