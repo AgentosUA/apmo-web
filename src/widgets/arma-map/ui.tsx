@@ -39,6 +39,7 @@ const ArmaMap = observer(() => {
             x={marker[SWTMarkerTypeID.coordinates][0]}
             y={marker[SWTMarkerTypeID.coordinates][1]}
             onUpdatePosition={(x, y) => markersEntity.updateMarker(index, x, y)}
+            color={markerColorNames[marker[SWTMarkerTypeID.color]]}
             draggable>
             {marker[SWTMarkerTypeID.text]}
           </ArmaMarker>

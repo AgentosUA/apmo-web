@@ -1,10 +1,110 @@
-.blue {
-  filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(2949%) hue-rotate(230deg) brightness(75%) contrast(120%) opacity(0.9);
+/* Icon colors */
+
+.ColorBlackFilter {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(100%) saturate(7495%) hue-rotate(147deg) brightness(97%) contrast(100%);
 }
 
-.red {
-  filter: invert(27%) sepia(32%) saturate(6988%) hue-rotate(348deg) brightness(77%) contrast(123%);
+.ColorGreyFilter {
+  filter: opacity(1) brightness(0) saturate(100%) invert(55%) sepia(0%) saturate(222%) hue-rotate(1deg) brightness(91%) contrast(90%);
 }
+
+.ColorRedFilter {
+  filter: opacity(1) invert(27%) sepia(32%) saturate(6988%) hue-rotate(348deg) brightness(77%) contrast(123%);
+}
+
+.ColorBrownFilter {
+  filter: brightness(0) saturate(100%) invert(20%) sepia(72%) saturate(1835%) hue-rotate(336deg) brightness(98%) contrast(97%)
+}
+
+.ColorOrangeFilter {
+  filter: brightness(0) saturate(100%) invert(57%) sepia(98%) saturate(792%) hue-rotate(360deg) brightness(102%) contrast(102%)
+}
+
+.ColorYellowFilter {
+  // filter: brightness(0) saturate(100%) invert(87%) sepia(84%) saturate(755%) hue-rotate(359deg) brightness(107%) contrast(100%)
+}
+
+.ColorKhakiFilter {
+  color: rgba(240, 230, 140, 0.9);
+}
+
+.ColorGreenFilter {
+  color: rgba(0, 128, 0, 0.9);
+}
+
+.ColorBlueFilter {
+  filter: brightness(0) saturate(100%) invert(87%) sepia(84%) saturate(755%) hue-rotate(359deg) brightness(107%) contrast(100%);
+}
+
+.ColorPinkFilter {
+  color: rgba(255, 192, 203, 0.9);
+}
+
+.ColorWhiteFilter {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ColorWESTFilter {
+  color: rgba(0, 0, 255, 0.9);
+}
+
+.ColorEASTFilter {
+  color: rgba(255, 0, 0, 0.9);
+}
+
+.ColorGUERFilter {
+  color: rgba(0, 128, 0, 0.9);
+}
+
+.ColorCIVFilter {
+  color: rgba(255, 165, 0, 0.9);
+}
+
+.ColorUNKNOWNFilter {
+  color: rgba(128, 128, 128, 0.9);
+}
+
+.colorBLUFORFilter {
+  color: rgba(0, 0, 255, 0.9);
+}
+
+.colorOPFORFilter {
+  color: rgba(255, 0, 0, 0.9);
+}
+
+.colorIndependentFilter {
+  color: rgba(0, 128, 0, 0.9);
+}
+
+.colorCivilianFilter {
+  color: rgba(255, 165, 0, 0.9);
+}
+
+.Color1_FD_FFilter {
+  color: rgba(0, 0, 255, 0.9);
+}
+
+.Color2_FD_FFilter {
+  color: rgba(255, 0, 0, 0.9);
+}
+
+.Color3_FD_FFilter {
+  color: rgba(0, 128, 0, 0.9);
+}
+
+.Color4_FD_FFilter {
+  color: rgba(255, 165, 0, 0.9);
+}
+
+.Color5_FD_FFilter {
+  color: rgba(128, 128, 128, 0.9);
+}
+
+.Color6_FD_FFilter {
+  color: rgba(0, 0, 255, 0.9);
+}
+
+/* Text Colors */
 
 .Default {
   color: #fff;
@@ -43,7 +143,7 @@
 }
 
 .ColorBlue {
-  color: rgba(0, 0, 255, 0.9) !important;
+  color: rgba(0, 0, 255, 0.9);
 }
 
 .ColorPink {
