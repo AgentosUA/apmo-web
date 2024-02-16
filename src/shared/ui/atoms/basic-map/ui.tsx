@@ -2,13 +2,33 @@
 
 import { FC, PropsWithChildren } from 'react';
 
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 
-import { CRS, Projection, extend, transformation } from 'leaflet';
+import {
+  CRS,
+  LeafletMouseEvent,
+  Projection,
+  extend,
+  transformation,
+} from 'leaflet';
 
 import classNames from 'classnames';
 
 import styles from './ui.module.scss';
+
+const MapHandlers: FC<{
+  onDoubleClick?: (event: LeafletMouseEvent) => void;
+}> = ({ onDoubleClick }) => {
+  const map = useMap();
+
+  if (Boolean(onDoubleClick)) {
+    map.addEventListener('dblclick', (event) => {
+      onDoubleClick?.(event);
+    });
+  }
+
+  return null;
+};
 
 const BasicMap: FC<
   PropsWithChildren<{
@@ -18,8 +38,17 @@ const BasicMap: FC<
     minZoom: number;
     maxZoom: number;
     scale?: number;
+    onDoubleClick?: (event: LeafletMouseEvent) => void;
   }>
-> = ({ className, children, mapSize = 0, name, minZoom = 0, maxZoom }) => {
+> = ({
+  className,
+  children,
+  mapSize = 0,
+  name,
+  minZoom = 0,
+  maxZoom,
+  onDoubleClick,
+}) => {
   const armaCRS = extend({}, CRS.Simple, {
     projection: Projection.LonLat,
     transformation: transformation(
@@ -42,10 +71,8 @@ const BasicMap: FC<
         worldCopyJump={false}
         maxBoundsViscosity={0.7}
         wheelPxPerZoomLevel={500}
-        markerZoomAnimation
-        style={{
-          minHeight: '100vh',
-        }}>
+        markerZoomAnimation>
+        <MapHandlers onDoubleClick={onDoubleClick} />
         <TileLayer
           url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/terrain/{z}/{x}_{y}.png`}
           tileSize={256}

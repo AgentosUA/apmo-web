@@ -1,4 +1,4 @@
-import type { SWTMarkerType } from '.';
+import type { SWTMarker } from '.';
 
 const checkIsSWTMarkerType = (element: unknown[]) => {
   if (typeof element[0] !== 'string') return false;
@@ -20,12 +20,12 @@ const checkIsSWTMarkerType = (element: unknown[]) => {
   return false;
 };
 
-const getValidSWTMarkers = (data: unknown): SWTMarkerType[] => {
+const getValidSWTMarkers = (data: unknown): SWTMarker[] => {
   if (!Array.isArray(data)) {
     return [];
   }
 
-  return data.filter(checkIsSWTMarkerType) as SWTMarkerType[];
+  return data.filter(checkIsSWTMarkerType) as SWTMarker[];
 };
 
 export { checkIsSWTMarkerType, getValidSWTMarkers };

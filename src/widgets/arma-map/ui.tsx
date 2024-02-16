@@ -6,7 +6,7 @@ const BasicMap = dynamic(() => import('@/shared/ui/atoms/basic-map/ui'), {
 });
 
 import { mapsEntity } from '@/entities/maps';
-import { SWTMarkerTypeID, markersEntity } from '@/entities/markers';
+import { SWTMarkerID, markersEntity } from '@/entities/markers';
 import { observer } from 'mobx-react-lite';
 
 import { ArmaMarker, MarkerIcon } from '@/shared/ui/atoms/marker';
@@ -33,15 +33,15 @@ const ArmaMap = observer(() => {
           <ArmaMarker
             key={marker.id}
             icon={MarkerIcon(
-              markerNames[marker.data[SWTMarkerTypeID.type]],
-              markerColorNames[marker.data[SWTMarkerTypeID.color]]
+              markerNames[marker.data[SWTMarkerID.type]],
+              markerColorNames[marker.data[SWTMarkerID.color]]
             )}
-            x={marker.data[SWTMarkerTypeID.coordinates][0]}
-            y={marker.data[SWTMarkerTypeID.coordinates][1]}
+            x={marker.data[SWTMarkerID.coordinates][0]}
+            y={marker.data[SWTMarkerID.coordinates][1]}
             onUpdatePosition={(x, y) => markersEntity.updateMarker(index, x, y)}
-            color={markerColorNames[marker.data[SWTMarkerTypeID.color]]}
+            color={markerColorNames[marker.data[SWTMarkerID.color]]}
             draggable>
-            {marker.data[SWTMarkerTypeID.text]}
+            {marker.data[SWTMarkerID.text]}
           </ArmaMarker>
         );
       })}

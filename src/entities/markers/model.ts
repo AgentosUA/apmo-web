@@ -2,14 +2,14 @@ import { generateRandomId } from '@/shared/utils/string';
 import { makeAutoObservable, observable } from 'mobx';
 import { getValidSWTMarkers } from './lib';
 
-enum SWTMarkerTypeID {
+enum SWTMarkerID {
   text,
   coordinates,
   type,
   color,
 }
 
-type SWTMarkerType = [
+type SWTMarker = [
   string,
   [number, number],
   number,
@@ -20,9 +20,9 @@ type SWTMarkerType = [
   []
 ];
 
-type MarkerType = {
+type Marker = {
   id: string | number;
-  data: SWTMarkerType;
+  data: SWTMarker;
 };
 
 class MarkersModel {
@@ -32,35 +32,10 @@ class MarkersModel {
 
   isMissionLoading = false;
   isSWTLoading = false;
-  missionsMarkers: SWTMarkerType[] = [];
-  swtMarkers: MarkerType[] = [
-    {
-      id: generateRandomId(),
-      data: ['blue', [3070.07, 5372.62], 67, 9, 0, 1, '', []],
-    },
-    {
-      id: generateRandomId(),
-      data: ['red', [3061.42, 5199.73], 15, 3, 0, 1, '', []],
-    },
-    {
-      id: generateRandomId(),
-      data: ['green', [3070.07, 5035.48], 15, 8, 0, 1, '', []],
-    },
-    {
-      id: generateRandomId(),
-      data: ['black', [3057.1, 4875.56], 15, 1, 0, 1, '', []],
-    },
-    {
-      id: generateRandomId(),
-      data: ['white', [3048.46, 4711.31], 15, 11, 0, 1, '', []],
-    },
-    {
-      id: generateRandomId(),
-      data: ['yellow', [3044.14, 4577.33], 15, 6, 0, 1, '', []],
-    },
-  ];
+  missionsMarkers: Marker[] = [];
+  swtMarkers: Marker[] = [];
 
-  setSWTMarkers = (markers: MarkerType[]) => {
+  setSWTMarkers = (markers: Marker[]) => {
     this.swtMarkers = markers;
   };
 
@@ -90,7 +65,7 @@ class MarkersModel {
         data: item,
       }));
 
-      this.setSWTMarkers(parsedMarkers as MarkerType[]);
+      this.setSWTMarkers(parsedMarkers as Marker[]);
     } catch (error) {
       console.log(error);
     } finally {
@@ -108,7 +83,7 @@ class MarkersModel {
 
     if (index === -1) return;
 
-    this.swtMarkers[index].data[SWTMarkerTypeID.coordinates] = [x, y];
+    this.swtMarkers[index].data[SWTMarkerID.coordinates] = [x, y];
   };
 
   clearMarkers = () => {
@@ -119,6 +94,6 @@ class MarkersModel {
 
 const markersEntity = new MarkersModel();
 
-export { MarkersModel, SWTMarkerTypeID, markersEntity };
+export { MarkersModel, SWTMarkerID, markersEntity };
 
-export type { MarkerType, SWTMarkerType };
+export type { Marker, SWTMarker };

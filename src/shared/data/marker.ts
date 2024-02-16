@@ -1,4 +1,4 @@
-const markerNames = [
+enum MarkerType {
   'Empty',
   'mil_objective',
   'mil_marker',
@@ -112,9 +112,9 @@ const markerNames = [
   'b_Ordnance',
   'o_Ordnance',
   'n_Ordnance',
-];
+}
 
-const markerColorNames = [
+enum MarkerColor {
   'Default',
   'ColorBlack',
   'ColorGrey',
@@ -142,6 +142,14 @@ const markerColorNames = [
   'Color4_FD_F',
   'Color5_FD_F',
   'Color6_FD_F',
-];
+}
 
-export { markerNames, markerColorNames };
+const markerNames = Object.keys(MarkerType).filter((key) =>
+  isNaN(Number(key))
+) as string[];
+
+const markerColorNames = Object.keys(MarkerColor).filter((key) =>
+  isNaN(Number(key))
+) as string[];
+
+export { markerNames, markerColorNames, MarkerColor, MarkerType };
