@@ -30,10 +30,22 @@ class CreateMarkerModel {
     MarkerColor.ColorYellow,
   ];
 
-  marker: Marker = {
-    id: generateRandomId(),
-    data: ['', [0, 0], MarkerType.mil_dot, MarkerColor.ColorBlue, 0, 0, '', []],
-  };
+  generateNewMarker = (): Marker =>
+    ({
+      id: generateRandomId(),
+      data: [
+        '',
+        [0, 0],
+        MarkerType.mil_dot,
+        MarkerColor.ColorBlue,
+        0,
+        0,
+        '',
+        [],
+      ],
+    } as Marker);
+
+  marker: Marker = this.generateNewMarker();
 
   open = () => {
     this.isVisible = true;
@@ -60,19 +72,7 @@ class CreateMarkerModel {
   };
 
   resetMarker = () => {
-    this.marker = {
-      id: generateRandomId(),
-      data: [
-        '',
-        [0, 0],
-        MarkerType.hd_dot,
-        MarkerColor.ColorBlack,
-        0,
-        0,
-        '',
-        [],
-      ],
-    };
+    this.marker = this.generateNewMarker();
   };
 }
 

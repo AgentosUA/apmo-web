@@ -34,6 +34,11 @@ const CreateMarker: FC<{
 
     const onEnterPress = (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
+        markersEntity.addMarker({
+          ...entity.marker,
+        });
+
+        entity.resetMarker();
         entity.close();
       }
     };
@@ -49,7 +54,7 @@ const CreateMarker: FC<{
       window.removeEventListener('keydown', onEnterPress);
       map.dragging.enable();
     };
-  }, [entity, entity.isVisible, map.dragging]);
+  }, [entity.isVisible]);
 
   if (!entity.isVisible) return null;
 
@@ -97,6 +102,8 @@ const CreateMarker: FC<{
           <input
             autoFocus
             className={styles.input}
+            value={entity.marker.data[SWTMarkerID.text]}
+            onChange={(e) => entity.setMarkerText(e.target.value)}
             placeholder=''
             alt='input'
           />

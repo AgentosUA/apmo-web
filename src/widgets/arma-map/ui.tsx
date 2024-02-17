@@ -40,18 +40,19 @@ const ArmaMap = observer(() => {
       }}>
       <CreateMarker />
 
-      {markersEntity.swtMarkers.map((marker, index) => {
+      {markersEntity.swtMarkers.map((marker) => {
         return (
           <ArmaMarker
             key={marker.id}
             icon={MarkerIcon(
               markerNames[marker.data[SWTMarkerID.type]],
-              markerColorNames[marker.data[SWTMarkerID.color]],
-              'icon'
+              markerColorNames[marker.data[SWTMarkerID.color]]
             )}
             x={marker.data[SWTMarkerID.coordinates][0]}
             y={marker.data[SWTMarkerID.coordinates][1]}
-            onUpdatePosition={(x, y) => markersEntity.updateMarker(index, x, y)}
+            onUpdatePosition={(x, y) =>
+              markersEntity.updateMarker(marker.id, x, y)
+            }
             color={markerColorNames[marker.data[SWTMarkerID.color]]}
             draggable>
             {marker.data[SWTMarkerID.text]}

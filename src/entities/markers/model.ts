@@ -36,7 +36,8 @@ class MarkersModel {
   swtMarkers: Marker[] = [];
 
   addMarker = (marker: Marker) => {
-    this.swtMarkers.push(marker);
+    const markers = [...this.swtMarkers, marker];
+    this.swtMarkers = markers;
   };
 
   removeMarker = (id: number) => {
@@ -90,7 +91,7 @@ class MarkersModel {
     navigator.clipboard.writeText(text);
   };
 
-  updateMarker = (id: number, x: number, y: number) => {
+  updateMarker = (id: string | number, x: number, y: number) => {
     const index = this.swtMarkers.findIndex((marker) => marker.id === id);
 
     if (index === -1) return;
