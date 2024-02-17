@@ -39,7 +39,7 @@ class CreateMarkerModel {
         MarkerType.mil_dot,
         MarkerColor.ColorBlue,
         0,
-        0,
+        1,
         '',
         [],
       ],
