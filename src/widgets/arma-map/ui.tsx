@@ -34,8 +34,8 @@ const ArmaMap = observer(() => {
       onDoubleClick={(event) => {
         createMarkerEntity.open();
         createMarkerEntity.setMarkerPosition(
-          event.latlng.lat,
-          event.latlng.lng
+          event.latlng.lng,
+          event.latlng.lat
         );
       }}>
       <CreateMarker />
@@ -53,6 +53,7 @@ const ArmaMap = observer(() => {
             onUpdatePosition={(x, y) =>
               markersEntity.updateMarker(marker.id, x, y)
             }
+            onDelete={() => markersEntity.deleteMarker(marker.id)}
             color={markerColorNames[marker.data[SWTMarkerID.color]]}
             draggable>
             {marker.data[SWTMarkerID.text]}

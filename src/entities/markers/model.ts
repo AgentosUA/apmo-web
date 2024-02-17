@@ -40,7 +40,7 @@ class MarkersModel {
     this.swtMarkers = markers;
   };
 
-  removeMarker = (id: number) => {
+  deleteMarker = (id: number | string) => {
     const index = this.swtMarkers.findIndex((marker) => marker.id === id);
 
     if (index === -1) return;

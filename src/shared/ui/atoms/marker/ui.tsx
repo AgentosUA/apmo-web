@@ -1,5 +1,5 @@
 import { Icon } from 'leaflet';
-import { FC, PropsWithChildren, useMemo, useRef } from 'react';
+import { FC, PropsWithChildren, useEffect, useMemo, useRef } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
 
 import styles from './ui.module.scss';
@@ -47,6 +47,7 @@ const ArmaMarker: FC<
     color?: string;
     draggable?: boolean;
     onUpdatePosition?: (x: number, y: number) => void;
+    onDelete?: () => void;
   }>
 > = ({
   children,
@@ -56,8 +57,15 @@ const ArmaMarker: FC<
   color = 'Default',
   draggable = true,
   onUpdatePosition,
+  onDelete,
 }) => {
   const markerRef = useRef(null);
+
+  const onDeleteMarker = (e: KeyboardEvent) => {
+    if (e.key === 'Delete') {
+      onDelete?.();
+    }
+  };
 
   const eventHandlers = useMemo(
     () => ({
@@ -69,9 +77,21 @@ const ArmaMarker: FC<
           onUpdatePosition?.(lng, lat);
         }
       },
+
+      mouseover() {
+        document.addEventListener('keydown', onDeleteMarker);
+      },
+
+      mouseout() {
+        document.removeEventListener('keydown', onDeleteMarker);
+      },
     }),
     []
   );
+
+  useEffect(() => {
+    return document.removeEventListener('keydown', onDeleteMarker);
+  }, []);
 
   return (
     <Marker
