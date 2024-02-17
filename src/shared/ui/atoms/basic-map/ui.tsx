@@ -38,6 +38,7 @@ const BasicMap: FC<
     minZoom: number;
     maxZoom: number;
     scale?: number;
+    dragging?: boolean;
     onDoubleClick?: (event: LeafletMouseEvent) => void;
   }>
 > = ({
@@ -47,6 +48,7 @@ const BasicMap: FC<
   name,
   minZoom = 0,
   maxZoom,
+  dragging = true,
   onDoubleClick,
 }) => {
   const armaCRS = extend({}, CRS.Simple, {
@@ -76,6 +78,7 @@ const BasicMap: FC<
         crs={armaCRS}
         zoomControl={false}
         zoom={2}
+        dragging={dragging}
         doubleClickZoom={false}
         worldCopyJump={false}
         maxBoundsViscosity={0.7}

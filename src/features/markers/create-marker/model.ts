@@ -33,6 +33,10 @@ class CreateMarkerModel {
     this.marker.data[SWTMarkerID.coordinates] = [x, y];
   };
 
+  setMarkerText = (text: string) => {
+    this.marker.data[SWTMarkerID.text] = text;
+  };
+
   resetMarker = () => {
     this.marker = {
       id: generateRandomId(),

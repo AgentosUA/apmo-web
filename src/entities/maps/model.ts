@@ -3,7 +3,7 @@ import { mapList } from '@/shared/data/map-list';
 import { makeAutoObservable, makeObservable } from 'mobx';
 
 class MapsModel {
-  selectedMap: (typeof mapList)[0] | null = null;
+  selectedMap: (typeof mapList)[0] | null = mapList[0];
   defaultMap = mapList[0];
 
   constructor() {

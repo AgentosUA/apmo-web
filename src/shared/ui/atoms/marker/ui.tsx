@@ -4,8 +4,26 @@ import { Marker, Tooltip } from 'react-leaflet';
 
 import styles from './ui.module.scss';
 import classNames from 'classnames';
+import Image from 'next/image';
 
-const MarkerIcon = (markerName: string, color: string) => {
+const MarkerIcon = (
+  markerName: string,
+  color: string,
+  type: 'icon' | 'image' = 'icon',
+  className?: string
+) => {
+  if (type === 'image') {
+    return (
+      <Image
+        src={`/markers/${markerName}.png`}
+        width={64}
+        height={64}
+        className={classNames(styles[`${color}Filter`], className)}
+        alt='marker'
+      />
+    );
+  }
+
   return new Icon({
     iconUrl: `/markers/${markerName}.png`,
     iconSize: [32, 32], // size of the icon

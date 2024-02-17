@@ -30,6 +30,7 @@ const ArmaMap = observer(() => {
       minZoom={0}
       maxZoom={Number(mapsEntity.selectedMap.zoom)}
       mapSize={Number(mapsEntity.selectedMap.width) ?? 0}
+      dragging={!createMarkerEntity.isVisible}
       onDoubleClick={(event) => {
         createMarkerEntity.open();
         createMarkerEntity.setMarkerPosition(
@@ -45,7 +46,8 @@ const ArmaMap = observer(() => {
             key={marker.id}
             icon={MarkerIcon(
               markerNames[marker.data[SWTMarkerID.type]],
-              markerColorNames[marker.data[SWTMarkerID.color]]
+              markerColorNames[marker.data[SWTMarkerID.color]],
+              'icon'
             )}
             x={marker.data[SWTMarkerID.coordinates][0]}
             y={marker.data[SWTMarkerID.coordinates][1]}
