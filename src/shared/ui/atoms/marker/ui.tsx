@@ -6,28 +6,34 @@ import styles from './ui.module.scss';
 import classNames from 'classnames';
 import Image from 'next/image';
 
+const MarkerIconComponent: FC<{
+  markerName: string;
+  color: string;
+  className?: string;
+  width?: number | string;
+  height?: number;
+  onClick?: () => void;
+}> = ({ markerName, color, className, width = 32, height = 32, onClick }) => (
+  <Image
+    src={`/markers/${markerName}.png`}
+    className={classNames(styles[`${color}Filter`], className)}
+    width={Number(width)}
+    height={height}
+    onClick={onClick}
+    alt='marker'
+  />
+);
+
 const MarkerIcon = (
   markerName: string,
   color: string,
-  type: 'icon' | 'image' = 'icon',
-  className?: string
+  width = 32,
+  height = 32
 ) => {
-  if (type === 'image') {
-    return (
-      <Image
-        src={`/markers/${markerName}.png`}
-        width={64}
-        height={64}
-        className={classNames(styles[`${color}Filter`], className)}
-        alt='marker'
-      />
-    );
-  }
-
   return new Icon({
     iconUrl: `/markers/${markerName}.png`,
-    iconSize: [32, 32], // size of the icon
-    iconAnchor: [16, 16], // point of the icon which will correspond to marker's location
+    iconSize: [width, height], // size of the icon
+    iconAnchor: [width / 2, height / 2], // point of the icon which will correspond to marker's location
     popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor,
     className: classNames(styles[`${color}Filter`]),
   });
@@ -88,4 +94,4 @@ const ArmaMarker: FC<
   );
 };
 
-export { ArmaMarker, MarkerIcon };
+export { ArmaMarker, MarkerIcon, MarkerIconComponent };

@@ -4,61 +4,103 @@ import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
 
 import { CreateMarkerModel, createMarkerEntity } from './model';
-import { MarkerColor, markerColorNames } from '@/shared/data/marker';
+import { markerColorNames, markerNames } from '@/shared/data/marker';
 import classNames from 'classnames';
 
-import markerStyles from '@/shared/ui/atoms/marker/ui.module.scss';
 import styles from './ui.module.scss';
+import { MarkerIconComponent } from '@/shared/ui/atoms/marker';
+import { useMap } from 'react-leaflet';
+import {
+  MarkersModel,
+  SWTMarkerID,
+  markersEntity as sharedMarkersEntity,
+} from '@/entities/markers';
 
 const CreateMarker: FC<{
   model?: CreateMarkerModel;
-}> = observer(({ model }) => {
+  markersModel?: MarkersModel;
+}> = observer(({ model, markersModel }) => {
   const entity = model ?? createMarkerEntity;
+  const markersEntity = markersModel ?? sharedMarkersEntity;
+
+  const map = useMap();
 
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
+    const onEscapePress = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         entity.close();
       }
     };
 
+    const onEnterPress = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        entity.close();
+      }
+    };
+
     if (entity.isVisible) {
-      window.addEventListener('keydown', handleEscape);
+      window.addEventListener('keydown', onEscapePress);
+      window.addEventListener('keydown', onEnterPress);
+      map.dragging.disable();
     }
 
     return () => {
-      window.removeEventListener('keydown', handleEscape);
+      window.removeEventListener('keydown', onEscapePress);
+      window.removeEventListener('keydown', onEnterPress);
+      map.dragging.enable();
     };
-  }, [entity, entity.isVisible]);
+  }, [entity, entity.isVisible, map.dragging]);
 
   if (!entity.isVisible) return null;
 
-  console.log(`${styles[markerColorNames[MarkerColor.ColorBlue]]}Background`);
-
   return (
     <div className={styles.overlay}>
-      <div className={styles.wrapper} draggable>
-        <div className={styles.quickMarkerSelection}>{/*  */}</div>
-        <div className={styles.colorSelection}>
-          {[
-            MarkerColor.ColorBlue,
-            MarkerColor.ColorRed,
-            MarkerColor.ColorGreen,
-            MarkerColor.ColorBlack,
-            MarkerColor.ColorWhite,
-            MarkerColor.ColorYellow,
-          ].map((color) => (
-            <div
-              key={color}
-              className={classNames(
-                styles.color,
-                `${styles[markerColorNames[color]]}Background`
-              )}
-            />
-          ))}
+      <div className={styles.wrapper}>
+        <div className={styles.content}>
+          <MarkerIconComponent
+            width={39}
+            height={39}
+            className={styles.selectedMarker}
+            markerName={markerNames[entity.marker.data[SWTMarkerID.type]]}
+            color={markerColorNames[entity.marker.data[SWTMarkerID.color]]}
+          />
+
+          <div className={styles.quickMarkerSelection}>
+            {entity.defaultSWTMarkers.map((markerType) => (
+              <MarkerIconComponent
+                key={markerType}
+                width={39}
+                height={39}
+                onClick={() => entity.setMarkerType(markerType)}
+                className={styles.marker}
+                markerName={markerNames[markerType]}
+                color={markerColorNames[entity.marker.data[SWTMarkerID.color]]}
+              />
+            ))}
+          </div>
+
+          <div className={styles.colorSelection}>
+            {entity.defaultSWTColors.map((markerColor) => (
+              <div
+                key={markerColor}
+                onClick={() => entity.setMarkerColor(markerColor)}
+                className={classNames(
+                  styles.color,
+                  styles[`${markerColorNames[markerColor]}Background`]
+                )}
+              />
+            ))}
+          </div>
+
+          <div className={styles.channel}>Side Channel</div>
+
+          <input
+            autoFocus
+            className={styles.input}
+            placeholder=''
+            alt='input'
+          />
         </div>
-        <div className={styles.channel}>Side Channel</div>
-        <input autoFocus className={styles.input} placeholder='' alt='input' />
       </div>
     </div>
   );

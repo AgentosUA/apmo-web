@@ -35,8 +35,24 @@ class MarkersModel {
   missionsMarkers: Marker[] = [];
   swtMarkers: Marker[] = [];
 
+  addMarker = (marker: Marker) => {
+    this.swtMarkers.push(marker);
+  };
+
+  removeMarker = (id: number) => {
+    const index = this.swtMarkers.findIndex((marker) => marker.id === id);
+
+    if (index === -1) return;
+
+    this.swtMarkers.splice(index, 1);
+  };
+
   setSWTMarkers = (markers: Marker[]) => {
     this.swtMarkers = markers;
+  };
+
+  setMissionMarkers = (markers: []) => {
+    this.missionsMarkers = markers;
   };
 
   clearMissionMarkers = () => {
@@ -45,10 +61,6 @@ class MarkersModel {
 
   clearSWTMarkers = () => {
     this.swtMarkers = [];
-  };
-
-  setMissionMarkers = (markers: []) => {
-    this.missionsMarkers = markers;
   };
 
   SWTMarkerFromClipboard = async () => {

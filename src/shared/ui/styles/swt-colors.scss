@@ -1,0 +1,332 @@
+@import './core.scss';
+
+/* Icon filters */
+
+.DefaultFilter {
+  color: $Default;
+}
+
+.ColorBlackFilter {
+  filter: brightness(0) saturate(100%) invert(0%) sepia(100%) saturate(7495%) hue-rotate(147deg) brightness(97%) contrast(100%);
+}
+
+.ColorGreyFilter {
+  filter: opacity(1) brightness(0) saturate(100%) invert(55%) sepia(0%) saturate(222%) hue-rotate(1deg) brightness(91%) contrast(90%);
+}
+
+.ColorRedFilter {
+  // filter: opacity(1) invert(27%) sepia(32%) saturate(6988%) hue-rotate(348deg) brightness(77%) contrast(123%);
+  filter: opacity(1) invert(51%) sepia(32%) saturate(6988%) hue-rotate(348deg) brightness(83%) contrast(172%)
+}
+
+.ColorBrownFilter {
+  filter: brightness(0) saturate(100%) invert(20%) sepia(72%) saturate(1835%) hue-rotate(336deg) brightness(98%) contrast(97%)
+}
+
+.ColorOrangeFilter {
+  filter: brightness(0) saturate(100%) invert(57%) sepia(98%) saturate(792%) hue-rotate(360deg) brightness(102%) contrast(102%)
+}
+
+.ColorYellowFilter {
+  filter: brightness(0) saturate(100%) invert(87%) sepia(84%) saturate(755%) hue-rotate(359deg) brightness(107%) contrast(100%)
+}
+
+.ColorKhakiFilter {
+  color: rgba(240, 230, 140, 1);
+}
+
+.ColorGreenFilter {
+  filter: brightness(0) saturate(100%) invert(26%) sepia(94%) saturate(3048%) hue-rotate(91deg) brightness(92%) contrast(106%);
+}
+
+.ColorBlueFilter {
+  filter: brightness(0) saturate(100%) invert(9%) sepia(100%) saturate(7476%) hue-rotate(248deg) brightness(91%) contrast(144%);
+}
+
+.ColorPinkFilter {
+  color: rgba(255, 192, 203, 1);
+}
+
+.ColorWhiteFilter {
+  color: rgba(255, 255, 255, 1);
+}
+
+.ColorWESTFilter {
+  color: rgba(0, 0, 255, 1);
+}
+
+.ColorEASTFilter {
+  color: rgba(255, 0, 0, 1);
+}
+
+.ColorGUERFilter {
+  color: rgba(0, 128, 0, 1);
+}
+
+.ColorCIVFilter {
+  color: rgba(255, 165, 0, 1);
+}
+
+.ColorUNKNOWNFilter {
+  color: rgba(128, 128, 128, 1);
+}
+
+.colorBLUFORFilter {
+  color: rgba(0, 0, 255, 1);
+}
+
+.colorOPFORFilter {
+  color: rgba(255, 0, 0, 1);
+}
+
+.colorIndependentFilter {
+  filter: brightness(0) saturate(100%) invert(26%) sepia(94%) saturate(3048%) hue-rotate(91deg) brightness(92%) contrast(106%);
+}
+
+.colorCivilianFilter {
+  color: rgba(255, 165, 0, 1);
+}
+
+.Color1_FD_FFilter {
+  color: rgba(0, 0, 255, 1);
+}
+
+.Color2_FD_FFilter {
+  color: rgba(255, 0, 0, 1);
+}
+
+.Color3_FD_FFilter {
+  color: rgba(0, 128, 0, 1);
+}
+
+.Color4_FD_FFilter {
+  color: rgba(255, 165, 0, 1);
+}
+
+.Color5_FD_FFilter {
+  color: rgba(128, 128, 128, 1);
+}
+
+.Color6_FD_FFilter {
+  color: rgba(0, 0, 255, 1);
+}
+
+/* Text Colors */
+
+.Default {
+  color: $Default;
+}
+
+.ColorBlack {
+  color: $ColorBlack;
+}
+
+.ColorGrey {
+  color: $ColorGrey;
+}
+
+.ColorRed {
+  color: $ColorRed;
+}
+
+.ColorBrown {
+  color: $ColorBrown;
+}
+
+.ColorOrange {
+  color: $ColorOrange;
+}
+
+.ColorYellow {
+  color: $ColorYellow;
+}
+
+.ColorKhaki {
+  color: $ColorKhaki;
+}
+
+.ColorGreen {
+  color: $ColorGreen;
+}
+
+.ColorBlue {
+  color: $ColorBlue;
+}
+
+.ColorPink {
+  color: $ColorPink;
+}
+
+.ColorWhite {
+  color: $ColorWhite;
+}
+
+.ColorWEST {
+  color: $ColorWEST;
+}
+
+.ColorEAST {
+  color: $ColorEAST;
+}
+
+.ColorGUER {
+  color: $ColorGUER;
+}
+
+.ColorCIV {
+  color: $ColorCIV;
+}
+
+.ColorUNKNOWN {
+  color: $ColorUNKNOWN;
+}
+
+.colorBLUFOR {
+  color: $colorBLUFOR;
+}
+
+.colorOPFOR {
+  color: $colorOPFOR;
+}
+
+.colorIndependent {
+  color: $colorIndependent;
+}
+
+.colorCivilian {
+  color: $colorCivilian;
+}
+
+.Color1_FD_F {
+  color: $Color1_FD_F;
+}
+
+.Color2_FD_F {
+  color: $Color2_FD_F;
+}
+
+.Color3_FD_F {
+  color: $Color3_FD_F;
+}
+
+.Color4_FD_F {
+  color: $Color4_FD_F;
+}
+
+.Color5_FD_F {
+  color: $Color5_FD_F;
+}
+
+.Color6_FD_F {
+  color: $Color6_FD_F;
+}
+
+/* Background Colors */
+
+.DefaultBackground {
+  background: $Default;
+}
+
+.ColorBlackBackground {
+  background: $ColorBlack;
+}
+
+.ColorGreyBackground {
+  background: $ColorGrey;
+}
+
+.ColorRedBackground {
+  background: $ColorRed;
+}
+
+.ColorBrownBackground {
+  background: $ColorBrown;
+}
+
+.ColorOrangeBackground {
+  background: $ColorOrange;
+}
+
+.ColorYellowBackground {
+  background: $ColorYellow;
+}
+
+.ColorKhakiBackground {
+  background: $ColorKhaki;
+}
+
+.ColorGreenBackground {
+  background: $ColorGreen;
+}
+
+.ColorBlueBackground {
+  background: $ColorBlue;
+}
+
+.ColorPinkBackground {
+  background: $ColorPink;
+}
+
+.ColorWhiteBackground {
+  background: $ColorWhite;
+}
+
+.ColorWESTBackground {
+  background: $ColorWEST;
+}
+
+.ColorEASTBackground {
+  background: $ColorEAST;
+}
+
+.ColorGUERBackground {
+  background: $ColorGUER;
+}
+
+.ColorCIVBackground {
+  background: $ColorCIV;
+}
+
+.ColorUNKNOWNBackground {
+  background: $ColorUNKNOWN;
+}
+
+.colorBLUFORBackground {
+  background: $colorBLUFOR;
+}
+
+.colorOPFORBackground {
+  background: $colorOPFOR;
+}
+
+.colorIndependentBackground {
+  background: $colorIndependent;
+}
+
+.colorCivilianBackground {
+  background: $colorCivilian;
+}
+
+.Color1_FD_FBackground {
+  background: $Color1_FD_F;
+}
+
+.Color2_FD_FBackground {
+  background: $Color2_FD_F;
+}
+
+.Color3_FD_FBackground {
+  background: $Color3_FD_F;
+}
+
+.Color4_FD_FBackground {
+  background: $Color4_FD_F;
+}
+
+.Color5_FD_FBackground {
+  background: $Color5_FD_F;
+}
+
+.Color6_FD_FBackground {
+  background: $Color6_FD_F;
+}
