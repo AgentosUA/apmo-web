@@ -1,7 +1,8 @@
 import { Marker, SWTMarkerID } from '@/entities/markers';
 import { MarkerColor, MarkerType } from '@/shared/data/marker';
-import { generateRandomId } from '@/shared/utils/string';
 import { makeAutoObservable } from 'mobx';
+
+import { generateNewMarker } from './lib';
 
 class CreateMarkerModel {
   constructor(isVisible = false) {
@@ -11,6 +12,7 @@ class CreateMarkerModel {
   }
 
   isVisible = false;
+  isAllListsVisible = false;
 
   defaultSWTMarkers = [
     MarkerType.mil_dot,
@@ -30,22 +32,7 @@ class CreateMarkerModel {
     MarkerColor.ColorYellow,
   ];
 
-  generateNewMarker = (): Marker =>
-    ({
-      id: generateRandomId(),
-      data: [
-        '',
-        [0, 0],
-        MarkerType.mil_dot,
-        MarkerColor.ColorBlue,
-        0,
-        1,
-        '',
-        [],
-      ],
-    } as Marker);
-
-  marker: Marker = this.generateNewMarker();
+  marker: Marker = generateNewMarker();
 
   open = () => {
     this.isVisible = true;
@@ -53,6 +40,18 @@ class CreateMarkerModel {
 
   close = () => {
     this.isVisible = false;
+  };
+
+  switchAllListsVisibility = () => {
+    this.isAllListsVisible = !this.isAllListsVisible;
+  };
+
+  openAllLists = () => {
+    this.isAllListsVisible = true;
+  };
+
+  closeAllList = () => {
+    this.isAllListsVisible = false;
   };
 
   setMarkerColor = (color: MarkerColor) => {
@@ -72,7 +71,7 @@ class CreateMarkerModel {
   };
 
   resetMarker = () => {
-    this.marker = this.generateNewMarker();
+    this.marker = generateNewMarker();
   };
 }
 

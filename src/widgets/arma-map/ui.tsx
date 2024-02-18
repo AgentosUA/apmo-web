@@ -11,7 +11,7 @@ import { observer } from 'mobx-react-lite';
 
 import { ArmaMarker, MarkerIcon } from '@/shared/ui/atoms/marker';
 import { useMounted } from '@/shared/ui/hooks';
-import { markerColorNames, markerNames } from '@/shared/data/marker';
+import { markerColorNames, markerTypes } from '@/shared/data/marker';
 import { CreateMarker } from '@/features/markers/create-marker/ui';
 import { createMarkerEntity } from '@/features/markers/create-marker';
 
@@ -45,7 +45,7 @@ const ArmaMap = observer(() => {
           <ArmaMarker
             key={marker.id}
             icon={MarkerIcon(
-              markerNames[marker.data[SWTMarkerID.type]],
+              markerTypes[marker.data[SWTMarkerID.type]],
               markerColorNames[marker.data[SWTMarkerID.color]]
             )}
             x={marker.data[SWTMarkerID.coordinates][0]}

@@ -4,7 +4,12 @@ import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
 
 import { CreateMarkerModel, createMarkerEntity } from './model';
-import { markerColorNames, markerNames } from '@/shared/data/marker';
+import {
+  MarkerColor,
+  MarkerType,
+  markerColorNames,
+  markerTypes,
+} from '@/shared/data/marker';
 import classNames from 'classnames';
 
 import styles from './ui.module.scss';
@@ -15,6 +20,7 @@ import {
   SWTMarkerID,
   markersEntity as sharedMarkersEntity,
 } from '@/entities/markers';
+import { View } from '@/shared/ui/quarks/view';
 
 const CreateMarker: FC<{
   model?: CreateMarkerModel;
@@ -47,12 +53,15 @@ const CreateMarker: FC<{
       window.addEventListener('keydown', onEscapePress);
       window.addEventListener('keydown', onEnterPress);
       map.dragging.disable();
+      map.scrollWheelZoom.disable();
     }
 
     return () => {
       window.removeEventListener('keydown', onEscapePress);
       window.removeEventListener('keydown', onEnterPress);
+      entity.closeAllList();
       map.dragging.enable();
+      map.scrollWheelZoom.enable();
     };
   }, [entity.isVisible]);
 
@@ -62,12 +71,50 @@ const CreateMarker: FC<{
     <div className={styles.overlay}>
       <div className={styles.wrapper}>
         <div className={styles.content}>
+          <View.Condition if={entity.isAllListsVisible}>
+            <div className={classNames(styles.list, styles.colorList)}>
+              {markerColorNames.map((color, index) => (
+                <div
+                  key={index}
+                  className={classNames(
+                    styles.listItem,
+                    styles[`${color}Background`]
+                  )}
+                  onClick={() =>
+                    entity.setMarkerColor(
+                      MarkerColor[color as keyof typeof MarkerColor]
+                    )
+                  }
+                />
+              ))}
+            </div>
+
+            <div className={classNames(styles.list, styles.typeList)}>
+              {markerTypes.map((markerType) => (
+                <MarkerIconComponent
+                  key={markerType}
+                  width={24}
+                  height={24}
+                  onClick={() => {
+                    console.log(markerType);
+                    entity.setMarkerType(
+                      MarkerType[markerType as keyof typeof MarkerType]
+                    );
+                  }}
+                  className={styles.marker}
+                  markerName={markerType}
+                  color={markerColorNames[MarkerColor.ColorWhite]}
+                />
+              ))}
+            </div>
+          </View.Condition>
           <MarkerIconComponent
             width={39}
             height={39}
             className={styles.selectedMarker}
-            markerName={markerNames[entity.marker.data[SWTMarkerID.type]]}
+            markerName={markerTypes[entity.marker.data[SWTMarkerID.type]]}
             color={markerColorNames[entity.marker.data[SWTMarkerID.color]]}
+            onClick={entity.switchAllListsVisibility}
           />
 
           <div className={styles.quickMarkerSelection}>
@@ -78,7 +125,7 @@ const CreateMarker: FC<{
                 height={39}
                 onClick={() => entity.setMarkerType(markerType)}
                 className={styles.marker}
-                markerName={markerNames[markerType]}
+                markerName={markerTypes[markerType]}
                 color={markerColorNames[entity.marker.data[SWTMarkerID.color]]}
               />
             ))}

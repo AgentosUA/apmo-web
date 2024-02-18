@@ -144,7 +144,7 @@ enum MarkerColor {
   'Color6_FD_F',
 }
 
-const markerNames = Object.keys(MarkerType).filter((key) =>
+const markerTypes = Object.keys(MarkerType).filter((key) =>
   isNaN(Number(key))
 ) as string[];
 
@@ -152,4 +152,4 @@ const markerColorNames = Object.keys(MarkerColor).filter((key) =>
   isNaN(Number(key))
 ) as string[];
 
-export { markerNames, markerColorNames, MarkerColor, MarkerType };
+export { markerTypes, markerColorNames, MarkerColor, MarkerType };
