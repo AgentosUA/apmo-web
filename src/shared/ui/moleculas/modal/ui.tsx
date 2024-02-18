@@ -11,7 +11,7 @@ const Modal: FC<
     title?: string;
     description?: string;
     onConfirm?: () => void;
-    onCancel?: () => void;
+    onCancel?: (() => void) | boolean;
     trigger: React.ReactNode;
   }>
 > = ({ title, description, trigger, children, onCancel, onConfirm }) => (
@@ -32,13 +32,17 @@ const Modal: FC<
         {children}
 
         <div className={styles.buttons}>
-          <Dialog.Close asChild>
-            {Boolean(onCancel) && (
-              <Button className={styles.cancel} onClick={onCancel}>
+          {Boolean(onCancel) && (
+            <Dialog.Close asChild>
+              <Button
+                className={styles.cancel}
+                onClick={() =>
+                  typeof onCancel === 'boolean' ? null : onCancel?.()
+                }>
                 Cancel
               </Button>
-            )}
-          </Dialog.Close>
+            </Dialog.Close>
+          )}
           {Boolean(onConfirm) && (
             <Dialog.Close asChild>
               <Button className={styles.confirm} onClick={onConfirm}>

@@ -23,9 +23,9 @@ const NewMissionOverlay = observer(() => {
         </Overlay.MenuItem>
         <Modal
           title='Clear all markers'
-          description='You are about to clear all markers from the map. Are you sure?'
+          description='Are you sure to clear all markers from the map?'
           onConfirm={markersEntity.clearMarkers}
-          onCancel={() => ({})}
+          onCancel
           trigger={<Overlay.MenuItem>Clear Markers</Overlay.MenuItem>}
         />
         {/* <Overlay.MenuItem>Save plan</Overlay.MenuItem> */}
