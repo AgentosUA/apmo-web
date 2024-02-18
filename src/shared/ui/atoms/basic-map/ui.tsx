@@ -90,6 +90,7 @@ const BasicMap: FC<
           <TileLayer
             key={layer}
             url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/${layer}/{z}/{x}_{y}.png`}
+            // url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/{z}/{x}/{y}.png`}
             tileSize={256}
             minZoom={minZoom}
             maxZoom={maxZoom}

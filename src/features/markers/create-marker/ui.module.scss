@@ -52,13 +52,14 @@
 }
 
 .channel {
-  color: #46D2FB;
+  padding-left: 7px;
+  height: 23px;
   font-size: 14px;
   font-weight: 500;
   line-height: 23px;
-  height: 23px;
+  color: #46D2FB;
   background: rgba(0, 0, 0, 0.7);
-  padding-left: 7px;
+  pointer-events: none;
 }
 
 .input {

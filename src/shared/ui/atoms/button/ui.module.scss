@@ -11,11 +11,40 @@
   text-transform: uppercase;
   background: #000;
 
+  &:focus-visible {
+    outline: none;
+    border: none;
+  }
+
   &:hover {
     color: #000;
 
     animation: white-blink 2s infinite;
   }
+}
+
+.think {
+  min-width: 127px;
+  height: 20px;
+  padding-left: 6px;
+  text-align: left;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  background: #000;
+
+  &:hover {
+    color: #000;
+
+    animation: white-blink 2s infinite;
+  }
+}
+
+.bold {
+  
 }
 
 @keyframes white-blink {

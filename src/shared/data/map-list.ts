@@ -17,6 +17,17 @@ const mapList = [
     image: '/maps/chernarus-autumn.jpg',
     author: 'Bohemia Interactive',
   },
+  {
+    id: '2',
+    width: 8192,
+    height: 8192,
+    offset: 300,
+    zoom: 7,
+    name: 'Stratis Geodesic',
+    dir: 'geodesic',
+    image: '/maps/chernarus-autumn.jpg',
+    author: 'Bohemia Interactive',
+  },
   // {
   //   id: '2',
   //   scale: '0.1250',
