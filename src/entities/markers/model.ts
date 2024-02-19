@@ -78,7 +78,7 @@ class MarkersModel {
         data: item,
       }));
 
-      this.setSWTMarkers(parsedMarkers as Marker[]);
+      this.setSWTMarkers([...this.swtMarkers, ...(parsedMarkers as Marker[])]);
     } catch (error) {
       console.log(error);
     } finally {

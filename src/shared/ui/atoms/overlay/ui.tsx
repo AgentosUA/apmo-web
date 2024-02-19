@@ -22,6 +22,14 @@ const Header: FC<{
   </div>
 );
 
+const MenuWrapper: FC<
+  PropsWithChildren<{
+    className?: string;
+  }>
+> = ({ className, children }) => (
+  <div className={classNames(styles.menuWrapper, className)}>{children}</div>
+);
+
 const MenuItem: FC<
   PropsWithChildren<{
     onClick?: () => void;
@@ -35,14 +43,31 @@ const MenuItem: FC<
   </p>
 );
 
-const Menu: FC<PropsWithChildren<{}>> = ({ children }) => (
-  <div className={styles.menu}>{children}</div>
+const Menu: FC<
+  PropsWithChildren<{
+    className?: string;
+    variant?: 'primary' | 'secondary';
+  }>
+> = ({ className, children, variant = 'primary' }) => (
+  <div className={classNames(styles.menu, styles[variant], className)}>
+    {children}
+  </div>
+);
+
+const Content: FC<
+  PropsWithChildren<{
+    className?: string;
+  }>
+> = ({ className, children }) => (
+  <div className={classNames(styles.content, className)}>{children}</div>
 );
 
 const Overlay = {
   Header,
+  MenuWrapper,
   Menu,
   MenuItem,
+  Content,
 };
 
 export { Overlay };

@@ -13,6 +13,7 @@
 .header-title {
   margin-left: 5px;
   color: #FAFAFA;
+  font-weight: 300;
   font-size: 20px;
   line-height: 30px;
 }
@@ -25,14 +26,28 @@
   }
 }
 
-.menu {
-  padding: 10px 0;
+.menu-wrapper {
   position: absolute;
   top: 40px;
   left: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  z-index: 1000;
+}
+
+.menu {
+  padding: 10px 0;
   min-width: 122px;
   background: rgba($color: #000, $alpha: 0.7);
-  z-index: 1000;
+}
+
+.primary {
+  min-width: 140px;
+}
+
+.secondary {
+  min-width: 230px;
 }
 
 .item {
