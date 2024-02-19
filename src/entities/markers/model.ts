@@ -1,6 +1,7 @@
 import { generateRandomId } from '@/shared/utils/string';
 import { makeAutoObservable, observable } from 'mobx';
 import { getValidSWTMarkers } from './lib';
+import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 
 enum SWTMarkerID {
   text,
@@ -89,6 +90,13 @@ class MarkersModel {
   SWTMarkerToClipboard = () => {
     const text = JSON.stringify(this.swtMarkers.map((marker) => marker.data));
     navigator.clipboard.writeText(text);
+
+    toasterEntity.callToaster({
+      title: 'Markers copied',
+      description: 'Markers copied to clipboard',
+      type: 'success',
+      timer: 3500,
+    });
   };
 
   updateMarker = (id: string | number, x: number, y: number) => {

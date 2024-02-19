@@ -1,0 +1,74 @@
+$width: 400px;
+
+.wrapper {
+  position: fixed;
+  top: 250px;
+  left: 50%;
+  gap: 10px;
+  width: $width;
+  z-index: 1000;
+  transform: translateX(-50%);
+  color: #fff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  padding-left: 10px;
+  width: 100%;
+  background: rgba($color: #000, $alpha: 0.7);
+  animation: show-title ease-in 1s;
+  overflow: hidden;
+}
+
+.content {
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.icon-box {
+  height: 45px;
+  width: 45px;
+  flex-shrink: 0;
+  background: rgba($color: #000, $alpha: 0.7);
+}
+
+.description {
+  padding: 15px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: rgba($color: #000, $alpha: 0.7);
+}
+
+@keyframes show-title {
+  from {
+    max-width: 0;
+  }
+
+  to {
+    max-width: $width;
+  }
+}
+
+@keyframes hide-title {
+  from {
+    max-width: 0;
+  }
+
+  to {
+    max-width: $width;
+  }
+}
