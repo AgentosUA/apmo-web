@@ -37,6 +37,11 @@ const ArmaMap = observer(() => {
           event.latlng.lng,
           event.latlng.lat
         );
+
+        createMarkerEntity.setControlsPosition(
+          event.originalEvent.x,
+          event.originalEvent.y
+        );
       }}>
       <CreateMarker />
 

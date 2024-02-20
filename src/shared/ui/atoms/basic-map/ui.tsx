@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, useEffect } from 'react';
 
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 
@@ -21,11 +21,15 @@ const MapHandlers: FC<{
 }> = ({ onDoubleClick }) => {
   const map = useMap();
 
-  if (Boolean(onDoubleClick)) {
+  useEffect(() => {
     map.addEventListener('dblclick', (event) => {
       onDoubleClick?.(event);
     });
-  }
+
+    return () => {
+      map.removeEventListener('dblclick', onDoubleClick);
+    };
+  }, []);
 
   return null;
 };

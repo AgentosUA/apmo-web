@@ -1,4 +1,4 @@
-$width: 400px;
+$width: 192px;
 
 .wrapper {
   position: fixed;
@@ -19,12 +19,12 @@ $width: 400px;
 .title {
   display: flex;
   align-items: center;
-  justify-content: center;
+  text-align: left;
   height: 35px;
   padding-left: 10px;
   width: 100%;
   background: rgba($color: #000, $alpha: 0.7);
-  animation: show-title ease-in 1s;
+  animation: show-title ease-in 300ms;
   overflow: hidden;
 }
 
@@ -32,12 +32,15 @@ $width: 400px;
   margin-top: 2px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  height: 32px;
   gap: 2px;
+  font-size: 12px;
 }
 
 .icon-box {
-  height: 45px;
-  width: 45px;
+  height: 32px;
+  width: 32px;
   flex-shrink: 0;
   background: rgba($color: #000, $alpha: 0.7);
 }
@@ -66,9 +69,11 @@ $width: 400px;
 @keyframes hide-title {
   from {
     max-width: 0;
+    font-size: 0;
   }
 
   to {
     max-width: $width;
+    font-size: 14px;
   }
 }

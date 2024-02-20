@@ -34,6 +34,11 @@ class CreateMarkerModel {
 
   marker: Marker = generateNewMarker();
 
+  controlsPosition = {
+    x: 0,
+    y: 0,
+  };
+
   open = () => {
     this.isVisible = true;
   };
@@ -64,6 +69,13 @@ class CreateMarkerModel {
 
   setMarkerPosition = (x: number, y: number) => {
     this.marker.data[SWTMarkerID.coordinates] = [x, y];
+  };
+
+  setControlsPosition = (x: number, y: number) => {
+    this.controlsPosition = {
+      x,
+      y,
+    };
   };
 
   setMarkerText = (text: string) => {

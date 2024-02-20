@@ -43,7 +43,7 @@ class Toaster {
 
     setTimeout(() => {
       this.removeToaster(id);
-    }, data.timer * 2);
+    }, data.timer + 200);
   };
 }
 

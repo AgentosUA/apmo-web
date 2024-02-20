@@ -69,7 +69,12 @@ const CreateMarker: FC<{
 
   return (
     <div className={styles.overlay}>
-      <div className={styles.wrapper}>
+      <div
+        className={styles.wrapper}
+        style={{
+          top: entity.controlsPosition.y - 60,
+          left: entity.controlsPosition.x + 150,
+        }}>
         <div className={styles.content}>
           <View.Condition if={entity.isAllListsVisible}>
             <div className={classNames(styles.list, styles.colorList)}>
