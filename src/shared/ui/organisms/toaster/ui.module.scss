@@ -1,13 +1,25 @@
-$width: 192px;
+$width: 220px;
 
 .wrapper {
   position: fixed;
   top: 250px;
   left: 50%;
-  gap: 10px;
+  gap: 2px;
   width: $width;
   z-index: 1000;
   transform: translateX(-50%);
+  color: #fff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.toaster {
+  gap: 2px;
+  width: $width;
+  z-index: 1000;
   color: #fff;
   overflow: hidden;
   display: flex;
@@ -20,60 +32,94 @@ $width: 192px;
   display: flex;
   align-items: center;
   text-align: left;
-  height: 35px;
-  padding-left: 10px;
+  height: 25px;
+  padding-left: 7px;
   width: 100%;
+  font-size: 14px;
+  text-transform: uppercase;
   background: rgba($color: #000, $alpha: 0.7);
-  animation: show-title ease-in 300ms;
+  animation: show-title 300ms ease-in 0ms 1 normal forwards, hide-title 300ms ease-out 3700ms 1 normal forwards;
   overflow: hidden;
 }
 
 .content {
-  margin-top: 2px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 32px;
+  width: 100%;
   gap: 2px;
   font-size: 12px;
+  height: auto;
+  max-height: 0;
+  animation: show-content 300ms ease-in 325ms 1 normal forwards, hide-content 300ms ease-out 3300ms 1 normal forwards;
+  overflow: hidden;
 }
 
 .icon-box {
   height: 32px;
   width: 32px;
   flex-shrink: 0;
-  background: rgba($color: #000, $alpha: 0.7);
+  background: rgba($color: #000, $alpha: 0.5);
 }
 
 .description {
-  padding: 15px;
-  width: 100%;
-  text-align: center;
   display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  font-size: 14px;
+  min-height: 32px;
+  text-align: center;
   text-overflow: ellipsis;
-  background: rgba($color: #000, $alpha: 0.7);
+  overflow: hidden;
+  background: rgba($color: #000, $alpha: 0.5);
 }
 
 @keyframes show-title {
   from {
+    font-size: 0;
     max-width: 0;
   }
 
   to {
+    font-size: 14;
     max-width: $width;
   }
 }
 
 @keyframes hide-title {
   from {
-    max-width: 0;
-    font-size: 0;
+    font-size: 14px;
+    max-width: $width;
   }
 
   to {
-    max-width: $width;
-    font-size: 14px;
+    font-size: 0;
+    max-width: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+}
+
+@keyframes show-content {
+  from {
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  to {
+    max-height: 32px;
+  }
+}
+
+@keyframes hide-content {
+  from {
+    max-height: 32px;
+  }
+
+  to {
+    overflow: hidden;
+    max-height: 0;
   }
 }

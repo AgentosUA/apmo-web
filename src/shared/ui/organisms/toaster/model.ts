@@ -1,7 +1,7 @@
 import { generateRandomId } from '@/shared/utils/string';
 import { makeAutoObservable } from 'mobx';
 
-type ToasterType = 'success' | 'error' | 'warning' | 'info';
+type ToasterType = 'radio';
 
 type ToasterData = {
   id?: string;
@@ -26,6 +26,7 @@ class Toaster {
 
   callToaster = async (data: ToasterData) => {
     const id = data.id ?? generateRandomId();
+    const timer = data.timer ?? 4000;
 
     this.toasters.push({
       ...data,
@@ -39,11 +40,11 @@ class Toaster {
       if (index === -1) return;
 
       this.toasters[index].visible = false;
-    }, data.timer);
+    }, timer);
 
     setTimeout(() => {
       this.removeToaster(id);
-    }, data.timer + 200);
+    }, timer);
   };
 }
 

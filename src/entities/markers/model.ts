@@ -94,8 +94,8 @@ class MarkersModel {
     toasterEntity.callToaster({
       title: 'Markers copied',
       description: 'Markers copied to clipboard',
-      type: 'success',
-      timer: 3500,
+      type: 'radio',
+      timer: 4000,
     });
   };
 
