@@ -2,6 +2,7 @@ import { mapsEntity } from '@/entities/maps';
 import { markersEntity } from '@/entities/markers';
 import { Overlay } from '@/shared/ui/atoms/overlay';
 import { Modal } from '@/shared/ui/moleculas/modal/ui';
+import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { View } from '@/shared/ui/quarks/view';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
@@ -58,7 +59,13 @@ const NewMissionOverlay = observer(() => {
             <Modal
               title='Clear all markers'
               description='Are you sure to clear all markers from the map?'
-              onConfirm={markersEntity.clearMarkers}
+              onConfirm={() => {
+                markersEntity.clearMarkers();
+                toasterEntity.callToaster({
+                  title: 'Markers cleared',
+                  description: 'All markers have been removed',
+                });
+              }}
               onCancel
               trigger={<Overlay.MenuItem>Clear Markers</Overlay.MenuItem>}
             />

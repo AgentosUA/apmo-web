@@ -32,13 +32,13 @@ $width: 220px;
   display: flex;
   align-items: center;
   text-align: left;
-  height: 25px;
+  height: 20px;
   padding-left: 7px;
   width: 100%;
   font-size: 14px;
   text-transform: uppercase;
   background: rgba($color: #000, $alpha: 0.7);
-  animation: show-title 300ms ease-in 0ms 1 normal forwards, hide-title 300ms ease-out 3700ms 1 normal forwards;
+  animation: show-title 220ms ease-in 0ms 1 normal forwards, hide-title 220ms ease-out 3700ms 1 normal forwards;
   overflow: hidden;
 }
 
@@ -51,7 +51,7 @@ $width: 220px;
   font-size: 12px;
   height: auto;
   max-height: 0;
-  animation: show-content 300ms ease-in 325ms 1 normal forwards, hide-content 300ms ease-out 3300ms 1 normal forwards;
+  animation: show-content 220ms ease-in 325ms 1 normal forwards, hide-content 220ms ease-out 3300ms 1 normal forwards;
   overflow: hidden;
 }
 

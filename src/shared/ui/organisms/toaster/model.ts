@@ -6,11 +6,10 @@ type ToasterType = 'radio';
 type ToasterData = {
   id?: string;
   title: string;
-  description: string;
+  description?: string;
   visible?: boolean;
-  type: ToasterType;
-
-  timer: number;
+  type?: ToasterType;
+  timer?: number;
 };
 
 class Toaster {
@@ -28,7 +27,7 @@ class Toaster {
     const id = data.id ?? generateRandomId();
     const timer = data.timer ?? 4000;
 
-    this.toasters.push({
+    this.toasters.unshift({
       ...data,
       visible: true,
       id,
