@@ -10,6 +10,7 @@ type ToasterData = {
   visible?: boolean;
   type?: ToasterType;
   timer?: number;
+  sound?: 'none' | 'notification' | 'save';
 };
 
 class Toaster {
@@ -27,6 +28,10 @@ class Toaster {
     const id = data.id ?? generateRandomId();
     const timer = data.timer ?? 4000;
 
+    const audio = new Audio('/sounds/notification/start.mp3');
+    audio.volume = 0.3;
+    audio.play();
+
     this.toasters.unshift({
       ...data,
       visible: true,
@@ -39,6 +44,10 @@ class Toaster {
       if (index === -1) return;
 
       this.toasters[index].visible = false;
+
+      const audio = new Audio('/sounds/notification/end.mp3');
+      audio.volume = 0.5;
+      audio.play();
     }, timer);
 
     setTimeout(() => {
