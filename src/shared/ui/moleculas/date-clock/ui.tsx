@@ -22,7 +22,7 @@ const DateClock: FC<{
   if (variant === 'styled') {
     return (
       <span className={classNames(styles.clock, className)}>
-        {date.hours}:{date.minutes}{' '}
+        {date.hours}:{date.minutes}
         <span className={styles.seconds}>{date.seconds}</span>
       </span>
     );
