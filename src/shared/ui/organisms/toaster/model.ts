@@ -10,7 +10,7 @@ type ToasterData = {
   visible?: boolean;
   type?: ToasterType;
   timer?: number;
-  sound?: 'none' | 'notification' | 'save';
+  sound?: boolean;
 };
 
 class Toaster {
@@ -24,18 +24,25 @@ class Toaster {
     this.toasters = this.toasters.filter((toaster) => toaster.id !== id);
   };
 
-  callToaster = async (data: ToasterData) => {
-    const id = data.id ?? generateRandomId();
-    const timer = data.timer ?? 4000;
-
-    const audio = new Audio('/sounds/notification/start.mp3');
-    audio.volume = 0.3;
-    audio.play();
+  callToaster = async ({
+    id = generateRandomId(),
+    sound = true,
+    timer = 4000,
+    type = 'radio',
+    ...data
+  }: ToasterData) => {
+    if (sound) {
+      const audio = new Audio('/sounds/notification/start.mp3');
+      audio.volume = 0.3;
+      audio.play();
+    }
 
     this.toasters.unshift({
       ...data,
-      visible: true,
       id,
+      sound,
+      type,
+      visible: true,
     });
 
     setTimeout(() => {
@@ -44,15 +51,16 @@ class Toaster {
       if (index === -1) return;
 
       this.toasters[index].visible = false;
-
-      const audio = new Audio('/sounds/notification/end.mp3');
-      audio.volume = 0.5;
-      audio.play();
-    }, timer);
-
-    setTimeout(() => {
       this.removeToaster(id);
     }, timer);
+
+    if (sound) {
+      setTimeout(() => {
+        const audio = new Audio('/sounds/notification/end.mp3');
+        audio.volume = 0.3;
+        audio.play();
+      }, timer - 700);
+    }
   };
 }
 

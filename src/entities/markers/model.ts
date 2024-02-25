@@ -80,6 +80,11 @@ class MarkersModel {
       }));
 
       this.setSWTMarkers([...this.swtMarkers, ...(parsedMarkers as Marker[])]);
+
+      toasterEntity.callToaster({
+        title: 'Markers loaded',
+        description: `${parsedMarkers.length} Markers loaded to the map`,
+      });
     } catch (error) {
       console.log(error);
     } finally {
@@ -94,8 +99,6 @@ class MarkersModel {
     toasterEntity.callToaster({
       title: 'Markers copied',
       description: 'Markers copied to clipboard',
-      type: 'radio',
-      timer: 4000,
     });
   };
 
