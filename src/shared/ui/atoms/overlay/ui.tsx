@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, ReactNode } from 'react';
 
 import classNames from 'classnames';
 
@@ -8,9 +8,9 @@ import styles from './ui.module.scss';
 
 const Header: FC<{
   title?: string;
-  time?: string;
+  rightCorner?: ReactNode;
   onBack?: () => void;
-}> = ({ title = '', time = '', onBack }) => (
+}> = ({ title = '', rightCorner = '', onBack }) => (
   <div className={styles.header}>
     <MdArrowBackIosNew
       className={styles.backArrowIcon}
@@ -18,7 +18,7 @@ const Header: FC<{
       color='#fff'
     />
     <h1 className={styles.headerTitle}>{title}</h1>
-    <p className={styles.time}>{time}</p>
+    <div className={styles.rightCorner}>{rightCorner}</div>
   </div>
 );
 
