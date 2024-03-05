@@ -1,10 +1,15 @@
+import Image from 'next/image';
+
+import classNames from 'classnames';
+
 import { Icon } from 'leaflet';
 import { FC, PropsWithChildren, useEffect, useMemo, useRef } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
 
 import styles from './ui.module.scss';
-import classNames from 'classnames';
-import Image from 'next/image';
+import { MarkerVariant } from './lib';
+// import { MarkerColorHEX } from '@/shared/data/marker';
+import { LeafletEllipse } from '../../quarks/leaflet-ellipse/ui';
 
 const MarkerIconComponent: FC<{
   markerName: string;
@@ -41,15 +46,18 @@ const MarkerIcon = (
 
 const ArmaMarker: FC<
   PropsWithChildren<{
+    type?: MarkerVariant;
     x: number;
     y: number;
     icon: Icon;
+    size?: number | number[];
     color?: string;
     draggable?: boolean;
     onUpdatePosition?: (x: number, y: number) => void;
     onDelete?: () => void;
   }>
 > = ({
+  type = 'marker',
   children,
   x,
   y,
@@ -93,12 +101,26 @@ const ArmaMarker: FC<
     return document.removeEventListener('keydown', onDeleteMarker);
   }, []);
 
+  if (type === 'circle') {
+    return (
+      <LeafletEllipse
+        center={[0, 0]}
+        radii={[1000, 1000]}
+        tilt={1000}
+        // options={{
+        //   stroke: false,
+        //   color: MarkerColorHEX[color],
+        // }}
+      />
+    );
+  }
+
   return (
     <Marker
+      ref={markerRef}
       position={[y, x]}
       icon={icon}
       draggable={draggable}
-      ref={markerRef}
       eventHandlers={eventHandlers}>
       {children && (
         <Tooltip

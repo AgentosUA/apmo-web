@@ -6,7 +6,7 @@ import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 enum SWTMarkerID {
   text,
   coordinates,
-  type, // line - 2, circle - 3
+  type, // line -2, circle -3
   color,
   direction,
   size,
@@ -22,6 +22,8 @@ type SWTMarker = [
   '', // ?
   [] // ?
 ];
+
+// [["", [3788.34, 5266.41], -3, 8, 0, [60.0637, 56.3838], "", []]]
 
 type Marker = {
   id: string | number;

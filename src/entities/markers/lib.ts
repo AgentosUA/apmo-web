@@ -1,3 +1,4 @@
+import { MarkerVariant } from '@/shared/ui/atoms/marker/lib';
 import type { SWTMarker } from '.';
 
 const checkIsSWTMarkerType = (element: unknown[]) => {
@@ -12,8 +13,9 @@ const checkIsSWTMarkerType = (element: unknown[]) => {
     typeof element[2] === 'number' &&
     typeof element[3] === 'number' &&
     typeof element[4] === 'number' &&
-    typeof element[5] === 'number'
+    (typeof element[5] === 'number' || Array.isArray(element[5]))
   ) {
+    // [["", [3788.34, 5266.41], -3, 8, 0, [60.0637, 56.3838], "", []]]
     return true;
   }
 
@@ -21,6 +23,8 @@ const checkIsSWTMarkerType = (element: unknown[]) => {
 };
 
 const getValidSWTMarkers = (data: unknown): SWTMarker[] => {
+  // console.log('data', data);
+
   if (!Array.isArray(data)) {
     return [];
   }
@@ -28,4 +32,11 @@ const getValidSWTMarkers = (data: unknown): SWTMarker[] => {
   return data.filter(checkIsSWTMarkerType) as SWTMarker[];
 };
 
-export { checkIsSWTMarkerType, getValidSWTMarkers };
+const getMarkerTypeBySWTType = (type: number): MarkerVariant => {
+  if (type === -3) return 'circle';
+  if (type === -2) return 'line';
+
+  return 'marker';
+};
+
+export { checkIsSWTMarkerType, getValidSWTMarkers, getMarkerTypeBySWTType };

@@ -144,6 +144,36 @@ enum MarkerColor {
   'Color6_FD_F',
 }
 
+enum MarkerColorHEX {
+  Default = '#fff',
+  ColorBlack = '#000000',
+  ColorGrey = '#808080',
+  ColorRed = '#ff0000',
+  ColorBrown = '#a52a2a',
+  ColorOrange = '#ffa500',
+  ColorYellow = '#ffff00',
+  ColorKhaki = '#f0e68c',
+  ColorGreen = '#008000',
+  ColorBlue = '#0000ff',
+  ColorPink = '#ffc0cb',
+  ColorWhite = '#ffffff',
+  ColorWEST = '#0000ff',
+  ColorEAST = '#ff0000',
+  ColorGUER = '#008000',
+  ColorCIV = '#ffa500',
+  ColorUNKNOWN = '#808080',
+  colorBLUFOR = '#0000ff',
+  colorOPFOR = '#ff0000',
+  colorIndependent = '#008000',
+  colorCivilian = '#ffa500',
+  Color1_FD_F = '#0000ff',
+  Color2_FD_F = '#ff0000',
+  Color3_FD_F = '#008000',
+  Color4_FD_F = '#ffa500',
+  Color5_FD_F = '#808080',
+  Color6_FD_F = '#0000ff',
+}
+
 const markerTypes = Object.keys(MarkerType).filter((key) =>
   isNaN(Number(key))
 ) as string[];
@@ -152,4 +182,10 @@ const markerColorNames = Object.keys(MarkerColor).filter((key) =>
   isNaN(Number(key))
 ) as string[];
 
-export { markerTypes, markerColorNames, MarkerColor, MarkerType };
+export {
+  markerTypes,
+  markerColorNames,
+  MarkerColor,
+  MarkerType,
+  MarkerColorHEX,
+};

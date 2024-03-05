@@ -14,6 +14,7 @@ import { useMounted } from '@/shared/ui/hooks';
 import { markerColorNames, markerTypes } from '@/shared/data/marker';
 import { CreateMarker } from '@/features/markers/create-marker/ui';
 import { createMarkerEntity } from '@/features/markers/create-marker';
+import { getMarkerTypeBySWTType } from '@/entities/markers/lib';
 
 const ArmaMap = observer(() => {
   const isMounted = useMounted();
@@ -49,6 +50,7 @@ const ArmaMap = observer(() => {
         return (
           <ArmaMarker
             key={marker.id}
+            type={getMarkerTypeBySWTType(marker.data[SWTMarkerID.type])}
             icon={MarkerIcon(
               markerTypes[marker.data[SWTMarkerID.type]],
               markerColorNames[marker.data[SWTMarkerID.color]]
