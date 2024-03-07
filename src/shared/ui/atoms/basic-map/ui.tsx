@@ -18,12 +18,17 @@ import styles from './ui.module.scss';
 
 const MapHandlers: FC<{
   onDoubleClick?: (event: LeafletMouseEvent) => void;
-}> = ({ onDoubleClick }) => {
+  onZoomLevelChange?: (zoomLevel: number) => void;
+}> = ({ onDoubleClick, onZoomLevelChange }) => {
   const map = useMap();
 
   useEffect(() => {
     map.addEventListener('dblclick', (event) => {
       onDoubleClick?.(event);
+    });
+
+    map.addEventListener('zoom', () => {
+      onZoomLevelChange?.(map.getZoom());
     });
 
     return () => {
@@ -39,11 +44,13 @@ const BasicMap: FC<
     className?: string;
     name: string;
     mapSize?: number;
+    defaultZoom?: number;
     minZoom: number;
     maxZoom: number;
     scale?: number;
     dragging?: boolean;
     onDoubleClick?: (event: LeafletMouseEvent) => void;
+    onZoomLevelChange?: (zoomLevel: number) => void;
   }>
 > = ({
   className,
@@ -52,8 +59,10 @@ const BasicMap: FC<
   name,
   minZoom = 0,
   maxZoom,
+  defaultZoom = 2,
   dragging = true,
   onDoubleClick,
+  onZoomLevelChange,
 }) => {
   const armaCRS = extend({}, CRS.Simple, {
     projection: Projection.LonLat,
@@ -81,14 +90,17 @@ const BasicMap: FC<
         center={[mapSize / 1.9, mapSize / 2]}
         crs={armaCRS}
         zoomControl={false}
-        zoom={2}
+        zoom={defaultZoom}
         dragging={dragging}
         doubleClickZoom={false}
         worldCopyJump={false}
         maxBoundsViscosity={0.7}
         wheelPxPerZoomLevel={500}
         markerZoomAnimation>
-        <MapHandlers onDoubleClick={onDoubleClick} />
+        <MapHandlers
+          onDoubleClick={onDoubleClick}
+          onZoomLevelChange={onZoomLevelChange}
+        />
 
         {layers.map((layer) => (
           <TileLayer

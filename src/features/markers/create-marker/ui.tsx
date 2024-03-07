@@ -114,8 +114,8 @@ const CreateMarker: FC<{
             </div>
           </View.Condition>
           <MarkerIconComponent
-            width={39}
-            height={39}
+            width={32}
+            height={32}
             className={styles.selectedMarker}
             markerName={markerTypes[entity.marker.data[SWTMarkerID.type]]}
             color={markerColorNames[entity.marker.data[SWTMarkerID.color]]}

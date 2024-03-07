@@ -11,10 +11,18 @@ import { observer } from 'mobx-react-lite';
 
 import { ArmaMarker, MarkerIcon } from '@/shared/ui/atoms/marker';
 import { useMounted } from '@/shared/ui/hooks';
-import { markerColorNames, markerTypes } from '@/shared/data/marker';
+
 import { CreateMarker } from '@/features/markers/create-marker/ui';
 import { createMarkerEntity } from '@/features/markers/create-marker';
-import { getMarkerTypeBySWTType } from '@/entities/markers/lib';
+import {
+  getMarkerColorName,
+  getMarkerSize,
+  getMarkerText,
+  getMarkerType,
+} from '@/entities/markers/lib';
+
+import { armaMapEntity } from './model';
+import { LeafletMouseEvent } from 'leaflet';
 
 const ArmaMap = observer(() => {
   const isMounted = useMounted();
@@ -25,6 +33,20 @@ const ArmaMap = observer(() => {
   )
     return null;
 
+  const onDoubleClick = (event: LeafletMouseEvent) => {
+    createMarkerEntity.open();
+    createMarkerEntity.setMarkerPosition(event.latlng.lng, event.latlng.lat);
+
+    createMarkerEntity.setControlsPosition(
+      event.originalEvent.x,
+      event.originalEvent.y
+    );
+  };
+
+  const onZoomLevelChange = (zoomLevel: number) => {
+    armaMapEntity.setZoomLevel(zoomLevel);
+  };
+
   return (
     <BasicMap
       name={mapsEntity.selectedMap.dir}
@@ -32,28 +54,18 @@ const ArmaMap = observer(() => {
       maxZoom={Number(mapsEntity.selectedMap.zoom)}
       mapSize={Number(mapsEntity.selectedMap.width) ?? 0}
       dragging={!createMarkerEntity.isVisible}
-      onDoubleClick={(event) => {
-        createMarkerEntity.open();
-        createMarkerEntity.setMarkerPosition(
-          event.latlng.lng,
-          event.latlng.lat
-        );
-
-        createMarkerEntity.setControlsPosition(
-          event.originalEvent.x,
-          event.originalEvent.y
-        );
-      }}>
+      onDoubleClick={onDoubleClick}
+      onZoomLevelChange={onZoomLevelChange}>
       <CreateMarker />
-
       {markersEntity.swtMarkers.map((marker) => {
         return (
           <ArmaMarker
             key={marker.id}
-            type={getMarkerTypeBySWTType(marker.data[SWTMarkerID.type])}
             icon={MarkerIcon(
-              markerTypes[marker.data[SWTMarkerID.type]],
-              markerColorNames[marker.data[SWTMarkerID.color]]
+              getMarkerType(marker),
+              getMarkerColorName(marker),
+              getMarkerSize(marker),
+              armaMapEntity.zoomLevel
             )}
             x={marker.data[SWTMarkerID.coordinates][0]}
             y={marker.data[SWTMarkerID.coordinates][1]}
@@ -61,9 +73,9 @@ const ArmaMap = observer(() => {
               markersEntity.updateMarker(marker.id, x, y)
             }
             onDelete={() => markersEntity.deleteMarker(marker.id)}
-            color={markerColorNames[marker.data[SWTMarkerID.color]]}
+            color={getMarkerColorName(marker)}
             draggable>
-            {marker.data[SWTMarkerID.text]}
+            {getMarkerText(marker)}
           </ArmaMarker>
         );
       })}

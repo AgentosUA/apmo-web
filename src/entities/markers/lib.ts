@@ -1,5 +1,5 @@
-import { MarkerVariant } from '@/shared/ui/atoms/marker/lib';
-import type { SWTMarker } from '.';
+import { SWTMarkerID, type Marker, type SWTMarker } from '.';
+import { markerColorNames, markerTypes } from '@/shared/data/marker';
 
 const checkIsSWTMarkerType = (element: unknown[]) => {
   if (typeof element[0] !== 'string') return false;
@@ -32,11 +32,32 @@ const getValidSWTMarkers = (data: unknown): SWTMarker[] => {
   return data.filter(checkIsSWTMarkerType) as SWTMarker[];
 };
 
-const getMarkerTypeBySWTType = (type: number): MarkerVariant => {
-  if (type === -3) return 'circle';
-  if (type === -2) return 'line';
+const getMarkerType = (marker: Marker) => {
+  const markerId = marker.data[SWTMarkerID.type];
 
-  return 'marker';
+  if (markerId === -3) return 'ellipse';
+  if (markerId === -2) return 'line';
+
+  return markerTypes[markerId];
 };
 
-export { checkIsSWTMarkerType, getValidSWTMarkers, getMarkerTypeBySWTType };
+const getMarkerColorName = (marker: Marker) => {
+  return markerColorNames[marker.data[SWTMarkerID.color]];
+};
+
+const getMarkerSize = (marker: Marker) => {
+  return marker.data?.[SWTMarkerID.size];
+};
+
+const getMarkerText = (marker: Marker) => {
+  return marker.data[SWTMarkerID.text];
+};
+
+export {
+  checkIsSWTMarkerType,
+  getValidSWTMarkers,
+  getMarkerType,
+  getMarkerColorName,
+  getMarkerText,
+  getMarkerSize,
+};

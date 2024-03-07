@@ -1,7 +1,8 @@
 import { generateRandomId } from '@/shared/utils/string';
-import { makeAutoObservable, observable } from 'mobx';
-import { getValidSWTMarkers } from './lib';
+import { makeAutoObservable } from 'mobx';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
+
+import { getValidSWTMarkers } from './lib';
 
 enum SWTMarkerID {
   text,

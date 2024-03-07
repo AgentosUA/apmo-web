@@ -2,14 +2,11 @@ import Image from 'next/image';
 
 import classNames from 'classnames';
 
-import { Icon } from 'leaflet';
+import { Icon, DivIcon } from 'leaflet';
 import { FC, PropsWithChildren, useEffect, useMemo, useRef } from 'react';
-import { Marker, Tooltip } from 'react-leaflet';
+import { Marker, Tooltip, ZoomControl } from 'react-leaflet';
 
 import styles from './ui.module.scss';
-import { MarkerVariant } from './lib';
-// import { MarkerColorHEX } from '@/shared/data/marker';
-import { LeafletEllipse } from '../../quarks/leaflet-ellipse/ui';
 
 const MarkerIconComponent: FC<{
   markerName: string;
@@ -32,13 +29,31 @@ const MarkerIconComponent: FC<{
 const MarkerIcon = (
   markerName: string,
   color: string,
+  size: number | number[] = 1,
+  zoomLevel: number,
   width = 32,
   height = 32
 ) => {
+  if (markerName === 'ellipse') {
+    const markerSize = size as [number, number];
+
+    return new DivIcon({
+      iconSize: [
+        Math.ceil(markerSize[0] * (zoomLevel / 9)),
+        Math.ceil(markerSize[1] * (zoomLevel / 9)),
+      ], // size of the icon
+      // iconAnchor: [width / 2, height / 2], // point of the icon which will correspond to marker's location
+      popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor,
+      className: classNames(styles.ellipsis, styles[`${color}Background`]),
+    });
+  }
+
+  const markerSize = size as number;
+
   return new Icon({
     iconUrl: `/markers/${markerName}.png`,
-    iconSize: [width, height], // size of the icon
-    iconAnchor: [width / 2, height / 2], // point of the icon which will correspond to marker's location
+    iconSize: [width * markerSize, height * markerSize], // size of the icon
+    iconAnchor: [(width * markerSize) / 2, (height * markerSize) / 2], // point of the icon which will correspond to marker's location
     popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor,
     className: classNames(styles[`${color}Filter`]),
   });
@@ -46,7 +61,6 @@ const MarkerIcon = (
 
 const ArmaMarker: FC<
   PropsWithChildren<{
-    type?: MarkerVariant;
     x: number;
     y: number;
     icon: Icon;
@@ -57,7 +71,6 @@ const ArmaMarker: FC<
     onDelete?: () => void;
   }>
 > = ({
-  type = 'marker',
   children,
   x,
   y,
@@ -100,20 +113,6 @@ const ArmaMarker: FC<
   useEffect(() => {
     return document.removeEventListener('keydown', onDeleteMarker);
   }, []);
-
-  if (type === 'circle') {
-    return (
-      <LeafletEllipse
-        center={[0, 0]}
-        radii={[1000, 1000]}
-        tilt={1000}
-        // options={{
-        //   stroke: false,
-        //   color: MarkerColorHEX[color],
-        // }}
-      />
-    );
-  }
 
   return (
     <Marker
