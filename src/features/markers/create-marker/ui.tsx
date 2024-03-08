@@ -101,7 +101,6 @@ const CreateMarker: FC<{
                   width={24}
                   height={24}
                   onClick={() => {
-                    console.log(markerType);
                     entity.setMarkerType(
                       MarkerType[markerType as keyof typeof MarkerType]
                     );

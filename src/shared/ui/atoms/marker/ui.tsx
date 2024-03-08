@@ -34,17 +34,21 @@ const MarkerIcon = (
   width = 32,
   height = 32
 ) => {
-  if (markerName === 'ellipse') {
+  if (['ellipse', 'line'].includes(markerName)) {
+    const sizeFactor = Math.pow(2, zoomLevel);
     const markerSize = size as [number, number];
 
     return new DivIcon({
       iconSize: [
-        Math.ceil(markerSize[0] * (zoomLevel / 9)),
-        Math.ceil(markerSize[1] * (zoomLevel / 9)),
+        Math.ceil(markerSize[0] * sizeFactor),
+        Math.ceil(markerSize[1] * sizeFactor),
       ], // size of the icon
       // iconAnchor: [width / 2, height / 2], // point of the icon which will correspond to marker's location
       popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor,
-      className: classNames(styles.ellipsis, styles[`${color}Background`]),
+      className: classNames(styles[`${color}Background`], {
+        [styles.ellipsis]: markerName === 'ellipse',
+        [styles.line]: markerName === 'line',
+      }),
     });
   }
 

@@ -1769,11 +1769,6 @@ leaflet-defaulticon-compatibility@^0.1.2:
   resolved "https://registry.yarnpkg.com/leaflet-defaulticon-compatibility/-/leaflet-defaulticon-compatibility-0.1.2.tgz#f5e1a5841aeab9d1682d17887348855a741b3c2a"
   integrity sha512-IrKagWxkTwzxUkFIumy/Zmo3ksjuAu3zEadtOuJcKzuXaD76Gwvg2Z1mLyx7y52ykOzM8rAH5ChBs4DnfdGa6Q==
 
-leaflet-ellipse@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/leaflet-ellipse/-/leaflet-ellipse-0.9.1.tgz#abef7447dd0cfc69fd1f3bec07f0e3d59a7ecfa2"
-  integrity sha512-WaTh+/7dwtn8h+WsUebxl2KS4diZ9Cpci5dBlzp92pSLNeWGLlmFz0/WTzeyVwxrYwojZHZvYfVmT2Xv9u5TCA==
-
 leaflet@^1.9.4:
   version "1.9.4"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.9.4.tgz#23fae724e282fa25745aff82ca4d394748db7d8d"
