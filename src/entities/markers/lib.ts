@@ -23,8 +23,6 @@ const checkIsSWTMarkerType = (element: unknown[]) => {
 };
 
 const getValidSWTMarkers = (data: unknown): SWTMarker[] => {
-  // console.log('data', data);
-
   if (!Array.isArray(data)) {
     return [];
   }
@@ -64,5 +62,5 @@ export {
   getMarkerColorName,
   getMarkerText,
   getMarkerSize,
-  getMarkerDirection
+  getMarkerDirection,
 };
