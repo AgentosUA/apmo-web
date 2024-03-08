@@ -49,6 +49,10 @@ const getMarkerSize = (marker: Marker) => {
   return marker.data?.[SWTMarkerID.size];
 };
 
+const getMarkerDirection = (marker: Marker) => {
+  return marker.data?.[SWTMarkerID.direction];
+};
+
 const getMarkerText = (marker: Marker) => {
   return marker.data[SWTMarkerID.text];
 };
@@ -60,4 +64,5 @@ export {
   getMarkerColorName,
   getMarkerText,
   getMarkerSize,
+  getMarkerDirection
 };

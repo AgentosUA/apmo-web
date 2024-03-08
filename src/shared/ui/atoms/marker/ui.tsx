@@ -4,7 +4,8 @@ import classNames from 'classnames';
 
 import { Icon, DivIcon } from 'leaflet';
 import { FC, PropsWithChildren, useEffect, useMemo, useRef } from 'react';
-import { Marker, Tooltip, ZoomControl } from 'react-leaflet';
+import { Marker, Tooltip } from 'react-leaflet';
+import 'leaflet-rotatedmarker';
 
 import styles from './ui.module.scss';
 
@@ -67,6 +68,7 @@ const ArmaMarker: FC<
   PropsWithChildren<{
     x: number;
     y: number;
+    direction?: number;
     icon: Icon;
     size?: number | number[];
     color?: string;
@@ -79,6 +81,7 @@ const ArmaMarker: FC<
   x,
   y,
   icon,
+  direction = 0,
   color = 'Default',
   draggable = true,
   onUpdatePosition,
@@ -115,6 +118,10 @@ const ArmaMarker: FC<
   );
 
   useEffect(() => {
+    if (markerRef && markerRef?.current?.options) {
+      markerRef.current.options.rotationAngle = direction;
+    }
+
     return document.removeEventListener('keydown', onDeleteMarker);
   }, []);
 

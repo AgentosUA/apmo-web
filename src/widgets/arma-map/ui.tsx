@@ -16,6 +16,7 @@ import { CreateMarker } from '@/features/markers/create-marker/ui';
 import { createMarkerEntity } from '@/features/markers/create-marker';
 import {
   getMarkerColorName,
+  getMarkerDirection,
   getMarkerSize,
   getMarkerText,
   getMarkerType,
@@ -67,6 +68,7 @@ const ArmaMap = observer(() => {
               getMarkerSize(marker),
               armaMapEntity.zoomLevel
             )}
+            direction={getMarkerDirection(marker)}
             x={marker.data[SWTMarkerID.coordinates][0]}
             y={marker.data[SWTMarkerID.coordinates][1]}
             onUpdatePosition={(x, y) =>
