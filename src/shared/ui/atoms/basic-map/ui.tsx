@@ -83,6 +83,8 @@ const BasicMap: FC<
     'objects',
   ];
 
+  const isGeodesic = name.includes('geodesic');
+
   return (
     <div id='map'>
       <MapContainer
@@ -102,18 +104,29 @@ const BasicMap: FC<
           onZoomLevelChange={onZoomLevelChange}
         />
 
-        {layers.map((layer) => (
+        {!isGeodesic &&
+          layers.map((layer) => (
+            <TileLayer
+              key={layer}
+              url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/${layer}/{z}/{x}_{y}.png`}
+              tileSize={256}
+              minZoom={minZoom}
+              maxZoom={maxZoom}
+              noWrap
+              detectRetina
+            />
+          ))}
+
+        {isGeodesic && (
           <TileLayer
-            key={layer}
-            url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/${layer}/{z}/{x}_{y}.png`}
-            // url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/{z}/{x}/{y}.png`}
+            url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/{z}/{x}/{y}.png`}
             tileSize={256}
             minZoom={minZoom}
             maxZoom={maxZoom}
             noWrap
             detectRetina
           />
-        ))}
+        )}
 
         {children}
       </MapContainer>
