@@ -1,4 +1,4 @@
-import { HTMLAttributes, FC, PropsWithChildren, forwardRef } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 
 import { Button } from '../../atoms/button';

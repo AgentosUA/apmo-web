@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import classNames from 'classnames';
 
-import { Icon, DivIcon } from 'leaflet';
+import { Icon, DivIcon, Marker as MarkerLeaflet, MarkerOptions } from 'leaflet';
 import { FC, PropsWithChildren, useEffect, useMemo, useRef } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
 import 'leaflet-rotatedmarker';
@@ -16,16 +16,18 @@ const MarkerIconComponent: FC<{
   width?: number | string;
   height?: number;
   onClick?: () => void;
-}> = ({ markerName, color, className, width = 32, height = 32, onClick }) => (
-  <Image
-    src={`/markers/${markerName}.png`}
-    className={classNames(styles[`${color}Filter`], className)}
-    width={Number(width)}
-    height={height}
-    onClick={onClick}
-    alt='marker'
-  />
-);
+}> = ({ markerName, color, className, width = 32, height = 32, onClick }) => {
+  return (
+    <Image
+      src={`/markers/${markerName}.png`}
+      className={classNames(styles[`${color}Filter`], className)}
+      width={Number(width)}
+      height={height}
+      onClick={onClick}
+      alt='marker'
+    />
+  );
+};
 
 const MarkerIcon = (
   markerName: string,
@@ -69,7 +71,7 @@ const ArmaMarker: FC<
     x: number;
     y: number;
     direction?: number;
-    icon: Icon;
+    icon?: Icon | DivIcon;
     size?: number | number[];
     color?: string;
     draggable?: boolean;
@@ -87,7 +89,7 @@ const ArmaMarker: FC<
   onUpdatePosition,
   onDelete,
 }) => {
-  const markerRef = useRef(null);
+  const markerRef = useRef<MarkerLeaflet>(null);
 
   const onDeleteMarker = (e: KeyboardEvent) => {
     if (e.key === 'Delete') {
@@ -119,7 +121,9 @@ const ArmaMarker: FC<
 
   useEffect(() => {
     if (markerRef && markerRef?.current?.options) {
-      markerRef.current.options.rotationAngle = direction;
+      (
+        markerRef.current.options as MarkerOptions & { rotationAngle: number }
+      ).rotationAngle = direction;
     }
 
     return document.removeEventListener('keydown', onDeleteMarker);

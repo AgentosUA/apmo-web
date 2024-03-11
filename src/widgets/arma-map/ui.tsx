@@ -1,9 +1,12 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-const BasicMap = dynamic(() => import('@/shared/ui/atoms/basic-map/ui'), {
-  ssr: false,
-});
+const BasicMap = dynamic(
+  () => import('@/shared/ui/atoms/basic-map/ui').then((m) => m.BasicMap),
+  {
+    ssr: false,
+  }
+);
 
 import { mapsEntity } from '@/entities/maps';
 import { SWTMarkerID, markersEntity } from '@/entities/markers';

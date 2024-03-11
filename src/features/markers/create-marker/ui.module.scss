@@ -110,6 +110,6 @@
   box-shadow: none;
   outline: none;
   border: none;
-  font-family: 'Roboto Condensed', Tahoma, sans-serif;
+  font-family: var(--font-roboto), Tahoma, sans-serif;
   background: rgba(0, 0, 0, 0.7);
 }

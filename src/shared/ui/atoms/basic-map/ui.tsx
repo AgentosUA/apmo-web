@@ -134,4 +134,4 @@ const BasicMap: FC<
   );
 };
 
-export default BasicMap;
+export { BasicMap };
