@@ -13,7 +13,18 @@
 // [["", [3788.34, 5266.41], -3, 8, 0, [60.0637, 56.3838], "", []]]
 const mapList = [
   {
-    id: '1',
+    id: 'altis',
+    width: 8192,
+    height: 8192,
+    offset: 300,
+    zoom: 7,
+    name: 'Altis',
+    dir: 'altis',
+    image: '/maps/chernarus-autumn.jpg',
+    author: 'Bohemia Interactive',
+  },
+  {
+    id: 'stratis',
     width: 8192,
     height: 8192,
     offset: 300,
@@ -24,7 +35,7 @@ const mapList = [
     author: 'Bohemia Interactive',
   },
   {
-    id: '2',
+    id: 'zargabad',
     width: 8192,
     height: 8192,
     offset: 300,
@@ -35,7 +46,18 @@ const mapList = [
     author: 'Bohemia Interactive',
   },
   {
-    id: '3',
+    id: 'beketov',
+    width: 8192,
+    height: 8192,
+    offset: 300,
+    zoom: 7,
+    name: 'Beketov',
+    dir: 'beketov',
+    image: '/maps/chernarus-autumn.jpg',
+    author: 'Bohemia Interactive',
+  },
+  {
+    id: 'stratis-geodesic',
     width: 8192,
     height: 8192,
     offset: 300,
