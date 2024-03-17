@@ -24,6 +24,7 @@ const useMenu = (items: Record<string, boolean>) => {
   return {
     onMenuItemClick,
     active,
+    setActive,
   };
 };
 
@@ -59,7 +60,10 @@ const MenuItem: FC<
 > = ({ children, isActive, onClick }) => (
   <p
     onClick={onClick}
-    className={classNames(styles.item, { [styles.itemActive]: isActive })}>
+    className={classNames(styles.item, {
+      [styles.itemActive]: isActive,
+      [styles.itemHoverable]: Boolean(onClick),
+    })}>
     {children}
   </p>
 );

@@ -4,7 +4,7 @@ type Preview = {
 };
 
 type Briefing = {
-  diary: { name: string; value: string }[];
+  diary: { id: string; name: string; value: string }[];
   intel: {
     overviewText: string;
     year: number;

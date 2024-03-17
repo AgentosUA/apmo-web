@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef } from 'react';
+import { ChangeEvent, useEffect, useRef } from 'react';
 
 import { mapsEntity } from '@/entities/maps';
 import { markersEntity } from '@/entities/markers';
@@ -16,11 +16,12 @@ import styles from './ui.module.scss';
 const MapOverlay = observer(() => {
   if (!mapsEntity.selectedMap) return null;
 
-  const { active, onMenuItemClick } = useMenu({
+  const { active, onMenuItemClick, setActive } = useMenu({
     map: true,
     markers: false,
     plan: false,
     mission: false,
+    briefing: false,
   });
 
   const onCopyMarkers = () => {
@@ -54,6 +55,22 @@ const MapOverlay = observer(() => {
     mapsEntity.unselectMap();
   };
 
+  useEffect(() => {
+    if (missionEntity.briefing?.diary?.length) {
+      const diaryIds = missionEntity.briefing.diary.map((item) => item.id);
+
+      const newActive = {
+        ...active,
+      };
+
+      diaryIds.forEach((id) => {
+        newActive[id] = false;
+      });
+
+      setActive(newActive);
+    }
+  }, [missionEntity.briefing]);
+
   return (
     <>
       <input
@@ -76,6 +93,14 @@ const MapOverlay = observer(() => {
             onClick={() => onMenuItemClick('map')}>
             Map
           </Overlay.MenuItem>
+
+          <View.Condition if={Boolean(missionEntity.briefing)}>
+            <Overlay.MenuItem
+              isActive={active.briefing}
+              onClick={() => onMenuItemClick('briefing')}>
+              Briefing
+            </Overlay.MenuItem>
+          </View.Condition>
 
           <Overlay.MenuItem
             isActive={active.markers}
@@ -131,6 +156,44 @@ const MapOverlay = observer(() => {
             </Overlay.MenuItem>
             <Overlay.MenuItem onClick={markersEntity.SWTMarkerFromClipboard}>
               Share Plan
+            </Overlay.MenuItem>
+          </Overlay.Menu>
+        </View.Condition>
+
+        <View.Condition if={active.briefing}>
+          <Overlay.Menu variant='secondary'>
+            <Overlay.MenuItem onClick={markersEntity.SWTMarkerFromClipboard}>
+              Intel
+            </Overlay.MenuItem>
+            {missionEntity?.briefing?.diary?.map((item) => (
+              <Overlay.MenuItem
+                key={item.id}
+                onClick={() => onMenuItemClick(item.id)}>
+                {item.name}
+              </Overlay.MenuItem>
+            ))}
+          </Overlay.Menu>
+        </View.Condition>
+
+        <View.Condition
+          if={Object.keys(missionEntity?.briefing?.diary || {}).some(
+            (key) => active[key]
+          )}>
+          <Overlay.Menu variant='secondary'>
+            {missionEntity?.briefing?.diary
+              ?.filter((item) => active[item.id])
+              .map((item) => (
+                <Overlay.MenuItem key={item.id}>
+                  <pre>{item.value}</pre>
+                </Overlay.MenuItem>
+              ))}
+          </Overlay.Menu>
+        </View.Condition>
+
+        <View.Condition if={active.mission}>
+          <Overlay.Menu variant='secondary'>
+            <Overlay.MenuItem onClick={onFileInputClick}>
+              Upload mission
             </Overlay.MenuItem>
           </Overlay.Menu>
         </View.Condition>
