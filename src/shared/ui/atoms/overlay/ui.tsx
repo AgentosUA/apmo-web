@@ -1,10 +1,31 @@
-import { FC, PropsWithChildren, ReactNode } from 'react';
+import { FC, PropsWithChildren, ReactNode, useState } from 'react';
 
 import classNames from 'classnames';
 
 import { MdArrowBackIosNew } from 'react-icons/md';
 
 import styles from './ui.module.scss';
+
+const useMenu = (items: Record<string, boolean>) => {
+  const [active, setActive] = useState(items);
+
+  const onMenuItemClick = (key: keyof typeof active) => {
+    const item = { ...active };
+    Object.keys(item).forEach((k) => {
+      item[k as keyof typeof active] = false;
+    });
+
+    setActive({
+      ...item,
+      [key]: true,
+    });
+  };
+
+  return {
+    onMenuItemClick,
+    active,
+  };
+};
 
 const Header: FC<{
   title?: string;
@@ -70,4 +91,4 @@ const Overlay = {
   Content,
 };
 
-export { Overlay };
+export { Overlay, useMenu };

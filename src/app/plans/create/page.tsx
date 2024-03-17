@@ -8,7 +8,7 @@ import { MapSelection } from '@/widgets/map-selection';
 
 import { mapsEntity } from '@/entities/maps';
 
-import { NewMissionOverlay } from '@/widgets/new-map-overlay';
+import { MapOverlay } from '@/widgets/map-overlay';
 
 const ArmaMap = dynamic(
   () => import('@/widgets/arma-map/ui').then((m) => m.ArmaMap),
@@ -31,7 +31,7 @@ const CreateMissionPage = observer(() => {
   return (
     <>
       <ArmaMap />
-      <NewMissionOverlay />
+      <MapOverlay />
     </>
   );
 });

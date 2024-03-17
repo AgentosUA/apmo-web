@@ -1,6 +1,7 @@
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import axios from 'axios';
 import { makeAutoObservable } from 'mobx';
+import { Briefing, Preview } from './types';
 
 class Mission {
   constructor() {
@@ -8,6 +9,24 @@ class Mission {
   }
 
   isLoading = false;
+
+  fileName = '';
+  missionName = '';
+  author = '';
+  island = '';
+  preview: Preview | null = null;
+  dlcs: string[] = [];
+  briefing: Briefing | null = null;
+
+  resetMission = () => {
+    this.fileName = '';
+    this.missionName = '';
+    this.author = '';
+    this.island = '';
+    this.preview = null;
+    this.dlcs = [];
+    this.briefing = null;
+  };
 
   loadMission = async (mission?: File) => {
     if (!mission) return;
@@ -28,7 +47,15 @@ class Mission {
         }
       );
 
-      console.log(data.data);
+      if (data.data) {
+        this.fileName = mission.name;
+        this.missionName = data.data.missionName;
+        this.author = data.data.author;
+        this.island = data.data.island;
+        this.preview = data.data.preview;
+        this.dlcs = data.data.dlcs;
+        this.briefing = data.data.briefing;
+      }
     } catch (error) {
       toasterEntity.callToaster({
         title: 'Failed to load mission',

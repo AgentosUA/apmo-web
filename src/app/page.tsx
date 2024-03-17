@@ -5,15 +5,38 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './page.module.scss';
 import { observer } from 'mobx-react-lite';
-import { ChangeEvent, useRef } from 'react';
+import { ChangeEvent, useEffect, useRef } from 'react';
 import { missionEntity } from '@/entities/mission';
+import { mapsEntity } from '@/entities/maps';
+import { mapList } from '@/shared/data/map-list';
+import { useRouter } from 'next/navigation';
+import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 
 const HomePage = observer(() => {
+  const router = useRouter();
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onMissionUpload = (e: ChangeEvent<HTMLInputElement>) => {
     missionEntity.loadMission(e.target.files?.[0]);
   };
+
+  useEffect(() => {
+    if (!missionEntity.island) return;
+    const island = mapList.find((map) => map.name === missionEntity.island);
+
+    if (!island) {
+      toasterEntity.callToaster({
+        title: 'Current map is not supported',
+        description: 'Check for changelog',
+      });
+
+      return;
+    }
+
+    mapsEntity.selectMap(island);
+    router.push('/plans/create');
+  }, [missionEntity.island]);
 
   return (
     <>
@@ -32,7 +55,7 @@ const HomePage = observer(() => {
       </header>
       <main className={styles.main}>
         <div className={styles.navigation}>
-          <Link href='/missions/create' className={styles.navigationItem}>
+          <Link href='/plans/create' className={styles.navigationItem}>
             <Image
               className={styles.navigationItemImage}
               src='/select-map.png'
