@@ -1,9 +1,20 @@
+'use client';
+
 import Image from 'next/image';
 
 import Link from 'next/link';
 import styles from './page.module.scss';
+import { observer } from 'mobx-react-lite';
+import { ChangeEvent, useRef } from 'react';
+import { missionEntity } from '@/entities/mission';
 
-export default function Home() {
+const HomePage = observer(() => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const onMissionUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    missionEntity.loadMission(e.target.files?.[0]);
+  };
+
   return (
     <>
       <header className={styles.header}>
@@ -31,13 +42,25 @@ export default function Home() {
             />
             <p className={styles.navigationItemText}>Select Map</p>
           </Link>
-          <div className={styles.navigationItem}>
+          <div
+            className={styles.navigationItem}
+            onClick={() => {
+              inputRef?.current?.click();
+            }}>
             <Image
               className={styles.navigationItemImage}
               src='/load-mission.png'
               width={325}
               height={325}
               alt='Load mission'
+            />
+            <input
+              ref={inputRef}
+              onChange={onMissionUpload}
+              className={styles.hidden}
+              multiple={false}
+              type='file'
+              accept='.pbo'
             />
             <p className={styles.navigationItemText}>Load mission</p>
           </div>
@@ -55,4 +78,6 @@ export default function Home() {
       </main>
     </>
   );
-}
+});
+
+export default HomePage;
