@@ -22,6 +22,8 @@ const MapOverlay = observer(() => {
     plan: false,
     mission: false,
     briefing: false,
+    author: false,
+    dlcs: false,
   });
 
   const onCopyMarkers = () => {
@@ -68,6 +70,8 @@ const MapOverlay = observer(() => {
         newActive[id] = false;
       });
 
+      console.log(newActive);
+
       setActive(newActive);
     }
   }, [missionEntity.briefing]);
@@ -109,11 +113,13 @@ const MapOverlay = observer(() => {
             Markers
           </Overlay.MenuItem>
 
-          <Overlay.MenuItem
-            isActive={active.mission}
-            onClick={() => onMenuItemClick('mission')}>
-            Mission
-          </Overlay.MenuItem>
+          <View.Condition if={!missionEntity.fileName}>
+            <Overlay.MenuItem
+              isActive={active.mission}
+              onClick={() => onMenuItemClick('mission')}>
+              Mission
+            </Overlay.MenuItem>
+          </View.Condition>
 
           <Overlay.MenuItem
             isActive={active.plan}
@@ -142,7 +148,7 @@ const MapOverlay = observer(() => {
           </Overlay.Menu>
         </View.Condition>
 
-        <View.Condition if={active.mission}>
+        <View.Condition if={active.mission && !missionEntity.fileName}>
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem onClick={onFileInputClick}>
               Upload mission
@@ -169,7 +175,7 @@ const MapOverlay = observer(() => {
             {missionEntity?.briefing?.diary?.map((item) => (
               <Overlay.MenuItem
                 key={item.id}
-                onClick={() => onMenuItemClick(item.id)}>
+                onClick={() => onMenuItemClick('briefing', item.id)}>
                 {item.name}
               </Overlay.MenuItem>
             ))}
@@ -177,25 +183,20 @@ const MapOverlay = observer(() => {
         </View.Condition>
 
         <View.Condition
-          if={Object.keys(missionEntity?.briefing?.diary || {}).some(
-            (key) => active[key]
+          if={Boolean(
+            missionEntity?.briefing?.diary?.some((key) => active[key.id])
           )}>
           <Overlay.Menu variant='secondary'>
             {missionEntity?.briefing?.diary
               ?.filter((item) => active[item.id])
               .map((item) => (
                 <Overlay.MenuItem key={item.id}>
-                  <pre>{item.value}</pre>
+                  <div
+                    className={styles.html}
+                    dangerouslySetInnerHTML={{ __html: item.value.trim() }}
+                  />
                 </Overlay.MenuItem>
               ))}
-          </Overlay.Menu>
-        </View.Condition>
-
-        <View.Condition if={active.mission}>
-          <Overlay.Menu variant='secondary'>
-            <Overlay.MenuItem onClick={onFileInputClick}>
-              Upload mission
-            </Overlay.MenuItem>
           </Overlay.Menu>
         </View.Condition>
       </Overlay.MenuWrapper>

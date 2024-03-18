@@ -9,15 +9,21 @@ import styles from './ui.module.scss';
 const useMenu = (items: Record<string, boolean>) => {
   const [active, setActive] = useState(items);
 
-  const onMenuItemClick = (key: keyof typeof active) => {
+  const onMenuItemClick = (...keys: (keyof typeof active)[]) => {
     const item = { ...active };
     Object.keys(item).forEach((k) => {
       item[k as keyof typeof active] = false;
     });
 
+    const activated = {} as Record<string, boolean>;
+
+    keys.forEach((key) => {
+      activated[key] = true;
+    });
+
     setActive({
       ...item,
-      [key]: true,
+      ...activated,
     });
   };
 

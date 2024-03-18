@@ -1,5 +1,7 @@
-const generateRandomId = (length?: 40) => {
-  return Math.random().toString(length).substr(2, length);
+const generateRandomId = (length?: 40, name?: string) => {
+  return `${name}${Math.random()
+    .toString(length)
+    .substr(2, length)}`.replaceAll('.', '');
 };
 
 const kebabize = (str: string) => {

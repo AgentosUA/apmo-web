@@ -5,3 +5,12 @@
 .hidden {
   display: none;
 }
+
+.html {
+  max-width: 540px;
+
+  a,
+  marker {
+    text-decoration: underline;
+  }
+}
