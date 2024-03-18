@@ -9,6 +9,10 @@ import 'leaflet-rotatedmarker';
 
 import styles from './ui.module.scss';
 
+type LocationType = 'city' | 'village' | 'local' | 'rockarea' | 'hill';
+
+type Location = [LocationType, string, number, number];
+
 const MarkerIconComponent: FC<{
   markerName: string;
   color: string;
@@ -150,4 +154,29 @@ const ArmaMarker: FC<
   );
 };
 
-export { ArmaMarker, MarkerIcon, MarkerIconComponent };
+const LocationMarker: FC<{
+  data: Location;
+}> = ({ data: [type, text, x, y] }) => {
+  const icon = new DivIcon({
+    iconSize: [0, 0], // size of the icon
+    // iconAnchor: [width / 2, height / 2], // point of the icon which will correspond to marker's location
+    popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor,
+  });
+
+  return (
+    <Marker icon={icon} position={[y, x]}>
+      <Tooltip
+        direction='right'
+        offset={[0, 0]}
+        opacity={1}
+        permanent
+        className={classNames(styles.text, styles[type])}>
+        {text}
+      </Tooltip>
+    </Marker>
+  );
+};
+
+export { ArmaMarker, MarkerIcon, MarkerIconComponent, LocationMarker };
+
+export type { Location, LocationType };

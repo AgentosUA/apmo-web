@@ -12,7 +12,11 @@ import { mapsEntity } from '@/entities/maps';
 import { SWTMarkerID, markersEntity } from '@/entities/markers';
 import { observer } from 'mobx-react-lite';
 
-import { ArmaMarker, MarkerIcon } from '@/shared/ui/atoms/marker';
+import {
+  ArmaMarker,
+  LocationMarker,
+  MarkerIcon,
+} from '@/shared/ui/atoms/marker';
 import { useMounted } from '@/shared/ui/hooks';
 
 import { CreateMarker } from '@/features/markers/create-marker/ui';
@@ -61,6 +65,10 @@ const ArmaMap = observer(() => {
       onDoubleClick={onDoubleClick}
       onZoomLevelChange={onZoomLevelChange}>
       <CreateMarker />
+      {mapsEntity.locations.map((location, index) => (
+        <LocationMarker key={index} data={location} />
+      ))}
+
       {markersEntity.swtMarkers.map((marker) => {
         return (
           <ArmaMarker

@@ -108,8 +108,10 @@ const BasicMap: FC<
           layers.map((layer) => (
             <TileLayer
               key={layer}
-              url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/${layer}/{z}/{x}_{y}.png`}
+              url={`${process.env.NEXT_PUBLIC_FTP_URL}/maps/${name}/${layer}/{z}/{x}_{y}.png`}
               tileSize={256}
+              keepBuffer={4}
+              updateInterval={200}
               minZoom={minZoom}
               maxZoom={maxZoom}
               noWrap
@@ -119,8 +121,10 @@ const BasicMap: FC<
 
         {isGeodesic && (
           <TileLayer
-            url={`${process.env.NEXT_PUBLIC_TERRAINS_URL}/maps/${name}/{z}/{x}/{y}.png`}
+            url={`${process.env.NEXT_PUBLIC_FTP_URL}/maps/${name}/{z}/{x}/{y}.png`}
             tileSize={256}
+            keepBuffer={4}
+            updateInterval={200}
             minZoom={minZoom}
             maxZoom={maxZoom}
             noWrap

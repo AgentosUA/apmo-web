@@ -53,6 +53,7 @@ const MapOverlay = observer(() => {
   const onBackClick = () => {
     missionEntity.resetMission();
     mapsEntity.unselectMap();
+    markersEntity.clearMarkers();
   };
 
   useEffect(() => {
