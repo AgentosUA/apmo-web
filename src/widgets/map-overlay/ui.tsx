@@ -12,6 +12,7 @@ import { observer } from 'mobx-react-lite';
 import { missionEntity } from '@/entities/mission';
 
 import styles from './ui.module.scss';
+import dayjs from 'dayjs';
 
 const MapOverlay = observer(() => {
   if (!mapsEntity.selectedMap) return null;
@@ -24,6 +25,7 @@ const MapOverlay = observer(() => {
     briefing: false,
     author: false,
     dlcs: false,
+    intel: false,
   });
 
   const onCopyMarkers = () => {
@@ -113,7 +115,7 @@ const MapOverlay = observer(() => {
             Markers
           </Overlay.MenuItem>
 
-          <View.Condition if={!missionEntity.fileName}>
+          <View.Condition if={Boolean(missionEntity.fileName)}>
             <Overlay.MenuItem
               isActive={active.mission}
               onClick={() => onMenuItemClick('mission')}>
@@ -150,7 +152,9 @@ const MapOverlay = observer(() => {
 
         <View.Condition if={active.mission && !missionEntity.fileName}>
           <Overlay.Menu variant='secondary'>
-            <Overlay.MenuItem onClick={onFileInputClick}>
+            <Overlay.MenuItem
+              isActive={active.mission}
+              onClick={onFileInputClick}>
               Upload mission
             </Overlay.MenuItem>
           </Overlay.Menu>
@@ -169,16 +173,29 @@ const MapOverlay = observer(() => {
 
         <View.Condition if={active.briefing}>
           <Overlay.Menu variant='secondary'>
-            <Overlay.MenuItem onClick={markersEntity.SWTMarkerFromClipboard}>
-              Intel
-            </Overlay.MenuItem>
             {missionEntity?.briefing?.diary?.map((item) => (
               <Overlay.MenuItem
                 key={item.id}
+                isActive={active[item.id]}
                 onClick={() => onMenuItemClick('briefing', item.id)}>
                 {item.name}
               </Overlay.MenuItem>
             ))}
+          </Overlay.Menu>
+        </View.Condition>
+
+        <View.Condition if={active.mission}>
+          <Overlay.Menu variant='secondary'>
+            <Overlay.MenuItem
+              isActive={active.intel}
+              onClick={() => onMenuItemClick('mission', 'intel')}>
+              Intel
+            </Overlay.MenuItem>
+            <Overlay.MenuItem
+              isActive={active.dlcs}
+              onClick={() => onMenuItemClick('mission', 'dlcs')}>
+              DLC used
+            </Overlay.MenuItem>
           </Overlay.Menu>
         </View.Condition>
 
@@ -197,6 +214,43 @@ const MapOverlay = observer(() => {
                   />
                 </Overlay.MenuItem>
               ))}
+          </Overlay.Menu>
+        </View.Condition>
+
+        <View.Condition if={active.dlcs}>
+          <Overlay.Menu variant='secondary'>
+            <Overlay.MenuItem>
+              <ul className={styles.list}>
+                {missionEntity.dlcs.map((dlc) => (
+                  <li key={dlc}>{dlc}</li>
+                ))}
+              </ul>
+            </Overlay.MenuItem>
+          </Overlay.Menu>
+        </View.Condition>
+
+        <View.Condition if={active.intel}>
+          <Overlay.Menu variant='secondary'>
+            <Overlay.MenuItem>
+              <ul className={styles.list}>
+                {missionEntity.briefing?.intel?.day && (
+                  <li>
+                    <b>Date:</b>{' '}
+                    {dayjs(missionEntity.briefing?.intel?.day).format('DD')},{' '}
+                    {dayjs(missionEntity.briefing?.intel?.month).format('MMMM')}
+                  </li>
+                )}
+                <li>
+                  <b>Time:</b>{' '}
+                  {dayjs(missionEntity.briefing?.intel?.hour).format('hh')}:
+                  {dayjs(missionEntity.briefing?.intel?.minute).format('mm')}
+                </li>
+                <li>
+                  <b>Description:</b>{' '}
+                  {missionEntity.briefing?.intel.overviewText}
+                </li>
+              </ul>
+            </Overlay.MenuItem>
           </Overlay.Menu>
         </View.Condition>
       </Overlay.MenuWrapper>

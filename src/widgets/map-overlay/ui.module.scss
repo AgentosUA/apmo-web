@@ -8,9 +8,20 @@
 
 .html {
   max-width: 540px;
+  line-height: 24px;
 
   a,
   marker {
     text-decoration: underline;
+  }
+}
+
+.list {
+  line-height: 24px;
+
+  color: #A16C14;
+
+  b {
+    color: #fff;
   }
 }
