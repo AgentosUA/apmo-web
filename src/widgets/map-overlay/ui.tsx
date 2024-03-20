@@ -46,7 +46,7 @@ const MapOverlay = observer(() => {
 
   const onCofrimClearMarkers = () => {
     markersEntity.clearMarkers();
-    toasterEntity.callToaster({
+    toasterEntity.call({
       title: 'Markers cleared',
       description: 'All markers have been removed',
     });

@@ -63,7 +63,7 @@ class Mission {
         this.groups = data.data.groups;
       }
     } catch (error) {
-      toasterEntity.callToaster({
+      toasterEntity.call({
         title: 'Failed to load mission',
         description: 'Check your file and try again',
       });

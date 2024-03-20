@@ -44,7 +44,7 @@ const ArmaMap = observer(() => {
 
     if (missionEntity.island !== mapsEntity.selectedMap?.dir) {
       missionEntity.resetMission();
-      toasterEntity.callToaster({
+      toasterEntity.call({
         title: 'Map and mission mismatch',
         description: `Mission is not on ${mapsEntity.selectedMap?.name}!`,
       });

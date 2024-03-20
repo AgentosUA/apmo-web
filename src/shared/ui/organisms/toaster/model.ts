@@ -24,7 +24,7 @@ class Toaster {
     this.toasters = this.toasters.filter((toaster) => toaster.id !== id);
   };
 
-  callToaster = async ({
+  call = async ({
     id = generateRandomId(),
     sound = true,
     timer = 4000,

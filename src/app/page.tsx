@@ -28,7 +28,7 @@ const HomePage = observer(() => {
     );
 
     if (!island) {
-      toasterEntity.callToaster({
+      toasterEntity.call({
         title: 'Current map is not supported',
         description: 'Check for changelog',
       });

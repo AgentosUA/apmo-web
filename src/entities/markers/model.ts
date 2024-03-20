@@ -86,7 +86,7 @@ class MarkersModel {
 
       this.setSWTMarkers([...this.swtMarkers, ...(parsedMarkers as Marker[])]);
 
-      toasterEntity.callToaster({
+      toasterEntity.call({
         title: 'Markers loaded',
         description: `${parsedMarkers.length} Markers loaded to the map`,
       });
@@ -101,7 +101,7 @@ class MarkersModel {
     const text = JSON.stringify(this.swtMarkers.map((marker) => marker.data));
     navigator.clipboard.writeText(text);
 
-    toasterEntity.callToaster({
+    toasterEntity.call({
       title: 'Markers copied',
       description: 'Markers copied to clipboard',
     });
