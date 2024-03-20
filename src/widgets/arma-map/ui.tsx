@@ -30,13 +30,27 @@ import {
   getMarkerType,
 } from '@/entities/markers/lib';
 
+import { armaMapEntity } from './model';
 import { LeafletMouseEvent } from 'leaflet';
 import { missionEntity } from '@/entities/mission';
-
-import { armaMapEntity } from './model';
+import { useEffect } from 'react';
+import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 
 const ArmaMap = observer(() => {
   const isMounted = useMounted();
+
+  useEffect(() => {
+    if (!missionEntity.island || !isMounted) return;
+
+    if (missionEntity.island !== mapsEntity.selectedMap?.dir) {
+      missionEntity.resetMission();
+      toasterEntity.callToaster({
+        title: 'Map and mission mismatch',
+        description: `Mission is not on ${mapsEntity.selectedMap?.name}!`,
+      });
+    }
+  }, [missionEntity.island, isMounted]);
+
   if (
     !isMounted ||
     !mapsEntity.selectedMap ||

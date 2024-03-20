@@ -4,15 +4,11 @@ import { FC, PropsWithChildren, useEffect, memo } from 'react';
 
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 
-import {
-  CRS,
-  LeafletMouseEvent,
-  Projection,
-  extend,
-  transformation,
-} from 'leaflet';
+import { LeafletMouseEvent } from 'leaflet';
 
 import classNames from 'classnames';
+
+import { createArmaCRS } from './lib';
 
 import styles from './ui.module.scss';
 
@@ -33,6 +29,7 @@ const MapHandlers: FC<{
 
     return () => {
       map.removeEventListener('dblclick', onDoubleClick);
+      map.removeEventListener('zoom', map.getZoom);
     };
   }, []);
 
@@ -65,15 +62,7 @@ const BasicMap: FC<
     onDoubleClick,
     onZoomLevelChange,
   }) => {
-    const armaCRS = extend({}, CRS.Simple, {
-      projection: Projection.LonLat,
-      transformation: transformation(
-        256 / mapSize,
-        0,
-        -256 / mapSize,
-        mapSize * (256 / mapSize)
-      ),
-    });
+    const armaCRS = createArmaCRS(mapSize);
 
     const layers = [
       'terrain',
