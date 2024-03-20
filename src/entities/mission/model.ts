@@ -52,8 +52,6 @@ class Mission {
         }
       );
 
-      console.log(data.data);
-
       if (data.data) {
         this.fileName = mission.name;
         this.missionName = data.data.missionName;

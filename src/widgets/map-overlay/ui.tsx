@@ -72,8 +72,6 @@ const MapOverlay = observer(() => {
         newActive[id] = false;
       });
 
-      console.log(newActive);
-
       setActive(newActive);
     }
   }, [missionEntity.briefing]);
