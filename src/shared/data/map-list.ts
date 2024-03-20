@@ -4,7 +4,7 @@ const mapList = [
     width: 30720,
     height: 30720,
     offset: 300,
-    zoom: 9,
+    zoom: 8,
     name: 'Altis',
     dir: 'altis',
     image: '/maps/chernarus-autumn.jpg',

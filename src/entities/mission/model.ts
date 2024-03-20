@@ -1,7 +1,10 @@
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
+
 import axios from 'axios';
+
 import { makeAutoObservable } from 'mobx';
-import { Briefing, Preview } from './types';
+
+import { Briefing, Group, Preview } from './types';
 
 class Mission {
   constructor() {
@@ -17,6 +20,7 @@ class Mission {
   preview: Preview | null = null;
   dlcs: string[] = [];
   briefing: Briefing | null = null;
+  groups: Group[] = [];
 
   resetMission = () => {
     this.fileName = '';
@@ -26,6 +30,7 @@ class Mission {
     this.preview = null;
     this.dlcs = [];
     this.briefing = null;
+    this.groups = [];
   };
 
   loadMission = async (mission?: File) => {
@@ -47,14 +52,17 @@ class Mission {
         }
       );
 
+      console.log(data.data);
+
       if (data.data) {
         this.fileName = mission.name;
         this.missionName = data.data.missionName;
         this.author = data.data.author;
-        this.island = data.data.island;
+        this.island = data.data.island?.toLowerCase();
         this.preview = data.data.preview;
         this.dlcs = data.data.dlcs;
         this.briefing = data.data.briefing;
+        this.groups = data.data.groups;
       }
     } catch (error) {
       toasterEntity.callToaster({

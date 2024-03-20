@@ -25,9 +25,15 @@ class MapsModel {
     this.locations = [];
   };
 
-  selectMap = (map: (typeof mapList)[0]) => {
-    this.selectedMap = { ...map };
+  selectMap = (map: (typeof mapList)[0] | string) => {
+    if (typeof map === 'string') {
+      this.selectedMap = { ...mapList.find((m) => m.dir === map)! };
+      this.getLocations(map);
 
+      return;
+    }
+
+    this.selectedMap = { ...map };
     this.getLocations(map.dir);
   };
 

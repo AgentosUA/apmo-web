@@ -3,13 +3,21 @@ import Image from 'next/image';
 import classNames from 'classnames';
 
 import { Icon, DivIcon, Marker as MarkerLeaflet, MarkerOptions } from 'leaflet';
-import { FC, PropsWithChildren, useEffect, useMemo, useRef } from 'react';
+import { FC, PropsWithChildren, useEffect, useMemo, useRef, memo } from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
 import 'leaflet-rotatedmarker';
 
+import { Unit } from '@/entities/mission/types';
+
 import styles from './ui.module.scss';
 
-type LocationType = 'city' | 'village' | 'local' | 'rockarea' | 'hill';
+type LocationType =
+  | 'city'
+  | 'village'
+  | 'local'
+  | 'rockarea'
+  | 'hill'
+  | 'marine';
 
 type Location = [LocationType, string, number, number];
 
@@ -20,18 +28,22 @@ const MarkerIconComponent: FC<{
   width?: number | string;
   height?: number;
   onClick?: () => void;
-}> = ({ markerName, color, className, width = 32, height = 32, onClick }) => {
-  return (
-    <Image
-      src={`/markers/${markerName}.png`}
-      className={classNames(styles[`${color}Filter`], className)}
-      width={Number(width)}
-      height={height}
-      onClick={onClick}
-      alt='marker'
-    />
-  );
-};
+}> = memo(
+  ({ markerName, color, className, width = 32, height = 32, onClick }) => {
+    return (
+      <Image
+        src={`/markers/${markerName}.png`}
+        className={classNames(styles[`${color}Filter`], className)}
+        width={Number(width)}
+        height={height}
+        onClick={onClick}
+        alt='marker'
+      />
+    );
+  }
+);
+
+MarkerIconComponent.displayName = 'MarkerIconComponent';
 
 const MarkerIcon = (
   markerName: string,
@@ -82,85 +94,88 @@ const ArmaMarker: FC<
     onUpdatePosition?: (x: number, y: number) => void;
     onDelete?: () => void;
   }>
-> = ({
-  children,
-  x,
-  y,
-  icon,
-  direction = 0,
-  color = 'Default',
-  draggable = true,
-  onUpdatePosition,
-  onDelete,
-}) => {
-  const markerRef = useRef<MarkerLeaflet>(null);
+> = memo(
+  ({
+    children,
+    x,
+    y,
+    icon,
+    direction = 0,
+    color = 'Default',
+    draggable = true,
+    onUpdatePosition,
+    onDelete,
+  }) => {
+    const markerRef = useRef<MarkerLeaflet>(null);
 
-  const onDeleteMarker = (e: KeyboardEvent) => {
-    if (e.key === 'Delete') {
-      onDelete?.();
-    }
-  };
+    const onDeleteMarker = (e: KeyboardEvent) => {
+      if (e.key === 'Delete') {
+        onDelete?.();
+      }
+    };
 
-  const eventHandlers = useMemo(
-    () => ({
-      dragend() {
-        const marker = markerRef.current;
-        if (marker != null) {
-          const { lat, lng } = marker.getLatLng();
+    const eventHandlers = useMemo(
+      () => ({
+        dragend() {
+          const marker = markerRef.current;
+          if (marker != null) {
+            const { lat, lng } = marker.getLatLng();
 
-          onUpdatePosition?.(lng, lat);
-        }
-      },
+            onUpdatePosition?.(lng, lat);
+          }
+        },
 
-      mouseover() {
-        document.addEventListener('keydown', onDeleteMarker);
-      },
+        mouseover() {
+          document.addEventListener('keydown', onDeleteMarker);
+        },
 
-      mouseout() {
-        document.removeEventListener('keydown', onDeleteMarker);
-      },
-    }),
-    []
-  );
+        mouseout() {
+          document.removeEventListener('keydown', onDeleteMarker);
+        },
+      }),
+      []
+    );
 
-  useEffect(() => {
-    if (markerRef && markerRef?.current?.options) {
-      (
-        markerRef.current.options as MarkerOptions & { rotationAngle: number }
-      ).rotationAngle = direction;
-    }
+    useEffect(() => {
+      if (markerRef && markerRef?.current?.options) {
+        (
+          markerRef.current.options as MarkerOptions & { rotationAngle: number }
+        ).rotationAngle = direction;
+      }
 
-    return document.removeEventListener('keydown', onDeleteMarker);
-  }, []);
+      return document.removeEventListener('keydown', onDeleteMarker);
+    }, []);
 
-  return (
-    <Marker
-      ref={markerRef}
-      position={[y, x]}
-      icon={icon}
-      draggable={draggable}
-      eventHandlers={eventHandlers}>
-      {children && (
-        <Tooltip
-          direction='right'
-          offset={[0, 0]}
-          opacity={1}
-          permanent
-          className={classNames(styles.text, styles[color])}>
-          {children}
-        </Tooltip>
-      )}
-    </Marker>
-  );
-};
+    return (
+      <Marker
+        ref={markerRef}
+        position={[y, x]}
+        icon={icon}
+        draggable={draggable}
+        eventHandlers={eventHandlers}>
+        {children && (
+          <Tooltip
+            direction='right'
+            offset={[0, 0]}
+            opacity={1}
+            permanent
+            className={classNames(styles.text, styles[color])}>
+            {children}
+          </Tooltip>
+        )}
+      </Marker>
+    );
+  }
+);
+
+ArmaMarker.displayName = 'ArmaMarker';
 
 const LocationMarker: FC<{
   data: Location;
-}> = ({ data: [type, text, x, y] }) => {
+}> = memo(({ data: [type, text, x, y] }) => {
   const icon = new DivIcon({
-    iconSize: [0, 0], // size of the icon
-    // iconAnchor: [width / 2, height / 2], // point of the icon which will correspond to marker's location
-    popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor,
+    iconSize: [0, 0],
+    popupAnchor: [0, 0],
   });
 
   return (
@@ -175,8 +190,46 @@ const LocationMarker: FC<{
       </Tooltip>
     </Marker>
   );
-};
+});
 
-export { ArmaMarker, MarkerIcon, MarkerIconComponent, LocationMarker };
+LocationMarker.displayName = 'LocationMarker';
+
+const UnitMarker: FC<{
+  data: Unit;
+}> = memo(({ data }) => {
+  const icon = new Icon({
+    iconUrl: `/icons/soldier.svg`,
+    iconSize: [16, 16], // size of the icon
+    className: classNames(styles[data.side]),
+  });
+
+  return (
+    <Marker
+      icon={icon}
+      position={[data.position.coordinates.y, data.position.coordinates.x]}>
+      <Tooltip
+        direction='right'
+        offset={[0, 0]}
+        opacity={1}
+        permanent
+        className={classNames(
+          styles.unitDescription,
+          styles[`${data.side.toLowerCase()}Text`]
+        )}>
+        {data.description}
+      </Tooltip>
+    </Marker>
+  );
+});
+
+UnitMarker.displayName = 'UnitMarker';
+
+export {
+  ArmaMarker,
+  MarkerIcon,
+  MarkerIconComponent,
+  LocationMarker,
+  UnitMarker,
+};
 
 export type { Location, LocationType };

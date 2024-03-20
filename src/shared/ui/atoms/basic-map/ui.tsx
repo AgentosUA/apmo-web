@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, PropsWithChildren, useEffect } from 'react';
+import { FC, PropsWithChildren, useEffect, memo } from 'react';
 
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 
@@ -52,90 +52,94 @@ const BasicMap: FC<
     onDoubleClick?: (event: LeafletMouseEvent) => void;
     onZoomLevelChange?: (zoomLevel: number) => void;
   }>
-> = ({
-  className,
-  children,
-  mapSize = 0,
-  name,
-  minZoom = 0,
-  maxZoom,
-  defaultZoom = 2,
-  dragging = true,
-  onDoubleClick,
-  onZoomLevelChange,
-}) => {
-  const armaCRS = extend({}, CRS.Simple, {
-    projection: Projection.LonLat,
-    transformation: transformation(
-      256 / mapSize,
-      0,
-      -256 / mapSize,
-      mapSize * (256 / mapSize)
-    ),
-  });
+> = memo(
+  ({
+    className,
+    children,
+    mapSize = 0,
+    name,
+    minZoom = 0,
+    maxZoom,
+    defaultZoom = 2,
+    dragging = true,
+    onDoubleClick,
+    onZoomLevelChange,
+  }) => {
+    const armaCRS = extend({}, CRS.Simple, {
+      projection: Projection.LonLat,
+      transformation: transformation(
+        256 / mapSize,
+        0,
+        -256 / mapSize,
+        mapSize * (256 / mapSize)
+      ),
+    });
 
-  const layers = [
-    'terrain',
-    'bushes',
-    'count_main',
-    'count',
-    'roads',
-    'objects',
-  ];
+    const layers = [
+      'terrain',
+      'bushes',
+      'count_main',
+      'count',
+      'roads',
+      'objects',
+    ];
 
-  const isGeodesic = name.includes('geodesic');
+    const isGeodesic = name.includes('geodesic');
 
-  return (
-    <div id='map'>
-      <MapContainer
-        className={classNames(styles.map, className)}
-        center={[mapSize / 1.9, mapSize / 2]}
-        crs={armaCRS}
-        zoomControl={false}
-        zoom={defaultZoom}
-        dragging={dragging}
-        doubleClickZoom={false}
-        worldCopyJump={false}
-        maxBoundsViscosity={0.7}
-        wheelPxPerZoomLevel={500}
-        markerZoomAnimation>
-        <MapHandlers
-          onDoubleClick={onDoubleClick}
-          onZoomLevelChange={onZoomLevelChange}
-        />
+    return (
+      <div id='map'>
+        <MapContainer
+          className={classNames(styles.map, className)}
+          center={[mapSize / 1.9, mapSize / 2]}
+          crs={armaCRS}
+          zoomControl={false}
+          zoom={defaultZoom}
+          dragging={dragging}
+          doubleClickZoom={false}
+          worldCopyJump={false}
+          maxBoundsViscosity={0.7}
+          wheelPxPerZoomLevel={500}
+          markerZoomAnimation>
+          <MapHandlers
+            onDoubleClick={onDoubleClick}
+            onZoomLevelChange={onZoomLevelChange}
+          />
 
-        {!isGeodesic &&
-          layers.map((layer) => (
+          {!isGeodesic &&
+            layers.map((layer) => (
+              <TileLayer
+                key={layer}
+                url={`${process.env.NEXT_PUBLIC_FTP_URL}/maps/${name}/${layer}/{z}/{x}_{y}.png`}
+                tileSize={256}
+                keepBuffer={4}
+                updateInterval={650}
+                minZoom={minZoom}
+                maxZoom={maxZoom}
+                noWrap
+                detectRetina
+              />
+            ))}
+
+          {isGeodesic && (
             <TileLayer
-              key={layer}
-              url={`${process.env.NEXT_PUBLIC_FTP_URL}/maps/${name}/${layer}/{z}/{x}_{y}.png`}
+              url={`${process.env.NEXT_PUBLIC_FTP_URL}/maps/${name}/{z}/{x}/{y}.png`}
               tileSize={256}
               keepBuffer={4}
-              updateInterval={200}
+              updateInterval={650}
               minZoom={minZoom}
               maxZoom={maxZoom}
               noWrap
               detectRetina
             />
-          ))}
+          )}
 
-        {isGeodesic && (
-          <TileLayer
-            url={`${process.env.NEXT_PUBLIC_FTP_URL}/maps/${name}/{z}/{x}/{y}.png`}
-            tileSize={256}
-            keepBuffer={4}
-            updateInterval={200}
-            minZoom={minZoom}
-            maxZoom={maxZoom}
-            noWrap
-            detectRetina
-          />
-        )}
+          {children}
+        </MapContainer>
+      </div>
+    );
+  }
+);
 
-        {children}
-      </MapContainer>
-    </div>
-  );
-};
+BasicMap.displayName = 'BasicMap';
 
 export { BasicMap };

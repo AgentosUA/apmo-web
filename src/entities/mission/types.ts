@@ -1,3 +1,5 @@
+type Side = 'West' | 'East' | 'Resistance' | 'Civilian' | 'Unknown';
+
 type Preview = {
   image?: string;
   text?: string;
@@ -15,4 +17,28 @@ type Briefing = {
   };
 };
 
-export type { Preview, Briefing };
+type Unit = {
+  id: number;
+  side: Side;
+  rank: string;
+  type: string;
+  description: string;
+  isPlayable: boolean;
+  inventory: null;
+  position: {
+    coordinates: {
+      x: number;
+      y: number;
+      z: number;
+    };
+    angles: [number, number, number];
+  };
+};
+
+type Group = {
+  id: number;
+  side: Side;
+  units: Unit[];
+};
+
+export type { Side, Preview, Briefing, Unit, Group };

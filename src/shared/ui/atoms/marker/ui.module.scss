@@ -21,3 +21,70 @@
 .line {
   opacity: .4;
 }
+
+.capital {
+  font-size: 18px;
+}
+
+.city {
+  font-size: 14px;
+}
+
+.village {
+  font-size: 12px;
+}
+
+.local {
+  font-size: 10px;
+}
+
+.rockarea {
+  font-size: 10px;
+}
+
+.marine {
+  color: rgb(0, 98, 245);
+  font-size: 10px;
+}
+
+.hill {
+  font-size: 10px;
+}
+
+.East {
+  filter: opacity(1) invert(51%) sepia(32%) saturate(6988%) hue-rotate(348deg) brightness(83%) contrast(172%)
+}
+
+
+.Resistence {
+  filter: brightness(0) saturate(100%) invert(26%) sepia(94%) saturate(3048%) hue-rotate(91deg) brightness(92%) contrast(106%);
+}
+
+.West {
+  filter: brightness(0) saturate(100%) invert(9%) sepia(100%) saturate(7476%) hue-rotate(248deg) brightness(91%) contrast(144%);
+}
+
+.unit-description {
+  font-size: 12px;
+  font-weight: 400;
+  box-shadow: none;
+  text-shadow: none;
+  text-align: center;
+  margin-left: 35px;
+  left: 15px;
+  padding: 0;
+  line-height: 1.5;
+  text-transform: capitalize;
+}
+
+.west-text {
+  color: rgb(0, 98, 245);
+}
+
+.east-text {
+  color: rgb(255, 0, 0);
+}
+
+.resistence-text {
+  color: rgb(15, 199, 15);
+}

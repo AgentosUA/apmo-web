@@ -115,13 +115,11 @@ const MapOverlay = observer(() => {
             Markers
           </Overlay.MenuItem>
 
-          <View.Condition if={Boolean(missionEntity.fileName)}>
-            <Overlay.MenuItem
-              isActive={active.mission}
-              onClick={() => onMenuItemClick('mission')}>
-              Mission
-            </Overlay.MenuItem>
-          </View.Condition>
+          <Overlay.MenuItem
+            isActive={active.mission}
+            onClick={() => onMenuItemClick('mission')}>
+            Mission
+          </Overlay.MenuItem>
 
           <Overlay.MenuItem
             isActive={active.plan}
@@ -145,18 +143,12 @@ const MapOverlay = observer(() => {
               description='Are you sure to clear all markers from the map?'
               onConfirm={onCofrimClearMarkers}
               onCancel
-              trigger={<Overlay.MenuItem>Clear Markers</Overlay.MenuItem>}
+              trigger={
+                <Overlay.MenuItem onClick={() => ({})}>
+                  Clear Markers
+                </Overlay.MenuItem>
+              }
             />
-          </Overlay.Menu>
-        </View.Condition>
-
-        <View.Condition if={active.mission && !missionEntity.fileName}>
-          <Overlay.Menu variant='secondary'>
-            <Overlay.MenuItem
-              isActive={active.mission}
-              onClick={onFileInputClick}>
-              Upload mission
-            </Overlay.MenuItem>
           </Overlay.Menu>
         </View.Condition>
 
@@ -186,16 +178,24 @@ const MapOverlay = observer(() => {
 
         <View.Condition if={active.mission}>
           <Overlay.Menu variant='secondary'>
-            <Overlay.MenuItem
-              isActive={active.intel}
-              onClick={() => onMenuItemClick('mission', 'intel')}>
-              Intel
-            </Overlay.MenuItem>
-            <Overlay.MenuItem
-              isActive={active.dlcs}
-              onClick={() => onMenuItemClick('mission', 'dlcs')}>
-              DLC used
-            </Overlay.MenuItem>
+            <View.Condition if={Boolean(!missionEntity.fileName)}>
+              <Overlay.MenuItem onClick={onFileInputClick}>
+                Upload mission
+              </Overlay.MenuItem>
+            </View.Condition>
+
+            <View.Condition if={Boolean(missionEntity.fileName)}>
+              <Overlay.MenuItem
+                isActive={active.intel}
+                onClick={() => onMenuItemClick('mission', 'intel')}>
+                Intel
+              </Overlay.MenuItem>
+              <Overlay.MenuItem
+                isActive={active.dlcs}
+                onClick={() => onMenuItemClick('mission', 'dlcs')}>
+                DLC used
+              </Overlay.MenuItem>
+            </View.Condition>
           </Overlay.Menu>
         </View.Condition>
 

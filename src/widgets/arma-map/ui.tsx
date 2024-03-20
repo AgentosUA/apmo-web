@@ -16,6 +16,7 @@ import {
   ArmaMarker,
   LocationMarker,
   MarkerIcon,
+  UnitMarker,
 } from '@/shared/ui/atoms/marker';
 import { useMounted } from '@/shared/ui/hooks';
 
@@ -29,8 +30,10 @@ import {
   getMarkerType,
 } from '@/entities/markers/lib';
 
-import { armaMapEntity } from './model';
 import { LeafletMouseEvent } from 'leaflet';
+import { missionEntity } from '@/entities/mission';
+
+import { armaMapEntity } from './model';
 
 const ArmaMap = observer(() => {
   const isMounted = useMounted();
@@ -60,14 +63,21 @@ const ArmaMap = observer(() => {
       name={mapsEntity.selectedMap.dir}
       minZoom={0}
       maxZoom={Number(mapsEntity.selectedMap.zoom)}
-      mapSize={Number(mapsEntity.selectedMap.width) ?? 0}
+      mapSize={Number(mapsEntity.selectedMap.width)}
       dragging={!createMarkerEntity.isVisible}
       onDoubleClick={onDoubleClick}
       onZoomLevelChange={onZoomLevelChange}>
       <CreateMarker />
+
       {mapsEntity.locations.map((location, index) => (
         <LocationMarker key={index} data={location} />
       ))}
+
+      {missionEntity.groups.map((group) => {
+        return group.units.map((unit) => (
+          <UnitMarker key={unit.id} data={unit} />
+        ));
+      })}
 
       {markersEntity.swtMarkers.map((marker) => {
         return (

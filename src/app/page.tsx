@@ -23,7 +23,9 @@ const HomePage = observer(() => {
 
   useEffect(() => {
     if (!missionEntity.island) return;
-    const island = mapList.find((map) => map.name === missionEntity.island);
+    const island = mapList.find(
+      (map) => map.dir === missionEntity.island.toLowerCase()
+    );
 
     if (!island) {
       toasterEntity.callToaster({
