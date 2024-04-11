@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef } from 'react';
+import { ChangeEvent, Fragment, useEffect, useRef } from 'react';
 
 import { mapsEntity } from '@/entities/maps';
 import { markersEntity } from '@/entities/markers';
@@ -13,6 +13,7 @@ import { missionEntity } from '@/entities/mission';
 
 import styles from './ui.module.scss';
 import dayjs from 'dayjs';
+import classNames from 'classnames';
 
 const MapOverlay = observer(() => {
   if (!mapsEntity.selectedMap) return null;
@@ -193,6 +194,16 @@ const MapOverlay = observer(() => {
                 onClick={() => onMenuItemClick('mission', 'dlcs')}>
                 DLC used
               </Overlay.MenuItem>
+              <Overlay.MenuItem
+                isActive={active.slotsBLUEFOR}
+                onClick={() => onMenuItemClick('mission', 'slotsBluefor')}>
+                Slots BLUEFOR
+              </Overlay.MenuItem>
+              <Overlay.MenuItem
+                isActive={active.dlcs}
+                onClick={() => onMenuItemClick('mission', 'slotsOpfor')}>
+                Slots OPFOR
+              </Overlay.MenuItem>
             </View.Condition>
           </Overlay.Menu>
         </View.Condition>
@@ -222,6 +233,29 @@ const MapOverlay = observer(() => {
                 {missionEntity.dlcs.map((dlc) => (
                   <li key={dlc}>{dlc}</li>
                 ))}
+              </ul>
+            </Overlay.MenuItem>
+          </Overlay.Menu>
+        </View.Condition>
+
+        <View.Condition if={active.slotsBluefor}>
+          <Overlay.Menu variant='secondary'>
+            <Overlay.MenuItem>
+              <ul className={classNames(styles.list, styles.slots)}>
+                {missionEntity.groups
+                  .filter((group) => group.side === 'West')
+                  .map((group, index) => (
+                    <Fragment key={group.id}>
+                      <li className={styles.group}>
+                        <ol className={styles.units}>
+                          {group.units.map((item) => (
+                            <li key={item.id}>{item.description}</li>
+                          ))}
+                        </ol>
+                      </li>
+                      {index + 1 !== missionEntity.groups.length && <hr />}
+                    </Fragment>
+                  ))}
               </ul>
             </Overlay.MenuItem>
           </Overlay.Menu>
