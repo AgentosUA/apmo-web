@@ -36,7 +36,7 @@ class MarkersModel {
     makeAutoObservable(this);
   }
 
-  isMissionLoading = false;
+  isUnitsNamesVisible = false;
   isSWTLoading = false;
   missionsMarkers: Marker[] = [];
   swtMarkers: Marker[] = [];
@@ -52,6 +52,10 @@ class MarkersModel {
     if (index === -1) return;
 
     this.swtMarkers.splice(index, 1);
+  };
+
+  switchUnitsNamesVisibility = () => {
+    this.isUnitsNamesVisible = !this.isUnitsNamesVisible;
   };
 
   setSWTMarkers = (markers: Marker[]) => {

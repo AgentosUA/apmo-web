@@ -3,7 +3,15 @@ import Image from 'next/image';
 import classNames from 'classnames';
 
 import { Icon, DivIcon, Marker as MarkerLeaflet, MarkerOptions } from 'leaflet';
-import { FC, PropsWithChildren, useEffect, useMemo, useRef, memo } from 'react';
+import {
+  FC,
+  PropsWithChildren,
+  useEffect,
+  useMemo,
+  useRef,
+  memo,
+  useState,
+} from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
 import 'leaflet-rotatedmarker';
 
@@ -196,16 +204,27 @@ LocationMarker.displayName = 'LocationMarker';
 
 const UnitMarker: FC<{
   data: Unit;
-}> = memo(({ data }) => {
+  isAllVisible: boolean;
+}> = memo(({ isAllVisible, data }) => {
   const icon = new Icon({
     iconUrl: `/icons/soldier.svg`,
     iconSize: [16, 16], // size of the icon
     className: classNames(styles[data.side]),
   });
 
+  const [isDescriptionVisible, setIsDescriptionVisible] =
+    useState(isAllVisible);
+
+  useEffect(() => {
+    setIsDescriptionVisible(isAllVisible);
+  }, [isAllVisible]);
+
   return (
     <Marker
       icon={icon}
+      eventHandlers={{
+        click: () => setIsDescriptionVisible(!isDescriptionVisible),
+      }}
       position={[data.position.coordinates.y, data.position.coordinates.x]}>
       <Tooltip
         direction='right'
@@ -216,7 +235,7 @@ const UnitMarker: FC<{
           styles.unitDescription,
           styles[`${data.side.toLowerCase()}Text`]
         )}>
-        {data.description}
+        {isDescriptionVisible && data.description}
       </Tooltip>
     </Marker>
   );

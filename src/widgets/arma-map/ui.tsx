@@ -89,7 +89,11 @@ const ArmaMap = observer(() => {
 
       {missionEntity.groups.map((group) => {
         return group.units.map((unit) => (
-          <UnitMarker key={unit.id} data={unit} />
+          <UnitMarker
+            key={unit.id}
+            data={unit}
+            isAllVisible={markersEntity.isUnitsNamesVisible}
+          />
         ));
       })}
 

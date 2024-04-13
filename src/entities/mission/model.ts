@@ -61,6 +61,11 @@ class Mission {
         this.dlcs = data.data.dlcs;
         this.briefing = data.data.briefing;
         this.groups = data.data.groups;
+
+        toasterEntity.call({
+          title: `Mission ${this.missionName} loaded`,
+          description: 'Time for some planning!',
+        });
       }
     } catch (error) {
       toasterEntity.call({

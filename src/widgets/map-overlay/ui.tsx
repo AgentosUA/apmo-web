@@ -27,7 +27,13 @@ const MapOverlay = observer(() => {
     author: false,
     dlcs: false,
     intel: false,
+    slotsBLUEFOR: false,
+    slotsOPFOR: false,
   });
+
+  const onSwitchUnitsNames = () => {
+    markersEntity.switchUnitsNamesVisibility();
+  };
 
   const onCopyMarkers = () => {
     markersEntity.SWTMarkerToClipboard();
@@ -46,7 +52,7 @@ const MapOverlay = observer(() => {
   };
 
   const onCofrimClearMarkers = () => {
-    markersEntity.clearMarkers();
+    markersEntity.clearSWTMarkers();
     toasterEntity.call({
       title: 'Markers cleared',
       description: 'All markers have been removed',
@@ -148,6 +154,9 @@ const MapOverlay = observer(() => {
                 </Overlay.MenuItem>
               }
             />
+            <Overlay.MenuItem onClick={onSwitchUnitsNames}>
+              Show/hide units names
+            </Overlay.MenuItem>
           </Overlay.Menu>
         </View.Condition>
 
@@ -194,16 +203,20 @@ const MapOverlay = observer(() => {
                 onClick={() => onMenuItemClick('mission', 'dlcs')}>
                 DLC used
               </Overlay.MenuItem>
-              <Overlay.MenuItem
-                isActive={active.slotsBLUEFOR}
-                onClick={() => onMenuItemClick('mission', 'slotsBluefor')}>
-                Slots BLUEFOR
-              </Overlay.MenuItem>
-              <Overlay.MenuItem
-                isActive={active.dlcs}
-                onClick={() => onMenuItemClick('mission', 'slotsOpfor')}>
-                Slots OPFOR
-              </Overlay.MenuItem>
+              {missionEntity.groups.some((item) => item.side === 'West') && (
+                <Overlay.MenuItem
+                  isActive={active.slotsBluefor}
+                  onClick={() => onMenuItemClick('mission', 'slotsBluefor')}>
+                  Slots BLUEFOR
+                </Overlay.MenuItem>
+              )}
+              {missionEntity.groups.some((item) => item.side === 'East') && (
+                <Overlay.MenuItem
+                  isActive={active.slotsOpfor}
+                  onClick={() => onMenuItemClick('mission', 'slotsOpfor')}>
+                  Slots OPFOR
+                </Overlay.MenuItem>
+              )}
             </View.Condition>
           </Overlay.Menu>
         </View.Condition>
@@ -244,6 +257,29 @@ const MapOverlay = observer(() => {
               <ul className={classNames(styles.list, styles.slots)}>
                 {missionEntity.groups
                   .filter((group) => group.side === 'West')
+                  .map((group, index) => (
+                    <Fragment key={group.id}>
+                      <li className={styles.group}>
+                        <ol className={styles.units}>
+                          {group.units.map((item) => (
+                            <li key={item.id}>{item.description}</li>
+                          ))}
+                        </ol>
+                      </li>
+                      {index + 1 !== missionEntity.groups.length && <hr />}
+                    </Fragment>
+                  ))}
+              </ul>
+            </Overlay.MenuItem>
+          </Overlay.Menu>
+        </View.Condition>
+
+        <View.Condition if={active.slotsOpfor}>
+          <Overlay.Menu variant='secondary'>
+            <Overlay.MenuItem>
+              <ul className={classNames(styles.list, styles.slots)}>
+                {missionEntity.groups
+                  .filter((group) => group.side === 'East')
                   .map((group, index) => (
                     <Fragment key={group.id}>
                       <li className={styles.group}>
