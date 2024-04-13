@@ -154,9 +154,11 @@ const MapOverlay = observer(() => {
                 </Overlay.MenuItem>
               }
             />
-            <Overlay.MenuItem onClick={onSwitchUnitsNames}>
-              Show/hide units names
-            </Overlay.MenuItem>
+            <View.Condition if={Boolean(missionEntity.missionName)}>
+              <Overlay.MenuItem onClick={onSwitchUnitsNames}>
+                Show/hide units names
+              </Overlay.MenuItem>
+            </View.Condition>
           </Overlay.Menu>
         </View.Condition>
 
@@ -225,7 +227,7 @@ const MapOverlay = observer(() => {
           if={Boolean(
             missionEntity?.briefing?.diary?.some((key) => active[key.id])
           )}>
-          <Overlay.Menu variant='secondary'>
+          <Overlay.Menu className={styles.diary} variant='secondary'>
             {missionEntity?.briefing?.diary
               ?.filter((item) => active[item.id])
               .map((item) => (

@@ -63,8 +63,8 @@ class Mission {
         this.groups = data.data.groups;
 
         toasterEntity.call({
-          title: `Mission ${this.missionName} loaded`,
-          description: 'Time for some planning!',
+          title: `Mission loaded`,
+          description: `${this.missionName}`,
         });
       }
     } catch (error) {
