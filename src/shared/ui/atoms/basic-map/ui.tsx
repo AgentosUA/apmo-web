@@ -66,6 +66,7 @@ const BasicMap: FC<
 
     const layers = [
       'terrain',
+      'forest',
       'bushes',
       'count_main',
       'count',
