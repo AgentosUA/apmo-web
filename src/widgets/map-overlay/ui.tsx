@@ -14,6 +14,7 @@ import { missionEntity } from '@/entities/mission';
 import styles from './ui.module.scss';
 import dayjs from 'dayjs';
 import classNames from 'classnames';
+import { planEntity } from '@/entities/plan';
 
 const MapOverlay = observer(() => {
   if (!mapsEntity.selectedMap) return null;
@@ -164,7 +165,7 @@ const MapOverlay = observer(() => {
 
         <View.Condition if={active.plan}>
           <Overlay.Menu variant='secondary'>
-            <Overlay.MenuItem onClick={markersEntity.SWTMarkerFromClipboard}>
+            <Overlay.MenuItem onClick={planEntity.savePlan}>
               Save Plan
             </Overlay.MenuItem>
             <Overlay.MenuItem onClick={markersEntity.SWTMarkerFromClipboard}>
