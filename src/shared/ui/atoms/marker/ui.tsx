@@ -13,14 +13,16 @@ import {
   useState,
 } from 'react';
 import { Marker, Popup, Tooltip } from 'react-leaflet';
+
 import 'leaflet-rotatedmarker';
 
 import { Unit } from '@/entities/mission/types';
 
 import styles from './ui.module.scss';
 
-import { MdClose } from 'react-icons/md';
 import { View } from '../../quarks/view';
+
+import Ellipse from '../../quarks/ellipse-leaflet/ui';
 
 type LocationType =
   | 'city'
@@ -65,21 +67,23 @@ const MarkerIcon = (
   height = 32
 ) => {
   if (['ellipse', 'line'].includes(markerName)) {
-    const sizeFactor = Math.pow(2, zoomLevel);
-    const markerSize = size as [number, number];
+    return;
 
-    return new DivIcon({
-      iconSize: [
-        Math.ceil(markerSize[0] * sizeFactor),
-        Math.ceil(markerSize[1] * sizeFactor),
-      ], // size of the icon
-      // iconAnchor: [width / 2, height / 2], // point of the icon which will correspond to marker's location
-      popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor,
-      className: classNames(styles[`${color}Background`], {
-        [styles.ellipsis]: markerName === 'ellipse',
-        [styles.line]: markerName === 'line',
-      }),
-    });
+    // const sizeFactor = Math.pow(2, zoomLevel);
+    // const markerSize = size as [number, number];
+
+    // return new DivIcon({
+    //   iconSize: [
+    //     markerSize[0],
+    //     markerSize[1],
+    //   ], // size of the icon
+    //   // iconAnchor: [width / 2, height / 2], // point of the icon which will correspond to marker's location
+    //   popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor,
+    //   className: classNames(styles[`${color}Background`], {
+    //     [styles.ellipsis]: markerName === 'ellipse',
+    //     [styles.line]: markerName === 'line',
+    //   }),
+    // });
   }
 
   const markerSize = size as number;
@@ -101,6 +105,7 @@ const ArmaMarker: FC<
     icon?: Icon | DivIcon;
     size?: number | number[];
     color?: string;
+    type?: string;
     draggable?: boolean;
     onUpdatePosition?: (x: number, y: number) => void;
     onDelete?: () => void;
@@ -114,6 +119,8 @@ const ArmaMarker: FC<
     direction = 0,
     color = 'Default',
     draggable = true,
+    type,
+    size,
     onUpdatePosition,
     onDelete,
   }) => {
@@ -156,6 +163,24 @@ const ArmaMarker: FC<
 
       return document.removeEventListener('keydown', onDeleteMarker);
     }, []);
+
+    if (type === 'ellipse') {
+      return (
+        <Ellipse
+          center={[y, x]}
+          radii={size}
+          tilt={0}
+          eventHandlers={eventHandlers}
+          options={{
+            color: '#757de8',
+            fillColor: '#757de8',
+            fillOpacity: 0.5,
+            opacity: 1,
+            weight: 0,
+          }}
+        />
+      );
+    }
 
     return (
       <Marker

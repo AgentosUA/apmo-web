@@ -119,6 +119,8 @@ const ArmaMap = observer(() => {
         return (
           <ArmaMarker
             key={marker.id}
+            type={getMarkerType(marker)}
+            size={getMarkerSize(marker)}
             icon={MarkerIcon(
               getMarkerType(marker),
               getMarkerColorName(marker),
