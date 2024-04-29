@@ -12,12 +12,15 @@ import {
   memo,
   useState,
 } from 'react';
-import { Marker, Tooltip } from 'react-leaflet';
+import { Marker, Popup, Tooltip } from 'react-leaflet';
 import 'leaflet-rotatedmarker';
 
 import { Unit } from '@/entities/mission/types';
 
 import styles from './ui.module.scss';
+
+import { MdClose } from 'react-icons/md';
+import { View } from '../../quarks/view';
 
 type LocationType =
   | 'city'
@@ -204,11 +207,12 @@ LocationMarker.displayName = 'LocationMarker';
 
 const UnitMarker: FC<{
   data: Unit;
+  units?: Unit[];
   isAllVisible: boolean;
-}> = memo(({ isAllVisible, data }) => {
+}> = memo(({ isAllVisible, data, units = [] }) => {
   const icon = new Icon({
     iconUrl: `/icons/soldier.svg`,
-    iconSize: [16, 16], // size of the icon
+    iconSize: [16, 16],
     className: classNames(styles[data.side]),
   });
 
@@ -219,11 +223,15 @@ const UnitMarker: FC<{
     setIsDescriptionVisible(isAllVisible);
   }, [isAllVisible]);
 
+  const type = units.length > 0 ? 'group' : 'player';
+
   return (
     <Marker
       icon={icon}
       eventHandlers={{
-        click: () => setIsDescriptionVisible(!isDescriptionVisible),
+        click: () => {
+          setIsDescriptionVisible(!isDescriptionVisible);
+        },
       }}
       position={[data.position.coordinates.y, data.position.coordinates.x]}>
       <Tooltip
@@ -235,8 +243,25 @@ const UnitMarker: FC<{
           styles.unitDescription,
           styles[`${data.side.toLowerCase()}Text`]
         )}>
-        {isDescriptionVisible && data.description}
+        {isDescriptionVisible && type === 'player' && data.description}
       </Tooltip>
+      <View.Condition if={type === 'group'}>
+        <Popup
+          closeOnEscapeKey
+          eventHandlers={{
+            popupclose: () => {
+              setIsDescriptionVisible(true);
+            },
+          }}>
+          {type === 'group' && (
+            <ol className={styles.unitList}>
+              {units.map((item) => (
+                <li key={item.id}>{item.description}</li>
+              ))}
+            </ol>
+          )}
+        </Popup>
+      </View.Condition>
     </Marker>
   );
 });

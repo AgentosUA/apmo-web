@@ -35,6 +35,7 @@ import { LeafletMouseEvent } from 'leaflet';
 import { missionEntity } from '@/entities/mission';
 import { useEffect } from 'react';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
+import { View } from '@/shared/ui/quarks/view';
 
 const ArmaMap = observer(() => {
   const isMounted = useMounted();
@@ -87,15 +88,32 @@ const ArmaMap = observer(() => {
         <LocationMarker key={index} data={location} />
       ))}
 
-      {missionEntity.groups.map((group) => {
-        return group.units.map((unit) => (
-          <UnitMarker
-            key={unit.id}
-            data={unit}
-            isAllVisible={markersEntity.isUnitsNamesVisible}
-          />
-        ));
-      })}
+      <View.Condition if={markersEntity.playersDisplayMode === 'players'}>
+        {missionEntity.groups.map((group) => {
+          return group.units.map((unit) => (
+            <UnitMarker
+              key={unit.id}
+              data={unit}
+              isAllVisible={markersEntity.isPlayersNameVisible}
+            />
+          ));
+        })}
+      </View.Condition>
+
+      <View.Condition if={markersEntity.playersDisplayMode === 'groups'}>
+        {missionEntity.groups.map((group) => {
+          return group.units
+            .slice(0, 1)
+            .map((unit) => (
+              <UnitMarker
+                key={unit.id}
+                data={unit}
+                isAllVisible={markersEntity.isPlayersNameVisible}
+                units={group.units}
+              />
+            ));
+        })}
+      </View.Condition>
 
       {markersEntity.swtMarkers.map((marker) => {
         return (

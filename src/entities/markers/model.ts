@@ -36,7 +36,8 @@ class MarkersModel {
     makeAutoObservable(this);
   }
 
-  isUnitsNamesVisible = false;
+  playersDisplayMode: 'groups' | 'players' = 'groups';
+  isPlayersNameVisible = false;
   isSWTLoading = false;
   missionsMarkers: Marker[] = [];
   swtMarkers: Marker[] = [];
@@ -54,8 +55,16 @@ class MarkersModel {
     this.swtMarkers.splice(index, 1);
   };
 
-  switchUnitsNamesVisibility = () => {
-    this.isUnitsNamesVisible = !this.isUnitsNamesVisible;
+  switchPlayersName = () => {
+    this.isPlayersNameVisible = !this.isPlayersNameVisible;
+  };
+
+  showAllPlayers = () => {
+    this.playersDisplayMode = 'players';
+  };
+
+  showGroupsOnly = () => {
+    this.playersDisplayMode = 'groups';
   };
 
   setSWTMarkers = (markers: Marker[]) => {

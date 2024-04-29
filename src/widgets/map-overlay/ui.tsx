@@ -33,7 +33,15 @@ const MapOverlay = observer(() => {
   });
 
   const onSwitchUnitsNames = () => {
-    markersEntity.switchUnitsNamesVisibility();
+    markersEntity.switchPlayersName();
+  };
+
+  const onSwitchPlayersDisplayMode = () => {
+    if (markersEntity.playersDisplayMode === 'groups') {
+      markersEntity.showAllPlayers();
+    } else {
+      markersEntity.showGroupsOnly();
+    }
   };
 
   const onCopyMarkers = () => {
@@ -155,9 +163,24 @@ const MapOverlay = observer(() => {
                 </Overlay.MenuItem>
               }
             />
+
             <View.Condition if={Boolean(missionEntity.missionName)}>
+              <Overlay.MenuItem onClick={onSwitchPlayersDisplayMode}>
+                {markersEntity.playersDisplayMode === 'groups'
+                  ? 'Show all players'
+                  : 'Show groups'}
+              </Overlay.MenuItem>
+            </View.Condition>
+
+            <View.Condition
+              if={
+                Boolean(missionEntity.missionName) &&
+                markersEntity.playersDisplayMode === 'players'
+              }>
               <Overlay.MenuItem onClick={onSwitchUnitsNames}>
-                Show/hide units names
+                {markersEntity.isPlayersNameVisible
+                  ? 'Hide names'
+                  : 'Show names'}
               </Overlay.MenuItem>
             </View.Condition>
           </Overlay.Menu>
@@ -283,6 +306,29 @@ const MapOverlay = observer(() => {
               <ul className={classNames(styles.list, styles.slots)}>
                 {missionEntity.groups
                   .filter((group) => group.side === 'East')
+                  .map((group, index) => (
+                    <Fragment key={group.id}>
+                      <li className={styles.group}>
+                        <ol className={styles.units}>
+                          {group.units.map((item) => (
+                            <li key={item.id}>{item.description}</li>
+                          ))}
+                        </ol>
+                      </li>
+                      {index + 1 !== missionEntity.groups.length && <hr />}
+                    </Fragment>
+                  ))}
+              </ul>
+            </Overlay.MenuItem>
+          </Overlay.Menu>
+        </View.Condition>
+
+        <View.Condition if={active.slotsResistance}>
+          <Overlay.Menu variant='secondary'>
+            <Overlay.MenuItem>
+              <ul className={classNames(styles.list, styles.slots)}>
+                {missionEntity.groups
+                  .filter((group) => group.side === 'Resistance')
                   .map((group, index) => (
                     <Fragment key={group.id}>
                       <li className={styles.group}>
