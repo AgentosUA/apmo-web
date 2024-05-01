@@ -4,10 +4,10 @@ import L from 'leaflet';
 
 import '@/shared/lib/l.ellipse.min';
 
-function createEllipse(props, context) {
+function createEllipse(props: any, context: any) {
   const { center, radii, tilt, options } = props;
   // Create the leaflet.ellipse instance:
-  const instance = new L.Ellipse(center, radii, tilt, options);
+  const instance = new (L.Ellipse as any)(center, radii, tilt, options);
 
   // Return the instance and context:
   return {
@@ -17,7 +17,7 @@ function createEllipse(props, context) {
 }
 
 // Update state:
-function updateEllipse(instance, props, prevProps) {
+function updateEllipse(instance: any, props: any, prevProps: any) {
   // If props have changed:
   if (
     props.center !== prevProps.center ||
