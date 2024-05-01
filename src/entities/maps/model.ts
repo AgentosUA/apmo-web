@@ -47,7 +47,7 @@ class MapsModel {
         `${process.env.NEXT_PUBLIC_STATIC_URL}/locations/${map}.json`
       );
 
-      this.locations = response.data as Location[];
+      this.locations = [...(response.data as Location[])];
     } catch (error) {
       toasterEntity.call({
         title: 'Failed to load locations',

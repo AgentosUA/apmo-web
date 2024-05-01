@@ -51,15 +51,15 @@ const CreateMarker: FC<{
     };
 
     if (entity.isVisible) {
-      window.addEventListener('keydown', onEscapePress);
-      window.addEventListener('keydown', onEnterPress);
+      document.addEventListener('keydown', onEscapePress);
+      document.addEventListener('keydown', onEnterPress);
       map.dragging.disable();
       map.scrollWheelZoom.disable();
     }
 
     return () => {
-      window.removeEventListener('keydown', onEscapePress);
-      window.removeEventListener('keydown', onEnterPress);
+      document.removeEventListener('keydown', onEscapePress);
+      document.removeEventListener('keydown', onEnterPress);
       entity.closeAllList();
       map.dragging.enable();
       map.scrollWheelZoom.enable();

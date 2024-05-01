@@ -12,7 +12,7 @@ import {
   memo,
   useState,
 } from 'react';
-import { Marker, Popup, Tooltip } from 'react-leaflet';
+import { Marker, Popup, Rectangle, Tooltip } from 'react-leaflet';
 
 import 'leaflet-rotatedmarker';
 
@@ -23,6 +23,7 @@ import styles from './ui.module.scss';
 import { View } from '../../quarks/view';
 
 import Ellipse from '../../quarks/ellipse-leaflet/ui';
+import { MarkerColorHEX } from '@/shared/data/marker';
 
 type LocationType =
   | 'city'
@@ -172,12 +173,26 @@ const ArmaMarker: FC<
           tilt={0}
           eventHandlers={eventHandlers}
           options={{
-            color: '#757de8',
-            fillColor: '#757de8',
+            color: MarkerColorHEX[color as keyof typeof MarkerColorHEX],
+            fillColor: MarkerColorHEX[color as keyof typeof MarkerColorHEX],
             fillOpacity: 0.5,
             opacity: 1,
             weight: 0,
           }}
+        />
+      );
+    }
+
+    if (type === 'line') {
+      return (
+        <Rectangle
+          bounds={[
+            [y, y],
+            [x, x],
+          ]}
+          weight={1}
+          eventHandlers={eventHandlers}
+          color={MarkerColorHEX[color as keyof typeof MarkerColorHEX]}
         />
       );
     }
