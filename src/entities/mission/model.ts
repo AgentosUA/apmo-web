@@ -4,7 +4,8 @@ import axios from 'axios';
 
 import { makeAutoObservable } from 'mobx';
 
-import { Briefing, Group, Preview } from './types';
+import { Briefing, Group, MissionMarker, Preview } from './types';
+import { apmoApi } from '@/shared/sdk';
 
 class Mission {
   constructor() {
@@ -21,6 +22,7 @@ class Mission {
   dlcs: string[] = [];
   briefing: Briefing | null = null;
   groups: Group[] = [];
+  markers: MissionMarker[] = [];
 
   resetMission = () => {
     this.fileName = '';
@@ -31,6 +33,7 @@ class Mission {
     this.dlcs = [];
     this.briefing = null;
     this.groups = [];
+    this.markers = [];
   };
 
   loadMission = async (mission?: File) => {
@@ -39,28 +42,18 @@ class Mission {
     this.isLoading = true;
 
     try {
-      const data = await axios(
-        `${process.env.NEXT_PUBLIC_API_URL}/missions/parse`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          data: {
-            file: mission,
-          },
-        }
-      );
+      const { data } = await apmoApi.mission.parse(mission);
 
-      if (data.data) {
+      if (data) {
         this.fileName = mission.name;
-        this.missionName = data.data.missionName;
-        this.author = data.data.author;
-        this.island = data.data.island?.toLowerCase();
-        this.preview = data.data.preview;
-        this.dlcs = data.data.dlcs;
-        this.briefing = data.data.briefing;
-        this.groups = data.data.groups;
+        this.missionName = data.missionName;
+        this.author = data.author;
+        this.island = data.island?.toLowerCase();
+        this.preview = data.preview;
+        this.dlcs = data.dlcs;
+        this.briefing = data.briefing;
+        this.groups = data.groups;
+        this.markers = data.markers;
 
         toasterEntity.call({
           title: `Mission loaded`,

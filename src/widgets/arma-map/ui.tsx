@@ -36,6 +36,8 @@ import { missionEntity } from '@/entities/mission';
 import { useEffect } from 'react';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { View } from '@/shared/ui/quarks/view';
+import { MarkerColor, MarkerType } from '@/shared/data/marker';
+import { getMissionMarkerType } from '@/entities/mission/lib';
 
 const ArmaMap = observer(() => {
   const isMounted = useMounted();
@@ -113,6 +115,33 @@ const ArmaMap = observer(() => {
               />
             ));
         })}
+      </View.Condition>
+
+      <View.Condition if={Boolean(missionEntity.fileName)}>
+        {missionEntity.markers
+          .filter((marker) =>
+            Boolean(MarkerType[marker.type as keyof typeof MarkerType])
+          )
+          .map((marker) => (
+            <ArmaMarker
+              key={marker.id}
+              type={getMissionMarkerType(marker)}
+              size={[marker.width, marker.height]}
+              icon={MarkerIcon(
+                marker.type,
+                marker.colorName!,
+                marker.width,
+                armaMapEntity.zoomLevel
+              )}
+              direction={marker.position.angle}
+              x={marker.position.coordinates.x}
+              y={marker.position.coordinates.y}
+              draggable={false}
+              color={String(
+                MarkerColor[marker.colorName as keyof typeof MarkerColor]
+              )}
+            />
+          ))}
       </View.Condition>
 
       {markersEntity.swtMarkers.map((marker) => {

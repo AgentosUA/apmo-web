@@ -21,6 +21,7 @@ import {
   markersEntity as sharedMarkersEntity,
 } from '@/entities/markers';
 import { View } from '@/shared/ui/quarks/view';
+import { Button } from '@/shared/ui/atoms/button';
 
 const CreateMarker: FC<{
   model?: CreateMarkerModel;
@@ -158,6 +159,26 @@ const CreateMarker: FC<{
             placeholder=''
             alt='input'
           />
+          <div className={styles.actionButtons}>
+            <Button
+              onClick={() => {
+                markersEntity.addMarker({
+                  ...entity.marker,
+                });
+
+                entity.resetMarker();
+                entity.close();
+              }}>
+              OK
+            </Button>
+            <Button
+              onClick={() => {
+                entity.resetMarker();
+                entity.close();
+              }}>
+              CANCEL
+            </Button>
+          </div>
         </div>
       </div>
     </div>

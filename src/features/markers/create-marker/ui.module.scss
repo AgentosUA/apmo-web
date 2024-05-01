@@ -113,3 +113,16 @@
   font-family: var(--font-roboto), Tahoma, sans-serif;
   background: rgba(0, 0, 0, 0.7);
 }
+
+.action-buttons {
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  max-width: 238px;
+  gap: 5px;
+
+  button {
+    min-width: unset;
+    width: 100%;
+  }
+}

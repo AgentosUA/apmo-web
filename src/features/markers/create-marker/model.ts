@@ -18,9 +18,9 @@ class CreateMarkerModel {
     MarkerType.mil_dot,
     MarkerType.b_inf,
     MarkerType.b_armor,
-    MarkerType.mil_pickup,
-    MarkerType.mil_warning,
-    MarkerType.mil_unknown,
+    MarkerType.hd_pickup,
+    MarkerType.hd_warning,
+    MarkerType.hd_unknown,
   ];
 
   defaultSWTColors = [

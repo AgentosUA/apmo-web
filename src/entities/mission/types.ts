@@ -5,6 +5,22 @@ type Preview = {
   text?: string;
 };
 
+type MissionMarker = {
+  id: number;
+  type: string;
+  colorName?: string;
+  width: number;
+  height: number;
+  position: {
+    coordinates: {
+      x: number;
+      y: number;
+      z: number;
+    };
+    angle: number;
+  };
+};
+
 type Briefing = {
   diary: { id: string; name: string; value: string }[];
   intel: {
@@ -41,4 +57,17 @@ type Group = {
   units: Unit[];
 };
 
-export type { Side, Preview, Briefing, Unit, Group };
+type Mission = {
+  fileName: string;
+  missionName: string;
+  island: string;
+  author: string;
+  preview: Preview | null;
+  briefing: Briefing | null;
+  dlcs: string[];
+  vehicles: any[];
+  markers: MissionMarker[];
+  groups: Group[];
+};
+
+export type { Side, Preview, Briefing, Unit, Group, Mission, MissionMarker };

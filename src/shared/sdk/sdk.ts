@@ -1,3 +1,4 @@
+import { Mission } from '@/entities/mission/types';
 import axios, { AxiosPromise, AxiosResponse } from 'axios';
 
 type DataType =
@@ -112,6 +113,21 @@ const instance = axios.create({
 });
 
 const apmoApi = {
+  mission: {
+    parse: async (mission: File) => {
+      return instance.post<Mission>(
+        '/missions/parse',
+        {
+          file: mission,
+        },
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+    },
+  },
   plan: {
     createPlan: async (data: CreatePlanDto) => {
       return instance.post('/plans', {
