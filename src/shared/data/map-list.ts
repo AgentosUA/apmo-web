@@ -495,7 +495,7 @@ const mapList = [
     author: 'Bohemia Interactive',
   },
   {
-    id: 'utes',
+    id: 'utes_winter',
     width: '5120',
     height: '5120',
     offset: '300',
@@ -671,7 +671,7 @@ const mapList = [
   //   author: 'Bohemia Interactive',
   // },
   {
-    id: 'hellanmaa',
+    id: 'hellanmaa_winter',
     width: '8192',
     height: '8192',
     offset: '300',
