@@ -45,7 +45,7 @@ const ArmaMap = observer(() => {
   useEffect(() => {
     if (!missionEntity.island || !isMounted) return;
 
-    if (missionEntity.island !== mapsEntity.selectedMap?.dir) {
+    if (missionEntity.island !== mapsEntity.selectedMap?.id) {
       missionEntity.resetMission();
       toasterEntity.call({
         title: 'Map and mission mismatch',
