@@ -127,12 +127,7 @@ const ArmaMap = observer(() => {
               key={marker.id}
               type={getMissionMarkerType(marker)}
               size={[marker.width, marker.height]}
-              icon={MarkerIcon(
-                marker.type,
-                marker.colorName!,
-                marker.width,
-                armaMapEntity.zoomLevel
-              )}
+              icon={MarkerIcon(marker.type, marker.colorName, marker.width)}
               direction={marker.position.angle}
               x={marker.position.coordinates.x}
               y={marker.position.coordinates.y}
@@ -153,8 +148,7 @@ const ArmaMap = observer(() => {
             icon={MarkerIcon(
               getMarkerType(marker),
               getMarkerColorName(marker),
-              getMarkerSize(marker),
-              armaMapEntity.zoomLevel
+              getMarkerSize(marker)
             )}
             direction={getMarkerDirection(marker)}
             x={marker.data[SWTMarkerID.coordinates][0]}

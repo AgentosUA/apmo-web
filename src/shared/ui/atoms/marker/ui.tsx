@@ -12,7 +12,7 @@ import {
   memo,
   useState,
 } from 'react';
-import { Marker, Popup, Rectangle, Tooltip } from 'react-leaflet';
+import { Marker, Polyline, Popup, Rectangle, Tooltip } from 'react-leaflet';
 
 import 'leaflet-rotatedmarker';
 
@@ -60,32 +60,13 @@ const MarkerIconComponent: FC<{
 MarkerIconComponent.displayName = 'MarkerIconComponent';
 
 const MarkerIcon = (
-  markerName: string,
-  color: string,
+  markerName = '',
+  color = 'Default',
   size: number | number[] = 1,
-  zoomLevel: number,
   width = 32,
   height = 32
 ) => {
-  if (['ellipse', 'line'].includes(markerName)) {
-    return;
-
-    // const sizeFactor = Math.pow(2, zoomLevel);
-    // const markerSize = size as [number, number];
-
-    // return new DivIcon({
-    //   iconSize: [
-    //     markerSize[0],
-    //     markerSize[1],
-    //   ], // size of the icon
-    //   // iconAnchor: [width / 2, height / 2], // point of the icon which will correspond to marker's location
-    //   popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor,
-    //   className: classNames(styles[`${color}Background`], {
-    //     [styles.ellipsis]: markerName === 'ellipse',
-    //     [styles.line]: markerName === 'line',
-    //   }),
-    // });
-  }
+  if (!markerName || ['ellipse', 'line'].includes(markerName)) return;
 
   const markerSize = size as number;
 
@@ -185,10 +166,17 @@ const ArmaMarker: FC<
 
     if (type === 'line') {
       return (
+        // <Polyline
+        //   positions={[
+        //     [x, x],
+        //     [y, y],
+        //   ]}
+        //   weight={size as number}
+        // />
         <Rectangle
           bounds={[
-            [y, y],
-            [x, x],
+            [y, x],
+            [y + size, x + size],
           ]}
           weight={1}
           eventHandlers={eventHandlers}

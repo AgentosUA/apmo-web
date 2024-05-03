@@ -7,7 +7,8 @@ type Preview = {
 
 type MissionMarker = {
   id: number;
-  type: string;
+  type?: string;
+  markerType?: string;
   colorName?: string;
   width: number;
   height: number;
