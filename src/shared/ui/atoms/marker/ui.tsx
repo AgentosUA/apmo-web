@@ -176,7 +176,7 @@ const ArmaMarker: FC<
         <Rectangle
           bounds={[
             [y, x],
-            [y + size, x + size],
+            [y, x],
           ]}
           weight={1}
           eventHandlers={eventHandlers}
