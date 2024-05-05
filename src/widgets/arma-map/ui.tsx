@@ -17,6 +17,7 @@ import {
   LocationMarker,
   MarkerIcon,
   UnitMarker,
+  VehicleMarker,
 } from '@/shared/ui/atoms/marker';
 import { useMounted } from '@/shared/ui/hooks';
 
@@ -137,6 +138,12 @@ const ArmaMap = observer(() => {
               )}
             />
           ))}
+      </View.Condition>
+
+      <View.Condition if={Boolean(missionEntity.fileName)}>
+        {missionEntity.vehicles.map((vehicle) => (
+          <VehicleMarker key={vehicle.id} data={vehicle} />
+        ))}
       </View.Condition>
 
       {markersEntity.swtMarkers.map((marker) => {

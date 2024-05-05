@@ -1,10 +1,8 @@
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 
-import axios from 'axios';
-
 import { makeAutoObservable } from 'mobx';
 
-import { Briefing, Group, MissionMarker, Preview } from './types';
+import { Briefing, Group, MissionMarker, Preview, Vehicle } from './types';
 import { apmoApi } from '@/shared/sdk';
 
 class Mission {
@@ -23,6 +21,7 @@ class Mission {
   briefing: Briefing | null = null;
   groups: Group[] = [];
   markers: MissionMarker[] = [];
+  vehicles: Vehicle[] = [];
 
   resetMission = () => {
     this.fileName = '';
@@ -34,6 +33,7 @@ class Mission {
     this.briefing = null;
     this.groups = [];
     this.markers = [];
+    this.vehicles = [];
   };
 
   loadMission = async (mission?: File) => {
@@ -54,6 +54,7 @@ class Mission {
         this.briefing = data.briefing;
         this.groups = data.groups;
         this.markers = data.markers;
+        this.vehicles = data.vehicles;
 
         toasterEntity.call({
           title: `Mission loaded`,

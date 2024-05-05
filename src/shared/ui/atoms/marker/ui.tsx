@@ -16,7 +16,7 @@ import { Marker, Polyline, Popup, Rectangle, Tooltip } from 'react-leaflet';
 
 import 'leaflet-rotatedmarker';
 
-import { Unit } from '@/entities/mission/types';
+import { Unit, Vehicle } from '@/entities/mission/types';
 
 import styles from './ui.module.scss';
 
@@ -24,6 +24,7 @@ import { View } from '../../quarks/view';
 
 import Ellipse from '../../quarks/ellipse-leaflet/ui';
 import { MarkerColorHEX } from '@/shared/data/marker';
+import { getVehicleIconSizeByType } from './lib';
 
 type LocationType =
   | 'city'
@@ -296,12 +297,38 @@ const UnitMarker: FC<{
 
 UnitMarker.displayName = 'UnitMarker';
 
+const VehicleMarker: FC<{
+  data: Vehicle;
+}> = memo(({ data }) => {
+  const size = getVehicleIconSizeByType(data);
+
+  const icon = new Icon({
+    iconUrl: `/icons/${data.type}.svg`,
+    iconSize: [size, size],
+    className: classNames(styles[data.type]),
+  });
+
+  return (
+    <Marker
+      zIndexOffset={1}
+      icon={icon}
+      position={[data.position.coordinates.y, data.position.coordinates.x]}>
+      <Popup closeOnEscapeKey>{data.description}</Popup>
+    </Marker>
+  );
+});
+
+VehicleMarker.displayName = 'VehicleMarker';
+
+UnitMarker.displayName = 'UnitMarker';
+
 export {
   ArmaMarker,
   MarkerIcon,
   MarkerIconComponent,
   LocationMarker,
   UnitMarker,
+  VehicleMarker,
 };
 
 export type { Location, LocationType };

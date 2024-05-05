@@ -34,6 +34,15 @@ type Briefing = {
   };
 };
 
+type Position = {
+  coordinates: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  angles: [number, number, number];
+};
+
 type Unit = {
   id: number;
   side: Side;
@@ -42,20 +51,20 @@ type Unit = {
   description: string;
   isPlayable: boolean;
   inventory: null;
-  position: {
-    coordinates: {
-      x: number;
-      y: number;
-      z: number;
-    };
-    angles: [number, number, number];
-  };
+  position: Position;
 };
 
 type Group = {
   id: number;
   side: Side;
   units: Unit[];
+};
+
+type Vehicle = {
+  id: number;
+  type: 'land' | 'air' | 'crate' | 'static' | 'unknown';
+  description: string;
+  position: Position;
 };
 
 type Mission = {
@@ -66,9 +75,18 @@ type Mission = {
   preview: Preview | null;
   briefing: Briefing | null;
   dlcs: string[];
-  vehicles: any[];
+  vehicles: Vehicle[];
   markers: MissionMarker[];
   groups: Group[];
 };
 
-export type { Side, Preview, Briefing, Unit, Group, Mission, MissionMarker };
+export type {
+  Side,
+  Preview,
+  Briefing,
+  Unit,
+  Group,
+  Vehicle,
+  Mission,
+  MissionMarker,
+};
