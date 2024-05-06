@@ -12,7 +12,7 @@ import {
   memo,
   useState,
 } from 'react';
-import { Marker, Polyline, Popup, Rectangle, Tooltip } from 'react-leaflet';
+import { Marker, Popup, Rectangle, Tooltip } from 'react-leaflet';
 
 import 'leaflet-rotatedmarker';
 
@@ -166,22 +166,18 @@ const ArmaMarker: FC<
     }
 
     if (type === 'line') {
+      const ySize = Array.isArray(size) ? size?.[0] : 0;
+      const xSize = Array.isArray(size) ? size?.[1] : 0;
+
       return (
-        // <Polyline
-        //   positions={[
-        //     [x, x],
-        //     [y, y],
-        //   ]}
-        //   weight={size as number}
-        // />
         <Rectangle
-          bounds={[
-            [y, x],
-            [y, x],
-          ]}
           weight={1}
           eventHandlers={eventHandlers}
           color={MarkerColorHEX[color as keyof typeof MarkerColorHEX]}
+          bounds={[
+            [y + ySize, x + xSize],
+            [y - ySize, x - xSize],
+          ]}
         />
       );
     }
