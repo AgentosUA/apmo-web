@@ -1,4 +1,4 @@
-type Side = 'West' | 'East' | 'Resistance' | 'Civilian' | 'Unknown';
+type Side = 'West' | 'East' | 'Independent' | 'Civilian' | 'Unknown';
 
 type Preview = {
   image?: string;

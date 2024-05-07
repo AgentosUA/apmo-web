@@ -243,6 +243,17 @@ const MapOverlay = observer(() => {
                   Slots OPFOR
                 </Overlay.MenuItem>
               )}
+              {missionEntity.groups.some(
+                (item) => item.side === 'Independent'
+              ) && (
+                <Overlay.MenuItem
+                  isActive={active.slotsIndependent}
+                  onClick={() =>
+                    onMenuItemClick('mission', 'slotsIndependent')
+                  }>
+                  Slots Independent
+                </Overlay.MenuItem>
+              )}
             </View.Condition>
           </Overlay.Menu>
         </View.Condition>
@@ -323,12 +334,12 @@ const MapOverlay = observer(() => {
           </Overlay.Menu>
         </View.Condition>
 
-        <View.Condition if={active.slotsResistance}>
+        <View.Condition if={active.slotsIndependent}>
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem>
               <ul className={classNames(styles.list, styles.slots)}>
                 {missionEntity.groups
-                  .filter((group) => group.side === 'Resistance')
+                  .filter((group) => group.side === 'Independent')
                   .map((group, index) => (
                     <Fragment key={group.id}>
                       <li className={styles.group}>

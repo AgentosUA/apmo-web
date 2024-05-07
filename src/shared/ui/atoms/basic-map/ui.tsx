@@ -104,7 +104,8 @@ const BasicMap: FC<
                 keepBuffer={4}
                 updateInterval={650}
                 minZoom={minZoom}
-                maxZoom={maxZoom}
+                maxZoom={maxZoom + 10}
+                maxNativeZoom={maxZoom}
                 noWrap
                 detectRetina
               />
