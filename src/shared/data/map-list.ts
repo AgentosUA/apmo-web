@@ -7,7 +7,7 @@ const mapList = [
     zoom: '8',
     name: 'Reshmaan Province',
     dir: 'reshmaan',
-    image: '/maps/reshmaan.jpg',
+    image: '/maps/reshmaan.png',
     author: 'Bohemia Interactive',
   },
   {
@@ -29,7 +29,7 @@ const mapList = [
     zoom: '8',
     name: 'Utes',
     dir: 'utes',
-    image: '/maps/utes.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -40,7 +40,7 @@ const mapList = [
     zoom: '5',
     name: 'Shapur',
     dir: 'shapur_baf',
-    image: '/maps/shapur.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   // {
@@ -51,7 +51,7 @@ const mapList = [
   //   zoom: '8',
   //   name: 'Schwemlitz',
   //   dir: 'schwemlitz',
-  //   image: '/maps/schwemlitz.jpg',
+  //   image: 'no-island.jpg',
   //   author: 'Bohemia Interactive',
   // },
   {
@@ -62,7 +62,7 @@ const mapList = [
     zoom: '8',
     name: 'Takistan',
     dir: 'takistan',
-    image: '/maps/takistan.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   // {
@@ -84,7 +84,7 @@ const mapList = [
     zoom: '5',
     name: 'Proving Grounds',
     dir: 'provinggrounds_pmc',
-    image: '/maps/provinggrounds.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -95,7 +95,7 @@ const mapList = [
     zoom: '7',
     name: 'Celle 2',
     dir: 'mbg_celle2',
-    image: '/maps/celle2.jpg',
+    image: '/maps/celle2.png',
     author: 'Bohemia Interactive',
   },
   {
@@ -106,7 +106,7 @@ const mapList = [
     zoom: '7',
     name: 'Isola di Capraia',
     dir: 'isoladicapraia',
-    image: '/maps/capraia.jpg',
+    image: '/maps/capraia.png',
     author: 'Bohemia Interactive',
   },
   // {
@@ -128,7 +128,7 @@ const mapList = [
     zoom: '7',
     name: 'Podagorsk',
     dir: 'fdf_isle1_a',
-    image: '/maps/podagorsk.jpg',
+    image: '/maps/podagorsk.png',
     author: 'Bohemia Interactive',
   },
   {
@@ -139,7 +139,7 @@ const mapList = [
     zoom: '7',
     name: 'Caribou Frontier',
     dir: 'caribou',
-    image: '/maps/caribou.jpg',
+    image: '/maps/caribou.png',
     author: 'Bohemia Interactive',
   },
   {
@@ -150,7 +150,7 @@ const mapList = [
     zoom: '7',
     name: 'Fallujah',
     dir: 'fallujah',
-    image: '/maps/fallujah.jpg',
+    image: '/maps/fallujah.png',
     author: 'Bohemia Interactive',
   },
   {
@@ -161,7 +161,7 @@ const mapList = [
     zoom: '5',
     name: 'Desert',
     dir: 'desert_e',
-    image: '/maps/desert.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -172,7 +172,7 @@ const mapList = [
     zoom: '7',
     name: 'Zargabad',
     dir: 'zargabad',
-    image: '/maps/zargabad.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -183,7 +183,7 @@ const mapList = [
     zoom: '8',
     name: 'Sahrani',
     dir: 'sara',
-    image: '/maps/sahrani.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   // {
@@ -249,7 +249,7 @@ const mapList = [
     zoom: '7',
     name: 'FATA, Pakistan',
     dir: 'fata',
-    image: '/maps/fata.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -260,7 +260,7 @@ const mapList = [
     zoom: '8',
     name: 'Beketov',
     dir: 'beketov',
-    image: '/maps/beketov.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -271,7 +271,7 @@ const mapList = [
     zoom: '6',
     name: 'Bystrica',
     dir: 'woodland_acr',
-    image: '/maps/bystrica.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -326,7 +326,7 @@ const mapList = [
     zoom: '8',
     name: 'Napf',
     dir: 'napf',
-    image: '/maps/napf.jpg',
+    image: '/maps/napf.png',
     author: 'Bohemia Interactive',
   },
   // {
@@ -359,7 +359,7 @@ const mapList = [
     zoom: '8',
     name: 'Altis',
     dir: 'altis',
-    image: '/maps/altis.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -392,7 +392,7 @@ const mapList = [
     zoom: '7',
     name: 'Malden',
     dir: 'malden',
-    image: '/maps/malden.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   // {
@@ -414,7 +414,7 @@ const mapList = [
     zoom: '8',
     name: 'Napf Winter',
     dir: 'napfwinter',
-    image: '/maps/napf.jpg',
+    image: '/maps/napf.png',
     author: 'Bohemia Interactive',
   },
   {
@@ -425,7 +425,7 @@ const mapList = [
     zoom: '6',
     name: 'Porto',
     dir: 'porto',
-    image: '/maps/porto.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -436,7 +436,7 @@ const mapList = [
     zoom: '7',
     name: 'Sahrani (Southern)',
     dir: 'sahranilite',
-    image: '/maps/sahranilite.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -447,7 +447,7 @@ const mapList = [
     zoom: '8',
     name: 'Sahrani (United Sahrani)',
     dir: 'sara',
-    image: '/maps/sara_dbe1.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -458,7 +458,7 @@ const mapList = [
     zoom: '7',
     name: 'Stratis',
     dir: 'stratis',
-    image: '/maps/stratis.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -469,7 +469,7 @@ const mapList = [
     zoom: '7',
     name: 'Tanoa',
     dir: 'tanoa',
-    image: '/maps/tanoa.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   // {
@@ -491,7 +491,7 @@ const mapList = [
     zoom: '8',
     name: 'Lythium',
     dir: 'lythium',
-    image: '/maps/lythium.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   // {
@@ -546,7 +546,7 @@ const mapList = [
     zoom: '7',
     name: 'Lingor',
     dir: 'lingor3',
-    image: '/maps/lingor.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -557,7 +557,7 @@ const mapList = [
     zoom: '7',
     name: 'Ruha',
     dir: 'ruha',
-    image: '/maps/ruha.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -568,7 +568,7 @@ const mapList = [
     zoom: '7',
     name: 'Rosche',
     dir: 'wl_rosche',
-    image: '/maps/rosche.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -579,7 +579,7 @@ const mapList = [
     zoom: '8',
     name: 'Kujari',
     dir: 'tem_kujari',
-    image: '/maps/kujari.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   // {
@@ -645,7 +645,7 @@ const mapList = [
     zoom: '7',
     name: 'Anizay',
     dir: 'tem_anizay',
-    image: '/maps/anizay.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   // {
@@ -689,7 +689,7 @@ const mapList = [
     zoom: '5',
     name: 'Bukovina',
     dir: 'bootcamp_acr',
-    image: '/maps/Bootcamp_ACR.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   // {
@@ -722,7 +722,7 @@ const mapList = [
     zoom: '8',
     name: 'Valtatie 7',
     dir: 'vt7',
-    image: '/maps/vt7.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -733,7 +733,7 @@ const mapList = [
     zoom: '8',
     name: 'Colombia',
     dir: 'umb_colombia',
-    image: '/maps/colombia.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -755,7 +755,7 @@ const mapList = [
     zoom: '8',
     name: 'Mull of Kintyre',
     dir: 'rof_mok',
-    image: '/maps/rof_mok.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
   {
@@ -766,7 +766,7 @@ const mapList = [
     zoom: '7',
     name: 'Šumava',
     dir: 'brf_sumava',
-    image: '/maps/sumava.jpg',
+    image: '/maps/no-island.jpg',
     author: 'Bohemia Interactive',
   },
 ].sort((a, b) => a.name.localeCompare(b.name));

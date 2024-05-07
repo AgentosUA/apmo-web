@@ -11,6 +11,7 @@ import { mapsEntity } from '@/entities/maps';
 import { mapList } from '@/shared/data/map-list';
 import { useRouter } from 'next/navigation';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
+import { Footer } from '@/widgets/footer';
 
 const HomePage = observer(() => {
   const router = useRouter();
@@ -41,7 +42,7 @@ const HomePage = observer(() => {
   }, [missionEntity.island]);
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <header className={styles.header}>
         <div className={styles.menu}></div>
         <div className={styles.logo}>
@@ -101,7 +102,8 @@ const HomePage = observer(() => {
           </div>
         </div>
       </main>
-    </>
+      <Footer />
+    </div>
   );
 });
 
