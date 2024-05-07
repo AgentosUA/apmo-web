@@ -31,7 +31,6 @@ import {
   getMarkerType,
 } from '@/entities/markers/lib';
 
-import { armaMapEntity } from './model';
 import { LeafletMouseEvent } from 'leaflet';
 import { missionEntity } from '@/entities/mission';
 import { useEffect } from 'react';
@@ -39,6 +38,7 @@ import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { View } from '@/shared/ui/quarks/view';
 import { MarkerColor, MarkerType } from '@/shared/data/marker';
 import { getMissionMarkerType } from '@/entities/mission/lib';
+import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
 
 const ArmaMap = observer(() => {
   const isMounted = useMounted();
@@ -73,7 +73,7 @@ const ArmaMap = observer(() => {
   };
 
   const onZoomLevelChange = (zoomLevel: number) => {
-    armaMapEntity.setZoomLevel(zoomLevel);
+    basicMapEntity.setZoomLevel(zoomLevel);
   };
 
   return (

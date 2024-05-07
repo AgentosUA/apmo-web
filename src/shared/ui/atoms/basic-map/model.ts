@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 
-class ArmaMap {
+class BasicMap {
   zoomLevel: number = 2;
   flyCoordinates = {
     x: 0,
@@ -23,6 +23,6 @@ class ArmaMap {
   };
 }
 
-const armaMapEntity = new ArmaMap();
+const basicMapEntity = new BasicMap();
 
-export { ArmaMap, armaMapEntity };
+export { BasicMap, basicMapEntity };

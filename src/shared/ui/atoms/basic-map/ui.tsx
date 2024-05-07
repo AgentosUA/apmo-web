@@ -8,12 +8,13 @@ import { LeafletMouseEvent } from 'leaflet';
 
 import classNames from 'classnames';
 
+import { observer } from 'mobx-react-lite';
+
 import { createArmaCRS } from './lib';
 
 import styles from './ui.module.scss';
-import { armaMapEntity } from '@/widgets/arma-map/model';
 
-import { observer } from 'mobx-react-lite';
+import { basicMapEntity } from './model';
 
 const FlyComponent = observer<{
   maxZoom: number;
@@ -21,14 +22,14 @@ const FlyComponent = observer<{
   const map = useMap();
 
   useEffect(() => {
-    if (!armaMapEntity.flyCoordinates.x && !armaMapEntity.flyCoordinates.y)
+    if (!basicMapEntity.flyCoordinates.x && !basicMapEntity.flyCoordinates.y)
       return;
 
     map.flyTo(
-      [armaMapEntity.flyCoordinates.x, armaMapEntity.flyCoordinates.y],
+      [basicMapEntity.flyCoordinates.x, basicMapEntity.flyCoordinates.y],
       maxZoom + 1
     );
-  }, [armaMapEntity.flyCoordinates]);
+  }, [basicMapEntity.flyCoordinates]);
 
   return null;
 });

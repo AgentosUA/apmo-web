@@ -1,4 +1,5 @@
 import { mapList } from '@/shared/data/map-list';
+import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
 import { Location } from '@/shared/ui/atoms/marker';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import axios from 'axios';
@@ -35,6 +36,7 @@ class MapsModel {
 
     this.selectedMap = { ...map };
     this.getLocations(map.dir);
+    basicMapEntity.flyTo(0, 0);
   };
 
   getLocations = async (map?: string) => {
