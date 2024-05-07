@@ -1,0 +1,22 @@
+.callsign {
+  color: #ffa30e;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.list {
+  line-height: 24px;
+
+  color: #fff;
+
+  b {
+    color: #fff;
+  }
+}
+
+.group {
+  margin-bottom: 20px;
+}

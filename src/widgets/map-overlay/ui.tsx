@@ -13,8 +13,10 @@ import { missionEntity } from '@/entities/mission';
 
 import styles from './ui.module.scss';
 import dayjs from 'dayjs';
-import classNames from 'classnames';
+
 import { planEntity } from '@/entities/plan';
+
+import { SlotsList } from './slots-list';
 
 const MapOverlay = observer(() => {
   if (!mapsEntity.selectedMap) return null;
@@ -291,22 +293,7 @@ const MapOverlay = observer(() => {
         <View.Condition if={active.slotsBluefor}>
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem>
-              <ul className={classNames(styles.list, styles.slots)}>
-                {missionEntity.groups
-                  .filter((group) => group.side === 'West')
-                  .map((group, index) => (
-                    <Fragment key={group.id}>
-                      <li className={styles.group}>
-                        <ol className={styles.units}>
-                          {group.units.map((item) => (
-                            <li key={item.id}>{item.description}</li>
-                          ))}
-                        </ol>
-                      </li>
-                      {index + 1 !== missionEntity.groups.length && <hr />}
-                    </Fragment>
-                  ))}
-              </ul>
+              <SlotsList groups={missionEntity.groups} side='West' />
             </Overlay.MenuItem>
           </Overlay.Menu>
         </View.Condition>
@@ -314,22 +301,7 @@ const MapOverlay = observer(() => {
         <View.Condition if={active.slotsOpfor}>
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem>
-              <ul className={classNames(styles.list, styles.slots)}>
-                {missionEntity.groups
-                  .filter((group) => group.side === 'East')
-                  .map((group, index) => (
-                    <Fragment key={group.id}>
-                      <li className={styles.group}>
-                        <ol className={styles.units}>
-                          {group.units.map((item) => (
-                            <li key={item.id}>{item.description}</li>
-                          ))}
-                        </ol>
-                      </li>
-                      {index + 1 !== missionEntity.groups.length && <hr />}
-                    </Fragment>
-                  ))}
-              </ul>
+              <SlotsList groups={missionEntity.groups} side='East' />
             </Overlay.MenuItem>
           </Overlay.Menu>
         </View.Condition>
@@ -337,22 +309,7 @@ const MapOverlay = observer(() => {
         <View.Condition if={active.slotsIndependent}>
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem>
-              <ul className={classNames(styles.list, styles.slots)}>
-                {missionEntity.groups
-                  .filter((group) => group.side === 'Independent')
-                  .map((group, index) => (
-                    <Fragment key={group.id}>
-                      <li className={styles.group}>
-                        <ol className={styles.units}>
-                          {group.units.map((item) => (
-                            <li key={item.id}>{item.description}</li>
-                          ))}
-                        </ol>
-                      </li>
-                      {index + 1 !== missionEntity.groups.length && <hr />}
-                    </Fragment>
-                  ))}
-              </ul>
+              <SlotsList groups={missionEntity.groups} side='Independent' />
             </Overlay.MenuItem>
           </Overlay.Menu>
         </View.Condition>

@@ -11,6 +11,27 @@ import classNames from 'classnames';
 import { createArmaCRS } from './lib';
 
 import styles from './ui.module.scss';
+import { armaMapEntity } from '@/widgets/arma-map/model';
+
+import { observer } from 'mobx-react-lite';
+
+const FlyComponent = observer<{
+  maxZoom: number;
+}>(({ maxZoom }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!armaMapEntity.flyCoordinates.x && !armaMapEntity.flyCoordinates.y)
+      return;
+
+    map.flyTo(
+      [armaMapEntity.flyCoordinates.x, armaMapEntity.flyCoordinates.y],
+      maxZoom + 1
+    );
+  }, [armaMapEntity.flyCoordinates]);
+
+  return null;
+});
 
 const MapHandlers: FC<{
   onDoubleClick?: (event: LeafletMouseEvent) => void;
@@ -94,6 +115,8 @@ const BasicMap: FC<
             onDoubleClick={onDoubleClick}
             onZoomLevelChange={onZoomLevelChange}
           />
+
+          <FlyComponent maxZoom={maxZoom} />
 
           {!isGeodesic &&
             layers.map((layer) => (
