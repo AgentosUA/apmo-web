@@ -1,30 +1,41 @@
 'use client';
 
-import { useMounted } from '@/shared/ui/hooks/use-mounted';
+import { mapsEntity } from '@/entities/maps';
 
-import { Overlay } from '@/shared/ui/atoms/overlay';
+import { planEntity } from '@/entities/plan';
 
-import styles from './page.module.scss';
-import { DateClock } from '@/shared/ui/moleculas/date-clock/ui';
+import { MapOverlay } from '@/widgets/map-overlay';
 
-export default function Page() {
-  const isMounted = useMounted();
+import { observer } from 'mobx-react-lite';
 
-  if (!isMounted) return <h2>loading</h2>;
+import dynamic from 'next/dynamic';
+import { useParams } from 'next/navigation';
+import { useEffect } from 'react';
+
+const ArmaMap = dynamic(
+  () => import('@/widgets/arma-map/ui').then((m) => m.ArmaMap),
+  {
+    ssr: false,
+  }
+);
+
+const Page = observer(() => {
+  const params = useParams();
+
+  useEffect(() => {
+    planEntity.loadPlan(params.id as string);
+  }, []);
+
+  if (!mapsEntity.selectedMap) return null;
+
+  const onOverlayBackClick = () => {};
 
   return (
-    <main className={styles.main}>
-      <Overlay.Header
-        title='untitled plan'
-        rightCorner={
-          <div>
-            <DateClock />
-          </div>
-        }
-      />
-      <Overlay.Menu />
-
-      {/* <ArmaMap selectedMap={} /> */}
-    </main>
+    <>
+      <ArmaMap />
+      <MapOverlay isPlan onBackClick={onOverlayBackClick} />
+    </>
   );
-}
+});
+
+export default Page;

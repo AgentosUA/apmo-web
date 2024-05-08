@@ -28,16 +28,21 @@ class MapsModel {
 
   selectMap = (map: (typeof mapList)[0] | string) => {
     if (typeof map === 'string') {
-      this.selectedMap = { ...mapList.find((m) => m.dir === map)! };
-      this.getLocations(map);
+      if (this.selectedMap?.id === map) return;
+
+      const newMap = mapList.find((m) => m.id === map?.toLowerCase());
+
+      if (!newMap) return;
+
+      this.selectedMap = { ...newMap };
 
       return;
     }
 
     this.selectedMap = { ...map };
+    this.defaultMap = { ...map };
     this.getLocations(map.dir);
     basicMapEntity.flyTo(0, 0);
-    this.defaultMap = { ...map };
   };
 
   getLocations = async (map?: string) => {

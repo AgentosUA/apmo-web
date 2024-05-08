@@ -21,8 +21,11 @@ import { SlotsList } from './slots-list';
 
 import styles from './ui.module.scss';
 
-const MapOverlay = observer(() => {
-  if (!mapsEntity.selectedMap) return null;
+const MapOverlay = observer<{
+  isPlan?: boolean;
+  onBackClick?: () => void;
+}>(({ isPlan = false, onBackClick }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { active, onMenuItemClick, setActive } = useMenu({
     map: true,
@@ -57,6 +60,15 @@ const MapOverlay = observer(() => {
     markersEntity.SWTMarkerFromClipboard();
   };
 
+  const onSharePlan = () => {
+    navigator.clipboard.writeText(window.location.href);
+
+    toasterEntity.call({
+      title: 'Plan link copied',
+      description: 'You can share it with your team',
+    });
+  };
+
   const onFileInputClick = () => {
     inputRef?.current?.click?.();
   };
@@ -88,9 +100,7 @@ const MapOverlay = observer(() => {
     });
   };
 
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const onBackClick = () => {
+  const onResetClick = () => {
     missionEntity.resetMission();
     mapsEntity.unselectMap();
     markersEntity.clearMarkers();
@@ -112,6 +122,8 @@ const MapOverlay = observer(() => {
     }
   }, [missionEntity.briefing]);
 
+  if (!mapsEntity.selectedMap) return null;
+
   return (
     <>
       <input
@@ -123,8 +135,14 @@ const MapOverlay = observer(() => {
         accept='.pbo'
       />
       <Overlay.Header
-        title={missionEntity.missionName || mapsEntity.selectedMap.name}
-        onBack={onBackClick}
+        title={
+          planEntity.title ||
+          missionEntity.missionName ||
+          mapsEntity.selectedMap.name
+        }
+        onBack={() => {
+          onBackClick ? onBackClick() : onResetClick();
+        }}
         rightCorner={<DateClock className={styles.clock} />}
       />
       <Overlay.MenuWrapper>
@@ -211,9 +229,11 @@ const MapOverlay = observer(() => {
             <Overlay.MenuItem onClick={planEntity.savePlan}>
               Save Plan
             </Overlay.MenuItem>
-            <Overlay.MenuItem onClick={markersEntity.SWTMarkerFromClipboard}>
-              Share Plan
-            </Overlay.MenuItem>
+            <View.Condition if={isPlan}>
+              <Overlay.MenuItem onClick={onSharePlan}>
+                Share Plan
+              </Overlay.MenuItem>
+            </View.Condition>
           </Overlay.Menu>
         </View.Condition>
 
@@ -350,7 +370,7 @@ const MapOverlay = observer(() => {
                 </li>
                 <li>
                   <b>Description:</b>{' '}
-                  {missionEntity.briefing?.intel.overviewText}
+                  {missionEntity?.briefing?.intel?.overviewText}
                 </li>
               </ul>
             </Overlay.MenuItem>

@@ -154,8 +154,8 @@ const ArmaMap = observer(() => {
               size={[marker.width, marker.height]}
               icon={MarkerIcon(marker.type, marker.colorName, marker.width)}
               direction={marker.position.angle}
-              x={marker.position.coordinates.x}
-              y={marker.position.coordinates.y}
+              x={marker.position.coordinates.x ?? 0}
+              y={marker.position.coordinates.y ?? 0}
               draggable={false}
               color={String(
                 MarkerColor[marker.colorName as keyof typeof MarkerColor]

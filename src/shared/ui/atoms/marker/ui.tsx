@@ -96,8 +96,8 @@ const ArmaMarker: FC<
 > = memo(
   ({
     children,
-    x,
-    y,
+    x = 0,
+    y = 0,
     icon,
     direction = 0,
     color = 'Default',

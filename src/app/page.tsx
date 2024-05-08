@@ -38,7 +38,8 @@ const HomePage = observer(() => {
     }
 
     mapsEntity.selectMap(island);
-    router.push('/plans/create');
+    // TODO: search for a way to redirect with next/router
+    router.replace('/plans/create');
   }, [missionEntity.island]);
 
   return (
