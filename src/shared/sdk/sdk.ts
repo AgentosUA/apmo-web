@@ -105,6 +105,7 @@ type PlanResponse = {
   id: string;
   title: string;
   mission: Mission;
+  planMarkers: string;
 };
 
 const instance = axios.create({

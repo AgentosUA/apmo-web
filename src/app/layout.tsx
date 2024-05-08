@@ -49,6 +49,39 @@ export default function RootLayout({
         <link rel='mask-icon' href='/safari-pinned-tab.svg' color='#000000' />
         <meta name='msapplication-TileColor' content='#ffffff' />
         <meta name='theme-color' content='#ffffff' />
+        {/* <!-- Primary Meta Tags --> */}
+        <title>Arma Plan Maker Online: Create your plan for Arma 3!</title>
+        <meta
+          name='title'
+          content='Arma Plan Maker Online: Create your plan for Arma 3!'
+        />
+        <meta name='description' content='Create your plan for Arma 3!' />
+
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property='og:type' content='website' />
+        <meta property='og:url' content='https://arma-plan-maker.com' />
+        <meta
+          property='og:title'
+          content='Arma Plan Maker Online: Create your plan for Arma 3!'
+        />
+        <meta
+          property='og:description'
+          content='Create your plan for Arma 3!'
+        />
+        <meta property='og:image' content='/preview.jpg' />
+
+        {/* <!-- Twitter --> */}
+        <meta property='twitter:card' content='summary_large_image' />
+        <meta property='twitter:url' content='/preview.jpg' />
+        <meta
+          property='twitter:title'
+          content='Arma Plan Maker Online: Create your plan for Arma 3!'
+        />
+        <meta
+          property='twitter:description'
+          content='Create your plan for Arma 3!'
+        />
+        <meta property='twitter:image' content='/preview' />
       </head>
       <body>
         <Toaster />

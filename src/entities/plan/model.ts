@@ -50,6 +50,7 @@ class Plan {
       planEntity.title = data.title;
       missionEntity.setMission(data.mission);
       mapsEntity.selectMap(data.mission.island);
+      markersEntity.setSWTMarkers(JSON.parse(data.planMarkers));
     } catch (error) {}
   };
 
