@@ -81,7 +81,7 @@ export default function RootLayout({
           property='twitter:description'
           content='Create your plan for Arma 3!'
         />
-        <meta property='twitter:image' content='/preview' />
+        <meta property='twitter:image' content='/preview.jpg' />
       </head>
       <body>
         <Toaster />
