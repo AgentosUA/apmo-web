@@ -186,7 +186,7 @@ const ArmaMarker: FC<
       <Marker
         ref={markerRef}
         position={[y, x]}
-        icon={icon}
+        icon={icon ? icon : new Icon({ iconUrl: `/icons/unknown.svg` })}
         draggable={draggable}
         eventHandlers={eventHandlers}>
         {children && (
