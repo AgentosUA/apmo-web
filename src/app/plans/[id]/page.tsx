@@ -14,9 +14,6 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import styles from './page.module.scss';
-import Image from 'next/image';
-import { Button } from '@/shared/ui/atoms/button';
-import Link from 'next/link';
 
 const ArmaMap = dynamic(
   () => import('@/widgets/arma-map/ui').then((m) => m.ArmaMap),
@@ -32,11 +29,11 @@ const Page = observer(() => {
 
   const getPlan = async () => {
     await planEntity.loadPlan(params.id as string);
+    setIsLoading(false);
   };
 
   useEffect(() => {
     getPlan();
-    setIsLoading(false);
   }, []);
 
   const onOverlayBackClick = () => {
@@ -61,9 +58,6 @@ const Page = observer(() => {
       <div className={styles.wrapper}>
         <div className={styles.card}>
           <p>Plan not found</p>
-          <Link href='/'>
-            <Button>Go to main</Button>
-          </Link>
         </div>
       </div>
     );
