@@ -94,7 +94,7 @@ type EntityItem = {
 type CreatePlanDto = {
   title: string;
   planMarkers: string;
-  mission: any;
+  mission: Mission;
 };
 
 type GetPlanByIdDto = {
@@ -102,7 +102,9 @@ type GetPlanByIdDto = {
 };
 
 type PlanResponse = {
+  id: string;
   title: string;
+  mission: Mission;
 };
 
 const instance = axios.create({
@@ -130,9 +132,7 @@ const apmoApi = {
   },
   plan: {
     createPlan: async (data: CreatePlanDto) => {
-      return instance.post('/plans', {
-        data,
-      });
+      return instance.post<PlanResponse>('/plans', data);
     },
 
     getPlanById: async (data: GetPlanByIdDto) => {

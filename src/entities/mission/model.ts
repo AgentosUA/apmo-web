@@ -2,7 +2,14 @@ import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 
 import { makeAutoObservable } from 'mobx';
 
-import { Briefing, Group, MissionMarker, Preview, Vehicle } from './types';
+import {
+  Briefing,
+  Group,
+  MissionMarker,
+  Preview,
+  Vehicle,
+  Mission as MissionFile,
+} from './types';
 import { apmoApi } from '@/shared/sdk';
 
 class Mission {
@@ -36,6 +43,19 @@ class Mission {
     this.vehicles = [];
   };
 
+  setMission = (mission: MissionFile) => {
+    this.fileName = mission.fileName;
+    this.missionName = mission.missionName;
+    this.author = mission.author;
+    this.island = mission.island;
+    this.preview = mission.preview;
+    this.dlcs = mission.dlcs;
+    this.briefing = mission.briefing;
+    this.groups = mission.groups;
+    this.markers = mission.markers;
+    this.vehicles = mission.vehicles;
+  };
+
   loadMission = async (mission?: File) => {
     if (!mission) return;
 
@@ -45,16 +65,7 @@ class Mission {
       const { data } = await apmoApi.mission.parse(mission);
 
       if (data) {
-        this.fileName = mission.name;
-        this.missionName = data.missionName;
-        this.author = data.author;
-        this.island = data.island?.toLowerCase();
-        this.preview = data.preview;
-        this.dlcs = data.dlcs;
-        this.briefing = data.briefing;
-        this.groups = data.groups;
-        this.markers = data.markers;
-        this.vehicles = data.vehicles;
+        this.setMission(data);
 
         toasterEntity.call({
           title: `Mission loaded`,

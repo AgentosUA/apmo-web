@@ -4,24 +4,50 @@ import { Mission, missionEntity } from '../mission';
 import { apmoApi } from '@/shared/sdk';
 import { MarkersModel, markersEntity } from '../markers';
 
+import { redirect } from 'next/navigation';
+import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
+
 class Plan {
   private mission: Mission;
   private markers: MarkersModel;
   private title = '';
 
   public savePlan = async () => {
-    apmoApi.plan.createPlan({
-      title: this.title ?? 'Untitled',
-      mission: null,
-      planMarkers: JSON.stringify(this.markers.swtMarkers),
-    });
+    try {
+      const { data } = await apmoApi.plan.createPlan({
+        title: this.title ?? 'Untitled',
+        mission: {
+          author: missionEntity.author,
+          fileName: missionEntity.fileName,
+          dlcs: missionEntity.dlcs,
+          briefing: missionEntity.briefing,
+          groups: missionEntity.groups,
+          island: missionEntity.island,
+          markers: missionEntity.markers,
+          preview: missionEntity.preview,
+          missionName: missionEntity.missionName,
+          vehicles: missionEntity.vehicles,
+        },
+        planMarkers: JSON.stringify(this.markers.swtMarkers),
+      });
+
+      redirect(`/plans/${data.id}`);
+    } catch (error) {
+      toasterEntity.call({
+        title: 'Failed to save plan',
+        description: 'Report this problem',
+      });
+    }
   };
 
   public loadPlan = async (id: string) => {
     try {
       const { data } = await apmoApi.plan.getPlanById({ id });
 
-      missionEntity.fileName = data.title;
+      planEntity.title = data.title;
+      missionEntity.setMission(data.mission);
+
+      // redirect(`/plans/${data.id}`);
     } catch (error) {
       console.log(error);
     }
@@ -35,6 +61,6 @@ class Plan {
   }
 }
 
-const planEntity = new Plan();
+const planEntity = new Plan(missionEntity, markersEntity);
 
 export { Plan, planEntity };
