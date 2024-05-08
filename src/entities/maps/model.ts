@@ -8,7 +8,7 @@ import { makeAutoObservable } from 'mobx';
 
 class MapsModel {
   selectedMap: (typeof mapList)[0] | null = null;
-  defaultMap = mapList[0];
+  defaultMap = mapList[8];
   locations: Location[] = [];
 
   isLocationsLoading = false;
@@ -37,6 +37,7 @@ class MapsModel {
     this.selectedMap = { ...map };
     this.getLocations(map.dir);
     basicMapEntity.flyTo(0, 0);
+    this.defaultMap = { ...map };
   };
 
   getLocations = async (map?: string) => {

@@ -269,6 +269,7 @@ const UnitMarker: FC<{
           styles[`${data.side.toLowerCase()}Text`]
         )}>
         {isDescriptionVisible && type === 'player' && data.description}
+        {type === 'group' && data.description}
       </Tooltip>
       <View.Condition if={type === 'group'}>
         <Popup

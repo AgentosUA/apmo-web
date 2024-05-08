@@ -39,6 +39,7 @@ import { View } from '@/shared/ui/quarks/view';
 import { MarkerColor, MarkerType } from '@/shared/data/marker';
 import { getMissionMarkerType } from '@/entities/mission/lib';
 import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
+import { callsigns } from '@/entities/mission/data';
 
 const ArmaMap = observer(() => {
   const isMounted = useMounted();
@@ -104,18 +105,53 @@ const ArmaMap = observer(() => {
       </View.Condition>
 
       <View.Condition if={markersEntity.playersDisplayMode === 'groups'}>
-        {missionEntity.groups.map((group) => {
-          return group.units
-            .slice(0, 1)
-            .map((unit) => (
+        {missionEntity.groups
+          .filter((group) => group.side === 'West')
+          .map((group, index) => {
+            return group.units.slice(0, 1).map((unit) => (
               <UnitMarker
                 key={unit.id}
-                data={unit}
+                data={{
+                  ...unit,
+                  description: callsigns[index],
+                }}
                 isAllVisible={markersEntity.isPlayersNameVisible}
                 units={group.units}
               />
             ));
-        })}
+          })}
+
+        {missionEntity.groups
+          .filter((group) => group.side === 'East')
+          .map((group, index) => {
+            return group.units.slice(0, 1).map((unit) => (
+              <UnitMarker
+                key={unit.id}
+                data={{
+                  ...unit,
+                  description: callsigns[index],
+                }}
+                isAllVisible={markersEntity.isPlayersNameVisible}
+                units={group.units}
+              />
+            ));
+          })}
+
+        {missionEntity.groups
+          .filter((group) => group.side === 'Independent')
+          .map((group, index) => {
+            return group.units.slice(0, 1).map((unit) => (
+              <UnitMarker
+                key={unit.id}
+                data={{
+                  ...unit,
+                  description: callsigns[index],
+                }}
+                isAllVisible={markersEntity.isPlayersNameVisible}
+                units={group.units}
+              />
+            ));
+          })}
       </View.Condition>
 
       <View.Condition if={Boolean(missionEntity.fileName)}>

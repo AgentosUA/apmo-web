@@ -64,14 +64,14 @@ const MenuItem: FC<
     isActive?: boolean;
   }>
 > = ({ children, isActive, onClick }) => (
-  <p
+  <div
     onClick={onClick}
     className={classNames(styles.item, {
       [styles.itemActive]: isActive,
       [styles.itemHoverable]: Boolean(onClick),
     })}>
     {children}
-  </p>
+  </div>
 );
 
 const Menu: FC<

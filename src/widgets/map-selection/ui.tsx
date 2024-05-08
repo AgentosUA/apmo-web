@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import Image from 'next/image';
@@ -23,6 +24,14 @@ const MapSelection: FC<{
 
   const [selectedMap, onSelectMap] = useState(mapsEntity.defaultMap);
 
+  useEffect(() => {
+    const element = document.getElementById(selectedMap.id);
+
+    if (!element) return;
+
+    element.scrollIntoView({ behavior: 'instant', block: 'center' });
+  }, []);
+
   return (
     <section className={styles.wrapper}>
       <div className={styles.selection}>
@@ -31,6 +40,7 @@ const MapSelection: FC<{
           <div className={styles.list}>
             {mapList.map((item) => (
               <div
+                id={item.id}
                 key={item.id}
                 className={classNames(styles.listItem, {
                   [styles.listItemActive]: selectedMap.id === item.id,
