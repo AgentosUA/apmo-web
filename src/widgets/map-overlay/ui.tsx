@@ -11,12 +11,15 @@ import { observer } from 'mobx-react-lite';
 
 import { missionEntity } from '@/entities/mission';
 
-import styles from './ui.module.scss';
 import dayjs from 'dayjs';
 
 import { planEntity } from '@/entities/plan';
 
+import { getIslandClassNameByPboFile } from '@/entities/mission/lib';
+
 import { SlotsList } from './slots-list';
+
+import styles from './ui.module.scss';
 
 const MapOverlay = observer(() => {
   if (!mapsEntity.selectedMap) return null;
@@ -58,7 +61,22 @@ const MapOverlay = observer(() => {
     inputRef?.current?.click?.();
   };
 
-  const onMissionUpload = (e: ChangeEvent<HTMLInputElement>) => {
+  const onMissionUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.[0]) return;
+
+    const islandClassName = getIslandClassNameByPboFile(
+      e.target.files?.[0]
+    ).toLowerCase();
+
+    if (islandClassName !== mapsEntity.selectedMap?.id) {
+      toasterEntity.call({
+        title: 'Map and mission mismatch',
+        description: `Mission is not on ${mapsEntity.selectedMap?.name}!`,
+      });
+
+      return;
+    }
+
     missionEntity.loadMission(e.target.files?.[0]);
   };
 

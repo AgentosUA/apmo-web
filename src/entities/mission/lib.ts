@@ -8,4 +8,8 @@ const getMissionMarkerType = (marker: MissionMarker) => {
   return String(MarkerType[marker.type as keyof typeof MarkerType]);
 };
 
-export { getMissionMarkerType };
+const getIslandClassNameByPboFile = (file: File) => {
+  return file?.name?.split?.('.pbo')?.[0]?.split('.')?.[1] ?? '';
+};
+
+export { getMissionMarkerType, getIslandClassNameByPboFile };

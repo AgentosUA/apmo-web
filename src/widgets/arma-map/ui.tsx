@@ -44,18 +44,6 @@ import { callsigns } from '@/entities/mission/data';
 const ArmaMap = observer(() => {
   const isMounted = useMounted();
 
-  useEffect(() => {
-    if (!missionEntity.island || !isMounted) return;
-
-    if (missionEntity.island !== mapsEntity.selectedMap?.id) {
-      missionEntity.resetMission();
-      toasterEntity.call({
-        title: 'Map and mission mismatch',
-        description: `Mission is not on ${mapsEntity.selectedMap?.name}!`,
-      });
-    }
-  }, [missionEntity.island, isMounted]);
-
   if (
     !isMounted ||
     !mapsEntity.selectedMap ||
