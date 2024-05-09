@@ -174,6 +174,7 @@ const ArmaMarker: FC<
           weight={1}
           eventHandlers={eventHandlers}
           color={MarkerColorHEX[color as keyof typeof MarkerColorHEX]}
+          fillOpacity={0.5}
           bounds={[
             [y + ySize, x + xSize],
             [y - ySize, x - xSize],

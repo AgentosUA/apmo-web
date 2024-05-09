@@ -143,25 +143,21 @@ const ArmaMap = observer(() => {
       </View.Condition>
 
       <View.Condition if={Boolean(missionEntity.fileName)}>
-        {missionEntity.markers
-          .filter((marker) =>
-            Boolean(MarkerType[marker.type as keyof typeof MarkerType])
-          )
-          .map((marker) => (
-            <ArmaMarker
-              key={marker.id}
-              type={getMissionMarkerType(marker)}
-              size={[marker.width, marker.height]}
-              icon={MarkerIcon(marker.type, marker.colorName, marker.width)}
-              direction={marker.position.angle}
-              x={marker.position.coordinates.x ?? 0}
-              y={marker.position.coordinates.y ?? 0}
-              draggable={false}
-              color={String(
-                MarkerColor[marker.colorName as keyof typeof MarkerColor]
-              )}
-            />
-          ))}
+        {missionEntity.markers.map((marker) => (
+          <ArmaMarker
+            key={marker.id}
+            type={getMissionMarkerType(marker)}
+            size={[marker.width, marker.height]}
+            icon={MarkerIcon(marker.type, marker.colorName, marker.width)}
+            direction={marker.position.angle}
+            x={marker.position.coordinates.x ?? 0}
+            y={marker.position.coordinates.y ?? 0}
+            draggable={false}
+            color={String(
+              MarkerColor[marker.colorName as keyof typeof MarkerColor]
+            )}
+          />
+        ))}
       </View.Condition>
 
       <View.Condition if={Boolean(missionEntity.fileName)}>
