@@ -152,7 +152,7 @@ const ArmaMarker: FC<
         <Ellipse
           center={[y, x]}
           radii={size}
-          tilt={0}
+          tilt={direction}
           eventHandlers={eventHandlers}
           options={{
             color: MarkerColorHEX[color as keyof typeof MarkerColorHEX],
