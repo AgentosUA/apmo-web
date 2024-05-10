@@ -166,6 +166,8 @@ const ArmaMarker: FC<
     }
 
     if (type === 'line') {
+      return null; // hide temporary line
+
       const ySize = Array.isArray(size) ? size?.[0] : 0;
       const xSize = Array.isArray(size) ? size?.[1] : 0;
 
