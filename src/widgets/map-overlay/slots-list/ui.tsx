@@ -31,7 +31,7 @@ const SlotsList: FC<{
               </span>
               <ol className={styles.units}>
                 {group.units.map((item) => (
-                  <li key={item.id}>{item.description}</li>
+                  <li key={item.id}>{item.description ?? item.type}</li>
                 ))}
               </ol>
             </li>

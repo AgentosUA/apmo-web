@@ -271,8 +271,10 @@ const UnitMarker: FC<{
           styles.unitDescription,
           styles[`${data.side.toLowerCase()}Text`]
         )}>
-        {isDescriptionVisible && type === 'player' && data.description}
-        {type === 'group' && data.description}
+        {isDescriptionVisible &&
+          type === 'player' &&
+          (data.description ?? data.type)}
+        {type === 'group' && (data.description ?? data.type)}
       </Tooltip>
       <View.Condition if={type === 'group'}>
         <Popup
@@ -285,7 +287,7 @@ const UnitMarker: FC<{
           {type === 'group' && (
             <ol className={styles.unitList}>
               {units.map((item) => (
-                <li key={item.id}>{item.description}</li>
+                <li key={item.id}>{item.description ?? item.type}</li>
               ))}
             </ol>
           )}
@@ -313,7 +315,7 @@ const VehicleMarker: FC<{
       zIndexOffset={1}
       icon={icon}
       position={[data.position.coordinates.y, data.position.coordinates.x]}>
-      <Popup closeOnEscapeKey>{data.description}</Popup>
+      <Popup closeOnEscapeKey>{data.description ?? data.type}</Popup>
     </Marker>
   );
 });
