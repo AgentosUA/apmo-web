@@ -155,8 +155,8 @@ const ArmaMarker: FC<
           tilt={direction}
           eventHandlers={eventHandlers}
           options={{
-            color: MarkerColorHEX[color as keyof typeof MarkerColorHEX],
-            fillColor: MarkerColorHEX[color as keyof typeof MarkerColorHEX],
+            color: color,
+            fillColor: color,
             fillOpacity: 0.5,
             opacity: 1,
             weight: 0,

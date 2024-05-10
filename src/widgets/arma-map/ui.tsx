@@ -33,10 +33,9 @@ import {
 
 import { LeafletMouseEvent } from 'leaflet';
 import { missionEntity } from '@/entities/mission';
-import { useEffect } from 'react';
-import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
+
 import { View } from '@/shared/ui/quarks/view';
-import { MarkerColor, MarkerType } from '@/shared/data/marker';
+import { MarkerColorHEX } from '@/shared/data/marker';
 import { getMissionMarkerType } from '@/entities/mission/lib';
 import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
 import { callsigns } from '@/entities/mission/data';
@@ -154,7 +153,7 @@ const ArmaMap = observer(() => {
             y={marker.position.coordinates.y ?? 0}
             draggable={false}
             color={String(
-              MarkerColor[marker.colorName as keyof typeof MarkerColor]
+              MarkerColorHEX[marker.colorName as keyof typeof MarkerColorHEX]
             )}
           />
         ))}
