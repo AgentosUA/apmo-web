@@ -1,3 +1,5 @@
+@import '@/shared/ui/styles/core.scss';
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -49,7 +51,12 @@
 }
 
 .main {
-  margin: 133px auto 0 auto
+  padding-top: 30px;
+  margin: 133px auto 0 auto;
+
+  @include tablet {
+    margin: auto;
+  }
 }
 
 .navigation {
@@ -61,6 +68,11 @@
   gap: 0;
   width: 100%;
   background: rgba($color: #070B0A, $alpha: 0.7);
+
+  @include tablet {
+    min-height: 115px;
+    flex-direction: column;
+  }
 }
 
 .navigation-item {
@@ -88,6 +100,22 @@
     .navigation-item-image {
       top: -325px;
       transition: .3s;
+    }
+  }
+
+  @include tablet {
+
+    width: 100%;
+    min-width: 100svw;
+    height: auto;
+    min-height: 150px;
+
+    &:hover {
+      transition: none;
+
+      .navigation-item-image {
+        top: 0
+      }
     }
   }
 }
