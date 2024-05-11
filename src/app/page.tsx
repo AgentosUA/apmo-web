@@ -91,7 +91,7 @@ const HomePage = observer(() => {
             />
             <p className={styles.navigationItemText}>Load mission</p>
           </div>
-          <div className={styles.navigationItem}>
+          <Link href='/changelog' className={styles.navigationItem}>
             <Image
               className={styles.navigationItemImage}
               src='/changelog.png'
@@ -100,7 +100,7 @@ const HomePage = observer(() => {
               alt='Changelog'
             />
             <p className={styles.navigationItemText}>Changelog</p>
-          </div>
+          </Link>
         </div>
       </main>
       <Footer />
