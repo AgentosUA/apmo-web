@@ -413,7 +413,7 @@ const mapList = [
     offset: '300',
     zoom: '8',
     name: 'Napf Winter',
-    dir: 'napfwinter',
+    dir: 'napf',
     image: '/maps/napf.png',
     author: 'Bohemia Interactive',
   },
