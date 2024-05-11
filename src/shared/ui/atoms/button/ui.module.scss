@@ -1,3 +1,5 @@
+@import '@/shared/ui/styles/core.scss';
+
 .button {
   min-width: 127px;
   height: 20px;
@@ -21,6 +23,11 @@
 
     animation: white-blink 2s infinite;
   }
+
+  @include tablet {
+    height: 35px;
+  }
+
 }
 
 .think {
@@ -43,9 +50,7 @@
   }
 }
 
-.bold {
-  
-}
+.bold {}
 
 @keyframes white-blink {
   0% {
