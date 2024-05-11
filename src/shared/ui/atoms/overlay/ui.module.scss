@@ -1,3 +1,5 @@
+@import '@/shared/ui/styles/core.scss';
+
 .header {
   top: 0;
   left: 0;
@@ -40,6 +42,17 @@
   max-height: calc(100svh - 20px);
   z-index: 1000;
   pointer-events: none;
+
+  @include tablet {
+    top: 35px;
+    left: 5px;
+    right: 5px;
+    max-width: none;
+    max-height: calc(100vh - 35px);
+    max-height: calc(100svh - 35px);
+    overflow: hidden;
+    flex-wrap: wrap;
+  }
 }
 
 .menu {
@@ -51,13 +64,29 @@
 
 .primary {
   min-width: 140px;
+
+  @include tablet {
+    width: 100%;
+  }
 }
 
 .secondary {
   min-width: 230px;
+  max-height: calc(100svh - 110px);
   max-height: calc(100vh - 110px);
   overflow-y: auto;
   margin-bottom: 20px;
+
+  @include tablet {
+    margin-bottom: auto;
+    width: 100%;
+
+    &:last-child {
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+  }
 }
 
 .item {
