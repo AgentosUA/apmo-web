@@ -173,11 +173,13 @@ const MapOverlay = observer<{
             Mission
           </Overlay.MenuItem>
 
-          <Overlay.MenuItem
-            isActive={active.plan}
-            onClick={() => onMenuItemClick('plan')}>
-            Plan
-          </Overlay.MenuItem>
+          <View.Condition if={Boolean(missionEntity.fileName)}>
+            <Overlay.MenuItem
+              isActive={active.plan}
+              onClick={() => onMenuItemClick('plan')}>
+              Plan
+            </Overlay.MenuItem>
+          </View.Condition>
         </Overlay.Menu>
 
         <View.Condition if={active.markers}>

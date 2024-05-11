@@ -94,7 +94,7 @@ type EntityItem = {
 type CreatePlanDto = {
   title: string;
   planMarkers: string;
-  mission: Mission;
+  mission: Mission | null;
 };
 
 type GetPlanByIdDto = {
