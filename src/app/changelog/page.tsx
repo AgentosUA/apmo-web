@@ -25,7 +25,7 @@ const ChangelogPage = observer(() => {
         imageUrl='/preview.jpg'>
         <b>Welcome to APMO: Arma Plan Maker Online!</b>
         <br />
-        We are happy to inform you that our project now are open for beta
+        We are happy to inform you that our project are now open for beta
         testing!
         <br />
         While working on the 1.0 release version, there some features that now
