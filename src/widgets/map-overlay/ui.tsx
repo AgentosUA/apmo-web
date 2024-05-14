@@ -266,11 +266,13 @@ const MapOverlay = observer<{
                 onClick={() => onMenuItemClick('mission', 'intel')}>
                 Intel
               </Overlay.MenuItem>
-              <Overlay.MenuItem
-                isActive={active.dlcs}
-                onClick={() => onMenuItemClick('mission', 'dlcs')}>
-                DLC used
-              </Overlay.MenuItem>
+              <View.Condition if={Boolean(missionEntity.dlcs)}>
+                <Overlay.MenuItem
+                  isActive={active.dlcs}
+                  onClick={() => onMenuItemClick('mission', 'dlcs')}>
+                  DLC used
+                </Overlay.MenuItem>
+              </View.Condition>
               {missionEntity.groups.some((item) => item.side === 'West') && (
                 <Overlay.MenuItem
                   isActive={active.slotsBluefor}
@@ -318,11 +320,11 @@ const MapOverlay = observer<{
           </Overlay.Menu>
         </View.Condition>
 
-        <View.Condition if={active.dlcs}>
+        <View.Condition if={active.dlcs && Boolean(missionEntity?.dlcs)}>
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem>
               <ul className={styles.list}>
-                {missionEntity.dlcs.map((dlc) => (
+                {missionEntity?.dlcs?.map((dlc) => (
                   <li key={dlc}>{dlc}</li>
                 ))}
               </ul>
