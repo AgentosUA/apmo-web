@@ -68,6 +68,7 @@ const BasicMap: FC<
     maxZoom: number;
     scale?: number;
     dragging?: boolean;
+    merged?: boolean;
     onDoubleClick?: (event: LeafletMouseEvent) => void;
     onZoomLevelChange?: (zoomLevel: number) => void;
   }>
@@ -81,20 +82,23 @@ const BasicMap: FC<
     maxZoom,
     defaultZoom = 2,
     dragging = true,
+    merged = false,
     onDoubleClick,
     onZoomLevelChange,
   }) => {
     const armaCRS = createArmaCRS(mapSize);
 
-    const layers = [
-      'terrain',
-      'forest',
-      'bushes',
-      'count_main',
-      'count',
-      'roads',
-      'objects',
-    ];
+    const layers = merged
+      ? ['']
+      : [
+          'terrain',
+          'forest',
+          'bushes',
+          'count_main',
+          'count',
+          'roads',
+          'objects',
+        ];
 
     const isGeodesic = name.includes('geodesic');
 

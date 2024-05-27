@@ -140,6 +140,7 @@ const mapList = [
     name: 'Caribou Frontier',
     dir: 'caribou',
     image: '/maps/caribou.png',
+    merged: true,
     author: 'Bohemia Interactive',
   },
   {
