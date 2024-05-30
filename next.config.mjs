@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: false, // enable after react-leaflet fix
+  experimental: {
+    reactCompiler: true,
+  },
   webpack: (config) => {
     const rules = config.module.rules
       .find((rule) => typeof rule.oneOf === 'object')

@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, PropsWithChildren, useEffect, memo, useState } from 'react';
+import { FC, PropsWithChildren, useEffect, memo, useRef } from 'react';
 
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 
