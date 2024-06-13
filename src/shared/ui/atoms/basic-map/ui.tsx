@@ -82,7 +82,7 @@ const BasicMap: FC<
     maxZoom,
     defaultZoom = 2,
     dragging = true,
-    merged = false,
+    merged = true,
     onDoubleClick,
     onZoomLevelChange,
   }) => {
@@ -130,7 +130,7 @@ const BasicMap: FC<
                 url={`${process.env.NEXT_PUBLIC_MAPS_URL}/${name}/${layer}/{z}/{x}_{y}.png`}
                 tileSize={256}
                 keepBuffer={4}
-                updateInterval={650}
+                updateInterval={100}
                 minZoom={minZoom}
                 maxZoom={maxZoom + 10}
                 maxNativeZoom={maxZoom}
