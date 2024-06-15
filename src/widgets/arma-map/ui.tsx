@@ -70,7 +70,6 @@ const ArmaMap = observer(() => {
       minZoom={0}
       maxZoom={Number(mapsEntity.selectedMap.zoom)}
       mapSize={Number(mapsEntity.selectedMap.width)}
-      merged={mapsEntity.selectedMap?.merged}
       dragging={!createMarkerEntity.isVisible}
       onDoubleClick={onDoubleClick}
       onZoomLevelChange={onZoomLevelChange}>

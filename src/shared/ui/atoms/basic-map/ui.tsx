@@ -82,25 +82,12 @@ const BasicMap: FC<
     maxZoom,
     defaultZoom = 2,
     dragging = true,
-    merged = true,
     onDoubleClick,
     onZoomLevelChange,
   }) => {
     const armaCRS = createArmaCRS(mapSize);
 
-    const layers = merged
-      ? ['']
-      : [
-          'terrain',
-          'forest',
-          'bushes',
-          'count_main',
-          'count',
-          'roads',
-          'objects',
-        ];
-
-    const isGeodesic = name.includes('geodesic');
+    const isRetina = 1 !== window.devicePixelRatio;
 
     return (
       <div id='map'>
@@ -110,9 +97,9 @@ const BasicMap: FC<
           crs={armaCRS}
           zoomControl={false}
           zoom={defaultZoom}
+          maxZoom={maxZoom}
           dragging={dragging}
           doubleClickZoom={false}
-          worldCopyJump={false}
           maxBoundsViscosity={0.7}
           wheelPxPerZoomLevel={500}
           markerZoomAnimation>
@@ -123,34 +110,19 @@ const BasicMap: FC<
 
           <FlyComponent maxZoom={maxZoom} />
 
-          {!isGeodesic &&
-            layers.map((layer) => (
-              <TileLayer
-                key={layer}
-                url={`${process.env.NEXT_PUBLIC_MAPS_URL}/${name}/${layer}/{z}/{x}_{y}.png`}
-                tileSize={256}
-                keepBuffer={4}
-                updateInterval={100}
-                minZoom={minZoom}
-                maxZoom={maxZoom + 10}
-                maxNativeZoom={maxZoom}
-                noWrap
-                detectRetina
-              />
-            ))}
-
-          {isGeodesic && (
-            <TileLayer
-              url={`${process.env.NEXT_PUBLIC_MAPS_URL}/${name}/{z}/{x}/{y}.png`}
-              tileSize={256}
-              keepBuffer={4}
-              updateInterval={650}
-              minZoom={minZoom}
-              maxZoom={maxZoom}
-              noWrap
-              detectRetina
-            />
-          )}
+          <TileLayer
+            url={`${process.env.NEXT_PUBLIC_MAPS_URL}/${name}/{z}/{x}_{y}.png`}
+            tileSize={256}
+            keepBuffer={4}
+            updateInterval={100}
+            updateWhenZooming
+            updateWhenIdle={false}
+            minZoom={minZoom}
+            maxZoom={maxZoom + 10}
+            maxNativeZoom={isRetina ? maxZoom - 1 : maxZoom}
+            noWrap
+            detectRetina
+          />
 
           {children}
         </MapContainer>
