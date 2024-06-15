@@ -7,7 +7,7 @@
 }
 
 .ColorBlackFilter {
-  filter: brightness(0) saturate(100%) invert(0%) sepia(100%) saturate(7495%) hue-rotate(147deg) brightness(97%) contrast(100%);
+  filter: brightness(0) saturate(100%) invert(0%) sepia(85%) saturate(7500%) hue-rotate(291deg) brightness(89%) contrast(89%);
 }
 
 .ColorGreyFilter {
@@ -104,7 +104,7 @@
 }
 
 .Color5_FD_FFilter {
-  color: rgba(128, 128, 128, 1);
+  filter: brightness(0) saturate(100%) invert(38%) sepia(32%) saturate(1748%) hue-rotate(262deg) brightness(87%) contrast(96%);
 }
 
 .Color6_FD_FFilter {
