@@ -24,7 +24,10 @@ import { View } from '../../quarks/view';
 
 import Ellipse from '../../quarks/ellipse-leaflet/ui';
 import { MarkerColorHEX } from '@/shared/data/marker';
-import { getVehicleIconSizeByType } from './lib';
+import {
+  calculateRotatedRectangleCorners,
+  getVehicleIconSizeByType,
+} from './lib';
 
 type LocationType =
   | 'city'
@@ -165,66 +168,26 @@ const ArmaMarker: FC<
       );
     }
 
-    if (type === 'line') {
-      const height = Array.isArray(size) ? size?.[1] : 0;
-      const width = Array.isArray(size) ? size?.[0] : 0;
+    if (type === 'line' && Array.isArray(size)) {
+      const height = size[1] * 2;
+      const width = size[0] * 1.5;
 
-      const rotatePoint = (
-        cx: number,
-        cy: number,
-        x: number,
-        y: number,
-        angle: number
-      ) => {
-        const radians = (Math.PI / 180) * angle;
-        const cos = Math.cos(radians);
-        const sin = Math.sin(radians);
-        const nx = cos * (x - cx) - sin * (y - cy) + cx;
-        const ny = sin * (x - cx) + cos * (y - cy) + cy;
-        return [ny, nx]; // Switch the order to match [latitude, longitude]
-      };
-
-      // Calculate the center of the rectangle
-      const cx = x + width;
-      const cy = y + height;
-
-      // Calculate the corners of the rectangle before rotation
-      const corners = [
-        [y, x], // bottom-left
-        [y, x + width], // bottom-right
-        [y + height, x + width], // top-right
-        [y + height, x], // top-left
-      ];
-
-      // Rotate each corner around the center
-      const rotatedCorners = corners.map(([cornerY, cornerX]) =>
-        rotatePoint(cy, cx, cornerX, cornerY, direction)
+      const corners = calculateRotatedRectangleCorners(
+        [y, x],
+        width,
+        height,
+        direction
       );
-
-      console.log('test', rotatedCorners);
 
       return (
         <Polygon
-          positions={rotatedCorners}
+          positions={corners}
           fillColor={MarkerColorHEX[color as keyof typeof MarkerColorHEX]}
           opacity={10}
           interactive
           stroke={false}
         />
       );
-
-      // return (
-      //   <Rectangle
-      //     weight={1}
-      //     eventHandlers={eventHandlers}
-      //     color={MarkerColorHEX[color as keyof typeof MarkerColorHEX]}
-      //     fillOpacity={0.5}
-      //     bounds={[
-      //       [y, x],
-      //       [y + height, x + width],
-      //     ]}
-      //   />
-      // );
     }
 
     return (
