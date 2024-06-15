@@ -107,6 +107,12 @@ const MapOverlay = observer<{
   };
 
   useEffect(() => {
+    if (!missionEntity.island) return;
+
+    mapsEntity.getLocations(missionEntity.island);
+  }, [missionEntity.island]);
+
+  useEffect(() => {
     if (missionEntity.briefing?.diary?.length) {
       const diaryIds = missionEntity.briefing.diary.map((item) => item.id);
 
