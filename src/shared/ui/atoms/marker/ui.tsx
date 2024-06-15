@@ -12,7 +12,7 @@ import {
   memo,
   useState,
 } from 'react';
-import { Marker, Popup, Rectangle, Tooltip } from 'react-leaflet';
+import { Marker, Polygon, Popup, Rectangle, Tooltip } from 'react-leaflet';
 
 import 'leaflet-rotatedmarker';
 
@@ -166,10 +166,52 @@ const ArmaMarker: FC<
     }
 
     if (type === 'line') {
-      return null; // hide temporary line
+      const height = Array.isArray(size) ? size?.[1] : 0;
+      const width = Array.isArray(size) ? size?.[0] : 0;
 
-      // const ySize = Array.isArray(size) ? size?.[0] : 0;
-      // const xSize = Array.isArray(size) ? size?.[1] : 0;
+      const rotatePoint = (
+        cx: number,
+        cy: number,
+        x: number,
+        y: number,
+        angle: number
+      ) => {
+        const radians = (Math.PI / 180) * angle;
+        const cos = Math.cos(radians);
+        const sin = Math.sin(radians);
+        const nx = cos * (x - cx) - sin * (y - cy) + cx;
+        const ny = sin * (x - cx) + cos * (y - cy) + cy;
+        return [ny, nx]; // Switch the order to match [latitude, longitude]
+      };
+
+      // Calculate the center of the rectangle
+      const cx = x + width;
+      const cy = y + height;
+
+      // Calculate the corners of the rectangle before rotation
+      const corners = [
+        [y, x], // bottom-left
+        [y, x + width], // bottom-right
+        [y + height, x + width], // top-right
+        [y + height, x], // top-left
+      ];
+
+      // Rotate each corner around the center
+      const rotatedCorners = corners.map(([cornerY, cornerX]) =>
+        rotatePoint(cy, cx, cornerX, cornerY, direction)
+      );
+
+      console.log('test', rotatedCorners);
+
+      return (
+        <Polygon
+          positions={rotatedCorners}
+          fillColor={MarkerColorHEX[color as keyof typeof MarkerColorHEX]}
+          opacity={10}
+          interactive
+          stroke={false}
+        />
+      );
 
       // return (
       //   <Rectangle
@@ -178,8 +220,8 @@ const ArmaMarker: FC<
       //     color={MarkerColorHEX[color as keyof typeof MarkerColorHEX]}
       //     fillOpacity={0.5}
       //     bounds={[
-      //       [y + ySize, x + xSize],
-      //       [y - ySize, x - xSize],
+      //       [y, x],
+      //       [y + height, x + width],
       //     ]}
       //   />
       // );
