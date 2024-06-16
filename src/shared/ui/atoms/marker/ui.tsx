@@ -2,7 +2,8 @@ import Image from 'next/image';
 
 import classNames from 'classnames';
 
-import { Icon, DivIcon, Marker as MarkerLeaflet, MarkerOptions } from 'leaflet';
+import { Icon, DivIcon, Marker as MarkerLeaflet, MarkerOptions, LatLngExpression } from 'leaflet';
+
 import {
   FC,
   PropsWithChildren,
@@ -181,7 +182,7 @@ const ArmaMarker: FC<
 
       return (
         <Polygon
-          positions={corners}
+          positions={corners as LatLngExpression[]}
           fillColor={MarkerColorHEX[color as keyof typeof MarkerColorHEX]}
           opacity={10}
           interactive
