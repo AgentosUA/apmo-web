@@ -12,7 +12,7 @@ import {
   memo,
   useState,
 } from 'react';
-import { Marker, Popup, Rectangle, Tooltip } from 'react-leaflet';
+import { Marker, Polygon, Popup, Rectangle, Tooltip } from 'react-leaflet';
 
 import 'leaflet-rotatedmarker';
 
@@ -24,7 +24,10 @@ import { View } from '../../quarks/view';
 
 import Ellipse from '../../quarks/ellipse-leaflet/ui';
 import { MarkerColorHEX } from '@/shared/data/marker';
-import { getVehicleIconSizeByType } from './lib';
+import {
+  calculateRotatedRectangleCorners,
+  getVehicleIconSizeByType,
+} from './lib';
 
 type LocationType =
   | 'city'
@@ -165,24 +168,26 @@ const ArmaMarker: FC<
       );
     }
 
-    if (type === 'line') {
-      return null; // hide temporary line
+    if (type === 'line' && Array.isArray(size)) {
+      const height = size[1] * 2;
+      const width = size[0] * 1.5;
 
-      // const ySize = Array.isArray(size) ? size?.[0] : 0;
-      // const xSize = Array.isArray(size) ? size?.[1] : 0;
+      const corners = calculateRotatedRectangleCorners(
+        [y, x],
+        width,
+        height,
+        direction
+      );
 
-      // return (
-      //   <Rectangle
-      //     weight={1}
-      //     eventHandlers={eventHandlers}
-      //     color={MarkerColorHEX[color as keyof typeof MarkerColorHEX]}
-      //     fillOpacity={0.5}
-      //     bounds={[
-      //       [y + ySize, x + xSize],
-      //       [y - ySize, x - xSize],
-      //     ]}
-      //   />
-      // );
+      return (
+        <Polygon
+          positions={corners}
+          fillColor={MarkerColorHEX[color as keyof typeof MarkerColorHEX]}
+          opacity={10}
+          interactive
+          stroke={false}
+        />
+      );
     }
 
     return (
