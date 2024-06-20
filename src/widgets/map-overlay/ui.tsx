@@ -107,10 +107,10 @@ const MapOverlay = observer<{
   };
 
   useEffect(() => {
-    if (!missionEntity.island) return;
+    if (!mapsEntity.selectedMap) return;
 
-    mapsEntity.getLocations(missionEntity.island);
-  }, [missionEntity.island]);
+    mapsEntity.getLocations(mapsEntity.selectedMap.dir);
+  }, [mapsEntity.selectedMap]);
 
   useEffect(() => {
     if (missionEntity.briefing?.diary?.length) {

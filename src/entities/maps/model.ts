@@ -41,7 +41,7 @@ class MapsModel {
 
     this.selectedMap = { ...map };
     this.defaultMap = { ...map };
-    this.getLocations(map.dir);
+
     basicMapEntity.flyTo(0, 0);
   };
 
