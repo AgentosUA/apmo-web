@@ -11,3 +11,9 @@
 .home-link {
   margin: 30px 0;
 }
+
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
