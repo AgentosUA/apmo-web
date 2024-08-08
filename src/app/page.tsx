@@ -12,6 +12,7 @@ import { mapList } from '@/shared/data/map-list';
 import { useRouter } from 'next/navigation';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { Footer } from '@/widgets/footer';
+import { Header } from '@/widgets/header/ui';
 
 const HomePage = observer(() => {
   const router = useRouter();
@@ -44,19 +45,7 @@ const HomePage = observer(() => {
 
   return (
     <div className={styles.wrapper}>
-      <header className={styles.header}>
-        <div className={styles.menu}></div>
-        <div className={styles.logo}>
-          <Image
-            className={styles.logoImage}
-            src='/a3-logo.png'
-            width={159}
-            height={91}
-            alt='logo'
-          />
-          <h1 className={styles.title}>PLAN MAKER ONLINE</h1>
-        </div>
-      </header>
+      <Header />
       <main className={styles.main}>
         <div className={styles.navigation}>
           <Link href='/plans/create' className={styles.navigationItem}>

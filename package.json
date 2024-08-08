@@ -24,6 +24,7 @@
     "next": "^15.0.0-rc.0",
     "react": "^19.0.0-rc-38e3b23483-20240529",
     "react-dom": "^19.0.0-rc-38e3b23483-20240529",
+    "react-hook-form": "^7.52.2",
     "react-icons": "^5.0.1",
     "react-leaflet": "^4.2.1",
     "sass": "^1.70.0",

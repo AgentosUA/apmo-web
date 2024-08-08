@@ -8,48 +8,6 @@
   min-height: 100svh;
 }
 
-.header {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 90px;
-}
-
-.logo {
-  position: absolute;
-  left: 50%;
-  top: -2px;
-  transform: translateX(-50%);
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.title {
-  font-size: 20px;
-  font-weight: 500;
-  color: #fff;
-  text-align: center;
-}
-
-
-.logo-image {
-  // width: 100%;
-  // height: 100%;
-}
-
-.menu {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 32px;
-  background: #070B0A;
-}
-
 .main {
   padding-top: 30px;
   margin: 133px auto 0 auto;
@@ -83,7 +41,7 @@
   width: 325px;
   height: 325px;
   cursor: pointer;
-  transition: .3s;
+  transition: top .3s;
   overflow: hidden;
   border: 2px solid #000;
   border-right: none;
@@ -99,7 +57,7 @@
 
     .navigation-item-image {
       top: -325px;
-      transition: .3s;
+      transition: top .3s;
     }
   }
 
@@ -132,7 +90,7 @@
   top: 0;
   left: 0;
   z-index: 0;
-  transition: .3s;
+  transition: top .3s;
   width: 100%;
   height: 100%;
   object-fit: cover;

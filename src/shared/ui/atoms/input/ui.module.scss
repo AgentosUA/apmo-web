@@ -1,0 +1,19 @@
+@import '@/shared/ui/styles/core.scss';
+
+.input {
+  padding: 10px 8px;
+  height: 32px;
+  width: 100%;
+  background: $black;
+  color: $white;
+  border: none;
+
+  &::placeholder {
+    color: $grey;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+}
