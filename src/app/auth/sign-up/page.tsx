@@ -1,5 +1,7 @@
 'use client';
 
+import * as yup from 'yup';
+
 import { Form, SubmitHandler, useForm } from 'react-hook-form';
 
 import { Header } from '@/widgets/header/ui';
@@ -8,6 +10,7 @@ import { Button } from '@/shared/ui/atoms/button';
 import { Input } from '@/shared/ui/atoms/input/ui';
 
 import styles from './ui.module.scss';
+import { useYupValidationResolver } from '@/shared/lib/yup/use-yup-validation-resolver';
 
 type FormFields = {
   email: string;
@@ -17,7 +20,15 @@ type FormFields = {
 };
 
 const SignUpPage = () => {
+  const validationSchema = yup.object({
+    email: yup.string().required('Required'),
+    username: yup.string().required('Required'),
+    password: yup.string().required('Required'),
+    rePassword: yup.string().required('Required'),
+  });
+
   const { register, handleSubmit, control } = useForm<FormFields>({
+    resolver: useYupValidationResolver(validationSchema),
     defaultValues: {
       email: '',
       username: '',
