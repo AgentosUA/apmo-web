@@ -24,18 +24,23 @@ const SignUpPage = () => {
     email: yup.string().required('Required'),
     username: yup.string().required('Required'),
     password: yup.string().required('Required'),
-    rePassword: yup.string().required('Required'),
+    rePassword: yup
+      .string()
+      .required('Required')
+      .oneOf([yup.ref('password'), ''], 'Passwords must match'),
   });
 
-  const { register, handleSubmit, control } = useForm<FormFields>({
-    resolver: useYupValidationResolver(validationSchema),
-    defaultValues: {
-      email: '',
-      username: '',
-      password: '',
-      rePassword: '',
-    },
-  });
+  const { register, handleSubmit, control, formState, watch } =
+    useForm<FormFields>({
+      resolver: useYupValidationResolver(validationSchema),
+      defaultValues: {
+        email: '',
+        username: '',
+        password: '',
+        rePassword: '',
+      },
+      mode: 'all',
+    });
 
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     console.log(data);
@@ -50,17 +55,29 @@ const SignUpPage = () => {
           className={styles.form}
           onSubmit={handleSubmit(onSubmit)}>
           <h2>Sign up</h2>
-          <Input {...register('email')} type='Email' placeholder='Email' />
-          <Input {...register('username')} type='text' placeholder='Username' />
+          <Input
+            {...register('email')}
+            type='Email'
+            label='Email'
+            error={formState.errors.email?.message}
+          />
+          <Input
+            {...register('username')}
+            type='text'
+            label='Username'
+            error={formState.errors.username?.message}
+          />
           <Input
             {...register('password')}
             type='password'
-            placeholder='Password'
+            label='Password'
+            error={formState.errors.password?.message}
           />
           <Input
             {...register('rePassword')}
             type='re-password'
-            placeholder='Re-password'
+            label='Re-password'
+            error={formState.errors.rePassword?.message}
           />
           <Button variant='bold' type='submit'>
             Sign Up
