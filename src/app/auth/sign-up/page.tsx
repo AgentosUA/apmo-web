@@ -39,6 +39,11 @@ const SignUpPage = () => {
         await apmoApi.user.signUp(values);
 
         router.push('/auth/login');
+
+        toasterEntity.call({
+          title: 'Acount created',
+          description: 'You can now login',
+        });
       } catch {
         toasterEntity.call({
           title: 'Failed to create account',
