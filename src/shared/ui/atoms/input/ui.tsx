@@ -29,8 +29,6 @@ const Input = ({
     onBlur?.(e);
   };
 
-  console.log(value);
-
   return (
     <div className={classNames(styles.wrapper, className)}>
       {

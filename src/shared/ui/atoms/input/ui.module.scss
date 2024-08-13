@@ -25,20 +25,20 @@
   position: absolute;
   top: 50%;
   left: 10px;
-  color: $white;
+  color: $grey;
   font-size: 14px;
+  pointer-events: none;
   transition: .2s;
   transform: translateY(-50%);
-  pointer-events: none;
 }
 
 .label-focused {
   top: -18px;
   left: 0;
-  transform: translateY(0);
   font-size: 14px;
-  color: $white;
+  color: $grey;
   transition: .2s;
+  transform: translateY(0);
 }
 
 .error {

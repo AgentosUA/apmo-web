@@ -108,6 +108,18 @@ type PlanResponse = {
   planMarkers: string;
 };
 
+type LoginDto = {
+  email?: string;
+  username?: string;
+  password: string;
+};
+
+type SignUpDto = {
+  email: string;
+  username: string;
+  password: string;
+};
+
 const instance = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
   headers: {
@@ -138,6 +150,14 @@ const apmoApi = {
 
     getPlanById: async (data: GetPlanByIdDto) => {
       return instance.get<PlanResponse>(`/plans/${data.id}`);
+    },
+  },
+  user: {
+    login: async (data: LoginDto) => {
+      return instance.post('/auth/login', data);
+    },
+    signUp: async (data: SignUpDto) => {
+      return instance.post('/auth/sign-up', data);
     },
   },
 };

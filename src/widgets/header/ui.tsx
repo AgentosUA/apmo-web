@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
@@ -10,7 +12,7 @@ import styles from './ui.module.scss';
 import classNames from 'classnames';
 
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState((window?.scrollY ?? 0) > 0);
 
   useEffect(() => {
     const handleScroll = () => {
