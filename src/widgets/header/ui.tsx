@@ -8,11 +8,16 @@ import Link from 'next/link';
 
 import { Button } from '@/shared/ui/atoms/button';
 
-import styles from './ui.module.scss';
+import { UnAuthorized } from '@/entities/user/ui/authorization/ui';
+
 import classNames from 'classnames';
 
+import styles from './ui.module.scss';
+
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState((window?.scrollY ?? 0) > 0);
+  const [isScrolled, setIsScrolled] = useState(
+    (typeof window === 'undefined' ? 0 : window.scrollY) > 0
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,18 +64,20 @@ const Header = () => {
           <h1 className={styles.title}>PLAN MAKER ONLINE</h1>
         </Link>
       </div>
-      <div className={styles.menu}>
-        <Link href='/auth/login'>
-          <Button className={styles.menuItem} size='md' variant='transparent'>
-            LOG IN
-          </Button>
-        </Link>
-        <Link href='/auth/sign-up'>
-          <Button className={styles.menuItem} variant='transparent'>
-            SIGN UP
-          </Button>
-        </Link>
-      </div>
+      <UnAuthorized>
+        <div className={styles.menu}>
+          <Link href='/auth/login'>
+            <Button className={styles.menuItem} size='md' variant='transparent'>
+              LOG IN
+            </Button>
+          </Link>
+          <Link href='/auth/sign-up'>
+            <Button className={styles.menuItem} variant='transparent'>
+              SIGN UP
+            </Button>
+          </Link>
+        </div>
+      </UnAuthorized>
     </header>
   );
 };

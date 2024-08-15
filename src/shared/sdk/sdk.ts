@@ -114,10 +114,24 @@ type LoginDto = {
   password: string;
 };
 
+type LoginResponse = {
+  token: string;
+  refreshToken: string;
+};
+
 type SignUpDto = {
   email: string;
   username: string;
   password: string;
+};
+
+type User = {
+  id: string;
+  email: string;
+  username: string;
+  avatar: string | null;
+  squadTag: string | null;
+  plans: PlanResponse[];
 };
 
 const instance = axios.create({
@@ -154,14 +168,22 @@ const apmoApi = {
   },
   user: {
     login: async (data: LoginDto) => {
-      return instance.post('/auth/login', data);
+      return instance.post<LoginResponse>('/auth/sign-in', data);
     },
     signUp: async (data: SignUpDto) => {
-      return instance.post('/auth/sign-up', data);
+      return instance.post<SignUpDto>('/auth/sign-up', data);
     },
   },
 };
 
 export { apmoApi };
 
-export type { DataType, Side, Entities, EntityItem };
+export type {
+  DataType,
+  Side,
+  Entities,
+  EntityItem,
+  User,
+  LoginDto,
+  LoginResponse,
+};
