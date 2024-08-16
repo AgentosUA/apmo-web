@@ -104,7 +104,7 @@ type GetPlanByIdDto = {
   id: string;
 };
 
-type PlanResponse = {
+type Plan = {
   id: string;
   title: string;
   mission: Mission;
@@ -134,7 +134,7 @@ type User = {
   username: string;
   avatar: string | null;
   squadTag: string | null;
-  plans: PlanResponse[];
+  plans: Plan[];
 };
 
 const instance = axios.create({
@@ -163,11 +163,11 @@ const apmoApi = {
   },
   plan: {
     createPlan: async (data: CreatePlanDto) => {
-      return instance.post<PlanResponse>('/plans', data);
+      return instance.post<Plan>('/plans', data);
     },
 
     getPlanById: async (data: GetPlanByIdDto) => {
-      return instance.get<PlanResponse>(`/plans/${data.id}`);
+      return instance.get<Plan>(`/plans/${data.id}`);
     },
   },
   user: {
@@ -191,6 +191,7 @@ export type {
   Entities,
   EntityItem,
   User,
+  Plan,
   LoginDto,
   LoginResponse,
 };

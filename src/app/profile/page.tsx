@@ -13,6 +13,9 @@ import { useEffect } from 'react';
 import { useUnAuthorizated } from '@/entities/user/ui/authorization/hook';
 import { mapList } from '@/shared/data/map-list';
 import { Button } from '@/shared/ui/atoms/button';
+import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
+import { useRouter } from 'next/navigation';
+import { Plan } from '@/shared/sdk';
 
 const Profile = observer(() => {
   useUnAuthorizated(userEntity);
@@ -20,6 +23,35 @@ const Profile = observer(() => {
   useEffect(() => {
     userEntity.getUser();
   }, []);
+
+  const router = useRouter();
+
+  const onCopyMarkers = (plan: Plan) => {
+    navigator.clipboard.writeText(plan.planMarkers);
+
+    toasterEntity.call({
+      title: 'Markers copied',
+      description: 'Markers copied to clipboard',
+    });
+  };
+
+  const onViewPlan = (plan: Plan) => {
+    router.push(`/plans/${plan.id}`);
+  };
+
+  const getPlanImage = (plan: Plan) => {
+    return (
+      mapList.find((map) => map?.dir === plan?.mission?.island?.toLowerCase())
+        ?.image ?? 'maps/no-island.jpg'
+    );
+  };
+
+  const getPlanIslandName = (plan: Plan) => {
+    return (
+      mapList.find((map) => map?.dir === plan?.mission?.island?.toLowerCase())
+        ?.name ?? 'Unknown'
+    );
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -31,20 +63,25 @@ const Profile = observer(() => {
         </div>
         <div className={styles.plans}>
           <div className={styles.plansTitle}>My plans</div>
-          {userEntity?.user?.plans?.map((item) => (
-            <div key={item.id} className={styles.plan}>
-              <Image src={item?.mission?.island} alt='island' />
-              <h3>{item?.mission?.missionName}</h3>
+          {userEntity?.user?.plans?.map((plan) => (
+            <div key={plan.id} className={styles.plan}>
+              <Image
+                className={styles.planImage}
+                width={645}
+                height={100}
+                src={getPlanImage(plan)}
+                alt='island'
+              />
+              <h3>{plan?.mission?.missionName}</h3>
               <div className={styles.planFooter}>
-                <p>
-                  {
-                    mapList.find((map) => map.dir === item?.mission?.island)
-                      ?.name
-                  }
-                </p>
+                <p>{getPlanIslandName(plan)}</p>
                 <div className={styles.planActions}>
-                  <Button variant='bold'>View</Button>
-                  <Button variant='bold'>Copy markers</Button>
+                  <Button onClick={() => onViewPlan(plan)} variant='bold'>
+                    View
+                  </Button>
+                  <Button variant='bold' onClick={() => onCopyMarkers(plan)}>
+                    Copy markers
+                  </Button>
                   <Button variant='red'>Delete</Button>
                 </div>
               </div>
