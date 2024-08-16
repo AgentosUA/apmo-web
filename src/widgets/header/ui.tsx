@@ -8,11 +8,12 @@ import Link from 'next/link';
 
 import { Button } from '@/shared/ui/atoms/button';
 
-import { UnAuthorized } from '@/entities/user/ui/authorization/ui';
+import { Authorized, UnAuthorized } from '@/entities/user/ui/authorization/ui';
 
 import classNames from 'classnames';
 
 import styles from './ui.module.scss';
+import { userEntity } from '@/entities/user/model';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(
@@ -78,6 +79,24 @@ const Header = () => {
           </Link>
         </div>
       </UnAuthorized>
+
+      <Authorized>
+        <div className={styles.menu}>
+          <Link href='/profile'>
+            <Button className={styles.menuItem} size='md' variant='transparent'>
+              Profile
+            </Button>
+          </Link>
+
+          <Button
+            className={styles.menuItem}
+            size='md'
+            variant='transparent'
+            onClick={userEntity.logout}>
+            Log out
+          </Button>
+        </div>
+      </Authorized>
     </header>
   );
 };

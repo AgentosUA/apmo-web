@@ -13,8 +13,11 @@ import styles from './ui.module.scss';
 import { apmoApi } from '@/shared/sdk';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { useRouter } from 'next/navigation';
+import { useAuthorizated } from '@/entities/user/ui/authorization/hook';
+import { observer } from 'mobx-react-lite';
+import { userEntity } from '@/entities/user/model';
 
-const SignUpPage = () => {
+const SignUpPage = observer(() => {
   const router = useRouter();
 
   const validationSchema = yup.object({
@@ -56,6 +59,8 @@ const SignUpPage = () => {
     validateOnBlur: true,
     validationSchema,
   });
+
+  useAuthorizated(userEntity);
 
   return (
     <div className={styles.wrapper}>
@@ -107,6 +112,6 @@ const SignUpPage = () => {
       <Footer />
     </div>
   );
-};
+});
 
 export default SignUpPage;

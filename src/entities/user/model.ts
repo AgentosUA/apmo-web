@@ -1,16 +1,21 @@
 import { apmoApi, LoginDto, User as UserType } from '@/shared/sdk';
 
 import { makeAutoObservable } from 'mobx';
-import { cookies } from 'next/headers';
 
 class User {
   user: UserType | null = null;
 
   isAuthorized = false;
 
+  booted = false;
+
   constructor() {
     makeAutoObservable(this);
   }
+
+  boot = () => {
+    this.booted = true;
+  };
 
   login = async (values: LoginDto) => {
     try {
@@ -26,8 +31,15 @@ class User {
       console.error(error);
     }
   };
+
+  logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+
+    this.isAuthorized = false;
+  };
 }
 
 const userEntity = new User();
 
-export { userEntity };
+export { User, userEntity };

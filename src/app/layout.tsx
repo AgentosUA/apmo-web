@@ -5,6 +5,8 @@ import { Roboto_Condensed } from 'next/font/google';
 import '@/shared/ui/styles/reset.scss';
 import '@/shared/ui/styles/global.scss';
 import { Toaster } from '@/shared/ui/organisms/toaster';
+import { useEffect } from 'react';
+import { BootProvider } from '@/widgets/boot';
 
 const roboto = Roboto_Condensed({
   subsets: ['latin', 'cyrillic'],
@@ -85,7 +87,7 @@ export default function RootLayout({
       </head>
       <body>
         <Toaster />
-        {children}
+        <BootProvider>{children}</BootProvider>
       </body>
     </html>
   );

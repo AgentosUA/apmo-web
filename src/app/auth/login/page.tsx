@@ -15,9 +15,10 @@ import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { useRouter } from 'next/navigation';
 import { userEntity } from '@/entities/user/model';
 
-const LoginPage = () => {
-  const router = useRouter();
+import { observer } from 'mobx-react-lite';
+import { useAuthorizated } from '@/entities/user/ui/authorization/hook';
 
+const LoginPage = observer(() => {
   const validationSchema = yup.object({
     email: yup.string().required('Required'),
     password: yup.string().required('Required'),
@@ -33,6 +34,8 @@ const LoginPage = () => {
     validationSchema,
     onSubmit: userEntity.login,
   });
+
+  useAuthorizated(userEntity);
 
   return (
     <div className={styles.wrapper}>
@@ -67,6 +70,6 @@ const LoginPage = () => {
       <Footer />
     </div>
   );
-};
+});
 
 export default LoginPage;
