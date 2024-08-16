@@ -8,19 +8,22 @@
   min-height: 100svh;
 }
 
-.form {
-  margin: 150px auto 0 auto;
-  padding: 15px;
-  width: 100%;
-  max-width: 450px;
+.main {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  margin: 45px auto;
+  padding: 15px;
+  width: 100%;
+  max-width: 950px;
+  min-height: 650px;
+  color: #fff;
   background: rgba($color: #000, $alpha: 0.7);
+}
 
-  h2 {
-    color: $white;
-    font-size: 20px;
-    text-align: center;
-  }
+.user {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 15px;
 }

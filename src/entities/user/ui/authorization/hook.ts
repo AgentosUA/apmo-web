@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { User, userEntity } from '../../model';
+import { User } from '../../model';
 
 const useAuthorizated = (userEntity: User) => {
   const router = useRouter();
@@ -14,4 +14,14 @@ const useAuthorizated = (userEntity: User) => {
   }, [userEntity.booted, userEntity.isAuthorized]);
 };
 
-export { useAuthorizated };
+const useUnAuthorizated = (userEntity: User) => {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!userEntity.isAuthorized && userEntity.booted) {
+      router.push('/');
+    }
+  }, [userEntity.booted, userEntity.isAuthorized]);
+};
+
+export { useAuthorizated, useUnAuthorizated };

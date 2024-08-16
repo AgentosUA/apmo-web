@@ -1,6 +1,8 @@
-import { apmoApi, LoginDto, User as UserType } from '@/shared/sdk';
+import { apmoApi, instance, LoginDto, User as UserType } from '@/shared/sdk';
 
 import { makeAutoObservable } from 'mobx';
+
+import cookieCutter from 'cookie-cutter';
 
 class User {
   user: UserType | null = null;
@@ -14,7 +16,21 @@ class User {
   }
 
   boot = () => {
+    const token = cookieCutter.get('token');
+
+    instance.defaults.headers.head.Authorization = `Bearer ${token}`;
+
     this.booted = true;
+  };
+
+  getUser = async () => {
+    try {
+      const { data } = await apmoApi.user.get();
+
+      this.user = data;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   login = async (values: LoginDto) => {
@@ -23,8 +39,13 @@ class User {
         data: { token, refreshToken },
       } = await apmoApi.user.login(values);
 
-      localStorage.setItem('token', token);
-      localStorage.setItem('refreshToken', refreshToken);
+      cookieCutter.set('token', token, {
+        path: '/',
+      });
+
+      cookieCutter.set('refreshToken', refreshToken, {
+        path: '/',
+      });
 
       this.isAuthorized = true;
     } catch (error) {
@@ -33,8 +54,8 @@ class User {
   };
 
   logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
+    cookieCutter.set('token', '');
+    cookieCutter.set('refreshToken', '');
 
     this.isAuthorized = false;
   };

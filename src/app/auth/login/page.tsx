@@ -10,12 +10,11 @@ import { Button } from '@/shared/ui/atoms/button';
 import { Input } from '@/shared/ui/atoms/input/ui';
 
 import styles from './ui.module.scss';
-import { apmoApi } from '@/shared/sdk';
-import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
-import { useRouter } from 'next/navigation';
+
 import { userEntity } from '@/entities/user/model';
 
 import { observer } from 'mobx-react-lite';
+
 import { useAuthorizated } from '@/entities/user/ui/authorization/hook';
 
 const LoginPage = observer(() => {
@@ -45,8 +44,7 @@ const LoginPage = observer(() => {
           <h2>Log in</h2>
           <Input
             id='email'
-            type='Email'
-            label='Email'
+            label='Email or username'
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}

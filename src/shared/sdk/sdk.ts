@@ -1,4 +1,7 @@
+import cookieCutter from 'cookie-cutter';
+
 import { Mission } from '@/entities/mission/types';
+
 import axios, { AxiosPromise, AxiosResponse } from 'axios';
 
 type DataType =
@@ -137,6 +140,7 @@ type User = {
 const instance = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
   headers: {
+    Authorization: `Bearer ${cookieCutter.get('token')}`,
     'Content-Type': 'application/json',
   },
 });
@@ -167,6 +171,9 @@ const apmoApi = {
     },
   },
   user: {
+    get: async () => {
+      return instance.get<User>('/profile');
+    },
     login: async (data: LoginDto) => {
       return instance.post<LoginResponse>('/auth/sign-in', data);
     },
@@ -176,7 +183,7 @@ const apmoApi = {
   },
 };
 
-export { apmoApi };
+export { apmoApi, instance };
 
 export type {
   DataType,
