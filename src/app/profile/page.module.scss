@@ -10,7 +10,8 @@
 
 .main {
   display: flex;
-  flex-direction: column;
+  gap: 25px;
+  flex-wrap: nowrap;
   margin: 45px auto;
   padding: 15px;
   width: 100%;
@@ -27,3 +28,32 @@
   text-align: center;
   gap: 15px;
 }
+
+.plans {
+  text-align: left;
+  width: 100%;
+  max-width: 400px;
+}
+
+.plans-title {
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.plan {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.username {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.plan-title {}

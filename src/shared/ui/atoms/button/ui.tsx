@@ -4,7 +4,7 @@ import { ButtonHTMLAttributes, FC, PropsWithChildren, forwardRef } from 'react';
 import styles from './ui.module.scss';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: 'thick' | 'bold' | 'transparent';
+  variant?: 'thick' | 'bold' | 'transparent' | 'red';
   size?: 'sm' | 'md' | 'lg';
 };
 
