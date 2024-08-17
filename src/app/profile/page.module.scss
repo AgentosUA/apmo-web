@@ -83,6 +83,23 @@
   }
 }
 
+.plan-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.plan-actions {
+  margin-left: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.plan-action-button {
+  height: 30px;
+  font-size: 14px;
+}
 
 .username {
   font-size: 16px;

@@ -76,13 +76,21 @@ const Profile = observer(() => {
               <div className={styles.planFooter}>
                 <p>{getPlanIslandName(plan)}</p>
                 <div className={styles.planActions}>
-                  <Button onClick={() => onViewPlan(plan)} variant='bold'>
+                  <Button
+                    className={styles.planActionButton}
+                    onClick={() => onViewPlan(plan)}
+                    variant='bold'>
                     View
                   </Button>
-                  <Button variant='bold' onClick={() => onCopyMarkers(plan)}>
+                  <Button
+                    className={styles.planActionButton}
+                    variant='bold'
+                    onClick={() => onCopyMarkers(plan)}>
                     Copy markers
                   </Button>
-                  <Button variant='red'>Delete</Button>
+                  <Button className={styles.planActionButton} variant='red'>
+                    Delete
+                  </Button>
                 </div>
               </div>
             </div>
