@@ -5,15 +5,14 @@ import { instance } from '@/shared/sdk';
 import { observer } from 'mobx-react-lite';
 import { FC, PropsWithChildren, useEffect } from 'react';
 
-import cookieCutter from 'cookie-cutter';
+import { setTokenFromCookies } from '@/shared/sdk/lib';
 
 const BootProvider: FC<PropsWithChildren> = observer<PropsWithChildren>(
   ({ children }) => {
     useEffect(() => {
-      const token = cookieCutter.get('token');
+      const isTokenExists = setTokenFromCookies(instance);
 
-      if (token) {
-        instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      if (isTokenExists) {
         userEntity.isAuthorized = true;
       }
 

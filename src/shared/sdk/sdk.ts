@@ -137,12 +137,19 @@ type User = {
   plans: Plan[];
 };
 
+const token = cookieCutter.get('token');
+
 const instance = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
   headers: {
-    Authorization: `Bearer ${cookieCutter.get('token')}`,
     'Content-Type': 'application/json',
   },
+});
+
+axios.interceptors.request.use(function (config) {
+  config.headers.head.Authorization = token ? `Bearer ${token}` : undefined;
+
+  return config;
 });
 
 const apmoApi = {

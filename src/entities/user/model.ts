@@ -3,6 +3,7 @@ import { apmoApi, instance, LoginDto, User as UserType } from '@/shared/sdk';
 import { makeAutoObservable } from 'mobx';
 
 import cookieCutter from 'cookie-cutter';
+import { setTokenFromCookies } from '@/shared/sdk/lib';
 
 class User {
   user: UserType | null = null;
@@ -16,9 +17,7 @@ class User {
   }
 
   boot = () => {
-    const token = cookieCutter.get('token');
-
-    instance.defaults.headers.head.Authorization = `Bearer ${token}`;
+    setTokenFromCookies(instance);
 
     this.booted = true;
   };
@@ -46,6 +45,8 @@ class User {
       cookieCutter.set('refreshToken', refreshToken, {
         path: '/',
       });
+
+      setTokenFromCookies(instance);
 
       this.isAuthorized = true;
     } catch (error) {
