@@ -15,7 +15,8 @@ import { mapList } from '@/shared/data/map-list';
 import { Button } from '@/shared/ui/atoms/button';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { useRouter } from 'next/navigation';
-import { Plan } from '@/shared/sdk';
+import { apmoApi, Plan } from '@/shared/sdk';
+import { Modal } from '@/shared/ui/moleculas/modal/ui';
 
 const Profile = observer(() => {
   useUnAuthorizated(userEntity);
@@ -53,6 +54,16 @@ const Profile = observer(() => {
     );
   };
 
+  const onDeletePlan = ({ id }: Plan) => {
+    apmoApi.plan.delete({ id }).then(() => {
+      if (!userEntity.user) return;
+
+      userEntity.user.plans = userEntity.user.plans.filter(
+        (plan) => plan.id !== id
+      );
+    });
+  };
+
   return (
     <div className={styles.wrapper}>
       <Header />
@@ -72,9 +83,9 @@ const Profile = observer(() => {
                 src={getPlanImage(plan)}
                 alt='island'
               />
-              <h3>{plan?.mission?.missionName}</h3>
+              <h3 className={styles.planTitle}>{plan?.mission?.missionName}</h3>
               <div className={styles.planFooter}>
-                <p>{getPlanIslandName(plan)}</p>
+                <p className={styles.planMap}>{getPlanIslandName(plan)}</p>
                 <div className={styles.planActions}>
                   <Button
                     className={styles.planActionButton}
@@ -88,9 +99,17 @@ const Profile = observer(() => {
                     onClick={() => onCopyMarkers(plan)}>
                     Copy markers
                   </Button>
-                  <Button className={styles.planActionButton} variant='red'>
-                    Delete
-                  </Button>
+                  <Modal
+                    title='Delete plan'
+                    description='Are you sure you want to delete this plan?'
+                    onConfirm={() => onDeletePlan(plan)}
+                    onCancel
+                    trigger={
+                      <Button className={styles.planActionButton} variant='red'>
+                        Delete
+                      </Button>
+                    }
+                  />
                 </div>
               </div>
             </div>

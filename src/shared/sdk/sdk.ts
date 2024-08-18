@@ -176,6 +176,9 @@ const apmoApi = {
     getPlanById: async (data: GetPlanByIdDto) => {
       return instance.get<Plan>(`/plans/${data.id}`);
     },
+    delete: async (data: GetPlanByIdDto) => {
+      return instance.delete(`/plans/${data.id}`);
+    },
   },
   user: {
     get: async () => {

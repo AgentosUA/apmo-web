@@ -13,10 +13,8 @@
 .scrolled-header {
   background: #070B0A;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-
-
   transition: .3s;
+  z-index: 5;
 
   .logo {
     top: 2px;
