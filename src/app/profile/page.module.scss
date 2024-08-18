@@ -19,6 +19,12 @@
   min-height: 650px;
   color: #fff;
   background: rgba($color: #000, $alpha: 0.7);
+
+  @include tablet() {
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .user {
@@ -74,18 +80,17 @@
   top: 0;
   left: 0;
   z-index: 0;
+}
 
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    background: rgba($color: #000, $alpha: 1);
-  }
+.plan-overlay {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: rgba($color: #000, $alpha: 0.35);
 }
 
 .plan-footer {
@@ -107,11 +112,17 @@
 .plan-action-button {
   height: 30px;
   font-size: 14px;
-  font-weight: 500;
   text-align: left;
 }
 
 .username {
   font-size: 16px;
   font-weight: 400;
+}
+
+.user-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
 }

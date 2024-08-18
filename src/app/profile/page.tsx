@@ -71,11 +71,18 @@ const Profile = observer(() => {
         <div className={styles.user}>
           <Image width={250} height={250} src='/avatar.jpg' alt='avatar' />
           <h2 className={styles.username}>{userEntity?.user?.username}</h2>
+          <div className={styles.userActions}>
+            <Button variant='orange'>Change password</Button>
+            <Button variant='orange' onClick={userEntity.logout}>
+              Log out
+            </Button>
+          </div>
         </div>
         <div className={styles.plans}>
           <div className={styles.plansTitle}>My plans</div>
           {userEntity?.user?.plans?.map((plan) => (
             <div key={plan.id} className={styles.plan}>
+              <div className={styles.planOverlay} />
               <Image
                 className={styles.planImage}
                 width={645}

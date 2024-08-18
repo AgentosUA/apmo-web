@@ -55,13 +55,13 @@
 .bold {
   height: 32px;
   text-align: center;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .transparent {
   height: 32px;
   text-align: center;
-  font-weight: 300;
+  font-weight: 400;
   background: none;
   animation: none;
   
@@ -74,6 +74,13 @@
 
 .red {
   background: $red;
+}
+
+.orange {
+  height: 32px;
+  text-align: center;
+  font-weight: 400;
+  background: $orange;
 }
 
 @keyframes white-blink {
