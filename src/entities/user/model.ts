@@ -32,6 +32,22 @@ class User {
     }
   };
 
+  changePassword = async (
+    values: {
+      oldPassword: string;
+      newPassword: string;
+    },
+    cb?: () => void
+  ) => {
+    try {
+      await apmoApi.user.changePassword(values);
+
+      cb?.();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   login = async (values: LoginDto) => {
     try {
       const {

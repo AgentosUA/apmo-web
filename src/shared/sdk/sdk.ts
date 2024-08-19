@@ -128,6 +128,8 @@ type SignUpDto = {
   password: string;
 };
 
+type ChangePasswordDto = { oldPassword: string; newPassword: string };
+
 type User = {
   id: string;
   email: string;
@@ -189,6 +191,9 @@ const apmoApi = {
     },
     signUp: async (data: SignUpDto) => {
       return instance.post<SignUpDto>('/auth/sign-up', data);
+    },
+    changePassword: async (data: ChangePasswordDto) => {
+      return instance.post('/auth/change-password', data);
     },
   },
 };

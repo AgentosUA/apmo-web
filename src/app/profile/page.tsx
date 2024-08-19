@@ -17,6 +17,7 @@ import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { useRouter } from 'next/navigation';
 import { apmoApi, Plan } from '@/shared/sdk';
 import { Modal } from '@/shared/ui/moleculas/modal/ui';
+import Link from 'next/link';
 
 const Profile = observer(() => {
   useUnAuthorizated(userEntity);
@@ -72,7 +73,9 @@ const Profile = observer(() => {
           <Image width={250} height={250} src='/avatar.jpg' alt='avatar' />
           <h2 className={styles.username}>{userEntity?.user?.username}</h2>
           <div className={styles.userActions}>
-            <Button variant='orange'>Change password</Button>
+            <Link href='/profile/change-password'>
+              <Button variant='orange'>Change password</Button>
+            </Link>
             <Button variant='orange' onClick={userEntity.logout}>
               Log out
             </Button>
