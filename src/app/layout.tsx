@@ -10,6 +10,8 @@ import { Toaster } from '@/shared/ui/organisms/toaster';
 
 import { BootProvider } from '@/widgets/boot';
 
+import '../processes/axios';
+
 const roboto = Roboto_Condensed({
   subsets: ['latin', 'cyrillic'],
   variable: '--font-roboto',

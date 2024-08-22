@@ -3,6 +3,7 @@ import cookieCutter from 'cookie-cutter';
 import { Mission } from '@/entities/mission/types';
 
 import axios, { AxiosPromise, AxiosResponse } from 'axios';
+import { headers } from 'next/headers';
 
 type DataType =
   | 'Number'
@@ -130,6 +131,10 @@ type SignUpDto = {
 
 type ChangePasswordDto = { oldPassword: string; newPassword: string };
 
+type RefreshTokenDto = {
+  refreshToken: string;
+};
+
 type User = {
   id: string;
   email: string;
@@ -144,14 +149,6 @@ const instance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-});
-
-instance.interceptors.request.use(function (config) {
-  const token = cookieCutter.get('token');
-
-  config.headers.Authorization = token ? `Bearer ${token}` : undefined;
-
-  return config;
 });
 
 const apmoApi = {
@@ -194,6 +191,9 @@ const apmoApi = {
     },
     changePassword: async (data: ChangePasswordDto) => {
       return instance.post('/auth/change-password', data);
+    },
+    refreshToken: async () => {
+      return instance.post<LoginResponse>('/auth/refresh-token');
     },
   },
 };

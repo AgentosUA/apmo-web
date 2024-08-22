@@ -71,8 +71,13 @@ class User {
   };
 
   logout = () => {
-    cookieCutter.set('token', '');
-    cookieCutter.set('refreshToken', '');
+    cookieCutter.set('token', '', {
+      path: '/',
+    });
+
+    cookieCutter.set('refreshToken', '', {
+      path: '/',
+    });
 
     this.isAuthorized = false;
   };
