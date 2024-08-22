@@ -8,7 +8,6 @@ import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { mapsEntity } from '../maps';
 
 class Plan {
-  private mission: Mission;
   private markers: MarkersModel;
   title = '';
 

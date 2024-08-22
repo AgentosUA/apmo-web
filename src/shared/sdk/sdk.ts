@@ -171,7 +171,9 @@ const apmoApi = {
     createPlan: async (data: CreatePlanDto) => {
       return instance.post<Plan>('/plans', data);
     },
-
+    updatePlan: async (data: CreatePlanDto & GetPlanByIdDto) => {
+      return instance.put<Plan>(`/plans/${data.id}`, data);
+    },
     getPlanById: async (data: GetPlanByIdDto) => {
       return instance.get<Plan>(`/plans/${data.id}`);
     },
