@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import { apmoApi, Plan } from '@/shared/sdk';
 import { Modal } from '@/shared/ui/moleculas/modal/ui';
 import Link from 'next/link';
+import { Preloader } from '@/shared/ui/quarks/preloader';
 
 const Profile = observer(() => {
   useUnAuthorizated(userEntity);
@@ -69,62 +70,69 @@ const Profile = observer(() => {
     <div className={styles.wrapper}>
       <Header />
       <main className={styles.main}>
-        <div className={styles.user}>
-          <Image width={250} height={250} src='/avatar.jpg' alt='avatar' />
-          <h2 className={styles.username}>{userEntity?.user?.username}</h2>
-          <div className={styles.userActions}>
-            <Link href='/profile/change-password'>
-              <Button variant='orange'>Change password</Button>
-            </Link>
-            <Button variant='orange' onClick={userEntity.logout}>
-              Log out
-            </Button>
+        <Preloader isLoading={userEntity.isLoadingProfile || !userEntity.user}>
+          <div className={styles.user}>
+            <Image width={250} height={250} src='/avatar.jpg' alt='avatar' />
+            <h2 className={styles.username}>{userEntity?.user?.username}</h2>
+            <div className={styles.userActions}>
+              <Link href='/profile/change-password'>
+                <Button variant='orange'>Change password</Button>
+              </Link>
+              <Button variant='orange' onClick={userEntity.logout}>
+                Log out
+              </Button>
+            </div>
           </div>
-        </div>
-        <div className={styles.plans}>
-          <div className={styles.plansTitle}>My plans</div>
-          {userEntity?.user?.plans?.map((plan) => (
-            <div key={plan.id} className={styles.plan}>
-              <div className={styles.planOverlay} />
-              <Image
-                className={styles.planImage}
-                width={645}
-                height={100}
-                src={getPlanImage(plan)}
-                alt='island'
-              />
-              <h3 className={styles.planTitle}>{plan?.mission?.missionName}</h3>
-              <div className={styles.planFooter}>
-                <p className={styles.planMap}>{getPlanIslandName(plan)}</p>
-                <div className={styles.planActions}>
-                  <Button
-                    className={styles.planActionButton}
-                    onClick={() => onViewPlan(plan)}
-                    variant='bold'>
-                    View
-                  </Button>
-                  <Button
-                    className={styles.planActionButton}
-                    variant='bold'
-                    onClick={() => onCopyMarkers(plan)}>
-                    Copy markers
-                  </Button>
-                  <Modal
-                    title='Delete plan'
-                    description='Are you sure you want to delete this plan?'
-                    onConfirm={() => onDeletePlan(plan)}
-                    onCancel
-                    trigger={
-                      <Button className={styles.planActionButton} variant='red'>
-                        Delete
-                      </Button>
-                    }
-                  />
+          <div className={styles.plans}>
+            <div className={styles.plansTitle}>My plans</div>
+
+            {userEntity?.user?.plans?.map((plan) => (
+              <div key={plan.id} className={styles.plan}>
+                <div className={styles.planOverlay} />
+                <Image
+                  className={styles.planImage}
+                  width={645}
+                  height={100}
+                  src={getPlanImage(plan)}
+                  alt='island'
+                />
+                <h3 className={styles.planTitle}>
+                  {plan?.mission?.missionName}
+                </h3>
+                <div className={styles.planFooter}>
+                  <p className={styles.planMap}>{getPlanIslandName(plan)}</p>
+                  <div className={styles.planActions}>
+                    <Button
+                      className={styles.planActionButton}
+                      onClick={() => onViewPlan(plan)}
+                      variant='bold'>
+                      View
+                    </Button>
+                    <Button
+                      className={styles.planActionButton}
+                      variant='bold'
+                      onClick={() => onCopyMarkers(plan)}>
+                      Copy markers
+                    </Button>
+                    <Modal
+                      title='Delete plan'
+                      description='Are you sure you want to delete this plan?'
+                      onConfirm={() => onDeletePlan(plan)}
+                      onCancel
+                      trigger={
+                        <Button
+                          className={styles.planActionButton}
+                          variant='red'>
+                          Delete
+                        </Button>
+                      }
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </Preloader>
       </main>
       <Footer />
     </div>

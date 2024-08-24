@@ -16,8 +16,10 @@ import { userEntity } from '@/entities/user/model';
 import { observer } from 'mobx-react-lite';
 
 import { useAuthorizated } from '@/entities/user/ui/authorization/hook';
+import { useState } from 'react';
 
 const LoginPage = observer(() => {
+  const [apiError, setApiError] = useState<string | null>(null);
   const validationSchema = yup.object({
     email: yup.string().required('Required'),
     password: yup.string().required('Required'),
@@ -31,7 +33,8 @@ const LoginPage = observer(() => {
     enableReinitialize: true,
     validateOnBlur: true,
     validationSchema,
-    onSubmit: userEntity.login,
+    onSubmit: (data) =>
+      userEntity.login(data, (error) => formik.setErrors({ password: error })),
   });
 
   useAuthorizated(userEntity);

@@ -10,6 +10,8 @@ class User {
 
   isAuthorized = false;
 
+  isLoadingProfile = false;
+
   booted = false;
 
   constructor() {
@@ -22,13 +24,16 @@ class User {
     this.booted = true;
   };
 
-  getUser = async () => {
+  getUser = async (onError?: (string: string) => void) => {
     try {
+      this.isLoadingProfile = true;
       const { data } = await apmoApi.user.get();
 
       this.user = data;
     } catch (error) {
-      console.error(error);
+      onError?.(error?.response?.data?.message ?? 'Unknown error');
+    } finally {
+      this.isLoadingProfile = false;
     }
   };
 
@@ -37,18 +42,19 @@ class User {
       oldPassword: string;
       newPassword: string;
     },
-    cb?: () => void
+    cb?: () => void,
+    onError?: (string: string) => void
   ) => {
     try {
       await apmoApi.user.changePassword(values);
 
       cb?.();
     } catch (error) {
-      console.error(error);
+      onError?.(error?.response?.data?.message ?? 'Unknown error');
     }
   };
 
-  login = async (values: LoginDto) => {
+  login = async (values: LoginDto, onError?: (string: string) => void) => {
     try {
       const {
         data: { token, refreshToken },
@@ -66,7 +72,7 @@ class User {
 
       this.isAuthorized = true;
     } catch (error) {
-      console.error(error);
+      onError?.(error?.response?.data?.message ?? 'Unknown error');
     }
   };
 

@@ -48,9 +48,8 @@ const SignUpPage = observer(() => {
           description: 'You can now login',
         });
       } catch {
-        toasterEntity.call({
-          title: 'Failed to create account',
-          description: 'Report this problem',
+        formik.setErrors({
+          rePassword: error?.response?.data?.message ?? 'Unknown error',
         });
       }
     },
