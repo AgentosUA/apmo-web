@@ -16,7 +16,9 @@ import styles from './ui.module.scss';
 import { userEntity } from '@/entities/user/model';
 
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(window.scrollY > 0);
+  const [isScrolled, setIsScrolled] = useState(
+    typeof window === 'undefined' ? 0 : window.scrollY > 0
+  );
 
   useEffect(() => {
     const handleScroll = () => {

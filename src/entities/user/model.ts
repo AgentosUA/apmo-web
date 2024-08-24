@@ -30,7 +30,7 @@ class User {
       const { data } = await apmoApi.user.get();
 
       this.user = data;
-    } catch (error) {
+    } catch (error: any) {
       onError?.(error?.response?.data?.message ?? 'Unknown error');
     } finally {
       this.isLoadingProfile = false;
@@ -49,7 +49,7 @@ class User {
       await apmoApi.user.changePassword(values);
 
       cb?.();
-    } catch (error) {
+    } catch (error: any) {
       onError?.(error?.response?.data?.message ?? 'Unknown error');
     }
   };
@@ -71,7 +71,7 @@ class User {
       setTokenFromCookies(instance);
 
       this.isAuthorized = true;
-    } catch (error) {
+    } catch (error: any) {
       onError?.(error?.response?.data?.message ?? 'Unknown error');
     }
   };

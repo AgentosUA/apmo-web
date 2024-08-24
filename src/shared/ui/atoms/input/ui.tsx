@@ -19,12 +19,12 @@ const Input = ({
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
-  const onFocused = (e: Event) => {
+  const onFocused = (e: any) => {
     setIsFocused(true);
     onFocus?.(e);
   };
 
-  const onBlured = (e: Event) => {
+  const onBlured = (e: any) => {
     setIsFocused(false);
     onBlur?.(e);
   };

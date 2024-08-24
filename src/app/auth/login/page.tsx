@@ -31,8 +31,11 @@ const LoginPage = observer(() => {
     enableReinitialize: true,
     validateOnBlur: true,
     validationSchema,
-    onSubmit: (data) =>
-      userEntity.login(data, (error) => formik.setErrors({ password: error })),
+    onSubmit: () => {
+      userEntity.login(formik.values, (error) =>
+        formik.setErrors({ password: error })
+      );
+    },
   });
 
   useAuthorizated(userEntity);

@@ -9,7 +9,15 @@ import { mapsEntity } from '../maps';
 
 class Plan {
   private markers: MarkersModel;
+  private mission: Mission;
   title = '';
+
+  constructor(mission: Mission = missionEntity, markers = markersEntity) {
+    makeAutoObservable(this);
+
+    this.mission = mission;
+    this.markers = markers;
+  }
 
   public savePlan = async (isRedirect = true) => {
     const { data } = await apmoApi.plan.createPlan({
@@ -54,13 +62,6 @@ class Plan {
       markersEntity.setSWTMarkers(JSON.parse(data.planMarkers));
     } catch (error) {}
   };
-
-  constructor(mission: Mission = missionEntity, markers = markersEntity) {
-    makeAutoObservable(this);
-
-    this.mission = mission;
-    this.markers = markers;
-  }
 }
 
 const planEntity = new Plan(missionEntity, markersEntity);
