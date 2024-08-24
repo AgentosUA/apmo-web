@@ -47,7 +47,7 @@ const SignUpPage = observer(() => {
           title: 'Acount created',
           description: 'You can now login',
         });
-      } catch {
+      } catch (error) {
         formik.setErrors({
           rePassword: error?.response?.data?.message ?? 'Unknown error',
         });
