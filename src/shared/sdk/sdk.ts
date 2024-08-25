@@ -185,6 +185,9 @@ const apmoApi = {
     get: async () => {
       return instance.get<User>('/profile');
     },
+    changeAvatar: async (data: { avatar: string }) => {
+      return instance.post('/profile/change-avatar', data);
+    },
     login: async (data: LoginDto) => {
       return instance.post<LoginResponse>('/auth/sign-in', data);
     },

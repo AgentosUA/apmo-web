@@ -130,3 +130,35 @@
     width: 100%;
   }
 }
+
+.avatar-wrapper {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  overflow: hidden;
+
+  &:hover {
+    .avatar-actions {
+      opacity: 1;
+      background: rgba($color: #000, $alpha: 0.9);
+      transition: 0.3s;
+    }
+  }
+}
+
+.avatar-actions {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  left: 0;
+  top: 50%;
+  opacity: 0;
+  z-index: 1;
+  transform: translateY(-50%);
+  transition: 0.3s;
+}

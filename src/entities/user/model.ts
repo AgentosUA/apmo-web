@@ -54,6 +54,18 @@ class User {
     }
   };
 
+  changeAvatar = async (avatar: string) => {
+    try {
+      await apmoApi.user.changeAvatar({ avatar });
+
+      if (this.user) {
+        this.user.avatar = avatar;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   login = async (values: LoginDto, onError?: (string: string) => void) => {
     try {
       const {

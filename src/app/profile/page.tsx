@@ -1,5 +1,7 @@
 'use client';
 
+import * as yup from 'yup';
+
 import { observer } from 'mobx-react-lite';
 
 import { Header } from '@/widgets/header';
@@ -19,6 +21,8 @@ import { apmoApi, Plan } from '@/shared/sdk';
 import { Modal } from '@/shared/ui/moleculas/modal/ui';
 import Link from 'next/link';
 import { Preloader } from '@/shared/ui/quarks/preloader';
+import { Input } from '@/shared/ui/atoms/input/ui';
+import { useFormik } from 'formik';
 
 const Profile = observer(() => {
   useUnAuthorizated(userEntity);
@@ -66,13 +70,54 @@ const Profile = observer(() => {
     });
   };
 
+  const validationSchema = yup.object({
+    avatar: yup.string().url('Not valid url'),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      avatar: '',
+    },
+    validationSchema,
+    enableReinitialize: true,
+    validateOnBlur: true,
+    onSubmit: () => {
+      userEntity.changeAvatar(formik.values.avatar);
+    },
+  });
+
   return (
     <div className={styles.wrapper}>
       <Header />
       <main className={styles.main}>
         <Preloader isLoading={userEntity.isLoadingProfile || !userEntity.user}>
           <div className={styles.user}>
-            <Image width={250} height={250} src='/avatar.jpg' alt='avatar' />
+            <div className={styles.avatarWrapper}>
+              <img
+                width={250}
+                height={250}
+                src={
+                  userEntity?.user?.avatar
+                    ? userEntity?.user?.avatar
+                    : '/avatar.jpg'
+                }
+                loading='lazy'
+                alt='avatar'
+              />
+              <div className={styles.avatarActions}>
+                <Input
+                  id='avatar'
+                  label='Avatar url'
+                  value={formik.values.avatar}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.avatar ? formik.errors.avatar : ''}
+                />
+                <Button onClick={formik.submitForm} variant='orange'>
+                  Change
+                </Button>
+              </div>
+            </div>
             <h2 className={styles.username}>{userEntity?.user?.username}</h2>
             <div className={styles.userActions}>
               <Link href='/profile/change-password'>
