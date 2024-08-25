@@ -149,16 +149,15 @@
 .avatar-actions {
   position: absolute;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   flex-direction: column;
-  gap: 15px;
+  gap: 25px;
   height: 100%;
   width: 100%;
   padding: 10px;
   left: 0;
-  top: 50%;
+  bottom: 0;
   opacity: 0;
   z-index: 1;
-  transform: translateY(-50%);
   transition: 0.3s;
 }

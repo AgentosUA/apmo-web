@@ -71,12 +71,15 @@ const Profile = observer(() => {
   };
 
   const validationSchema = yup.object({
-    avatar: yup.string().url('Not valid url'),
+    avatar: yup
+      .string()
+      .url('Invalid image url')
+      .matches(/\.(jpeg|jpg|gif|png)$/, 'Invalid image url'),
   });
 
   const formik = useFormik({
     initialValues: {
-      avatar: '',
+      avatar: userEntity?.user?.avatar ?? '',
     },
     validationSchema,
     enableReinitialize: true,
