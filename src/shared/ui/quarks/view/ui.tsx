@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 
 const mobileBreakpoint = 600;
@@ -23,7 +25,7 @@ const Tablet: FC<
   return (
     <Condition
       if={
-        window.innerWidth <= tabletBreakpoint &&
+        width <= tabletBreakpoint &&
         (!only || (only && width <= mobileBreakpoint))
       }>
       {children}
@@ -38,10 +40,12 @@ const Mobile: FC<PropsWithChildren<{}>> = ({ children }) => {
 };
 
 const useWindowWidth = () => {
-  const [width, setWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState(1100);
 
   useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
+    if (typeof window === 'undefined') return;
+
+    const handleResize = () => setWidth(width);
 
     window.addEventListener('resize', handleResize);
 
