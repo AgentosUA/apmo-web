@@ -9,7 +9,6 @@
   height: 90px;
   transition: .3s;
   z-index: 5;
-  overflow: hidden;
 
   @include tablet() {
     overflow: visible;
@@ -112,9 +111,24 @@
 .menu-opened {
   left: 0;
   transition: left .3s;
+}
 
+.menu-item {
+  @include tablet() {
+    width: 100%;
+    text-align: center;
 
+    a,
+    button {
+      width: 100%;
+      text-align: center;
+    }
 
+    button {
+      padding: 35px 0;
+      line-height: 0px;
+    }
+  }
 }
 
 .force-right-elements {
@@ -128,6 +142,10 @@
   transform: translateY(-50%);
   font-size: 25px;
   z-index: 1;
+
+  @include desktop() {
+    display: none;
+  }
 }
 
 .close-icon {
@@ -137,4 +155,8 @@
   font-size: 25px;
   z-index: 11;
   transform: translateY(-50%);
+
+  @include desktop() {
+    display: none;
+  }
 }
