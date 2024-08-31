@@ -6,7 +6,7 @@ $width: 220px;
   left: 50%;
   gap: 2px;
   width: $width;
-  z-index: 1000;
+  z-index: 1001;
   transform: translateX(-50%);
   color: #fff;
   overflow: hidden;
@@ -19,7 +19,7 @@ $width: 220px;
 .toaster {
   gap: 2px;
   width: $width;
-  z-index: 1000;
+  z-index: 1001;
   color: #fff;
   overflow: hidden;
   display: flex;

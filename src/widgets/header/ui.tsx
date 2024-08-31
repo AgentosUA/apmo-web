@@ -71,15 +71,14 @@ const Header = () => {
         })}>
         <Link
           className={styles.menuItem}
-          href='https://savelife.in.ua/'
+          href='https://savelife.in.ua/en/donate-en/'
           target='_blank'>
           <Button variant='transparent'>SUPPORT</Button>
         </Link>
-        <Link
-          className={classNames(styles.menuItem, styles.forceRightElements)}
-          href='/changelog'>
+        <Link className={classNames(styles.menuItem)} href='/changelog'>
           <Button variant='transparent'>Changelog</Button>
         </Link>
+        <div className={styles.forceRightElements} />
         <UnAuthorized>
           <Link href='/auth/login'>
             <Button className={styles.menuItem} size='md' variant='transparent'>

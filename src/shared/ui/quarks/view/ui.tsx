@@ -40,7 +40,7 @@ const Mobile: FC<PropsWithChildren<{}>> = ({ children }) => {
 };
 
 const useWindowWidth = () => {
-  const [width, setWidth] = useState(1100);
+  const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -49,7 +49,9 @@ const useWindowWidth = () => {
 
     window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return width;

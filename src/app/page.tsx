@@ -24,9 +24,9 @@ const HomePage = observer(() => {
   };
 
   useEffect(() => {
-    if (!missionEntity.island) return;
+    if (!missionEntity.data?.island) return;
     const island = mapList.find(
-      (map) => map.id === missionEntity.island.toLowerCase()
+      (map) => map.id === missionEntity.data?.island.toLowerCase()
     );
 
     if (!island) {
@@ -41,7 +41,7 @@ const HomePage = observer(() => {
     mapsEntity.selectMap(island);
     // TODO: search for a way to redirect with next/router
     router.replace('/plans/create');
-  }, [missionEntity.island]);
+  }, [missionEntity.data?.island]);
 
   return (
     <div className={styles.wrapper}>

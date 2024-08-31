@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, PropsWithChildren, useEffect, useState } from 'react';
 
 import { getTime } from './lib';
 
@@ -8,10 +8,17 @@ import classNames from 'classnames';
 const DateClock: FC<{
   variant?: 'simple' | 'styled';
   className?: string;
-}> = ({ className, variant = 'styled' }) => {
+  customTime?: {
+    hours?: string | number;
+    minutes?: string | number;
+    seconds?: string | number;
+  };
+}> = ({ customTime, className, variant = 'styled' }) => {
   const [date, setDate] = useState(getTime());
 
   useEffect(() => {
+    if (customTime) return;
+
     const interval = setInterval(() => {
       setDate(getTime());
     }, 1000);
@@ -19,18 +26,20 @@ const DateClock: FC<{
     return () => clearInterval(interval);
   }, []);
 
+  const actualDate = customTime ? customTime : date;
+
   if (variant === 'styled') {
     return (
       <span className={classNames(styles.clock, className)}>
-        {date.hours}:{date.minutes}
-        <span className={styles.seconds}>{date.seconds}</span>
+        {actualDate.hours}:{actualDate.minutes}
+        <span className={styles.seconds}>{actualDate.seconds}</span>
       </span>
     );
   }
 
   return (
     <span className={className}>
-      {date.hours}:{date.minutes}:{date.seconds}
+      {actualDate.hours}:{actualDate.minutes}:{actualDate.seconds}
     </span>
   );
 };

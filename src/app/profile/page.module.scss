@@ -139,25 +139,19 @@
 
   &:hover {
     .avatar-actions {
-      opacity: 1;
-      background: rgba($color: #000, $alpha: 0.9);
-      transition: 0.3s;
+      display: flex;
     }
   }
 }
 
 .avatar-actions {
-  position: absolute;
+  // position: absolute;
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
-  gap: 25px;
-  height: 100%;
+  height: auto;
   width: 100%;
-  padding: 10px;
   left: 0;
   bottom: 0;
-  opacity: 0;
   z-index: 1;
-  transition: 0.3s;
 }

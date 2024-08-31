@@ -22,18 +22,19 @@ class Plan {
   public savePlan = async (isRedirect = true) => {
     const { data } = await apmoApi.plan.createPlan({
       title: this.title ?? 'Untitled',
-      mission: missionEntity.fileName
+      mission: missionEntity.data?.fileName
         ? {
-            author: missionEntity.author,
-            fileName: missionEntity.fileName,
-            dlcs: missionEntity.dlcs,
-            briefing: missionEntity.briefing,
-            groups: missionEntity.groups,
-            island: missionEntity.island,
-            markers: missionEntity.markers,
-            preview: missionEntity.preview,
-            missionName: missionEntity.missionName,
-            vehicles: missionEntity.vehicles,
+            author: missionEntity.data?.author,
+            fileName: missionEntity.data?.fileName,
+            dlcs: missionEntity.data?.dlcs,
+            briefing: missionEntity.data?.briefing,
+            groups: missionEntity.data?.groups,
+            island: missionEntity.data?.island,
+            markers: missionEntity.data?.markers,
+            preview: missionEntity.data?.preview,
+            missionName: missionEntity.data?.missionName,
+            vehicles: missionEntity.data?.vehicles,
+            slots: missionEntity.data?.slots,
           }
         : null,
       planMarkers: JSON.stringify(this.markers.swtMarkers),

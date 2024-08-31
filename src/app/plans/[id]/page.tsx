@@ -53,7 +53,7 @@ const Page = observer(() => {
     );
   }
 
-  if (!isLoading && !missionEntity.fileName) {
+  if (!isLoading && !missionEntity?.data?.fileName) {
     return (
       <div className={styles.wrapper}>
         <div className={styles.card}>

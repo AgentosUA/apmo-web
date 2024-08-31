@@ -107,6 +107,9 @@ const Profile = observer(() => {
                 loading='lazy'
                 alt='avatar'
               />
+            </div>
+            <h2 className={styles.username}>{userEntity?.user?.username}</h2>
+            <div className={styles.userActions}>
               <div className={styles.avatarActions}>
                 <Input
                   id='avatar'
@@ -117,12 +120,9 @@ const Profile = observer(() => {
                   error={formik.touched.avatar ? formik.errors.avatar : ''}
                 />
                 <Button onClick={formik.submitForm} variant='orange'>
-                  Change
+                  Change avatar
                 </Button>
               </div>
-            </div>
-            <h2 className={styles.username}>{userEntity?.user?.username}</h2>
-            <div className={styles.userActions}>
               <Link href='/profile/change-password'>
                 <Button variant='orange'>Change password</Button>
               </Link>

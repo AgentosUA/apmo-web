@@ -1,3 +1,7 @@
+import { callsignsObject } from './data';
+
+type Callsigns = typeof callsignsObject | null;
+
 type Side = 'West' | 'East' | 'Independent' | 'Civilian' | 'Unknown';
 
 type Preview = {
@@ -78,6 +82,7 @@ type Mission = {
   vehicles: Vehicle[];
   markers: MissionMarker[];
   groups: Group[];
+  slots: Callsigns;
 };
 
 export type {
@@ -89,4 +94,5 @@ export type {
   Vehicle,
   Mission,
   MissionMarker,
+  Callsigns,
 };

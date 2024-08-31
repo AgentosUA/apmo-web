@@ -25,9 +25,11 @@
   position: absolute;
   top: 50%;
   left: 10px;
-  color: $grey;
+  color: $orange;
   font-size: 14px;
+  font-weight: 400;
   pointer-events: none;
+  font-family: var(--font-roboto);
   transition: .2s;
   transform: translateY(-50%);
 }
@@ -36,7 +38,7 @@
   top: -18px;
   left: 0;
   font-size: 14px;
-  color: $grey;
+  color: $orange;
   transition: .2s;
   transform: translateY(0);
 }

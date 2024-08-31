@@ -80,7 +80,7 @@ const ArmaMap = observer(() => {
       ))}
 
       <View.Condition if={markersEntity.playersDisplayMode === 'players'}>
-        {missionEntity.groups.map((group) => {
+        {missionEntity.data?.groups.map((group) => {
           return group.units.map((unit) => (
             <UnitMarker
               key={unit.id}
@@ -92,7 +92,7 @@ const ArmaMap = observer(() => {
       </View.Condition>
 
       <View.Condition if={markersEntity.playersDisplayMode === 'groups'}>
-        {missionEntity.groups
+        {missionEntity.data?.groups
           .filter((group) => group.side === 'West')
           .map((group, index) => {
             return group.units.slice(0, 1).map((unit) => (
@@ -108,7 +108,7 @@ const ArmaMap = observer(() => {
             ));
           })}
 
-        {missionEntity.groups
+        {missionEntity.data?.groups
           .filter((group) => group.side === 'East')
           .map((group, index) => {
             return group.units.slice(0, 1).map((unit) => (
@@ -124,7 +124,7 @@ const ArmaMap = observer(() => {
             ));
           })}
 
-        {missionEntity.groups
+        {missionEntity.data?.groups
           .filter((group) => group.side === 'Independent')
           .map((group, index) => {
             return group.units.slice(0, 1).map((unit) => (
@@ -141,8 +141,8 @@ const ArmaMap = observer(() => {
           })}
       </View.Condition>
 
-      <View.Condition if={Boolean(missionEntity.fileName)}>
-        {missionEntity.markers.map((marker) => (
+      <View.Condition if={Boolean(missionEntity.data?.fileName)}>
+        {missionEntity.data?.markers.map((marker) => (
           <ArmaMarker
             key={marker.id}
             type={getMissionMarkerType(marker)}
@@ -159,8 +159,8 @@ const ArmaMap = observer(() => {
         ))}
       </View.Condition>
 
-      <View.Condition if={Boolean(missionEntity.fileName)}>
-        {missionEntity.vehicles.map((vehicle) => (
+      <View.Condition if={Boolean(missionEntity.data?.fileName)}>
+        {missionEntity.data?.vehicles.map((vehicle) => (
           <VehicleMarker key={vehicle.id} data={vehicle} />
         ))}
       </View.Condition>

@@ -14,6 +14,10 @@ const BootProvider: FC<PropsWithChildren> = observer<PropsWithChildren>(
 
       if (isTokenExists) {
         userEntity.isAuthorized = true;
+
+        if (window.location.pathname === '/profile') return;
+
+        userEntity.getUser();
       }
 
       userEntity.boot();
