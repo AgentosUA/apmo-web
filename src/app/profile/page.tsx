@@ -42,6 +42,23 @@ const Profile = observer(() => {
     });
   };
 
+  const onCopySlots = (plan: Plan) => {
+    if (!plan.mission.slots) return;
+
+    const slots = Object.keys(plan.mission.slots)
+      .filter((key) => Boolean(plan.mission.slots[key]))
+      .map((key) => `${key}: ${plan.mission.slots[key]}`);
+
+    if (!slots?.length) return;
+
+    navigator.clipboard.writeText(slots.join('\n'));
+
+    toasterEntity.call({
+      title: 'Slots copied',
+      description: 'Slots copied to clipboard',
+    });
+  };
+
   const onViewPlan = (plan: Plan) => {
     router.push(`/plans/${plan.id}`);
   };
@@ -113,7 +130,7 @@ const Profile = observer(() => {
               <div className={styles.avatarActions}>
                 <Input
                   id='avatar'
-                  label='Avatar url'
+                  label='Avatar URL'
                   value={formik.values.avatar}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -161,6 +178,12 @@ const Profile = observer(() => {
                       variant='bold'
                       onClick={() => onCopyMarkers(plan)}>
                       Copy markers
+                    </Button>
+                    <Button
+                      className={styles.planActionButton}
+                      variant='bold'
+                      onClick={() => onCopySlots(plan)}>
+                      Copy slots
                     </Button>
                     <Modal
                       title='Delete plan'
