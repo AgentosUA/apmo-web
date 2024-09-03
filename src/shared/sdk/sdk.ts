@@ -197,6 +197,9 @@ const apmoApi = {
     changePassword: async (data: ChangePasswordDto) => {
       return instance.post('/auth/change-password', data);
     },
+    forgotPassword: async (data: { email: string }) => {
+      return instance.post('/auth/forgot-password', data);
+    },
     refreshToken: async () => {
       return instance.post<LoginResponse>('/auth/refresh-token');
     },

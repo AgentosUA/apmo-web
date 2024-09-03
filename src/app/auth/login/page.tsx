@@ -16,6 +16,7 @@ import { userEntity } from '@/entities/user/model';
 import { observer } from 'mobx-react-lite';
 
 import { useAuthorizated } from '@/entities/user/ui/authorization/hook';
+import Link from 'next/link';
 
 const LoginPage = observer(() => {
   const validationSchema = yup.object({
@@ -64,6 +65,9 @@ const LoginPage = observer(() => {
             error={formik.touched.password ? formik.errors.password : ''}
           />
 
+          <Link className={styles.forgotPassword} href='/auth/forgot-password'>
+            Forgot password?
+          </Link>
           <Button variant='bold' type='submit'>
             Log in
           </Button>
