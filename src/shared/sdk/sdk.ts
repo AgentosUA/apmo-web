@@ -1,5 +1,9 @@
+import cookieCutter from 'cookie-cutter';
+
 import { Mission } from '@/entities/mission/types';
+
 import axios, { AxiosPromise, AxiosResponse } from 'axios';
+import { headers } from 'next/headers';
 
 type DataType =
   | 'Number'
@@ -101,11 +105,43 @@ type GetPlanByIdDto = {
   id: string;
 };
 
-type PlanResponse = {
+type Plan = {
   id: string;
   title: string;
   mission: Mission;
   planMarkers: string;
+};
+
+type LoginDto = {
+  email?: string;
+  username?: string;
+  password: string;
+};
+
+type LoginResponse = {
+  token: string;
+  refreshToken: string;
+};
+
+type SignUpDto = {
+  email: string;
+  username: string;
+  password: string;
+};
+
+type ChangePasswordDto = { oldPassword: string; newPassword: string };
+
+type RefreshTokenDto = {
+  refreshToken: string;
+};
+
+type User = {
+  id: string;
+  email: string;
+  username: string;
+  avatar: string | null;
+  squadTag: string | null;
+  plans: Plan[];
 };
 
 const instance = axios.create({
@@ -119,7 +155,7 @@ const apmoApi = {
   mission: {
     parse: async (mission: File) => {
       return instance.post<Mission>(
-        '/missions/parse',
+        '/missions/parse?isTesting=true',
         {
           file: mission,
         },
@@ -133,15 +169,52 @@ const apmoApi = {
   },
   plan: {
     createPlan: async (data: CreatePlanDto) => {
-      return instance.post<PlanResponse>('/plans', data);
+      return instance.post<Plan>('/plans', data);
     },
-
+    updatePlan: async ({ id, ...data }: CreatePlanDto & GetPlanByIdDto) => {
+      return instance.patch<Plan>(`/plans/${id}`, data);
+    },
     getPlanById: async (data: GetPlanByIdDto) => {
-      return instance.get<PlanResponse>(`/plans/${data.id}`);
+      return instance.get<Plan>(`/plans/${data.id}`);
+    },
+    delete: async (data: GetPlanByIdDto) => {
+      return instance.delete(`/plans/${data.id}`);
+    },
+  },
+  user: {
+    get: async () => {
+      return instance.get<User>('/profile');
+    },
+    changeAvatar: async (data: { avatar: string }) => {
+      return instance.post('/profile/change-avatar', data);
+    },
+    login: async (data: LoginDto) => {
+      return instance.post<LoginResponse>('/auth/sign-in', data);
+    },
+    signUp: async (data: SignUpDto) => {
+      return instance.post<SignUpDto>('/auth/sign-up', data);
+    },
+    changePassword: async (data: ChangePasswordDto) => {
+      return instance.post('/auth/change-password', data);
+    },
+    forgotPassword: async (data: { email: string }) => {
+      return instance.post('/auth/forgot-password', data);
+    },
+    refreshToken: async () => {
+      return instance.post<LoginResponse>('/auth/refresh-token');
     },
   },
 };
 
-export { apmoApi };
+export { apmoApi, instance };
 
-export type { DataType, Side, Entities, EntityItem };
+export type {
+  DataType,
+  Side,
+  Entities,
+  EntityItem,
+  User,
+  Plan,
+  LoginDto,
+  LoginResponse,
+};

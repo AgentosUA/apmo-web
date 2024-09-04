@@ -8,29 +8,61 @@ import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { mapsEntity } from '../maps';
 
 class Plan {
-  private mission: Mission;
   private markers: MarkersModel;
+  private mission: Mission;
+  id = '';
   title = '';
 
+  constructor(mission: Mission = missionEntity, markers = markersEntity) {
+    makeAutoObservable(this);
+
+    this.mission = mission;
+    this.markers = markers;
+  }
+
   public savePlan = async (isRedirect = true) => {
-    const { data } = await apmoApi.plan.createPlan({
+    const payload = {
       title: this.title ?? 'Untitled',
-      mission: missionEntity.fileName
+      mission: missionEntity.data?.fileName
         ? {
-            author: missionEntity.author,
-            fileName: missionEntity.fileName,
-            dlcs: missionEntity.dlcs,
-            briefing: missionEntity.briefing,
-            groups: missionEntity.groups,
-            island: missionEntity.island,
-            markers: missionEntity.markers,
-            preview: missionEntity.preview,
-            missionName: missionEntity.missionName,
-            vehicles: missionEntity.vehicles,
+            author: missionEntity.data?.author,
+            fileName: missionEntity.data?.fileName,
+            dlcs: missionEntity.data?.dlcs,
+            briefing: missionEntity.data?.briefing,
+            groups: missionEntity.data?.groups,
+            island: missionEntity.data?.island,
+            markers: missionEntity.data?.markers,
+            preview: missionEntity.data?.preview,
+            missionName: missionEntity.data?.missionName,
+            vehicles: missionEntity.data?.vehicles,
+            slots: missionEntity.data?.slots,
           }
         : null,
       planMarkers: JSON.stringify(this.markers.swtMarkers),
-    });
+    };
+
+    if (planEntity.id && missionEntity.data?.missionName) {
+      try {
+        await apmoApi.plan.updatePlan({
+          id: planEntity.id,
+          ...payload,
+        });
+
+        toasterEntity.call({
+          title: 'Plan saved',
+          description: 'Your plan has been saved',
+        });
+      } catch (error: any) {
+        toasterEntity.call({
+          title: 'Failed to save plan',
+          description: error?.response?.data?.message,
+        });
+      }
+
+      return;
+    }
+
+    const { data } = await apmoApi.plan.createPlan(payload);
 
     if (isRedirect && data.id) {
       // redirect(`/plans/${data.id}`);
@@ -50,18 +82,12 @@ class Plan {
       if (status === 404) return;
 
       planEntity.title = data.title;
+      planEntity.id = data.id;
       missionEntity.setMission(data.mission);
       mapsEntity.selectMap(data.mission.island);
       markersEntity.setSWTMarkers(JSON.parse(data.planMarkers));
     } catch (error) {}
   };
-
-  constructor(mission: Mission = missionEntity, markers = markersEntity) {
-    makeAutoObservable(this);
-
-    this.mission = mission;
-    this.markers = markers;
-  }
 }
 
 const planEntity = new Plan(missionEntity, markersEntity);

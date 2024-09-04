@@ -19,41 +19,20 @@ class Mission {
 
   isLoading = false;
 
-  fileName = '';
-  missionName = '';
-  author = '';
-  island = '';
-  preview: Preview | null = null;
-  dlcs: string[] = [];
-  briefing: Briefing | null = null;
-  groups: Group[] = [];
-  markers: MissionMarker[] = [];
-  vehicles: Vehicle[] = [];
+  data: MissionFile | null = null;
+
+  slotsType: 'list' | 'grid' = 'list';
 
   resetMission = () => {
-    this.fileName = '';
-    this.missionName = '';
-    this.author = '';
-    this.island = '';
-    this.preview = null;
-    this.dlcs = [];
-    this.briefing = null;
-    this.groups = [];
-    this.markers = [];
-    this.vehicles = [];
+    if (!this.data) return;
+
+    this.data = null;
   };
 
   setMission = (mission: MissionFile) => {
-    this.fileName = mission.fileName;
-    this.missionName = mission.missionName;
-    this.author = mission.author;
-    this.island = mission.island;
-    this.preview = mission.preview;
-    this.dlcs = mission.dlcs;
-    this.briefing = mission.briefing;
-    this.groups = mission.groups;
-    this.markers = mission.markers;
-    this.vehicles = mission.vehicles;
+    this.data = {
+      ...mission,
+    };
   };
 
   loadMission = async (mission?: File) => {
@@ -69,7 +48,7 @@ class Mission {
 
         toasterEntity.call({
           title: `Mission loaded`,
-          description: `${this.missionName}`,
+          description: `${this?.data?.missionName}`,
         });
       }
     } catch (error) {

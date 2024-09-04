@@ -1,0 +1,53 @@
+@import '@/shared/ui/styles/core.scss';
+
+.wrapper {
+  position: relative;
+}
+
+.input {
+  padding: 10px 8px;
+  height: 32px;
+  width: 100%;
+  background: $black;
+  color: $white;
+  border: none;
+
+  &::placeholder {
+    color: $grey;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.label {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  color: $orange;
+  font-size: 14px;
+  font-weight: 400;
+  pointer-events: none;
+  font-family: var(--font-roboto);
+  transition: .2s;
+  transform: translateY(-50%);
+}
+
+.label-focused {
+  top: -18px;
+  left: 0;
+  font-size: 14px;
+  color: $orange;
+  transition: .2s;
+  transform: translateY(0);
+}
+
+.error {
+  position: absolute;
+  bottom: -18px;
+  right: 0;
+  color: rgb(218, 23, 23);
+  font-size: 14px;
+  z-index: 1;
+}

@@ -17,7 +17,7 @@ import { planEntity } from '@/entities/plan';
 
 import { getIslandClassNameByPboFile } from '@/entities/mission/lib';
 
-import { SlotsList } from './slots-list';
+import { MissionSlotList, PlayerSlotList } from './slots-list';
 
 import styles from './ui.module.scss';
 
@@ -38,6 +38,7 @@ const MapOverlay = observer<{
     intel: false,
     slotsBLUEFOR: false,
     slotsOPFOR: false,
+    squadSlots: false,
   });
 
   const onSwitchUnitsNames = () => {
@@ -113,8 +114,10 @@ const MapOverlay = observer<{
   }, [mapsEntity.selectedMap]);
 
   useEffect(() => {
-    if (missionEntity.briefing?.diary?.length) {
-      const diaryIds = missionEntity.briefing.diary.map((item) => item.id);
+    if (missionEntity?.data?.briefing?.diary?.length) {
+      const diaryIds = missionEntity?.data?.briefing.diary.map(
+        (item) => item.id
+      );
 
       const newActive = {
         ...active,
@@ -126,7 +129,7 @@ const MapOverlay = observer<{
 
       setActive(newActive);
     }
-  }, [missionEntity.briefing]);
+  }, [missionEntity?.data?.briefing]);
 
   if (!mapsEntity.selectedMap) return null;
 
@@ -143,13 +146,28 @@ const MapOverlay = observer<{
       <Overlay.Header
         title={
           planEntity.title ||
-          missionEntity.missionName ||
+          missionEntity?.data?.missionName ||
           mapsEntity.selectedMap.name
         }
         onBack={() => {
           onBackClick ? onBackClick() : onResetClick();
         }}
-        rightCorner={<DateClock className={styles.clock} />}
+        rightCorner={
+          <DateClock
+            className={styles.clock}
+            customTime={
+              missionEntity?.data?.briefing?.intel?.hour
+                ? {
+                    hours: missionEntity?.data?.briefing?.intel?.hour,
+                    minutes: missionEntity?.data?.briefing?.intel?.minute
+                      ? missionEntity?.data?.briefing?.intel?.minute
+                      : '00',
+                    seconds: '00',
+                  }
+                : undefined
+            }
+          />
+        }
       />
       <Overlay.MenuWrapper>
         <Overlay.Menu>
@@ -159,7 +177,7 @@ const MapOverlay = observer<{
             Map
           </Overlay.MenuItem>
 
-          <View.Condition if={Boolean(missionEntity.briefing)}>
+          <View.Condition if={Boolean(missionEntity?.data?.briefing)}>
             <Overlay.MenuItem
               isActive={active.briefing}
               onClick={() => onMenuItemClick('briefing')}>
@@ -179,7 +197,15 @@ const MapOverlay = observer<{
             Mission
           </Overlay.MenuItem>
 
-          <View.Condition if={Boolean(missionEntity.fileName)}>
+          <View.Condition if={Boolean(missionEntity?.data?.fileName)}>
+            <Overlay.MenuItem
+              isActive={active.squadSlots}
+              onClick={() => onMenuItemClick('squadSlots')}>
+              Slots
+            </Overlay.MenuItem>
+          </View.Condition>
+
+          <View.Condition if={Boolean(missionEntity?.data?.fileName)}>
             <Overlay.MenuItem
               isActive={active.plan}
               onClick={() => onMenuItemClick('plan')}>
@@ -210,7 +236,7 @@ const MapOverlay = observer<{
               }
             />
 
-            <View.Condition if={Boolean(missionEntity.missionName)}>
+            <View.Condition if={Boolean(missionEntity?.data?.missionName)}>
               <Overlay.MenuItem onClick={onSwitchPlayersDisplayMode}>
                 {markersEntity.playersDisplayMode === 'groups'
                   ? 'Show all players'
@@ -220,7 +246,7 @@ const MapOverlay = observer<{
 
             <View.Condition
               if={
-                Boolean(missionEntity.missionName) &&
+                Boolean(missionEntity?.data?.missionName) &&
                 markersEntity.playersDisplayMode === 'players'
               }>
               <Overlay.MenuItem onClick={onSwitchUnitsNames}>
@@ -247,7 +273,7 @@ const MapOverlay = observer<{
 
         <View.Condition if={active.briefing}>
           <Overlay.Menu variant='secondary'>
-            {missionEntity?.briefing?.diary?.map((item) => (
+            {missionEntity?.data?.briefing?.diary?.map((item) => (
               <Overlay.MenuItem
                 key={item.id}
                 isActive={active[item.id]}
@@ -260,40 +286,44 @@ const MapOverlay = observer<{
 
         <View.Condition if={active.mission}>
           <Overlay.Menu variant='secondary'>
-            <View.Condition if={Boolean(!missionEntity.fileName)}>
+            <View.Condition if={Boolean(!missionEntity?.data?.fileName)}>
               <Overlay.MenuItem onClick={onFileInputClick}>
                 Upload mission
               </Overlay.MenuItem>
             </View.Condition>
 
-            <View.Condition if={Boolean(missionEntity.fileName)}>
+            <View.Condition if={Boolean(missionEntity?.data?.fileName)}>
               <Overlay.MenuItem
                 isActive={active.intel}
                 onClick={() => onMenuItemClick('mission', 'intel')}>
                 Intel
               </Overlay.MenuItem>
-              <View.Condition if={Boolean(missionEntity.dlcs)}>
+              <View.Condition if={Boolean(missionEntity?.data?.dlcs)}>
                 <Overlay.MenuItem
                   isActive={active.dlcs}
                   onClick={() => onMenuItemClick('mission', 'dlcs')}>
                   DLC used
                 </Overlay.MenuItem>
               </View.Condition>
-              {missionEntity.groups.some((item) => item.side === 'West') && (
+              {missionEntity?.data?.groups.some(
+                (item) => item.side === 'West'
+              ) && (
                 <Overlay.MenuItem
                   isActive={active.slotsBluefor}
                   onClick={() => onMenuItemClick('mission', 'slotsBluefor')}>
                   Slots BLUEFOR
                 </Overlay.MenuItem>
               )}
-              {missionEntity.groups.some((item) => item.side === 'East') && (
+              {missionEntity?.data?.groups.some(
+                (item) => item.side === 'East'
+              ) && (
                 <Overlay.MenuItem
                   isActive={active.slotsOpfor}
                   onClick={() => onMenuItemClick('mission', 'slotsOpfor')}>
                   Slots OPFOR
                 </Overlay.MenuItem>
               )}
-              {missionEntity.groups.some(
+              {missionEntity?.data?.groups.some(
                 (item) => item.side === 'Independent'
               ) && (
                 <Overlay.MenuItem
@@ -310,10 +340,10 @@ const MapOverlay = observer<{
 
         <View.Condition
           if={Boolean(
-            missionEntity?.briefing?.diary?.some((key) => active[key.id])
+            missionEntity?.data?.briefing?.diary?.some((key) => active[key.id])
           )}>
           <Overlay.Menu className={styles.diary} variant='secondary'>
-            {missionEntity?.briefing?.diary
+            {missionEntity?.data?.briefing?.diary
               ?.filter((item) => active[item.id])
               .map((item) => (
                 <Overlay.MenuItem key={item.id}>
@@ -326,11 +356,11 @@ const MapOverlay = observer<{
           </Overlay.Menu>
         </View.Condition>
 
-        <View.Condition if={active.dlcs && Boolean(missionEntity?.dlcs)}>
+        <View.Condition if={active.dlcs && Boolean(missionEntity?.data?.dlcs)}>
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem>
               <ul className={styles.list}>
-                {missionEntity?.dlcs?.map((dlc) => (
+                {missionEntity?.data?.dlcs?.map((dlc) => (
                   <li key={dlc}>{dlc}</li>
                 ))}
               </ul>
@@ -341,7 +371,10 @@ const MapOverlay = observer<{
         <View.Condition if={active.slotsBluefor}>
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem>
-              <SlotsList groups={missionEntity.groups} side='West' />
+              <MissionSlotList
+                groups={missionEntity?.data?.groups}
+                side='West'
+              />
             </Overlay.MenuItem>
           </Overlay.Menu>
         </View.Condition>
@@ -349,7 +382,10 @@ const MapOverlay = observer<{
         <View.Condition if={active.slotsOpfor}>
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem>
-              <SlotsList groups={missionEntity.groups} side='East' />
+              <MissionSlotList
+                groups={missionEntity?.data?.groups}
+                side='East'
+              />
             </Overlay.MenuItem>
           </Overlay.Menu>
         </View.Condition>
@@ -357,7 +393,10 @@ const MapOverlay = observer<{
         <View.Condition if={active.slotsIndependent}>
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem>
-              <SlotsList groups={missionEntity.groups} side='Independent' />
+              <MissionSlotList
+                groups={missionEntity?.data?.groups}
+                side='Independent'
+              />
             </Overlay.MenuItem>
           </Overlay.Menu>
         </View.Condition>
@@ -366,23 +405,41 @@ const MapOverlay = observer<{
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem>
               <ul className={styles.list}>
-                {missionEntity.briefing?.intel?.day && (
+                {missionEntity?.data?.briefing?.intel?.day && (
                   <li>
                     <b>Date:</b>{' '}
-                    {dayjs(missionEntity.briefing?.intel?.day).format('DD')},{' '}
-                    {dayjs(missionEntity.briefing?.intel?.month).format('MMMM')}
+                    {dayjs(missionEntity?.data?.briefing?.intel?.day).format(
+                      'DD'
+                    )}
+                    ,{' '}
+                    {dayjs(missionEntity?.data?.briefing?.intel?.month).format(
+                      'MMMM'
+                    )}
                   </li>
                 )}
                 <li>
                   <b>Time:</b>{' '}
-                  {dayjs(missionEntity.briefing?.intel?.hour).format('hh')}:
-                  {dayjs(missionEntity.briefing?.intel?.minute).format('mm')}
+                  {dayjs(missionEntity?.data?.briefing?.intel?.hour).format(
+                    'hh'
+                  )}
+                  :
+                  {dayjs(missionEntity?.data?.briefing?.intel?.minute).format(
+                    'mm'
+                  )}
                 </li>
                 <li>
                   <b>Description:</b>{' '}
-                  {missionEntity?.briefing?.intel?.overviewText}
+                  {missionEntity?.data?.briefing?.intel?.overviewText}
                 </li>
               </ul>
+            </Overlay.MenuItem>
+          </Overlay.Menu>
+        </View.Condition>
+
+        <View.Condition if={active.squadSlots}>
+          <Overlay.Menu variant='secondary'>
+            <Overlay.MenuItem>
+              <PlayerSlotList slots={missionEntity?.data?.slots ?? null} />
             </Overlay.MenuItem>
           </Overlay.Menu>
         </View.Condition>

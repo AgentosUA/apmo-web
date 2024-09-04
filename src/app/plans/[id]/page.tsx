@@ -34,6 +34,11 @@ const Page = observer(() => {
 
   useEffect(() => {
     getPlan();
+
+    return () => {
+      planEntity.id = '';
+      planEntity.title = '';
+    };
   }, []);
 
   const onOverlayBackClick = () => {
@@ -53,7 +58,7 @@ const Page = observer(() => {
     );
   }
 
-  if (!isLoading && !missionEntity.fileName) {
+  if (!isLoading && !missionEntity?.data?.fileName) {
     return (
       <div className={styles.wrapper}>
         <div className={styles.card}>

@@ -1,6 +1,8 @@
 .callsign {
   color: #ffa30e;
+}
 
+.link {
   &:hover {
     text-decoration: underline;
     cursor: pointer;
@@ -20,3 +22,45 @@
 .group {
   margin-bottom: 20px;
 }
+
+.slots-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.slots-header {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.slots-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-width: 185px;
+}
+
+.slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.slots-list {
+  flex-direction: column;
+}
+
+.slot {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.input {
+  width: 100%;
+}
+
+.copy {}

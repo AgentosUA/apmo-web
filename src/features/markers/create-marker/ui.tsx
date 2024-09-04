@@ -26,8 +26,8 @@ import { Button } from '@/shared/ui/atoms/button';
 const CreateMarker: FC<{
   model?: CreateMarkerModel;
   markersModel?: MarkersModel;
-}> = observer(({ model, markersModel }) => {
-  const entity = model ?? createMarkerEntity;
+}> = observer(({ model = createMarkerEntity, markersModel }) => {
+  const entity = model;
   const markersEntity = markersModel ?? sharedMarkersEntity;
 
   const map = useMap();

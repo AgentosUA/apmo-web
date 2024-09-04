@@ -1,0 +1,162 @@
+@import '@/shared/ui/styles/core.scss';
+
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+  transition: .3s;
+  z-index: 5;
+
+  @include tablet() {
+    overflow: visible;
+    background: #070B0A;
+  }
+}
+
+.scrolled-header {
+  background: #070B0A;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: .3s;
+
+  .logo {
+    top: 2px;
+
+
+    .title {
+      font-size: 16px;
+
+    }
+
+    img {
+      object-fit: contain;
+      height: 65px;
+    }
+  }
+}
+
+.logo {
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  transition: .3s;
+
+  img {
+    object-fit: contain;
+    transition: .3s;
+  }
+
+  @include tablet() {
+    top: 2px;
+
+    .title {
+      font-size: 16px;
+    }
+
+    img {
+      height: 65px;
+    }
+  }
+}
+
+.title {
+  margin-top: -3px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+  transition: .3s;
+}
+
+.menu {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 32px;
+  background: #070B0A;
+
+  &:last-child {
+    justify-content: flex-end;
+  }
+
+  @include tablet() {
+    position: absolute;
+    top: 0;
+    left: -100vw;
+    left: -100svw;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100vh;
+    height: 100svh;
+    transition: left .3s;
+    z-index: 10;
+
+    .force-right-elements {
+      flex-grow: 0;
+    }
+  }
+}
+
+.menu-opened {
+  left: 0;
+  transition: left .3s;
+}
+
+.menu-item {
+  @include tablet() {
+    width: 100%;
+    text-align: center;
+
+    a,
+    button {
+      width: 100%;
+      text-align: center;
+    }
+
+    button {
+      padding: 35px 0;
+      line-height: 0px;
+    }
+  }
+}
+
+.force-right-elements {
+  flex-grow: 1;
+}
+
+.burger-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  font-size: 25px;
+  z-index: 1;
+
+  @include desktop() {
+    display: none;
+  }
+}
+
+.close-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  font-size: 25px;
+  z-index: 11;
+  transform: translateY(-50%);
+
+  @include desktop() {
+    display: none;
+  }
+}

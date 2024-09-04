@@ -1,4 +1,4 @@
-$width: 220px;
+$width: 230px;
 
 .wrapper {
   position: fixed;
@@ -6,7 +6,7 @@ $width: 220px;
   left: 50%;
   gap: 2px;
   width: $width;
-  z-index: 1000;
+  z-index: 1001;
   transform: translateX(-50%);
   color: #fff;
   overflow: hidden;
@@ -19,7 +19,7 @@ $width: 220px;
 .toaster {
   gap: 2px;
   width: $width;
-  z-index: 1000;
+  z-index: 1001;
   color: #fff;
   overflow: hidden;
   display: flex;
@@ -38,7 +38,7 @@ $width: 220px;
   font-size: 14px;
   text-align: center;
   text-transform: uppercase;
-  background: rgba($color: #000, $alpha: 0.7);
+  background: rgba($color: #000, $alpha: 0.8);
   animation: show-title 220ms ease-in 0ms 1 normal forwards, hide-title 220ms ease-out 3700ms 1 normal forwards;
   overflow: hidden;
 }
@@ -60,7 +60,7 @@ $width: 220px;
   height: 32px;
   width: 32px;
   flex-shrink: 0;
-  background: rgba($color: #000, $alpha: 0.5);
+  background: rgba($color: #000, $alpha: 0.8);
 }
 
 .description {
@@ -74,7 +74,7 @@ $width: 220px;
   text-align: center;
   text-overflow: ellipsis;
   overflow: hidden;
-  background: rgba($color: #000, $alpha: 0.5);
+  background: rgba($color: #000, $alpha: 0.8);
 }
 
 @keyframes show-title {
