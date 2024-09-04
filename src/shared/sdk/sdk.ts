@@ -155,7 +155,7 @@ const apmoApi = {
   mission: {
     parse: async (mission: File) => {
       return instance.post<Mission>(
-        '/missions/parse?isTesting=true',
+        '/missions/parse',
         {
           file: mission,
         },
