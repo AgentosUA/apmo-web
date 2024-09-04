@@ -10,9 +10,13 @@ class User {
 
   isAuthorized = false;
 
+  booted = false;
+
   isLoadingProfile = false;
 
-  booted = false;
+  isLoadingLogin = false;
+
+  isLoadingChangePassword = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -46,11 +50,14 @@ class User {
     onError?: (string: string) => void
   ) => {
     try {
+      this.isLoadingChangePassword = true;
       await apmoApi.user.changePassword(values);
 
       cb?.();
     } catch (error: any) {
       onError?.(error?.response?.data?.message ?? 'Unknown error');
+    } finally {
+      this.isLoadingChangePassword = false;
     }
   };
 
@@ -68,6 +75,8 @@ class User {
 
   login = async (values: LoginDto, onError?: (string: string) => void) => {
     try {
+      this.isLoadingLogin = true;
+
       const {
         data: { token, refreshToken },
       } = await apmoApi.user.login(values);
@@ -85,6 +94,8 @@ class User {
       this.isAuthorized = true;
     } catch (error: any) {
       onError?.(error?.response?.data?.message ?? 'Unknown error');
+    } finally {
+      this.isLoadingLogin = false;
     }
   };
 

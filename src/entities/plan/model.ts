@@ -10,6 +10,7 @@ import { mapsEntity } from '../maps';
 class Plan {
   private markers: MarkersModel;
   private mission: Mission;
+  id = '';
   title = '';
 
   constructor(mission: Mission = missionEntity, markers = markersEntity) {
@@ -20,7 +21,7 @@ class Plan {
   }
 
   public savePlan = async (isRedirect = true) => {
-    const { data } = await apmoApi.plan.createPlan({
+    const payload = {
       title: this.title ?? 'Untitled',
       mission: missionEntity.data?.fileName
         ? {
@@ -38,7 +39,30 @@ class Plan {
           }
         : null,
       planMarkers: JSON.stringify(this.markers.swtMarkers),
-    });
+    };
+
+    if (planEntity.id && missionEntity.data?.missionName) {
+      try {
+        await apmoApi.plan.updatePlan({
+          id: planEntity.id,
+          ...payload,
+        });
+
+        toasterEntity.call({
+          title: 'Plan saved',
+          description: 'Your plan has been saved',
+        });
+      } catch (error: any) {
+        toasterEntity.call({
+          title: 'Failed to save plan',
+          description: error?.response?.data?.message,
+        });
+      }
+
+      return;
+    }
+
+    const { data } = await apmoApi.plan.createPlan(payload);
 
     if (isRedirect && data.id) {
       // redirect(`/plans/${data.id}`);
@@ -58,6 +82,7 @@ class Plan {
       if (status === 404) return;
 
       planEntity.title = data.title;
+      planEntity.id = data.id;
       missionEntity.setMission(data.mission);
       mapsEntity.selectMap(data.mission.island);
       markersEntity.setSWTMarkers(JSON.parse(data.planMarkers));

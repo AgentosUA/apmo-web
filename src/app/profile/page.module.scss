@@ -33,6 +33,12 @@
   flex-direction: column;
   text-align: center;
   gap: 15px;
+
+  @include desktop() {
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+  }
 }
 
 .plans {
@@ -46,7 +52,7 @@
 
 .plans-title {
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .plan {
@@ -57,6 +63,10 @@
   width: 100%;
   padding: 10px;
   overflow: hidden;
+
+  @include tablet() {
+    min-height: 210px;
+  }
 
   &>* {
     z-index: 2;
@@ -70,12 +80,13 @@
 
 .plan-map {
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .plan-image {
   object-fit: cover;
   width: 100%;
+  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -107,6 +118,10 @@
   justify-content: space-between;
   align-items: center;
   gap: 15px;
+
+  @include tablet() {
+    flex-direction: column;
+  }
 }
 
 .plan-action-button {

@@ -50,8 +50,8 @@ const ForgotPasswordPage: React.FC = () => {
   return (
     <div className={styles.wrapper}>
       <Header />
-      <Preloader isLoading={isLoading}>
-        <form className={styles.form} onSubmit={formik.handleSubmit}>
+      <form className={styles.form} onSubmit={formik.handleSubmit}>
+        <Preloader isLoading={isLoading}>
           <h2>Forgot password</h2>
           <Input
             id='email'
@@ -64,8 +64,8 @@ const ForgotPasswordPage: React.FC = () => {
           <Button variant='bold' type='submit'>
             Submit
           </Button>
-        </form>
-      </Preloader>
+        </Preloader>
+      </form>
       <Footer />
     </div>
   );

@@ -155,7 +155,7 @@ const apmoApi = {
   mission: {
     parse: async (mission: File) => {
       return instance.post<Mission>(
-        '/missions/parse',
+        '/missions/parse?isTesting=true',
         {
           file: mission,
         },
@@ -171,8 +171,8 @@ const apmoApi = {
     createPlan: async (data: CreatePlanDto) => {
       return instance.post<Plan>('/plans', data);
     },
-    updatePlan: async (data: CreatePlanDto & GetPlanByIdDto) => {
-      return instance.put<Plan>(`/plans/${data.id}`, data);
+    updatePlan: async ({ id, ...data }: CreatePlanDto & GetPlanByIdDto) => {
+      return instance.patch<Plan>(`/plans/${id}`, data);
     },
     getPlanById: async (data: GetPlanByIdDto) => {
       return instance.get<Plan>(`/plans/${data.id}`);

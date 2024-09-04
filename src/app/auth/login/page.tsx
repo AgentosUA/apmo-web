@@ -17,6 +17,7 @@ import { observer } from 'mobx-react-lite';
 
 import { useAuthorizated } from '@/entities/user/ui/authorization/hook';
 import Link from 'next/link';
+import { Preloader } from '@/shared/ui/quarks/preloader';
 
 const LoginPage = observer(() => {
   const validationSchema = yup.object({
@@ -46,31 +47,35 @@ const LoginPage = observer(() => {
       <Header />
       <main className={styles.main}>
         <form className={styles.form} onSubmit={formik.handleSubmit}>
-          <h2>Log in</h2>
-          <Input
-            id='email'
-            label='Email or username'
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.email ? formik.errors.email : ''}
-          />
-          <Input
-            id='password'
-            type='password'
-            label='Password'
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-            error={formik.touched.password ? formik.errors.password : ''}
-          />
+          <Preloader isLoading={userEntity.isLoadingLogin}>
+            <h2>Log in</h2>
+            <Input
+              id='email'
+              label='Email or username'
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.email ? formik.errors.email : ''}
+            />
+            <Input
+              id='password'
+              type='password'
+              label='Password'
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              error={formik.touched.password ? formik.errors.password : ''}
+            />
 
-          <Link className={styles.forgotPassword} href='/auth/forgot-password'>
-            Forgot password?
-          </Link>
-          <Button variant='bold' type='submit'>
-            Log in
-          </Button>
+            <Link
+              className={styles.forgotPassword}
+              href='/auth/forgot-password'>
+              Forgot password?
+            </Link>
+            <Button variant='bold' type='submit'>
+              Log in
+            </Button>
+          </Preloader>
         </form>
       </main>
       <Footer />

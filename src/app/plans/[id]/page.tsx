@@ -34,6 +34,11 @@ const Page = observer(() => {
 
   useEffect(() => {
     getPlan();
+
+    return () => {
+      planEntity.id = '';
+      planEntity.title = '';
+    };
   }, []);
 
   const onOverlayBackClick = () => {

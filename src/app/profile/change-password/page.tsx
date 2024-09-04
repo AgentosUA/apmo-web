@@ -21,6 +21,7 @@ import { apmoApi, Plan } from '@/shared/sdk';
 import { Modal } from '@/shared/ui/moleculas/modal/ui';
 import { Input } from '@/shared/ui/atoms/input/ui';
 import { useFormik } from 'formik';
+import { Preloader } from '@/shared/ui/quarks/preloader';
 
 const ChangePassword = observer(() => {
   useUnAuthorizated(userEntity);
@@ -45,7 +46,13 @@ const ChangePassword = observer(() => {
     validateOnBlur: true,
     validationSchema,
     onSubmit: () => {
-      userEntity.changePassword(formik.values, () => router.push('/profile'));
+      userEntity.changePassword(
+        formik.values,
+        () => router.push('/profile'),
+        (error) => {
+          formik.setErrors({ newPassword: error });
+        }
+      );
     },
   });
 
@@ -54,29 +61,35 @@ const ChangePassword = observer(() => {
       <Header />
       <main className={styles.main}>
         <form className={styles.form} onSubmit={formik.handleSubmit}>
-          <h2 className={styles.title}>Change password</h2>
-          <Input
-            id='oldPassword'
-            type='password'
-            label='Old password'
-            value={formik.values.oldPassword}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.oldPassword ? formik.errors.oldPassword : ''}
-          />
-          <Input
-            id='newPassword'
-            type='password'
-            label='New password'
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.newPassword}
-            error={formik.touched.newPassword ? formik.errors.newPassword : ''}
-          />
+          <Preloader isLoading={userEntity.isLoadingChangePassword}>
+            <h2 className={styles.title}>Change password</h2>
+            <Input
+              id='oldPassword'
+              type='password'
+              label='Old password'
+              value={formik.values.oldPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched.oldPassword ? formik.errors.oldPassword : ''
+              }
+            />
+            <Input
+              id='newPassword'
+              type='password'
+              label='New password'
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.newPassword}
+              error={
+                formik.touched.newPassword ? formik.errors.newPassword : ''
+              }
+            />
 
-          <Button className={styles.submit} variant='bold' type='submit'>
-            Change password
-          </Button>
+            <Button className={styles.submit} variant='bold' type='submit'>
+              Change password
+            </Button>
+          </Preloader>
         </form>
       </main>
       <Footer />

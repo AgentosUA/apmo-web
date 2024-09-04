@@ -23,6 +23,7 @@ import Link from 'next/link';
 import { Preloader } from '@/shared/ui/quarks/preloader';
 import { Input } from '@/shared/ui/atoms/input/ui';
 import { useFormik } from 'formik';
+import { Callsigns } from '@/entities/mission/types';
 
 const Profile = observer(() => {
   useUnAuthorizated(userEntity);
@@ -46,10 +47,10 @@ const Profile = observer(() => {
     if (!plan.mission.slots) return;
 
     const slots = Object.keys(plan.mission.slots)
-      .filter((key) => Boolean(plan.mission.slots[key]))
-      .map((key) => `${key}: ${plan.mission.slots[key]}`);
-
-    if (!slots?.length) return;
+      .filter((key) => Boolean(plan?.mission?.slots?.[key as keyof Callsigns]))
+      .map(
+        (key) => `${key}: ${plan?.mission?.slots?.[key as keyof Callsigns]}`
+      );
 
     navigator.clipboard.writeText(slots.join('\n'));
 

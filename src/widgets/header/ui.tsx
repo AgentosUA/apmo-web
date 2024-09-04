@@ -80,8 +80,8 @@ const Header = () => {
         </Link>
         <div className={styles.forceRightElements} />
         <UnAuthorized>
-          <Link href='/auth/login'>
-            <Button className={styles.menuItem} size='md' variant='transparent'>
+          <Link className={styles.menuItem} href='/auth/login'>
+            <Button size='md' variant='transparent'>
               LOG IN
             </Button>
           </Link>
@@ -97,13 +97,11 @@ const Header = () => {
             </Button>
           </Link>
 
-          <Button
-            className={styles.menuItem}
-            size='md'
-            variant='transparent'
-            onClick={userEntity.logout}>
-            Log out
-          </Button>
+          <Link className={styles.menuItem} href='/'>
+            <Button size='md' variant='transparent' onClick={userEntity.logout}>
+              Log out
+            </Button>
+          </Link>
         </Authorized>
       </div>
       <div className={styles.logo}>
