@@ -24,7 +24,7 @@ import styles from './ui.module.scss';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(
-    typeof window === 'undefined' ? 0 : window.scrollY > 0
+    typeof window === 'undefined' ? 0 : window?.scrollY > 0
   );
 
   const [isMenuOpened, setIsMenuOpened] = useState(false);
@@ -35,7 +35,7 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
+      setIsScrolled(window?.scrollY > 0);
     };
 
     window.addEventListener('scroll', handleScroll);
