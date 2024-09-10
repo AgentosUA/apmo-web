@@ -2,7 +2,13 @@ import Image from 'next/image';
 
 import classNames from 'classnames';
 
-import { Icon, DivIcon, Marker as MarkerLeaflet, MarkerOptions, LatLngExpression } from 'leaflet';
+import {
+  Icon,
+  DivIcon,
+  Marker as MarkerLeaflet,
+  MarkerOptions,
+  LatLngExpression,
+} from 'leaflet';
 
 import {
   FC,
@@ -179,6 +185,14 @@ const ArmaMarker: FC<
         height,
         direction
       );
+
+      if (
+        isNaN(corners[0][0]) ||
+        isNaN(corners[0][1]) ||
+        isNaN(corners[1][0]) ||
+        isNaN(corners[1][1])
+      )
+        return null;
 
       return (
         <Polygon
