@@ -11,9 +11,12 @@ import { Post } from '@/entities/post/ui';
 import { Button } from '@/shared/ui/atoms/button';
 import Link from 'next/link';
 import { Header } from '@/widgets/header';
+import { useBreakpoint } from '@/shared/ui/quarks/view';
 
 const ChangelogPage = observer(() => {
   const router = useRouter();
+
+  const { isDesktop } = useBreakpoint();
 
   return (
     <>
@@ -23,6 +26,17 @@ const ChangelogPage = observer(() => {
           <Button>Back to home page</Button>
         </Link>
         <div className={styles.posts}>
+          <Post title='[1.0.0-RC1] Version release' date='05.09.2024'>
+            <iframe
+              width='100%'
+              height={isDesktop ? '512px' : '100%'}
+              src='https://www.youtube.com/embed/rR1S-dNhvOo?si=adyZ3wh_Yv3fMXwy'
+              title='YouTube video player'
+              frameBorder='0'
+              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+              referrerPolicy='strict-origin-when-cross-origin'
+              allowFullScreen></iframe>
+          </Post>
           <Post
             title='UPDATE: New maps & marker support'
             date='06.20.2024'
