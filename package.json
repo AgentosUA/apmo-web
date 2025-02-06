@@ -23,12 +23,12 @@
     "leaflet-rotatedmarker": "^0.2.0",
     "mobx": "^6.12.0",
     "mobx-react-lite": "^4.0.5",
-    "next": "^14.2.6",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "next": "^15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-hook-form": "^7.52.2",
     "react-icons": "^5.0.1",
-    "react-leaflet": "^4.2.1",
+    "react-leaflet": "^5.0.0",
     "sass": "^1.70.0",
     "sharp": "^0.33.3",
     "yup": "^1.4.0"
@@ -39,7 +39,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.1.0",
+    "eslint-config-next": "^15.1.6",
     "typescript": "^5"
   }
 }
