@@ -101,7 +101,9 @@ export default async function RootLayout({
         <Toaster />
 
         <StoreProvider initial={initial}>
-          <I18nProvider>{children}</I18nProvider>
+          <I18nProvider initLang={initial.settingsLocale}>
+            {children}
+          </I18nProvider>
         </StoreProvider>
       </body>
     </html>
