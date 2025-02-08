@@ -9,7 +9,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, className, variant = 'thick', size = 'sm', ...props }, ref) => (
+  ({ children, className = '', variant = 'thick', size = 'sm', ...props }, ref) => (
     <button
       {...props}
       ref={ref}
@@ -17,7 +17,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         styles.button,
         {
           [styles[variant]]: variant,
-          [styles[size]]: size,
+          // [styles[size]]: size,
         },
         className
       )}>

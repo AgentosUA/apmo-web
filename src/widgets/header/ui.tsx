@@ -1,23 +1,17 @@
 'use client';
 
+import classNames from 'classnames';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
-
+import { IoMdClose } from 'react-icons/io';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
-import Image from 'next/image';
 
-import Link from 'next/link';
-
-import { Button } from '@/shared/ui/atoms/button';
-
-import { Authorized, UnAuthorized } from '@/entities/user/ui/authorization/ui';
-
-import { IoMdClose } from 'react-icons/io';
-
-import classNames from 'classnames';
 
 import { userEntity } from '@/entities/user/model';
-
+import { Authorized, UnAuthorized } from '@/entities/user/ui/authorization/ui';
+import { Button } from '@/shared/ui/atoms/button';
 import { View } from '@/shared/ui/quarks/view';
 
 import styles from './ui.module.scss';

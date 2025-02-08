@@ -1,14 +1,16 @@
-import type { Metadata } from 'next';
-
 import { Roboto_Condensed } from 'next/font/google';
+import { cookies } from 'next/headers';
+
+import { Language } from '@/entities/settings/model';
+import { StoreProvider } from '@/entities/store';
+import { I18nProvider } from '@/shared/lib/i18n/provider';
+import { Toaster } from '@/shared/ui/organisms/toaster';
+
+import type { Metadata } from 'next';
 
 import '@/shared/ui/styles/reset.scss';
 
-import '@/shared/ui/styles/global.scss';
-
-import { Toaster } from '@/shared/ui/organisms/toaster';
-
-import { BootProvider } from '@/widgets/boot';
+import '@/shared/ui/styles/global.css';
 
 import '../processes/axios';
 
@@ -26,11 +28,17 @@ export const metadata: Metadata = {
   description: 'Create your plan for Arma 3!',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookiesStore = await cookies();
+
+  const initial = {
+    settingsLocale: (cookiesStore.get('locale')?.value || 'en') as Language,
+  };
+
   return (
     <html lang='en' className={roboto.variable}>
       <head>
@@ -91,7 +99,10 @@ export default function RootLayout({
       </head>
       <body>
         <Toaster />
-        <BootProvider>{children}</BootProvider>
+
+        <StoreProvider initial={initial}>
+          <I18nProvider>{children}</I18nProvider>
+        </StoreProvider>
       </body>
     </html>
   );

@@ -1,20 +1,23 @@
 'use client';
 
-import Image from 'next/image';
-
-import Link from 'next/link';
-import styles from './page.module.scss';
 import { observer } from 'mobx-react-lite';
-import { ChangeEvent, useEffect, useRef } from 'react';
-import { missionEntity } from '@/entities/mission';
-import { mapsEntity } from '@/entities/maps';
-import { mapList } from '@/shared/data/map-list';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { ChangeEvent, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { mapsEntity } from '@/entities/maps';
+import { missionEntity } from '@/entities/mission';
+import { mapList } from '@/shared/data/map-list';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { Footer } from '@/widgets/footer';
 import { Header } from '@/widgets/header/ui';
 
+import styles from './page.module.scss';
+
 const HomePage = observer(() => {
+  const { t } = useTranslation();
   const router = useRouter();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -56,7 +59,9 @@ const HomePage = observer(() => {
               height={325}
               alt='Select map'
             />
-            <p className={styles.navigationItemText}>Select Map</p>
+            <p className={styles.navigationItemText}>
+              {t('pages:home:selectMap')}
+            </p>
           </Link>
           <div
             className={styles.navigationItem}

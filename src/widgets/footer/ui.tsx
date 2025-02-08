@@ -1,3 +1,5 @@
+import { ChangeLanguage } from '@/features/settings/language/ui';
+
 import styles from './ui.module.scss';
 
 const Footer = () => {
@@ -11,6 +13,7 @@ const Footer = () => {
         Feel free to contribute on{' '}
         <a href='https://github.com/AgentosUA/apmo-web'>GitHub</a>
       </p>
+      <ChangeLanguage className='absolute right-6 top-10' />
     </footer>
   );
 };

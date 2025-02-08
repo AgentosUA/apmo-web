@@ -2,8 +2,8 @@
 
 import cookieCutter from 'cookie-cutter';
 
-import { apmoApi, instance } from '@/shared/sdk';
 import { userEntity } from '@/entities/user/model';
+import { apmoApi, instance } from '@/shared/sdk';
 
 let refreshPromise: Promise<string | void> | null = null;
 

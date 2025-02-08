@@ -1,10 +1,10 @@
-import { FC, PropsWithChildren } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
+import { FC, PropsWithChildren } from 'react';
 
 import { Button } from '../../atoms/button';
+import { RadixChildren } from '../../quarks/radix-children/ui';
 
 import styles from './ui.module.scss';
-import { RadixChildren } from '../../quarks/radix-children/ui';
 
 const Modal: FC<
   PropsWithChildren<{
@@ -16,9 +16,7 @@ const Modal: FC<
   }>
 > = ({ title, description, trigger, children, onCancel, onConfirm }) => (
   <Dialog.Root>
-    <Dialog.Trigger asChild>
-      <RadixChildren>{trigger}</RadixChildren>
-    </Dialog.Trigger>
+    <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
     <Dialog.Portal>
       <Dialog.Overlay className={styles.dialogOverlay} />
       <Dialog.Content className={styles.dialogContent}>
