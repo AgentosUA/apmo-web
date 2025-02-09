@@ -1,0 +1,392 @@
+[
+  [
+    "hill",
+    "M. Ambrosio",
+    4698.2,
+    7268.36
+  ],
+  [
+    "hill",
+    "M. Arpagna",
+    3769.48,
+    2962.63
+  ],
+  [
+    "hill",
+    "M. Castello",
+    4564.66,
+    6785.9
+  ],
+  [
+    "hill",
+    "M. Compagnia",
+    6706.36,
+    4788.07
+  ],
+  [
+    "hill",
+    "M. Forcone",
+    4198.18,
+    5233.98
+  ],
+  [
+    "hill",
+    "M. Oche Penne",
+    4003.23,
+    6308.9
+  ],
+  [
+    "hill",
+    "M. Ponica",
+    4016.14,
+    3955.96
+  ],
+  [
+    "hill",
+    "M. Soopa",
+    5260.44,
+    8886.09
+  ],
+  [
+    "city",
+    "Capri",
+    6387.02,
+    6327.49
+  ],
+  [
+    "capital",
+    "Isola di Capraia",
+    7385.56,
+    1097.34
+  ],
+  [
+    "local",
+    "Artificial Airfield",
+    1122.87,
+    8953.84
+  ],
+  [
+    "local",
+    "Cala del Recibo",
+    3234.86,
+    5646.04
+  ],
+  [
+    "local",
+    "Campo Militare",
+    7021.04,
+    6291.18
+  ],
+  [
+    "local",
+    "Campo Petrolifero",
+    7291.84,
+    6332.52
+  ],
+  [
+    "local",
+    "Casa Di Legno",
+    6641.76,
+    4587.69
+  ],
+  [
+    "local",
+    "Chiesa di San Paolina",
+    6116.26,
+    4887.89
+  ],
+  [
+    "local",
+    "Fattoria",
+    5971.22,
+    5004.64
+  ],
+  [
+    "local",
+    "Forte Alma",
+    6459.87,
+    7407.34
+  ],
+  [
+    "local",
+    "Forte San Gorgio",
+    5322.77,
+    8923.18
+  ],
+  [
+    "local",
+    "Isola dei Gabbiani",
+    2909.69,
+    4520.94
+  ],
+  [
+    "local",
+    "La Miniera",
+    6466.54,
+    6507.16
+  ],
+  [
+    "local",
+    "Military depot",
+    6705.5,
+    6028.74
+  ],
+  [
+    "local",
+    "Porto Vecchio",
+    6618.78,
+    6875.57
+  ],
+  [
+    "local",
+    "Segheria",
+    7195.65,
+    5318.98
+  ],
+  [
+    "local",
+    "The Villa",
+    7529.49,
+    6136.29
+  ],
+  [
+    "local",
+    "Torre dello ZENOBITO",
+    4333.18,
+    1142.12
+  ],
+  [
+    "local",
+    "Torre Nero",
+    3264.26,
+    5886.51
+  ],
+  [
+    "local",
+    "Torre Rossa",
+    2742.35,
+    3363.1
+  ],
+  [
+    "local",
+    "Torretta del BAGNO",
+    7293.21,
+    6929.05
+  ],
+  [
+    "marine",
+    "Cala del Ceppo",
+    6633.9,
+    3764.35
+  ],
+  [
+    "marine",
+    "Cala del Fondo",
+    3104.29,
+    5112.57
+  ],
+  [
+    "marine",
+    "Cala del Moreto",
+    3878.36,
+    1331.12
+  ],
+  [
+    "marine",
+    "Cala del Porcio",
+    5465.51,
+    2624.01
+  ],
+  [
+    "marine",
+    "Cala del Vetriolo",
+    2760.31,
+    3788.81
+  ],
+  [
+    "marine",
+    "Cala della Carbona",
+    5901.16,
+    3079.89
+  ],
+  [
+    "marine",
+    "Cala dello Zurletto",
+    7568.61,
+    5954.68
+  ],
+  [
+    "marine",
+    "Cala di Veronica",
+    4325.23,
+    913.16
+  ],
+  [
+    "marine",
+    "Calla della Mortola",
+    6235.02,
+    8874.88
+  ],
+  [
+    "marine",
+    "La Cote",
+    2760.83,
+    2738.05
+  ],
+  [
+    "marine",
+    "Punta del Capo",
+    5962.48,
+    2867.02
+  ],
+  [
+    "marine",
+    "Punta del Ferraione",
+    7512.66,
+    7049.84
+  ],
+  [
+    "marine",
+    "Punta del Fundo",
+    2868.91,
+    5351
+  ],
+  [
+    "marine",
+    "Punta del Trattoio",
+    2249.94,
+    3400.17
+  ],
+  [
+    "marine",
+    "Punta del Turco",
+    4937.05,
+    1314.63
+  ],
+  [
+    "marine",
+    "Punta del Vecchiaione",
+    6712.13,
+    8812.73
+  ],
+  [
+    "marine",
+    "Punta della Bellavista",
+    7832.19,
+    6125.42
+  ],
+  [
+    "marine",
+    "Punta della CIVITATA",
+    7226.05,
+    3825.57
+  ],
+  [
+    "marine",
+    "Punta della Manza",
+    3184.41,
+    7281.54
+  ],
+  [
+    "marine",
+    "Punta della Seccatoia",
+    3595.14,
+    7842.27
+  ],
+  [
+    "marine",
+    "Punta della Teglia",
+    5636,
+    9778.31
+  ],
+  [
+    "marine",
+    "Punta della Unguelle",
+    3184.76,
+    1257.27
+  ],
+  [
+    "marine",
+    "Punta della Zenobito",
+    4177.01,
+    679.08
+  ],
+  [
+    "marine",
+    "Punta di Portovecchio",
+    6819.82,
+    7580.12
+  ],
+  [
+    "village",
+    "Corragio",
+    4143.24,
+    3705.29
+  ],
+  [
+    "village",
+    "Corsaro",
+    6757.33,
+    6652.24
+  ],
+  [
+    "village",
+    "Il Saracino",
+    3909.19,
+    4787.68
+  ],
+  [
+    "village",
+    "La Roca",
+    5664.65,
+    9444.73
+  ],
+  [
+    "village",
+    "La Torre Ragna",
+    5574.91,
+    9248.51
+  ],
+  [
+    "village",
+    "Malizia",
+    5690.29,
+    9590.53
+  ],
+  [
+    "village",
+    "Onore",
+    4173.48,
+    3915.28
+  ],
+  [
+    "village",
+    "Pescara",
+    5079.35,
+    8489.95
+  ],
+  [
+    "village",
+    "Speranza",
+    3368.34,
+    5903.02
+  ],
+  [
+    "village",
+    "Valorosi",
+    5990.06,
+    7141.43
+  ],
+  [
+    "village",
+    "Vione",
+    3637.46,
+    6502.66
+  ],
+  [
+    "village",
+    "Vittoria",
+    3831.11,
+    2929.54
+  ]
+]

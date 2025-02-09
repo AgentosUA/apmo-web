@@ -51,9 +51,7 @@ class MapsModel {
     try {
       if (!map) return;
 
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_STATIC_URL}/locations/${map}.json`
-      );
+      const response = await axios.get(`/locations/${map}.json`);
 
       this.locations = [...(response.data as Location[])];
     } catch (error) {

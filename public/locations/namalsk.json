@@ -1,0 +1,296 @@
+[
+  [
+    "hill",
+    "Ledjanaja",
+    2939.72,
+    6435.97
+  ],
+  [
+    "hill",
+    "Nitija",
+    5331.44,
+    7183.34
+  ],
+  [
+    "hill",
+    "Tara",
+    7357.73,
+    6986.28
+  ],
+  [
+    "city",
+    "Jalovisko",
+    8422.33,
+    10730.9
+  ],
+  [
+    "city",
+    "Norinsk",
+    4065.09,
+    7540.41
+  ],
+  [
+    "city",
+    "Sebjan",
+    5677.55,
+    8746.13
+  ],
+  [
+    "city",
+    "Tara harbor",
+    7962.25,
+    7537
+  ],
+  [
+    "city",
+    "Vorkuta outskirts",
+    7112.88,
+    10712.5
+  ],
+  [
+    "capital",
+    "Vorkuta",
+    7120.02,
+    11253.1
+  ],
+  [
+    "local",
+    "Brensk bay",
+    5200.67,
+    5374.27
+  ],
+  [
+    "local",
+    "Brensk bridge",
+    5033.77,
+    6069.3
+  ],
+  [
+    "local",
+    "Brensk tunnel entrance",
+    3751.71,
+    6276.83
+  ],
+  [
+    "local",
+    "C-130J Mohawk crash site",
+    3191.67,
+    7536.39
+  ],
+  [
+    "local",
+    "Lubjansk bay",
+    5066.58,
+    10273.1
+  ],
+  [
+    "local",
+    "Nemsk bay",
+    8013.81,
+    9685.13
+  ],
+  [
+    "local",
+    "Nitija army base",
+    6065.74,
+    6722.6
+  ],
+  [
+    "local",
+    "Norinsk pass",
+    4585.78,
+    7240
+  ],
+  [
+    "local",
+    "Norinsk tunnel entrance",
+    3626.63,
+    7116.78
+  ],
+  [
+    "local",
+    "Northen army base",
+    4651.3,
+    10754.6
+  ],
+  [
+    "local",
+    "Seraja army base",
+    4209.94,
+    6724.4
+  ],
+  [
+    "local",
+    "Seraja bay",
+    3407.38,
+    5570.66
+  ],
+  [
+    "local",
+    "Southern army base",
+    3614.59,
+    6682.03
+  ],
+  [
+    "local",
+    "Tara bridge",
+    6441.34,
+    5811.34
+  ],
+  [
+    "local",
+    "Tara strait",
+    6309.09,
+    7926.94
+  ],
+  [
+    "local",
+    "West point",
+    2217.78,
+    5745.97
+  ],
+  [
+    "local",
+    "Western army checkpoint",
+    4020.28,
+    9181.18
+  ],
+  [
+    "village",
+    "Alakit",
+    5752.66,
+    10837.9
+  ],
+  [
+    "village",
+    "Brensk",
+    4396.13,
+    4727.53
+  ],
+  [
+    "village",
+    "Brensk railway station",
+    4933.25,
+    6237.41
+  ],
+  [
+    "village",
+    "Lubjansk",
+    4566.48,
+    11150
+  ],
+  [
+    "village",
+    "Nemsk",
+    9110.72,
+    10160.7
+  ],
+  [
+    "village",
+    "Nemsk factory",
+    7765.43,
+    8698.98
+  ],
+  [
+    "village",
+    "Object A1",
+    3985.51,
+    8544.12
+  ],
+  [
+    "village",
+    "Object A2",
+    5103.51,
+    6656.99
+  ],
+  [
+    "village",
+    "Old Hospital",
+    7376.9,
+    7925.86
+  ],
+  [
+    "village",
+    "Old Sawmill",
+    7052.72,
+    5717.69
+  ],
+  [
+    "village",
+    "Old Yard",
+    6306.13,
+    10921.5
+  ],
+  [
+    "village",
+    "Sebjan chemical factory",
+    6535.38,
+    9227.56
+  ],
+  [
+    "village",
+    "Sebjan dam",
+    5822.72,
+    9806.5
+  ],
+  [
+    "village",
+    "Sebjan field airport",
+    6298.97,
+    9426.06
+  ],
+  [
+    "village",
+    "Sebjan mine",
+    5129.63,
+    8182.28
+  ],
+  [
+    "village",
+    "Sebjan warehouse",
+    4717.47,
+    8867.66
+  ],
+  [
+    "village",
+    "Tara railway station",
+    7680.19,
+    7497.94
+  ],
+  [
+    "rockarea",
+    "Nitija tower",
+    5625.78,
+    5983.25
+  ],
+  [
+    "fir",
+    "Gray forest",
+    5431.25,
+    10871.3
+  ],
+  [
+    "fir",
+    "Old spruce",
+    3481.19,
+    7150.28
+  ],
+  [
+    "fir",
+    "Sebjan marsh",
+    6191.91,
+    9917.04
+  ],
+  [
+    "fir",
+    "Tara marsh",
+    6213.08,
+    5645.76
+  ],
+  [
+    "fir",
+    "Vorkuta marsh",
+    5998.36,
+    11388.7
+  ]
+]

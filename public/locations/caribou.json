@@ -1,0 +1,242 @@
+[
+  [
+    "city",
+    "Oil Bay",
+    2965,
+    2738
+  ],
+  [
+    "city",
+    "Карибу пограничный",
+    4798,
+    4773
+  ],
+  [
+    "capital",
+    "Raven Rock",
+    1408,
+    7224
+  ],
+  [
+    "local",
+    "Blaise End stantsii",
+    5006,
+    5075
+  ],
+  [
+    "local",
+    "Brigade Halls",
+    4219,
+    4059
+  ],
+  [
+    "local",
+    "Communications Station",
+    5266,
+    3613
+  ],
+  [
+    "local",
+    "Cosyton Saw",
+    2552,
+    3884
+  ],
+  [
+    "local",
+    "East Station",
+    3200,
+    2471
+  ],
+  [
+    "local",
+    "Fort Crassus",
+    951,
+    3678
+  ],
+  [
+    "local",
+    "Hightower",
+    4734,
+    1886
+  ],
+  [
+    "local",
+    "Lightpeak",
+    1357,
+    1756
+  ],
+  [
+    "local",
+    "Mountain Rage AFB",
+    1784,
+    3439
+  ],
+  [
+    "local",
+    "North Station",
+    3094,
+    3148
+  ],
+  [
+    "local",
+    "Outpost East",
+    5693,
+    4208
+  ],
+  [
+    "local",
+    "Outpost West",
+    3402,
+    5935
+  ],
+  [
+    "local",
+    "Rocky Pit",
+    1743,
+    6993
+  ],
+  [
+    "local",
+    "Shallow Valley",
+    5409,
+    2552
+  ],
+  [
+    "local",
+    "Shooting range",
+    1064,
+    3075
+  ],
+  [
+    "local",
+    "Sklon Holma zastava",
+    5890,
+    5629
+  ],
+  [
+    "local",
+    "Tin Can Isle",
+    6388,
+    3519
+  ],
+  [
+    "local",
+    "Valleypoint",
+    5662,
+    2937
+  ],
+  [
+    "local",
+    "Valleyside Outpost",
+    5345,
+    2307
+  ],
+  [
+    "local",
+    "War district",
+    2947,
+    2593
+  ],
+  [
+    "local",
+    "West Station",
+    2584,
+    2740
+  ],
+  [
+    "local",
+    "Wintry Station",
+    1788,
+    7436
+  ],
+  [
+    "marine",
+    "Beringovo more",
+    6210,
+    7679
+  ],
+  [
+    "marine",
+    "Ferrymen Bay",
+    2670,
+    5027
+  ],
+  [
+    "marine",
+    "Old Cove",
+    5933,
+    3460
+  ],
+  [
+    "marine",
+    "Severnogo zaliva",
+    4045,
+    5856
+  ],
+  [
+    "marine",
+    "South Bay",
+    2303,
+    1752
+  ],
+  [
+    "village",
+    "Eastside Port",
+    5482,
+    1416
+  ],
+  [
+    "rockarea",
+    "Point Rocks",
+    3346,
+    5789
+  ],
+  [
+    "rockarea",
+    "Rabbit Rock",
+    2253,
+    7520
+  ],
+  [
+    "fir",
+    "Caddis Fell",
+    3643,
+    5275
+  ],
+  [
+    "fir",
+    "Dredge Forest",
+    4137,
+    3177
+  ],
+  [
+    "fir",
+    "Uphill Woods",
+    1484,
+    4206
+  ],
+  [
+    "viewpoint",
+    "Keno Hill",
+    5024,
+    2350
+  ],
+  [
+    "viewpoint",
+    "Mistle hill",
+    3585,
+    4400
+  ],
+  [
+    "viewpoint",
+    "Severnoj nasosnoj stantsii",
+    5108,
+    6801
+  ],
+  [
+    "viewpoint",
+    "Steelview Stand",
+    1692,
+    3991
+  ]
+]
