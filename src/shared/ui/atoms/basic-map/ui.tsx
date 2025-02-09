@@ -111,7 +111,7 @@ const BasicMap: FC<
           <FlyComponent maxZoom={maxZoom} />
 
           <TileLayer
-            url={`${process.env.NEXT_PUBLIC_MAPS_URL}/${name}/{z}/{x}_{y}.png`}
+            url={`${process.env.NEXT_PUBLIC_API_URL}/maps/${name}/{z}/{x}_{y}.png`}
             tileSize={256}
             keepBuffer={4}
             updateInterval={100}
