@@ -1,5 +1,9 @@
 'use client';
 
+import { useMounted } from '@/shared/ui/hooks';
+
+import { LeafletMouseEvent } from 'leaflet';
+import { observer } from 'mobx-react-lite';
 import dynamic from 'next/dynamic';
 const BasicMap = dynamic(
   () => import('@/shared/ui/atoms/basic-map/ui').then((m) => m.BasicMap),
@@ -10,19 +14,6 @@ const BasicMap = dynamic(
 
 import { mapsEntity } from '@/entities/maps';
 import { SWTMarkerID, markersEntity } from '@/entities/markers';
-import { observer } from 'mobx-react-lite';
-
-import {
-  ArmaMarker,
-  LocationMarker,
-  MarkerIcon,
-  UnitMarker,
-  VehicleMarker,
-} from '@/shared/ui/atoms/marker';
-import { useMounted } from '@/shared/ui/hooks';
-
-import { CreateMarker } from '@/features/markers/create-marker/ui';
-import { createMarkerEntity } from '@/features/markers/create-marker';
 import {
   getMarkerColorName,
   getMarkerDirection,
@@ -30,15 +21,21 @@ import {
   getMarkerText,
   getMarkerType,
 } from '@/entities/markers/lib';
-
-import { LeafletMouseEvent } from 'leaflet';
 import { missionEntity } from '@/entities/mission';
-
-import { View } from '@/shared/ui/quarks/view';
-import { MarkerColorHEX } from '@/shared/data/marker';
-import { getMissionMarkerType } from '@/entities/mission/lib';
-import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
 import { callsigns } from '@/entities/mission/data';
+import { getMissionMarkerType } from '@/entities/mission/lib';
+import { createMarkerEntity } from '@/features/markers/create-marker';
+import { CreateMarker } from '@/features/markers/create-marker/ui';
+import { MarkerColorHEX } from '@/shared/data/marker';
+import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
+import {
+  ArmaMarker,
+  LocationMarker,
+  MarkerIcon,
+  UnitMarker,
+  VehicleMarker,
+} from '@/shared/ui/atoms/marker';
+import { View } from '@/shared/ui/quarks/view';
 
 const ArmaMap = observer(() => {
   const isMounted = useMounted();

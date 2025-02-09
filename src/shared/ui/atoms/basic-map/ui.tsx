@@ -1,20 +1,14 @@
 'use client';
 
+import classNames from 'classnames';
+import { LeafletMouseEvent } from 'leaflet';
+import { observer } from 'mobx-react-lite';
 import { FC, PropsWithChildren, useEffect, memo, useRef } from 'react';
-
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 
-import { LeafletMouseEvent } from 'leaflet';
-
-import classNames from 'classnames';
-
-import { observer } from 'mobx-react-lite';
-
 import { createArmaCRS } from './lib';
-
-import styles from './ui.module.scss';
-
 import { basicMapEntity } from './model';
+import styles from './ui.module.scss';
 
 const FlyComponent = observer<{
   maxZoom: number;
@@ -111,7 +105,7 @@ const BasicMap: FC<
           <FlyComponent maxZoom={maxZoom} />
 
           <TileLayer
-            url={`${process.env.NEXT_PUBLIC_MAPS_URL}/${name}/{z}/{x}_{y}.png`}
+            url={`${process.env.NEXT_PUBLIC_API_URL}/maps/${name}/{z}/{x}_{y}.png`}
             tileSize={256}
             keepBuffer={4}
             updateInterval={100}
