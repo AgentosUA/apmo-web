@@ -1,10 +1,9 @@
+import axios from 'axios';
+import { makeAutoObservable } from 'mobx';
+
 import { mapList } from '@/shared/data/map-list';
 import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
 import { Location } from '@/shared/ui/atoms/marker';
-import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
-import axios from 'axios';
-
-import { makeAutoObservable } from 'mobx';
 
 class MapsModel {
   selectedMap: (typeof mapList)[0] | null = null;
@@ -51,9 +50,7 @@ class MapsModel {
     try {
       if (!map) return;
 
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_STATIC_URL}/locations/${map}.json`
-      );
+      const response = await axios.get(`/locations/${map}.json`);
 
       this.locations = [...(response.data as Location[])];
     } catch (error) {
