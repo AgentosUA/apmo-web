@@ -1,0 +1,332 @@
+[
+  [
+    "hill",
+    "La Corona",
+    5032.99,
+    2171.83
+  ],
+  [
+    "hill",
+    "Monte Pesto",
+    5740.63,
+    5484.57
+  ],
+  [
+    "hill",
+    "Monte Yorito",
+    4509.91,
+    5908.93
+  ],
+  [
+    "hill",
+    "San Esteban",
+    6550.11,
+    5824.35
+  ],
+  [
+    "city",
+    "Cayo",
+    4444.67,
+    3222.79
+  ],
+  [
+    "city",
+    "Chantico",
+    3341.84,
+    6327.71
+  ],
+  [
+    "city",
+    "Corazol",
+    8311.74,
+    6033.91
+  ],
+  [
+    "city",
+    "Dolores",
+    6733.59,
+    3258.85
+  ],
+  [
+    "city",
+    "Iguana",
+    5850.43,
+    2067.97
+  ],
+  [
+    "city",
+    "Ortego",
+    7475.56,
+    4335.83
+  ],
+  [
+    "capital",
+    "PARAISO",
+    5732.27,
+    6652.9
+  ],
+  [
+    "local",
+    "Cabo Canino",
+    2933.09,
+    6932.49
+  ],
+  [
+    "local",
+    "Cabo Gavio",
+    4891.65,
+    1724.46
+  ],
+  [
+    "local",
+    "Calha de Cayo",
+    3513.4,
+    2628.08
+  ],
+  [
+    "local",
+    "Calheta de Cedras",
+    2151.63,
+    5734.87
+  ],
+  [
+    "local",
+    "Calheta Demiseca",
+    7502.81,
+    3483.52
+  ],
+  [
+    "local",
+    "Calheta Seca",
+    8227.75,
+    3674.37
+  ],
+  [
+    "local",
+    "Isla de Libertad",
+    7641.93,
+    8165.83
+  ],
+  [
+    "local",
+    "Isla Verda",
+    7505.16,
+    7536.29
+  ],
+  [
+    "local",
+    "Islas Gatunas",
+    9072.83,
+    5249.48
+  ],
+  [
+    "local",
+    "Matas",
+    4891.83,
+    7890.33
+  ],
+  [
+    "local",
+    "Plato de Cayo",
+    3822.53,
+    3310.69
+  ],
+  [
+    "local",
+    "Playa de Palomas",
+    3471.01,
+    6957.7
+  ],
+  [
+    "local",
+    "San Peregrino",
+    1455.35,
+    4621.33
+  ],
+  [
+    "local",
+    "San Tomas",
+    4575.59,
+    750.17
+  ],
+  [
+    "local",
+    "Sierra Madre",
+    6217.07,
+    5639.67
+  ],
+  [
+    "local",
+    "Terra Acorcha",
+    5277.59,
+    3092.48
+  ],
+  [
+    "local",
+    "Valle Azul",
+    6092.81,
+    4793.93
+  ],
+  [
+    "local",
+    "Vallejo",
+    5380.65,
+    4324
+  ],
+  [
+    "marine",
+    "Abra da Boca",
+    6723.34,
+    8213.62
+  ],
+  [
+    "marine",
+    "Bahia Corazol",
+    7856.18,
+    6617.89
+  ],
+  [
+    "marine",
+    "Bahia Gatun",
+    8656.26,
+    5668.03
+  ],
+  [
+    "marine",
+    "Bahia San Geraldo",
+    8698.28,
+    4105.16
+  ],
+  [
+    "marine",
+    "Bahia Seca",
+    8162.65,
+    3374.3
+  ],
+  [
+    "marine",
+    "Bajo Estrecho",
+    4551.54,
+    1356.36
+  ],
+  [
+    "marine",
+    "Cala de Iguana",
+    5995.66,
+    1858.57
+  ],
+  [
+    "marine",
+    "Cala de Parato",
+    6620.4,
+    2360.27
+  ],
+  [
+    "marine",
+    "Golfo de Dolores",
+    7052.78,
+    3234.65
+  ],
+  [
+    "marine",
+    "Playa Riscal",
+    1619.31,
+    5374.06
+  ],
+  [
+    "village",
+    "Ambergris",
+    2789.62,
+    6421.86
+  ],
+  [
+    "village",
+    "Arcadia",
+    2720.91,
+    3675.52
+  ],
+  [
+    "village",
+    "Balmopan",
+    3155.76,
+    6696.25
+  ],
+  [
+    "village",
+    "Bonanza",
+    6331.55,
+    6098.06
+  ],
+  [
+    "village",
+    "Cedras",
+    2499.13,
+    5927.78
+  ],
+  [
+    "village",
+    "Corinto",
+    6687.75,
+    6384.12
+  ],
+  [
+    "village",
+    "Estrella",
+    1905.26,
+    5379.76
+  ],
+  [
+    "village",
+    "Geraldo",
+    8396.72,
+    4206.06
+  ],
+  [
+    "village",
+    "Gulan",
+    3923.67,
+    4973.56
+  ],
+  [
+    "village",
+    "Parato",
+    6487.57,
+    2530.51
+  ],
+  [
+    "village",
+    "Pesto",
+    5299.7,
+    5672.19
+  ],
+  [
+    "village",
+    "Rashidah",
+    4705.79,
+    8349.15
+  ],
+  [
+    "village",
+    "Somato",
+    4319.74,
+    5513.56
+  ],
+  [
+    "village",
+    "Tiberia",
+    4526.45,
+    2385.5
+  ],
+  [
+    "village",
+    "Yoro",
+    4870.97,
+    5963.95
+  ],
+  [
+    "broadleaf",
+    "Hiccoras",
+    7141.33,
+    6557.88
+  ]
+]

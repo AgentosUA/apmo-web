@@ -1,0 +1,926 @@
+[
+  [
+    "hill",
+    "Bico Do Papageo",
+    10021,
+    13428.9
+  ],
+  [
+    "hill",
+    "Cerra Borra",
+    3368.48,
+    2933.15
+  ],
+  [
+    "hill",
+    "Cerro Obrego",
+    14798.5,
+    10053.8
+  ],
+  [
+    "hill",
+    "La Corona",
+    9912.99,
+    4931.83
+  ],
+  [
+    "hill",
+    "Monte Acequero",
+    7380.65,
+    16028.5
+  ],
+  [
+    "hill",
+    "Monte Liberacion",
+    15624.3,
+    11386.1
+  ],
+  [
+    "hill",
+    "Monte Pesto",
+    10699.6,
+    8267.5
+  ],
+  [
+    "hill",
+    "Monte Valor",
+    16203.4,
+    10347.2
+  ],
+  [
+    "hill",
+    "Monte Yorito",
+    9389.91,
+    8668.93
+  ],
+  [
+    "hill",
+    "Pico de Perez",
+    14260.1,
+    15181.7
+  ],
+  [
+    "hill",
+    "Pico de Revolucion",
+    13118.7,
+    16529
+  ],
+  [
+    "hill",
+    "Punto Argente",
+    8060.15,
+    16267.9
+  ],
+  [
+    "hill",
+    "Punto Morton",
+    11107.5,
+    13381.6
+  ],
+  [
+    "hill",
+    "Punto Pacamac",
+    9900.11,
+    14893.7
+  ],
+  [
+    "hill",
+    "Punto Precito",
+    8776.64,
+    15871.8
+  ],
+  [
+    "hill",
+    "Rocaloso",
+    9143.21,
+    15417.3
+  ],
+  [
+    "hill",
+    "San Esteban",
+    11430.1,
+    8584.35
+  ],
+  [
+    "hill",
+    "Sierra Cresta",
+    7491.75,
+    16549
+  ],
+  [
+    "hill",
+    "Tapial",
+    5967.18,
+    16431.1
+  ],
+  [
+    "hill",
+    "Vieja",
+    17413.5,
+    18075.3
+  ],
+  [
+    "hill",
+    "Virgo",
+    17539.4,
+    17941.3
+  ],
+  [
+    "city",
+    "Cayo",
+    9324.72,
+    5982.79
+  ],
+  [
+    "city",
+    "Chantico",
+    8221.84,
+    9087.71
+  ],
+  [
+    "city",
+    "Corazol",
+    13191.7,
+    8793.91
+  ],
+  [
+    "city",
+    "Dolores",
+    11613.6,
+    6018.85
+  ],
+  [
+    "city",
+    "Eponia",
+    12447.7,
+    15099
+  ],
+  [
+    "city",
+    "Iguana",
+    10730.4,
+    4827.97
+  ],
+  [
+    "city",
+    "Masbete",
+    17231.4,
+    14339.1
+  ],
+  [
+    "city",
+    "Mercalillo",
+    13250,
+    11292.9
+  ],
+  [
+    "city",
+    "Obregan",
+    14520.1,
+    10877.6
+  ],
+  [
+    "city",
+    "Ortego",
+    12355.6,
+    7095.83
+  ],
+  [
+    "capital",
+    "BAGANGO",
+    14240.3,
+    12534
+  ],
+  [
+    "capital",
+    "PARAISO",
+    10612.3,
+    9412.9
+  ],
+  [
+    "local",
+    "Alcazar",
+    14726.7,
+    13979.3
+  ],
+  [
+    "local",
+    "Antigua",
+    17887.2,
+    18324.9
+  ],
+  [
+    "local",
+    "Bajo Valor",
+    15504.5,
+    8889.9
+  ],
+  [
+    "local",
+    "Cabo Base Militar",
+    12134,
+    17665.4
+  ],
+  [
+    "local",
+    "Cabo Canino",
+    7813.09,
+    9692.49
+  ],
+  [
+    "local",
+    "Cabo de Fidel",
+    5676.9,
+    16462.7
+  ],
+  [
+    "local",
+    "Cabo Gavio",
+    9771.65,
+    4484.46
+  ],
+  [
+    "local",
+    "Cabo Indice",
+    10573.7,
+    17190.2
+  ],
+  [
+    "local",
+    "Cabo Juventudo",
+    7800.52,
+    17794.3
+  ],
+  [
+    "local",
+    "Cabo Santa Lucia",
+    12214.7,
+    18350.2
+  ],
+  [
+    "local",
+    "Cabo Valiente",
+    6204.28,
+    17398.8
+  ],
+  [
+    "local",
+    "Calha de Cayo",
+    8393.4,
+    5388.08
+  ],
+  [
+    "local",
+    "Calheta de Cedras",
+    7031.63,
+    8494.87
+  ],
+  [
+    "local",
+    "Calheta Demiseca",
+    12382.8,
+    6243.52
+  ],
+  [
+    "local",
+    "Calheta Seca",
+    13107.8,
+    6434.37
+  ],
+  [
+    "local",
+    "Cimas Dobles",
+    1621.65,
+    17136.1
+  ],
+  [
+    "local",
+    "El Gordo",
+    16022.8,
+    4044.62
+  ],
+  [
+    "local",
+    "Isla Arimar",
+    1545.04,
+    2296.35
+  ],
+  [
+    "local",
+    "Isla de la Caja",
+    1511.29,
+    1691.15
+  ],
+  [
+    "local",
+    "Isla de Libertad",
+    12521.9,
+    10925.8
+  ],
+  [
+    "local",
+    "Isla de los Tojos",
+    17623.8,
+    4797.19
+  ],
+  [
+    "local",
+    "Isla de Matey",
+    5810.74,
+    16137.8
+  ],
+  [
+    "local",
+    "Isla de Victoria",
+    11206.7,
+    16884.9
+  ],
+  [
+    "local",
+    "Isla del Vassal",
+    4459.34,
+    15180.1
+  ],
+  [
+    "local",
+    "Isla del Vida",
+    5221.15,
+    15942.8
+  ],
+  [
+    "local",
+    "Isla del Zorra",
+    16485.1,
+    4664.54
+  ],
+  [
+    "local",
+    "Isla des Compadres",
+    10688.7,
+    16764.2
+  ],
+  [
+    "local",
+    "Isla Verda",
+    12385.2,
+    10296.3
+  ],
+  [
+    "local",
+    "Islas Gatunas",
+    13952.8,
+    8009.48
+  ],
+  [
+    "local",
+    "Isle de kju",
+    17355.5,
+    19312.7
+  ],
+  [
+    "local",
+    "Isle de Mapori",
+    17699.4,
+    19369.8
+  ],
+  [
+    "local",
+    "Isle de Michellero",
+    16844.1,
+    19645.2
+  ],
+  [
+    "local",
+    "Matas",
+    9771.83,
+    10650.3
+  ],
+  [
+    "local",
+    "Monte Asharah",
+    17982.3,
+    3163.18
+  ],
+  [
+    "local",
+    "Monte Galassi",
+    4799.28,
+    14985.4
+  ],
+  [
+    "local",
+    "Parvulo",
+    2236.76,
+    18809.8
+  ],
+  [
+    "local",
+    "Passo Epone",
+    13625.7,
+    15536.5
+  ],
+  [
+    "local",
+    "Passo Paradiso",
+    10132.7,
+    15479.7
+  ],
+  [
+    "local",
+    "Passo San Andres",
+    10714.4,
+    14236.6
+  ],
+  [
+    "local",
+    "Passo San Marco",
+    15061.4,
+    12392.5
+  ],
+  [
+    "local",
+    "Pesadas",
+    11663.2,
+    15366.1
+  ],
+  [
+    "local",
+    "Plato de Cayo",
+    8702.53,
+    6070.69
+  ],
+  [
+    "local",
+    "Playa de Palomas",
+    8351.01,
+    9717.7
+  ],
+  [
+    "local",
+    "Puntas Occidental",
+    8958.57,
+    15608.6
+  ],
+  [
+    "local",
+    "Puntas Oriental",
+    11415.7,
+    13058.6
+  ],
+  [
+    "local",
+    "Roca del Dror",
+    14101,
+    17032.8
+  ],
+  [
+    "local",
+    "Rocara",
+    1760.09,
+    17907.5
+  ],
+  [
+    "local",
+    "San Peregrino",
+    6325.16,
+    7383.88
+  ],
+  [
+    "local",
+    "San Tomas",
+    9455.59,
+    3510.17
+  ],
+  [
+    "local",
+    "Selva Base Militar",
+    8161.75,
+    17005.7
+  ],
+  [
+    "local",
+    "Sierra de los Pinos",
+    16774.3,
+    11163.3
+  ],
+  [
+    "local",
+    "Sierra Madre",
+    11078,
+    8347.44
+  ],
+  [
+    "local",
+    "Sierra Masbete",
+    15113.8,
+    14709.8
+  ],
+  [
+    "local",
+    "Sierra Pita",
+    18357.3,
+    13220.9
+  ],
+  [
+    "local",
+    "Terra Acorcha",
+    10157.6,
+    5852.48
+  ],
+  [
+    "local",
+    "Terra Marismo",
+    14038.7,
+    13908.7
+  ],
+  [
+    "local",
+    "Trelobada",
+    7589.66,
+    14400.3
+  ],
+  [
+    "local",
+    "Tres Valles",
+    17695.9,
+    11920.1
+  ],
+  [
+    "local",
+    "Valle Azul",
+    10972.8,
+    7553.93
+  ],
+  [
+    "local",
+    "Valle de Carmen",
+    13160.4,
+    13428.4
+  ],
+  [
+    "local",
+    "Vallejo",
+    10260.6,
+    7084
+  ],
+  [
+    "marine",
+    "Abra da Boca",
+    11603.3,
+    10973.6
+  ],
+  [
+    "marine",
+    "Ancon de Amanitas",
+    15697.6,
+    15177.1
+  ],
+  [
+    "marine",
+    "Ancon de Hunapu",
+    7410.73,
+    15283
+  ],
+  [
+    "marine",
+    "Ancon de Pita",
+    19424.1,
+    13706.5
+  ],
+  [
+    "marine",
+    "Ancon Everone",
+    16859.4,
+    9267
+  ],
+  [
+    "marine",
+    "Angra del Caridad",
+    1930.62,
+    1990.73
+  ],
+  [
+    "marine",
+    "Bahia Corazol",
+    12736.2,
+    9377.89
+  ],
+  [
+    "marine",
+    "Bahia Gatun",
+    13536.3,
+    8428.03
+  ],
+  [
+    "marine",
+    "Bahia San Geraldo",
+    13578.3,
+    6865.16
+  ],
+  [
+    "marine",
+    "Bahia Seca",
+    13042.7,
+    6134.3
+  ],
+  [
+    "marine",
+    "Bajo Estrecho",
+    9431.54,
+    4116.36
+  ],
+  [
+    "marine",
+    "Cala Barca",
+    2843.61,
+    1880.42
+  ],
+  [
+    "marine",
+    "Cala de Iguana",
+    10875.7,
+    4618.57
+  ],
+  [
+    "marine",
+    "Cala de Parato",
+    11500.4,
+    5120.27
+  ],
+  [
+    "marine",
+    "Cala Marisca",
+    2707.13,
+    3251.19
+  ],
+  [
+    "marine",
+    "Estrecho de Trelobada",
+    7744.55,
+    14702.4
+  ],
+  [
+    "marine",
+    "Gola de Laras",
+    17143.2,
+    4461.75
+  ],
+  [
+    "marine",
+    "Gola Yennda",
+    5124.36,
+    16271.6
+  ],
+  [
+    "marine",
+    "Golfo de Dolores",
+    11932.8,
+    5994.65
+  ],
+  [
+    "marine",
+    "Golfo Valiente",
+    6464.89,
+    17140.2
+  ],
+  [
+    "marine",
+    "Playa Gyron",
+    10215.2,
+    13192.2
+  ],
+  [
+    "marine",
+    "Playa Riscal",
+    6499.31,
+    8134.06
+  ],
+  [
+    "marine",
+    "Porto de Perolas",
+    10842.6,
+    16594.6
+  ],
+  [
+    "marine",
+    "Rio Pallido",
+    17476.9,
+    18560.6
+  ],
+  [
+    "village",
+    "Ambergris",
+    7669.62,
+    9181.86
+  ],
+  [
+    "village",
+    "Arcadia",
+    7600.91,
+    6435.52
+  ],
+  [
+    "village",
+    "Balmopan",
+    8035.76,
+    9456.25
+  ],
+  [
+    "village",
+    "Benoma",
+    15383.1,
+    13768.5
+  ],
+  [
+    "village",
+    "Bonanza",
+    11211.5,
+    8858.06
+  ],
+  [
+    "village",
+    "Carmen",
+    12436.1,
+    13303.1
+  ],
+  [
+    "village",
+    "Cedras",
+    7379.13,
+    8687.78
+  ],
+  [
+    "village",
+    "Corinto",
+    11567.7,
+    9144.12
+  ],
+  [
+    "village",
+    "Estrella",
+    6785.26,
+    8139.76
+  ],
+  [
+    "village",
+    "Everon",
+    16514.2,
+    9300.35
+  ],
+  [
+    "village",
+    "Gaula",
+    14503.5,
+    8538.8
+  ],
+  [
+    "village",
+    "Geraldo",
+    13276.7,
+    6966.06
+  ],
+  [
+    "village",
+    "Gulan",
+    8803.67,
+    7733.56
+  ],
+  [
+    "village",
+    "Hunapu",
+    7737.76,
+    15755.6
+  ],
+  [
+    "village",
+    "Ixel",
+    17480.5,
+    13564.6
+  ],
+  [
+    "village",
+    "Mataredo",
+    10653,
+    16265
+  ],
+  [
+    "village",
+    "Modesta",
+    14372.4,
+    9428.12
+  ],
+  [
+    "village",
+    "Pacamac",
+    9713.48,
+    14448.7
+  ],
+  [
+    "village",
+    "Parato",
+    11367.6,
+    5290.51
+  ],
+  [
+    "village",
+    "Pesto",
+    10179.7,
+    8432.19
+  ],
+  [
+    "village",
+    "Pita",
+    18941,
+    13888.9
+  ],
+  [
+    "village",
+    "Rahmadi",
+    2931.13,
+    2798.62
+  ],
+  [
+    "village",
+    "Rashidah",
+    9585.79,
+    11109.2
+  ],
+  [
+    "village",
+    "Somato",
+    9199.74,
+    8273.56
+  ],
+  [
+    "village",
+    "Tandag",
+    11856.1,
+    14418.3
+  ],
+  [
+    "village",
+    "Tiberia",
+    9406.45,
+    5145.5
+  ],
+  [
+    "village",
+    "Tlaloc",
+    10857.5,
+    12628.6
+  ],
+  [
+    "village",
+    "Valor",
+    15343.3,
+    9895.96
+  ],
+  [
+    "village",
+    "Yoro",
+    9750.97,
+    8723.95
+  ],
+  [
+    "broadleaf",
+    "Boscas",
+    13169.7,
+    12714.8
+  ],
+  [
+    "broadleaf",
+    "Hiccoras",
+    12021.3,
+    9317.88
+  ],
+  [
+    "broadleaf",
+    "Mato Grosso",
+    10044.8,
+    13709.8
+  ],
+  [
+    "broadleaf",
+    "Mato Virgo",
+    17011.8,
+    10153
+  ],
+  [
+    "fir",
+    "Assombracao",
+    13448.6,
+    15014.4
+  ],
+  [
+    "fir",
+    "Selva de Caza",
+    9504.02,
+    16382.3
+  ],
+  [
+    "fir",
+    "Selva De Cresta",
+    7475,
+    16815
+  ]
+]

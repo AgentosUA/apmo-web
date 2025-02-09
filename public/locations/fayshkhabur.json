@@ -1,0 +1,248 @@
+[
+  [
+    "airport",
+    "Abu Wajnam Airstrip",
+    16384.3,
+    15451.1
+  ],
+  [
+    "airport",
+    "Mushorah Airbase",
+    5213.79,
+    5689.83
+  ],
+  [
+    "",
+    "Girke Baraza Border",
+    1570.2,
+    13482.2
+  ],
+  [
+    "city",
+    "Gerbalat",
+    1727.29,
+    19010.8
+  ],
+  [
+    "city",
+    "Misharah",
+    10370.4,
+    14779.1
+  ],
+  [
+    "city",
+    "Tall Kochak",
+    9844.24,
+    2058.67
+  ],
+  [
+    "capital",
+    "Faysh Khabur",
+    8299.4,
+    19463.8
+  ],
+  [
+    "local",
+    "Gas Station",
+    1713.34,
+    19168.3
+  ],
+  [
+    "local",
+    "Gass Station",
+    8794.31,
+    16853.2
+  ],
+  [
+    "local",
+    "Gass Station",
+    4873.04,
+    12235.1
+  ],
+  [
+    "local",
+    "Harbour",
+    7849.95,
+    17602
+  ],
+  [
+    "local",
+    "Industrial Area",
+    15804.1,
+    14590.3
+  ],
+  [
+    "local",
+    "Powerplant",
+    7742.82,
+    15239.5
+  ],
+  [
+    "local",
+    "Taiya Oilfield",
+    4592.35,
+    14727.3
+  ],
+  [
+    "local",
+    "Taiya Oilrefinery",
+    4727.65,
+    13645.5
+  ],
+  [
+    "local",
+    "TelecommTower",
+    10146.4,
+    6375.43
+  ],
+  [
+    "village",
+    "Abu Wajnam",
+    15713.5,
+    15029.5
+  ],
+  [
+    "village",
+    "Afkhan",
+    11296.1,
+    12739.8
+  ],
+  [
+    "village",
+    "Al Qanat",
+    2952.73,
+    6900.06
+  ],
+  [
+    "village",
+    "Al Walid",
+    5070.77,
+    9656
+  ],
+  [
+    "village",
+    "Ayn Al Faras",
+    3655.1,
+    4489.45
+  ],
+  [
+    "village",
+    "Bajerke Dumez",
+    14288.6,
+    10724.6
+  ],
+  [
+    "village",
+    "Mazri",
+    12197.3,
+    17301.7
+  ],
+  [
+    "village",
+    "Mushorah",
+    6117.04,
+    4847.54
+  ],
+  [
+    "village",
+    "Rabiah",
+    8879.11,
+    10311.1
+  ],
+  [
+    "village",
+    "Reya Gunde Bihar",
+    13541.7,
+    8887.25
+  ],
+  [
+    "village",
+    "Shirk",
+    1497.32,
+    14684.8
+  ],
+  [
+    "village",
+    "Simele",
+    8394.02,
+    17401.4
+  ],
+  [
+    "village",
+    "Taiya",
+    7936.19,
+    14606.8
+  ],
+  [
+    "village",
+    "Tall Abu Zahir",
+    7469.74,
+    6810.81
+  ],
+  [
+    "village",
+    "Tall Mutlaq",
+    12048.2,
+    711.45
+  ],
+  [
+    "",
+    "Fisxabur Bridge",
+    8080.7,
+    17200.3
+  ],
+  [
+    "",
+    "Listen Post",
+    7085.92,
+    17692.2
+  ],
+  [
+    "",
+    "Powerplant",
+    9736.45,
+    2515.24
+  ],
+  [
+    "",
+    "Powerplant",
+    10578.1,
+    14773.2
+  ],
+  [
+    "",
+    "Powerstation",
+    16026.1,
+    15171.4
+  ],
+  [
+    "",
+    "Reya Gunde Bihar Bridge",
+    13601.2,
+    9128.43
+  ],
+  [
+    "",
+    "Taiya Mine",
+    7795.58,
+    16424.7
+  ],
+  [
+    "",
+    "Underground Factory",
+    2464.28,
+    11283.4
+  ],
+  [
+    "",
+    "Underground Factory",
+    7345.11,
+    16095.8
+  ],
+  [
+    "",
+    "Underground Factory",
+    13965,
+    19289.6
+  ]
+]
