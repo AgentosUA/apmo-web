@@ -7,11 +7,10 @@ import { useEffect, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
-
-
 import { userEntity } from '@/entities/user/model';
 import { Authorized, UnAuthorized } from '@/entities/user/ui/authorization/ui';
 import { Button } from '@/shared/ui/atoms/button';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { View } from '@/shared/ui/quarks/view';
 
 import styles from './ui.module.scss';
@@ -67,33 +66,39 @@ const Header = () => {
           className={styles.menuItem}
           href='https://savelife.in.ua/en/donate-en/'
           target='_blank'>
-          <Button variant='transparent'>SUPPORT</Button>
+          <Button variant='transparent'>
+            <Localize translationKey='widgets:header:support' />
+          </Button>
         </Link>
         <Link className={classNames(styles.menuItem)} href='/changelog'>
-          <Button variant='transparent'>Changelog</Button>
+          <Button variant='transparent'>
+            <Localize translationKey='widgets:header:changelog' />
+          </Button>
         </Link>
         <div className={styles.forceRightElements} />
         <UnAuthorized>
           <Link className={styles.menuItem} href='/auth/login'>
             <Button size='md' variant='transparent'>
-              LOG IN
+              <Localize translationKey='widgets:header:logIn' />
             </Button>
           </Link>
           <Link className={styles.menuItem} href='/auth/sign-up'>
-            <Button variant='transparent'>SIGN UP</Button>
+            <Button variant='transparent'>
+              <Localize translationKey='widgets:header:signUp' />
+            </Button>
           </Link>
         </UnAuthorized>
 
         <Authorized>
           <Link className={styles.menuItem} href='/profile'>
             <Button size='md' variant='transparent'>
-              Profile
+              <Localize translationKey='widgets:header:profile' />
             </Button>
           </Link>
 
           <Link className={styles.menuItem} href='/'>
             <Button size='md' variant='transparent' onClick={userEntity.logout}>
-              Log out
+              <Localize translationKey='widgets:header:logOut' />
             </Button>
           </Link>
         </Authorized>

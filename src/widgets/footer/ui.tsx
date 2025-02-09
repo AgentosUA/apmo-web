@@ -1,4 +1,5 @@
-import { ChangeLanguage } from '@/features/settings/language/ui';
+import { ChangeLanguage } from '@/features/settings/change-language/ui';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
 
 import styles from './ui.module.scss';
 
@@ -6,14 +7,15 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <p className={styles.authors}>
-        Created by <span className={styles.author}>Agentos</span> &{' '}
+        <Localize translationKey='widgets:footer:createdBy' />{' '}
+        <span className={styles.author}>Agentos</span> &{' '}
         <span className={styles.author}>XDred</span>
       </p>
       <p className={styles.contribute}>
-        Feel free to contribute on{' '}
+        <Localize translationKey='widgets:footer:feelFreeToContribute' />{' '}
         <a href='https://github.com/AgentosUA/apmo-web'>GitHub</a>
       </p>
-      <ChangeLanguage className='absolute right-6 top-10' />
+      <ChangeLanguage className='absolute right-6 top-9' />
     </footer>
   );
 };

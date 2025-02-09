@@ -2,7 +2,6 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { FC, PropsWithChildren } from 'react';
 
 import { Button } from '../../atoms/button';
-import { RadixChildren } from '../../quarks/radix-children/ui';
 
 import styles from './ui.module.scss';
 

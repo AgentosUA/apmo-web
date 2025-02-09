@@ -2,10 +2,15 @@
 module.exports = {
   content: [
     // Or if using `src` directory:
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'a3-orange': '#a16c14',
+        'a3-grey': '#808080',
+      },
+    },
   },
   plugins: [],
-}
+};

@@ -24,7 +24,7 @@ const ChangeLanguage: FC<{
   };
 
   const onCancel = () => {
-    setCurrentLocale(locale);
+    setCurrentLocale(getLocale());
   };
 
   const onLocaleClick = (locale: Language) => {
@@ -39,7 +39,7 @@ const ChangeLanguage: FC<{
       trigger={
         <MdOutlineLanguage
           className={classNames(
-            'w-6 h-6 cursor-pointer fill-white hover:fill-orange-400',
+            'w-6 h-6 cursor-pointer fill-white hover:fill-a3-orange',
             className
           )}
         />
@@ -47,21 +47,21 @@ const ChangeLanguage: FC<{
       <div className='flex flex-col gap-2 py-4 px-2'>
         <Button
           className={classNames({
-            '!bg-orange-400': currentLocale === Language.EN,
+            '!bg-a3-orange': currentLocale === Language.EN,
           })}
           onClick={() => onLocaleClick(Language.EN)}>
           English
         </Button>
         <Button
           className={classNames({
-            '!bg-orange-400': currentLocale === Language.CZ,
+            '!bg-a3-orange': currentLocale === Language.CZ,
           })}
           onClick={() => onLocaleClick(Language.CZ)}>
           Čeština
         </Button>
         <Button
           className={classNames({
-            '!bg-orange-400': currentLocale === Language.UK,
+            '!bg-a3-orange': currentLocale === Language.UK,
           })}
           onClick={() => onLocaleClick(Language.UK)}>
           Українська

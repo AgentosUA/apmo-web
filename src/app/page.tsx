@@ -11,6 +11,7 @@ import { mapsEntity } from '@/entities/maps';
 import { missionEntity } from '@/entities/mission';
 import { mapList } from '@/shared/data/map-list';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { Footer } from '@/widgets/footer';
 import { Header } from '@/widgets/header/ui';
 
@@ -60,7 +61,7 @@ const HomePage = observer(() => {
               alt='Select map'
             />
             <p className={styles.navigationItemText}>
-              {t('pages:home:selectMap')}
+              <Localize translationKey='pages:home:selectMap' />
             </p>
           </Link>
           <div
@@ -83,7 +84,9 @@ const HomePage = observer(() => {
               type='file'
               accept='.pbo'
             />
-            <p className={styles.navigationItemText}>Load mission</p>
+            <p className={styles.navigationItemText}>
+              <Localize translationKey='pages:home:loadMission' />
+            </p>
           </div>
           <Link href='/changelog' className={styles.navigationItem}>
             <Image
@@ -93,7 +96,9 @@ const HomePage = observer(() => {
               height={325}
               alt='Changelog'
             />
-            <p className={styles.navigationItemText}>Changelog</p>
+            <p className={styles.navigationItemText}>
+              <Localize translationKey='pages:home:changelog' />
+            </p>
           </Link>
         </div>
       </main>
