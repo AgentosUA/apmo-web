@@ -55,7 +55,7 @@ const ChangelogPage = observer(() => {
             </ul>
             <br />
             During the usage of APMO you may occur some bugs, so feel free to
-            inform us on WOG Forum or via{' '}
+            inform us on{' '}
             <Link href='https://github.com/AgentosUA/apmo-web/issues'>
               GitHub issues
             </Link>
@@ -84,7 +84,7 @@ const ChangelogPage = observer(() => {
             </ul>
             <br />
             During the usage of APMO you may occur some bugs, so feel free to
-            inform us on WOG Forum or via{' '}
+            inform us on{' '}
             <Link href='https://github.com/AgentosUA/apmo-web/issues'>
               GitHub issues
             </Link>

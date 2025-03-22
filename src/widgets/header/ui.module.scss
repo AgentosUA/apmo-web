@@ -108,55 +108,55 @@
   }
 }
 
-.menu-opened {
-  left: 0;
-  transition: left .3s;
-}
+// .menu-opened {
+//   left: 0;
+//   transition: left .3s;
+// }
 
-.menu-item {
-  @include tablet() {
-    width: 100%;
-    text-align: center;
+// .menu-item {
+//   @include tablet() {
+//     width: 100%;
+//     text-align: center;
 
-    a,
-    button {
-      width: 100%;
-      text-align: center;
-    }
+//     a,
+//     button {
+//       width: 100%;
+//       text-align: center;
+//     }
 
-    button {
-      padding: 35px 0;
-      line-height: 0px;
-    }
-  }
-}
+//     button {
+//       padding: 35px 0;
+//       line-height: 0px;
+//     }
+//   }
+// }
 
 .force-right-elements {
   flex-grow: 1;
 }
 
-.burger-icon {
-  position: absolute;
-  top: 50%;
-  left: 15px;
-  transform: translateY(-50%);
-  font-size: 25px;
-  z-index: 1;
+// .burger-icon {
+//   position: absolute;
+//   top: 50%;
+//   left: 15px;
+//   transform: translateY(-50%);
+//   font-size: 25px;
+//   z-index: 1;
 
-  @include desktop() {
-    display: none;
-  }
-}
+//   @include desktop() {
+//     display: none;
+//   }
+// }
 
-.close-icon {
-  position: absolute;
-  top: 50%;
-  left: 15px;
-  font-size: 25px;
-  z-index: 11;
-  transform: translateY(-50%);
+// .close-icon {
+//   position: absolute;
+//   top: 50%;
+//   left: 15px;
+//   font-size: 25px;
+//   z-index: 11;
+//   transform: translateY(-50%);
 
-  @include desktop() {
-    display: none;
-  }
-}
+//   @include desktop() {
+//     display: none;
+//   }
+// }

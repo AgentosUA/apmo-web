@@ -1,5 +1,3 @@
-'use client';
-
 import cookie from 'js-cookie';
 import { makeObservable } from 'mobx';
 

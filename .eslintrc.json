@@ -1,5 +1,8 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": [
+    "next/core-web-vitals",
+    "prettier"
+  ],
   "plugins": [
     "import"
   ],
@@ -8,14 +11,16 @@
       "error",
       {
         "groups": [
-          "builtin",
-          "external",
+          [
+            "builtin",
+            "external"
+          ],
           "internal",
-          "parent",
-          "sibling",
-          "index",
-          "object",
-          "type"
+          [
+            "parent",
+            "sibling",
+            "index"
+          ]
         ],
         "newlines-between": "always",
         "alphabetize": {
@@ -31,7 +36,8 @@
         ],
         "pathGroupsExcludedImportTypes": [
           "builtin"
-        ]
+        ],
+        "distinctGroup": true
       }
     ]
   }

@@ -37,7 +37,7 @@ const StoreProvider: FC<
   };
 
   return (
-    <I18nProvider>
+    <I18nProvider initLang={initial.settingsLocale}>
       <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
     </I18nProvider>
   );

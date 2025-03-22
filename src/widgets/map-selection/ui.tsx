@@ -15,6 +15,7 @@ import { Button } from '@/shared/ui/atoms/button';
 import { mapsEntity } from '@/entities/maps';
 
 import styles from './ui.module.scss';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
 
 const MapSelection: FC<{
   backUrl?: string;
@@ -35,7 +36,9 @@ const MapSelection: FC<{
   return (
     <section className={styles.wrapper}>
       <div className={styles.selection}>
-        <h1 className={styles.title}>Select Map</h1>
+        <h1 className={styles.title}>
+          <Localize translationKey='pages:home:selectMap' />
+        </h1>
         <div className={styles.selectAndPreview}>
           <div className={styles.list}>
             {mapList.map((item) => (
@@ -54,7 +57,7 @@ const MapSelection: FC<{
           </div>
           <div className={styles.mapPreview}>
             <h2 className={styles.mapTitle}>{selectedMap.name}</h2>
-            <p className={styles.author}>by {selectedMap.author}</p>
+            {/* <p className={styles.author}>by {selectedMap.author}</p> */}
             <Image
               className={styles.mapImage}
               priority
@@ -68,16 +71,20 @@ const MapSelection: FC<{
       </div>
       <div className={styles.actions}>
         <Link href={backUrl}>
-          <Button>Back</Button>
+          <Button>
+            <Localize translationKey='common:back' />
+          </Button>
         </Link>
         {!continueUrl && (
           <Button onClick={() => mapsEntity.selectMap(selectedMap)}>
-            Continue
+            <Localize translationKey='common:continue' />
           </Button>
         )}
         {continueUrl && (
           <Link href={continueUrl}>
-            <Button>Continue</Button>
+            <Button>
+              <Localize translationKey='common:continue' />
+            </Button>
           </Link>
         )}
       </div>

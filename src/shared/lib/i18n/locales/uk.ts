@@ -1,11 +1,11 @@
 import enLocale from './en';
 
 const ukLocale: typeof enLocale = {
+  common: {
+    back: 'Назад',
+    continue: 'Продовжити',
+  },
   widgets: {
-    footer: {
-      createdBy: 'Створено',
-      feelFreeToContribute: 'Долучайтеся до розробки на',
-    },
     header: {
       logIn: 'Увійти',
       logOut: 'Вийти',
@@ -14,6 +14,34 @@ const ukLocale: typeof enLocale = {
       signUp: 'Зареєструватися',
       profile: 'Профіль',
     },
+    mapOverlay: {
+      markers: 'Маркери',
+      briefing: 'Бріфінг',
+      mission: 'Місія',
+      slots: 'Слоти',
+      plan: 'План',
+      loadMarkers: 'Завантажити маркери',
+      copyMarkers: 'Скопіювати маркери',
+      clearMarkers: 'Очистити маркери',
+      showAllPlayers: 'Показати всіх гравців',
+      showGroups: 'Показати групи',
+      hideNames: 'Приховати імена',
+      showNames: 'Показати імена',
+      savePlan: 'Зберегти план',
+      sharePlan: 'Поділитися планом',
+      uploadMission: 'Завантажити місію',
+      intel: 'Інтел',
+      dlcs: 'ДЛЦ',
+      slotsBluefor: 'Слоти BLUEFOR',
+      slotsOpfor: 'Слоти OPFOR',
+      slotsIndependent: 'Слоти Independent',
+      map: 'Карта',
+    },
+    footer: {
+      createdBy: 'Створено',
+      feelFreeToContribute: 'Долучайтеся до розробки на',
+    },
+
   },
   pages: {
     home: {

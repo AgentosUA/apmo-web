@@ -6,6 +6,7 @@ import styles from './ui.module.scss';
 const Footer = () => {
   return (
     <footer className={styles.footer}>
+      <ChangeLanguage className='absolute left-10 top-9' />
       <p className={styles.authors}>
         <Localize translationKey='widgets:footer:createdBy' />{' '}
         <span className={styles.author}>Agentos</span> &{' '}
@@ -15,7 +16,6 @@ const Footer = () => {
         <Localize translationKey='widgets:footer:feelFreeToContribute' />{' '}
         <a href='https://github.com/AgentosUA/apmo-web'>GitHub</a>
       </p>
-      <ChangeLanguage className='absolute right-6 top-9' />
     </footer>
   );
 };
