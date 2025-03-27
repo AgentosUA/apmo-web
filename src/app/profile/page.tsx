@@ -24,6 +24,7 @@ import { Preloader } from '@/shared/ui/quarks/preloader';
 import { Input } from '@/shared/ui/atoms/input/ui';
 import { useFormik } from 'formik';
 import { Callsigns } from '@/entities/mission/types';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
 
 const Profile = observer(() => {
   useUnAuthorizated(userEntity);
@@ -131,26 +132,30 @@ const Profile = observer(() => {
               <div className={styles.avatarActions}>
                 <Input
                   id='avatar'
-                  label='Avatar URL'
+                  label={<Localize translationKey='pages:profile:avatarUrl' />}
                   value={formik.values.avatar}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={formik.touched.avatar ? formik.errors.avatar : ''}
                 />
                 <Button onClick={formik.submitForm} variant='orange'>
-                  Change avatar
+                  <Localize translationKey='pages:profile:changeAvatar' />
                 </Button>
               </div>
               <Link href='/profile/change-password'>
-                <Button variant='orange'>Change password</Button>
+                <Button variant='orange'>
+                  <Localize translationKey='pages:profile:changePassword' />
+                </Button>
               </Link>
               <Button variant='orange' onClick={userEntity.logout}>
-                Log out
+                <Localize translationKey='pages:profile:logout' />
               </Button>
             </div>
           </div>
           <div className={styles.plans}>
-            <div className={styles.plansTitle}>My plans</div>
+            <div className={styles.plansTitle}>
+              <Localize translationKey='pages:profile:myPlans' />
+            </div>
 
             {userEntity?.user?.plans?.map((plan) => (
               <div key={plan.id} className={styles.plan}>
@@ -172,19 +177,19 @@ const Profile = observer(() => {
                       className={styles.planActionButton}
                       onClick={() => onViewPlan(plan)}
                       variant='bold'>
-                      View
+                      <Localize translationKey='pages:profile:viewPlan' />
                     </Button>
                     <Button
                       className={styles.planActionButton}
                       variant='bold'
                       onClick={() => onCopyMarkers(plan)}>
-                      Copy markers
+                      <Localize translationKey='pages:profile:copyMarkers' />
                     </Button>
                     <Button
                       className={styles.planActionButton}
                       variant='bold'
                       onClick={() => onCopySlots(plan)}>
-                      Copy slots
+                      <Localize translationKey='pages:profile:copySlots' />
                     </Button>
                     <Modal
                       title='Delete plan'
@@ -195,7 +200,7 @@ const Profile = observer(() => {
                         <Button
                           className={styles.planActionButton}
                           variant='red'>
-                          Delete
+                          <Localize translationKey='pages:profile:deletePlan' />
                         </Button>
                       }
                     />

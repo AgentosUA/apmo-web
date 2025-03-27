@@ -1,5 +1,5 @@
 import * as Dialog from '@radix-ui/react-dialog';
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, ReactNode } from 'react';
 
 import { Button } from '../../atoms/button';
 
@@ -7,8 +7,8 @@ import styles from './ui.module.scss';
 
 const Modal: FC<
   PropsWithChildren<{
-    title?: string;
-    description?: string;
+    title?: ReactNode;
+    description?: ReactNode;
     onConfirm?: () => void;
     onCancel?: (() => void) | boolean;
     trigger: React.ReactNode;

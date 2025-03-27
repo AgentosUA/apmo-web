@@ -1,4 +1,4 @@
-import { useState, type ComponentProps } from 'react';
+import { ReactNode, useState, type ComponentProps } from 'react';
 
 import classNames from 'classnames';
 
@@ -14,7 +14,7 @@ const Input = ({
   onBlur,
   ...props
 }: ComponentProps<'input'> & {
-  label?: string;
+  label?: ReactNode;
   error?: string;
 }) => {
   const [isFocused, setIsFocused] = useState(false);

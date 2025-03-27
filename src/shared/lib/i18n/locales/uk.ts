@@ -49,6 +49,17 @@ const ukLocale: typeof enLocale = {
       loadMission: 'Завантажити місію',
       changelog: 'Список змін',
     },
+    profile: {
+      myPlans: 'Мої плани',
+      viewPlan: 'Переглянути',
+      copyMarkers: 'Скопіювати маркери',
+      copySlots: 'Скопіювати слоти',
+      deletePlan: 'Видалити',
+      changePassword: 'Змінити пароль',
+      logout: 'Вийти',
+      changeAvatar: 'Змінити аватар',
+      avatarUrl: 'URL аватара',
+    },
   },
 };
 

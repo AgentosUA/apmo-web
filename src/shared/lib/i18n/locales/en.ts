@@ -46,6 +46,17 @@ const enLocale = {
       loadMission: 'Load mission',
       changelog: 'Changelog',
     },
+    profile: {
+      myPlans: 'My plans',
+      viewPlan: 'View',
+      copyMarkers: 'Copy markers',
+      copySlots: 'Copy slots',
+      deletePlan: 'Delete',
+      changePassword: 'Change password',
+      logout: 'Logout',
+      changeAvatar: 'Change avatar',
+      avatarUrl: 'Avatar URL',
+    },
   },
 };
 
