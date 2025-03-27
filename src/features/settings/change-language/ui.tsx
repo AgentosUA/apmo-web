@@ -33,7 +33,7 @@ const ChangeLanguage: FC<{
 
   return (
     <Modal
-      title='Change language / Змінити мову'
+      title='Change language / Změnit jazyk / Змінити мову'
       onConfirm={onConfirm}
       onCancel={onCancel}
       trigger={
