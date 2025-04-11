@@ -176,7 +176,8 @@ const Profile = observer(() => {
                     <Button
                       className={styles.planActionButton}
                       onClick={() => onViewPlan(plan)}
-                      variant='bold'>
+                      variant='bold'
+                    >
                       <Localize translationKey='pages:profile:viewPlan' />
                     </Button>
                     <Button

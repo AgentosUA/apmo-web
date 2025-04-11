@@ -87,6 +87,13 @@ const ukLocale: typeof enLocale = {
       logout: 'Вийти',
       changeAvatar: 'Змінити аватар',
       avatarUrl: 'URL аватара',
+      oldPassword: 'Старий пароль',
+      newPassword: 'Новий пароль',
+      confirmPassword: 'Підтвердити пароль',
+      changePasswordSuccess: 'Пароль успішно змінено',
+    },
+    changelog: {
+      backToHome: 'Назад на головну',
     },
   },
 };

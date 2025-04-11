@@ -12,6 +12,7 @@ import { Button } from '@/shared/ui/atoms/button';
 import Link from 'next/link';
 import { Header } from '@/widgets/header';
 import { useBreakpoint } from '@/shared/ui/quarks/view';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
 
 const ChangelogPage = observer(() => {
   const router = useRouter();
@@ -23,7 +24,9 @@ const ChangelogPage = observer(() => {
       <Header />
       <div className={styles.wrapper}>
         <Link className='my-7 w-fit' href='/'>
-          <Button>Back to home page</Button>
+          <Button>
+            <Localize translationKey='pages:changelog:backToHome' />
+          </Button>
         </Link>
         <div className={styles.posts}>
           <Post title='[1.0.0-RC1] Version release' date='05.09.2024'>

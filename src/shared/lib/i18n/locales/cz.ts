@@ -86,6 +86,13 @@ const czLocale: typeof enLocale = {
       logout: 'Odhlásit se',
       changeAvatar: 'Změnit avatar',
       avatarUrl: 'URL avataru',
+      oldPassword: 'Staré heslo',
+      newPassword: 'Nové heslo',
+      confirmPassword: 'Potvrdit heslo',
+      changePasswordSuccess: 'Heslo úspěšně změněno',
+    },
+    changelog: {
+      backToHome: 'Zpátky na hlavní stránku',
     },
   },
 };

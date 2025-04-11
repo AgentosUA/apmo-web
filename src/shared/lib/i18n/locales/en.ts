@@ -84,6 +84,13 @@ const enLocale = {
       logout: 'Logout',
       changeAvatar: 'Change avatar',
       avatarUrl: 'Avatar URL',
+      oldPassword: 'Old password',
+      newPassword: 'New password',
+      confirmPassword: 'Confirm password',
+      changePasswordSuccess: 'Password changed successfully',
+    },
+    changelog: {
+      backToHome: 'Back to home page',
     },
   },
 };
