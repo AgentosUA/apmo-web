@@ -22,7 +22,7 @@ const ChangelogPage = observer(() => {
     <>
       <Header />
       <div className={styles.wrapper}>
-        <Link className={styles.homeLink} href='/'>
+        <Link className='my-7 w-fit' href='/'>
           <Button>Back to home page</Button>
         </Link>
         <div className={styles.posts}>
