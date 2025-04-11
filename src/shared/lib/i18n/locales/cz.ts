@@ -6,6 +6,7 @@ const czLocale: typeof enLocale = {
     continue: 'Pokračovat',
     confirm: 'Potvrdit',
     cancel: 'Zrušit',
+    loading: 'Načítání',
   },
   entities: {
     markers: {
@@ -15,6 +16,10 @@ const czLocale: typeof enLocale = {
       clearedDescription: 'Všechny markery byly odstraněny',
       loadedTitle: 'Markery načteny',
       loadedDescription: 'Načteno markerů: {{count}}',
+    },
+    slots: {
+      copiedTitle: 'Složky zkopírovány',
+      copiedDescription: 'Složky zkopírovány do schránky',
     },
   },
   widgets: {
@@ -50,6 +55,12 @@ const czLocale: typeof enLocale = {
       map: 'Mapa',
       clearMarkersTitle: 'Vymazat všechny markery',
       clearMarkersDescription: 'Jste si jisti, že chcete vymazat všechny markery z mapy?',
+      enterSquadName: 'Zadejte název skupiny',
+      list: 'Seznam',
+      grid: 'Mřížka',
+      copySlots: 'Kopírovat sloty',
+      planLinkCopiedTitle: 'Plán zkopírován',
+      planLinkCopiedDescription: 'Můžete ho sdílet s týmem',
     },
     footer: {
       createdBy: 'Vytvořil',
@@ -61,6 +72,9 @@ const czLocale: typeof enLocale = {
       selectMap: 'Vybrat mapu',
       loadMission: 'Načíst mise',
       changelog: 'Seznam změn',
+    },
+    plans: {
+      planNotFound: 'Plán nenalezen',
     },
     profile: {
       myPlans: 'Moje plány',
