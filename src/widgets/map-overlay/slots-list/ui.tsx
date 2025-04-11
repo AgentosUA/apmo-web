@@ -12,6 +12,9 @@ import { Button } from '@/shared/ui/atoms/button';
 import { observer } from 'mobx-react-lite';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { useBreakpoint, View } from '@/shared/ui/quarks/view';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
+import i18next from 'i18next';
+import { i18n } from '@/shared/lib/i18n/config';
 
 const MissionSlotList: FC<{
   groups?: Group[];
@@ -57,7 +60,7 @@ const PlayerSlotList: FC<{
       ...slots,
     },
     enableReinitialize: true,
-    onSubmit: () => {},
+    onSubmit: () => { },
   });
 
   useEffect(() => {
@@ -84,8 +87,8 @@ const PlayerSlotList: FC<{
     navigator.clipboard.writeText(slots.join('\n'));
 
     toasterEntity.call({
-      title: 'Slots copied to clipboard',
-      description: 'Share it with your friends',
+      title: 'entities:slots:copiedTitle',
+      description: 'entities:slots:copiedDescription',
     });
   };
 
@@ -94,18 +97,20 @@ const PlayerSlotList: FC<{
   return (
     <div className={styles.slotsWrapper}>
       <div className={styles.slotsHeader}>
-        <h3 className={styles.title}>Players slots</h3>
+        <h3 className={styles.title}>
+          <Localize translationKey='widgets:mapOverlay:slots' />
+        </h3>
         <div className={styles.slotsActions}>
           <View.Condition if={isDesktop || isTablet}>
             <Button onClick={onListClick} size='sm'>
-              List
+              <Localize translationKey='widgets:mapOverlay:list' />
             </Button>
             <Button onClick={onGridClick} size='sm'>
-              Grid
+              <Localize translationKey='widgets:mapOverlay:grid' />
             </Button>
           </View.Condition>
           <Button onClick={onCopySlots} className={styles.copy} size='sm'>
-            Copy to clipboard
+            <Localize translationKey='widgets:mapOverlay:copySlots' />
           </Button>
         </div>
       </div>
@@ -120,7 +125,7 @@ const PlayerSlotList: FC<{
               <Input
                 id={callsign}
                 className={styles.input}
-                placeholder='Enter squad name'
+                placeholder={i18n.t('widgets:mapOverlay:enterSquadName') as string}
                 value={formik.values[callsign]}
                 onChange={formik.handleChange}
               />

@@ -3,6 +3,8 @@ import { makeAutoObservable } from 'mobx';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 
 import { getValidSWTMarkers } from './lib';
+import { i18n } from '@/shared/lib/i18n/config';
+import i18next from 'i18next';
 
 enum SWTMarkerID {
   text,
@@ -99,9 +101,14 @@ class MarkersModel {
 
       this.setSWTMarkers([...this.swtMarkers, ...(parsedMarkers as Marker[])]);
 
+
+      
+
       toasterEntity.call({
-        title: 'Markers loaded',
-        description: `${parsedMarkers.length} Markers loaded to the map`,
+        title: 'entities:markers:loadedTitle',
+        description: i18next.t(`entities:markers:loadedDescription`, {
+          count: parsedMarkers.length,
+        }),
       });
     } catch (error) {
       console.log(error);
@@ -115,8 +122,8 @@ class MarkersModel {
     navigator.clipboard.writeText(text);
 
     toasterEntity.call({
-      title: 'Markers copied',
-      description: 'Markers copied to clipboard',
+      title: 'entities:markers:copiedTitle',
+      description: 'entities:markers:copiedDescription',
     });
   };
 

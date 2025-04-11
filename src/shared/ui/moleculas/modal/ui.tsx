@@ -4,6 +4,7 @@ import { FC, PropsWithChildren, ReactNode } from 'react';
 import { Button } from '../../atoms/button';
 
 import styles from './ui.module.scss';
+import { Localize } from '../../quarks/localize/ui';
 
 const Modal: FC<
   PropsWithChildren<{
@@ -38,14 +39,14 @@ const Modal: FC<
                 onClick={() =>
                   typeof onCancel === 'boolean' ? null : onCancel?.()
                 }>
-                Cancel
+                <Localize translationKey='common:cancel' />
               </Button>
             </Dialog.Close>
           )}
           {Boolean(onConfirm) && (
             <Dialog.Close asChild>
               <Button className={styles.confirm} onClick={onConfirm}>
-                Confirm
+                <Localize translationKey='common:confirm' />
               </Button>
             </Dialog.Close>
           )}

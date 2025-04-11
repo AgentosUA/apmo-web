@@ -2,6 +2,23 @@ const enLocale = {
   common: {
     back: 'Back',
     continue: 'Continue',
+    confirm: 'Confirm',
+    cancel: 'Cancel',
+    loading: 'Loading',
+  },
+  entities: {
+    markers: {
+      copiedTitle: 'Markers copied',
+      copiedDescription: 'Markers copied to clipboard',
+      clearedTitle: 'Markers cleared',
+      clearedDescription: 'All markers have been removed',
+      loadedTitle: 'Markers loaded',
+      loadedDescription: 'Markers loaded: {{count}}',
+    },
+    slots: {
+      copiedTitle: 'Slots copied',
+      copiedDescription: 'Slots copied to clipboard',
+    },
   },
   widgets: {
     header: {
@@ -34,6 +51,14 @@ const enLocale = {
       slotsOpfor: 'Slots OPFOR',
       slotsIndependent: 'Slots Independent',
       map: 'Map',
+      clearMarkersTitle: 'Clear all markers',
+      clearMarkersDescription: 'Are you sure to clear all markers from the map?',
+      enterSquadName: 'Enter squad name',
+      list: 'List',
+      grid: 'Grid',
+      copySlots: 'Copy slots',
+      planLinkCopiedTitle: 'Plan link copied',
+      planLinkCopiedDescription: 'You can share it with your team',
     },
     footer: {
       createdBy: 'Created by',
@@ -45,6 +70,9 @@ const enLocale = {
       selectMap: 'Select map',
       loadMission: 'Load mission',
       changelog: 'Changelog',
+    },
+    plans: {
+      planNotFound: 'Plan not found',
     },
     profile: {
       myPlans: 'My plans',

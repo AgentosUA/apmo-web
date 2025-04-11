@@ -4,6 +4,23 @@ const ukLocale: typeof enLocale = {
   common: {
     back: 'Назад',
     continue: 'Продовжити',
+    confirm: 'Підтвердити',
+    cancel: 'Скасувати',
+    loading: 'Завантаження',
+  },
+  entities: {
+    markers: {
+      copiedTitle: 'Маркери скопійовано',
+      copiedDescription: 'Маркери скопійовано у буфер обміну',
+      clearedTitle: 'Маркери очищені',
+      clearedDescription: 'Всі маркери були очищені',
+      loadedTitle: 'Маркери завантажені',
+      loadedDescription: 'Маркерів завантажено: {{count}}',
+    },
+    slots: {
+      copiedTitle: 'Слоти скопійовано',
+      copiedDescription: 'Слоти скопійовано у буфер обміну',
+    },
   },
   widgets: {
     header: {
@@ -16,7 +33,7 @@ const ukLocale: typeof enLocale = {
     },
     mapOverlay: {
       markers: 'Маркери',
-      briefing: 'Бріфінг',
+      briefing: 'Брифінг',
       mission: 'Місія',
       slots: 'Слоти',
       plan: 'План',
@@ -30,12 +47,20 @@ const ukLocale: typeof enLocale = {
       savePlan: 'Зберегти план',
       sharePlan: 'Поділитися планом',
       uploadMission: 'Завантажити місію',
-      intel: 'Інтел',
-      dlcs: 'ДЛЦ',
+      intel: 'Розвіддані',
+      dlcs: 'DLC',
       slotsBluefor: 'Слоти BLUEFOR',
       slotsOpfor: 'Слоти OPFOR',
       slotsIndependent: 'Слоти Independent',
       map: 'Карта',
+      clearMarkersTitle: 'Очистити всі маркери',
+      clearMarkersDescription: 'Ви впевнені, що хочете очистити всі маркери з карти?',
+      enterSquadName: 'Введіть назву групи',
+      list: 'Список',
+      grid: 'Сітка',
+      copySlots: 'Скопіювати слоти',
+      planLinkCopiedTitle: 'План скопійовано',
+      planLinkCopiedDescription: 'Ви можете поділитися ним з командою',
     },
     footer: {
       createdBy: 'Створено',
@@ -48,6 +73,9 @@ const ukLocale: typeof enLocale = {
       selectMap: 'Обрати карту',
       loadMission: 'Завантажити місію',
       changelog: 'Список змін',
+    },
+    plans: {
+      planNotFound: 'План не знайдено',
     },
     profile: {
       myPlans: 'Мої плани',

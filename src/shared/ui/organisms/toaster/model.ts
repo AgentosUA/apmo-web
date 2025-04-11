@@ -1,3 +1,4 @@
+import { i18n } from '@/shared/lib/i18n/config';
 import { generateRandomId } from '@/shared/utils/string';
 import { makeAutoObservable } from 'mobx';
 
@@ -29,16 +30,20 @@ class Toaster {
     sound = true,
     timer = 4000,
     type = 'radio',
+    title = '',
+    description = '',
     ...data
   }: ToasterData) => {
     if (sound) {
       const audio = new Audio('/sounds/notification/start.mp3');
-      audio.volume = 0.3;
+      audio.volume = 0.2;
       audio.play();
     }
 
     this.toasters.unshift({
       ...data,
+      title: i18n.t(title),
+      description: i18n.t(description),
       id,
       sound,
       type,

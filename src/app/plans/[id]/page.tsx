@@ -14,6 +14,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import styles from './page.module.scss';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
 
 const ArmaMap = dynamic(
   () => import('@/widgets/arma-map/ui').then((m) => m.ArmaMap),
@@ -53,7 +54,9 @@ const Page = observer(() => {
   if (isLoading) {
     return (
       <div className={styles.wrapper}>
-        <div className={styles.card}>Loading...</div>
+        <div className={styles.card}>
+          <p><Localize translationKey='common:loading' />...</p>
+        </div>
       </div>
     );
   }
@@ -62,7 +65,7 @@ const Page = observer(() => {
     return (
       <div className={styles.wrapper}>
         <div className={styles.card}>
-          <p>Plan not found</p>
+          <p><Localize translationKey='pages:plans:planNotFound' /></p>
         </div>
       </div>
     );

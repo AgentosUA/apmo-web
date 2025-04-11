@@ -4,6 +4,18 @@ const czLocale: typeof enLocale = {
   common: {
     back: 'Zpátky',
     continue: 'Pokračovat',
+    confirm: 'Potvrdit',
+    cancel: 'Zrušit',
+  },
+  entities: {
+    markers: {
+      copiedTitle: 'Markery zkopírovány',
+      copiedDescription: 'Markery zkopírovány do schránky',
+      clearedTitle: 'Markery vymazány',
+      clearedDescription: 'Všechny markery byly odstraněny',
+      loadedTitle: 'Markery načteny',
+      loadedDescription: 'Načteno markerů: {{count}}',
+    },
   },
   widgets: {
     header: {
@@ -15,8 +27,8 @@ const czLocale: typeof enLocale = {
       profile: 'Profil',
     },
     mapOverlay: {
-      markers: 'Маркери',
-      briefing: 'Бріфінг',
+      markers: 'Markery',
+      briefing: 'Briefing',
       mission: 'Mise',
       slots: 'Sloty',
       plan: 'Plán',
@@ -36,6 +48,8 @@ const czLocale: typeof enLocale = {
       slotsOpfor: 'Sloty OPFOR',
       slotsIndependent: 'Sloty Independent',
       map: 'Mapa',
+      clearMarkersTitle: 'Vymazat všechny markery',
+      clearMarkersDescription: 'Jste si jisti, že chcete vymazat všechny markery z mapy?',
     },
     footer: {
       createdBy: 'Vytvořil',

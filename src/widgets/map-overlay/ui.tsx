@@ -66,8 +66,8 @@ const MapOverlay = observer<{
     navigator.clipboard.writeText(window.location.href);
 
     toasterEntity.call({
-      title: 'Plan link copied',
-      description: 'You can share it with your team',
+      title: 'widgets:mapOverlay:planLinkCopiedTitle',
+      description: 'widgets:mapOverlay:planLinkCopiedDescription',
     });
   };
 
@@ -97,8 +97,8 @@ const MapOverlay = observer<{
   const onCofrimClearMarkers = () => {
     markersEntity.clearSWTMarkers();
     toasterEntity.call({
-      title: 'Markers cleared',
-      description: 'All markers have been removed',
+      title: 'entities:markers:clearedTitle',
+      description: 'entities:markers:clearedDescription',
     });
   };
 
@@ -226,8 +226,8 @@ const MapOverlay = observer<{
             </Overlay.MenuItem>
 
             <Modal
-              title='Clear all markers'
-              description='Are you sure to clear all markers from the map?'
+              title={<Localize translationKey='widgets:mapOverlay:clearMarkersTitle' />}
+              description={<Localize translationKey='widgets:mapOverlay:clearMarkersDescription' />}
               onConfirm={onCofrimClearMarkers}
               onCancel
               trigger={

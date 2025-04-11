@@ -39,8 +39,8 @@ const Profile = observer(() => {
     navigator.clipboard.writeText(plan.planMarkers);
 
     toasterEntity.call({
-      title: 'Markers copied',
-      description: 'Markers copied to clipboard',
+      title: 'entities:markers:copiedTitle',
+      description: 'entities:markers:copiedDescription',
     });
   };
 
@@ -56,8 +56,8 @@ const Profile = observer(() => {
     navigator.clipboard.writeText(slots.join('\n'));
 
     toasterEntity.call({
-      title: 'Slots copied',
-      description: 'Slots copied to clipboard',
+      title: 'entities:slots:copiedTitle',
+      description: 'entities:slots:copiedDescription',
     });
   };
 
