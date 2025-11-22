@@ -54,6 +54,7 @@ class MapsModel {
 
       this.locations = [...(response.data as Location[])];
     } catch (error) {
+      this.locations = []
       // toasterEntity.call({
       //   title: 'Failed to load locations',
       //   description: 'Report to devs',
