@@ -1,34 +1,31 @@
 'use client';
 
-import Image from 'next/image';
-
-import styles from './page.module.scss';
 import { observer } from 'mobx-react-lite';
+import Link from 'next/link';
 
-import { useRouter } from 'next/navigation';
 
 import { Post } from '@/entities/post/ui';
 import { Button } from '@/shared/ui/atoms/button';
-import Link from 'next/link';
-import { Header } from '@/widgets/header';
-import { useBreakpoint } from '@/shared/ui/quarks/view';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
+import { useBreakpoint } from '@/shared/ui/quarks/view';
+import { Footer } from '@/widgets/footer';
+import { Header } from '@/widgets/header';
+
+
 
 const ChangelogPage = observer(() => {
-  const router = useRouter();
-
   const { isDesktop } = useBreakpoint();
 
   return (
     <>
       <Header />
-      <div className={styles.wrapper}>
+      <main className='mx-auto px-5 w-full flex flex-col justify-center max-w-screen-lg'>
         <Link className='my-7 w-fit' href='/'>
           <Button>
             <Localize translationKey='pages:changelog:backToHome' />
           </Button>
         </Link>
-        <div className={styles.posts}>
+        <div className='flex flex-col gap-8 mb-4'>
           <Post title='[1.0.0-RC1] Version release' date='05.09.2024'>
             <iframe
               width='100%'
@@ -94,7 +91,8 @@ const ChangelogPage = observer(() => {
             .
           </Post>
         </div>
-      </div>
+      </main>
+      <Footer />
     </>
   );
 });
