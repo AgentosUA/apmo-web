@@ -30,6 +30,7 @@ const ukLocale: typeof enLocale = {
       support: 'Підтримати',
       signUp: 'Зареєструватися',
       profile: 'Профіль',
+
     },
     mapOverlay: {
       markers: 'Маркери',
@@ -38,7 +39,7 @@ const ukLocale: typeof enLocale = {
       slots: 'Слоти',
       plan: 'План',
       loadMarkers: 'Завантажити маркери',
-      copyMarkers: 'Скопіювати маркери',
+      copyMarkers: 'Копіювати маркери',
       clearMarkers: 'Очистити маркери',
       showAllPlayers: 'Показати всіх гравців',
       showGroups: 'Показати групи',
@@ -58,7 +59,7 @@ const ukLocale: typeof enLocale = {
       enterSquadName: 'Введіть назву групи',
       list: 'Список',
       grid: 'Сітка',
-      copySlots: 'Скопіювати слоти',
+      copySlots: 'Копіювати слоти',
       planLinkCopiedTitle: 'План скопійовано',
       planLinkCopiedDescription: 'Ви можете поділитися ним з командою',
     },
@@ -80,8 +81,8 @@ const ukLocale: typeof enLocale = {
     profile: {
       myPlans: 'Мої плани',
       viewPlan: 'Переглянути',
-      copyMarkers: 'Скопіювати маркери',
-      copySlots: 'Скопіювати слоти',
+      copyMarkers: 'Копіювати маркери',
+      copySlots: 'Копіювати слоти',
       deletePlan: 'Видалити',
       changePassword: 'Змінити пароль',
       logout: 'Вийти',
@@ -94,6 +95,18 @@ const ukLocale: typeof enLocale = {
     },
     changelog: {
       backToHome: 'Назад на головну',
+    },
+    auth: {
+      login: 'Увійти',
+      forgotPassword: 'Забули пароль?',
+      emailOrUsername: 'Email або ім\'я користувача',
+      password: 'Пароль',
+      confirmPassword: 'Підтвердити пароль',
+      changePassword: 'Змінити пароль',
+      logout: 'Вийти',
+      oldPassword: 'Старий пароль',
+      newPassword: 'Новий пароль',
+
     },
   },
 };

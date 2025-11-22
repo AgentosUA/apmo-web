@@ -30,6 +30,7 @@ const czLocale: typeof enLocale = {
       support: 'Podpořit',
       signUp: 'Registrovat se',
       profile: 'Profil',
+
     },
     mapOverlay: {
       markers: 'Markery',
@@ -93,6 +94,17 @@ const czLocale: typeof enLocale = {
     },
     changelog: {
       backToHome: 'Zpátky na hlavní stránku',
+    },
+    auth: {
+      login: 'Přihlásit se',
+      forgotPassword: 'Zapomněli jste heslo?',
+      emailOrUsername: 'Email nebo uživatelské jméno',
+      password: 'Heslo',
+      confirmPassword: 'Potvrdit heslo',
+      changePassword: 'Změnit heslo',
+      logout: 'Odhlásit se',
+      oldPassword: 'Staré heslo',
+      newPassword: 'Nové heslo',
     },
   },
 };

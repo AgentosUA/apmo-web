@@ -92,6 +92,17 @@ const enLocale = {
     changelog: {
       backToHome: 'Back to home page',
     },
+    auth: {
+      login: 'Log in',
+      forgotPassword: 'Forgot password?',
+      emailOrUsername: 'Email or username',
+      password: 'Password',
+      confirmPassword: 'Confirm password',
+      changePassword: 'Change password',
+      logout: 'Logout',
+      oldPassword: 'Old password',
+      newPassword: 'New password',
+    }
   },
 };
 
