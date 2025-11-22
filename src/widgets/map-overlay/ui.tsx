@@ -21,6 +21,7 @@ import { MissionSlotList, PlayerSlotList } from './slots-list';
 
 import styles from './ui.module.scss';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
+import { i18n } from '@/shared/lib/i18n/config';
 
 const MapOverlay = observer<{
   isPlan?: boolean;
@@ -84,8 +85,8 @@ const MapOverlay = observer<{
 
     if (islandClassName !== mapsEntity.selectedMap?.id) {
       toasterEntity.call({
-        title: 'Map and mission mismatch',
-        description: `Mission is not on ${mapsEntity.selectedMap?.name}!`,
+        title: i18n.t('toasters:mapAndMissionMismatch'),
+        description: i18n.t('toasters:missionIsNotOnMap', { map: mapsEntity.selectedMap?.name }),
       });
 
       return;

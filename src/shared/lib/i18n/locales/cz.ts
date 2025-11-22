@@ -7,6 +7,15 @@ const czLocale: typeof enLocale = {
     confirm: 'Potvrdit',
     cancel: 'Zrušit',
     loading: 'Načítání',
+    required: 'Vyplňte toto pole',
+    notValidEmail: 'Neplatný email',
+    passwordsMustMatch: 'Hesla se neshodují',
+    resetPassword: 'Obnovit heslo',
+    unknownError: 'Neznámá chyba',
+  },
+  toasters: {
+    mapAndMissionMismatch: 'Mapa a mise nesedí',
+    missionIsNotOnMap: 'Mise není na mapě {{map}}!',
   },
   entities: {
     markers: {
@@ -96,6 +105,10 @@ const czLocale: typeof enLocale = {
       backToHome: 'Zpátky na hlavní stránku',
     },
     auth: {
+      signUp: 'Registrovat se',
+      email: 'Email',
+      username: 'Uživatelské jméno',
+      rePassword: 'Potvrdit heslo',
       login: 'Přihlásit se',
       forgotPassword: 'Zapomněli jste heslo?',
       emailOrUsername: 'Email nebo uživatelské jméno',
@@ -106,6 +119,9 @@ const czLocale: typeof enLocale = {
       oldPassword: 'Staré heslo',
       newPassword: 'Nové heslo',
     },
+  },
+  errors: {
+    emailNotFound: 'Email nebyl nalezen',
   },
 };
 

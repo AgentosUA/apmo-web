@@ -5,6 +5,15 @@ const enLocale = {
     confirm: 'Confirm',
     cancel: 'Cancel',
     loading: 'Loading',
+    required: 'Required',
+    notValidEmail: 'Not valid email',
+    passwordsMustMatch: 'Passwords must match',
+    resetPassword: 'Reset password',
+    unknownError: 'Unknown error',
+  },
+  toasters: {
+    mapAndMissionMismatch: 'Map and mission mismatch',
+    missionIsNotOnMap: 'Mission is not on {{map}}!',
   },
   entities: {
     markers: {
@@ -93,6 +102,10 @@ const enLocale = {
       backToHome: 'Back to home page',
     },
     auth: {
+      signUp: 'Sign up',
+      email: 'Email',
+      username: 'Username',
+      rePassword: 'Re-password',
       login: 'Log in',
       forgotPassword: 'Forgot password?',
       emailOrUsername: 'Email or username',
@@ -104,6 +117,9 @@ const enLocale = {
       newPassword: 'New password',
     }
   },
+  errors: {
+    emailNotFound: 'Email is not found',
+  }
 };
 
 export default enLocale;

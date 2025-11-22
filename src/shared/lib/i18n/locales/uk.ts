@@ -7,6 +7,15 @@ const ukLocale: typeof enLocale = {
     confirm: 'Підтвердити',
     cancel: 'Скасувати',
     loading: 'Завантаження',
+    required: 'Необхідно заповнити',
+    notValidEmail: 'Неправильний email',
+    passwordsMustMatch: 'Паролі мають співпадати',
+    resetPassword: 'Скинути пароль',
+    unknownError: 'Невідома помилка',
+  },
+  toasters: {
+    mapAndMissionMismatch: 'Карта і місія не збігаються',
+    missionIsNotOnMap: 'Місія не на карті {{map}}!',
   },
   entities: {
     markers: {
@@ -94,9 +103,13 @@ const ukLocale: typeof enLocale = {
       changePasswordSuccess: 'Пароль успішно змінено',
     },
     changelog: {
-      backToHome: 'Назад на головну',
+      backToHome: 'До головної',
     },
     auth: {
+      signUp: 'Зареєструватися',
+      email: 'Email',
+      username: 'Ім\'я користувача',
+      rePassword: 'Підтвердити пароль',
       login: 'Увійти',
       forgotPassword: 'Забули пароль?',
       emailOrUsername: 'Email або ім\'я користувача',
@@ -106,8 +119,10 @@ const ukLocale: typeof enLocale = {
       logout: 'Вийти',
       oldPassword: 'Старий пароль',
       newPassword: 'Новий пароль',
-
     },
+  },
+  errors: {
+    emailNotFound: 'Email не знайдено',
   },
 };
 

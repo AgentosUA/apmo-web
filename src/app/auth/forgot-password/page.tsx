@@ -1,25 +1,28 @@
 'use client';
 
+import { useFormik } from 'formik';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { useFormik } from 'formik';
 
+import { apmoApi } from '@/shared/sdk';
 import { Button } from '@/shared/ui/atoms/button';
-
 import { Input } from '@/shared/ui/atoms/input/ui';
+import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
+import { Preloader } from '@/shared/ui/quarks/preloader';
+import { Footer } from '@/widgets/footer';
+import { Header } from '@/widgets/header';
 
 import styles from './page.module.scss';
-import { Header } from '@/widgets/header';
-import { Footer } from '@/widgets/footer';
-import { apmoApi } from '@/shared/sdk';
-import { useState } from 'react';
+import { AxiosError } from 'axios';
 
-import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
-import { Preloader } from '@/shared/ui/quarks/preloader';
-import { useRouter } from 'next/navigation';
 
 const ForgotPasswordPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation();
   const router = useRouter();
 
   const formik = useFormik({
@@ -27,7 +30,7 @@ const ForgotPasswordPage: React.FC = () => {
       email: '',
     },
     validationSchema: yup.object({
-      email: yup.string().email('Invalid email').required('Required'),
+      email: yup.string().email(t('common:notValidEmail')).required(t('common:required')),
     }),
     onSubmit: async (values) => {
       try {
@@ -41,6 +44,16 @@ const ForgotPasswordPage: React.FC = () => {
 
         router.push('/auth/login');
       } catch (error) {
+        if (error instanceof AxiosError) {
+          if (error?.response?.data?.message === 'Email is not found') {
+            formik.setErrors({ email: t('errors:emailNotFound') ?? '' });
+
+            return;
+          }
+
+          formik.setErrors({ email: '' });
+
+        }
       } finally {
         setIsLoading(false);
       }
@@ -48,21 +61,23 @@ const ForgotPasswordPage: React.FC = () => {
   });
 
   return (
-    <div className={styles.wrapper}>
+    <div className={ styles.wrapper }>
       <Header />
-      <form className={styles.form} onSubmit={formik.handleSubmit}>
-        <Preloader isLoading={isLoading}>
-          <h2>Forgot password</h2>
+      <form className={ styles.form } onSubmit={ formik.handleSubmit }>
+        <Preloader isLoading={ isLoading }>
+          <h2>
+            <Localize translationKey="common:resetPassword" />
+          </h2>
           <Input
             id='email'
             type='email'
             label='Email'
-            value={formik.values.email}
-            error={formik.touched.email ? formik.errors.email : ''}
-            onChange={formik.handleChange}
+            value={ formik.values.email }
+            error={ formik.touched.email ? formik.errors.email : '' }
+            onChange={ formik.handleChange }
           />
           <Button variant='bold' type='submit'>
-            Submit
+            <Localize translationKey="common:continue" />
           </Button>
         </Preloader>
       </form>
