@@ -39,7 +39,7 @@ const ukLocale: typeof enLocale = {
       support: 'Підтримати',
       signUp: 'Зареєструватися',
       profile: 'Профіль',
-
+      licence: 'Ліцензія',
     },
     mapOverlay: {
       markers: 'Маркери',

@@ -39,7 +39,7 @@ const czLocale: typeof enLocale = {
       support: 'Podpořit',
       signUp: 'Registrovat se',
       profile: 'Profil',
-
+      licence: 'Licence',
     },
     mapOverlay: {
       markers: 'Markery',

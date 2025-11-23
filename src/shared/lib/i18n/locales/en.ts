@@ -37,6 +37,7 @@ const enLocale = {
       logOut: 'Log out',
       signUp: 'Sign up',
       profile: 'Profile',
+      licence: 'Licence',
     },
     mapOverlay: {
       markers: 'Markers',

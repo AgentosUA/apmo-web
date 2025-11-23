@@ -1,15 +1,13 @@
 import { ChangeLanguage } from '@/features/settings/change-language/ui';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 
-import styles from './ui.module.scss';
-
 const Footer = () => {
   return (
-    <footer className="mt-auto flex justify-between items-center bg-black/70 text-center gap-3 min-h-28">
+    <footer className="mt-auto flex justify-between items-center bg-black/70 text-center gap-3 min-h-28 px-12">
       <ChangeLanguage className="shrink-0" />
 
       <div className="flex flex-col items-center gap-2 text-white w-fit">
-        <div>
+        <div className="px-12">
           <Localize translationKey="widgets:footer:createdBy" />{' '}
           <span className="text-a3-orange">Agentos</span> &{' '}
           <span className="text-a3-orange">XDred</span>
@@ -17,7 +15,7 @@ const Footer = () => {
         <div>
           <Localize translationKey="widgets:footer:feelFreeToContribute" />{' '}
           <a
-            className="hover:underline text-a3-orange"
+            className="hover:underline !text-a3-orange"
             target="_blank"
             rel="noopener noreferrer"
             href="https://github.com/AgentosUA/apmo-web"
@@ -26,7 +24,7 @@ const Footer = () => {
           </a>
         </div>
       </div>
-      <div className="w-fit text-white"></div>
+      <div className="w-fit text-white px-12"></div>
     </footer>
   );
 };

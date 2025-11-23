@@ -80,6 +80,11 @@ const Header = () => {
             <Localize translationKey="widgets:header:changelog" />
           </Button>
         </Link>
+        <Link className={classNames(styles.menuItem)} href="/licence">
+          <Button className="" variant="transparent">
+            <Localize translationKey="widgets:header:licence" />
+          </Button>
+        </Link>
         <div className="grow-[1]" />
         <UnAuthorized>
           <Link className="max-lg:text-center max-lg:w-full" href="/auth/login">
