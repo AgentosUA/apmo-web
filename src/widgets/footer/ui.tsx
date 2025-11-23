@@ -5,24 +5,28 @@ import styles from './ui.module.scss';
 
 const Footer = () => {
   return (
-    <footer className='flex justify-between items-center bg-black/70 text-center gap-3 min-h-28'>
-      
-        
+    <footer className="mt-auto flex justify-between items-center bg-black/70 text-center gap-3 min-h-28">
+      <ChangeLanguage className="shrink-0" />
+
+      <div className="flex flex-col items-center gap-2 text-white w-fit">
         <div>
-        <ChangeLanguage className='absolute left-10 top-9' />
+          <Localize translationKey="widgets:footer:createdBy" />{' '}
+          <span className="text-a3-orange">Agentos</span> &{' '}
+          <span className="text-a3-orange">XDred</span>
         </div>
-      
-        <div className='flex items-center gap-2 text-white w-full'>
-      
-        
-        <Localize translationKey='widgets:footer:createdBy' />{' '}
-        <span className='text-a3-orange'>Agentos</span> &{' '}
-        <span className='text-a3-orange'>XDred</span>
+        <div>
+          <Localize translationKey="widgets:footer:feelFreeToContribute" />{' '}
+          <a
+            className="hover:underline text-a3-orange"
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://github.com/AgentosUA/apmo-web"
+          >
+            GitHub
+          </a>
+        </div>
       </div>
-      <p className={styles.contribute}>
-        <Localize translationKey='widgets:footer:feelFreeToContribute' />{' '}
-        <a href='https://github.com/AgentosUA/apmo-web'>GitHub</a>
-      </p>
+      <div className="w-fit text-white"></div>
     </footer>
   );
 };
