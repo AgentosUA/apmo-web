@@ -1,13 +1,12 @@
 'use client';
 
+import { observer } from 'mobx-react-lite';
+import Image from 'next/image';
 import { FC } from 'react';
 
 import { Toaster as ToasterType, toasterEntity } from './model';
-
-import { observer } from 'mobx-react-lite';
-
 import styles from './ui.module.scss';
-import Image from 'next/image';
+
 
 const Toaster: FC<{
   model?: ToasterType;

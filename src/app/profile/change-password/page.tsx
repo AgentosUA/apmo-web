@@ -22,6 +22,7 @@ import { Modal } from '@/shared/ui/moleculas/modal/ui';
 import { Input } from '@/shared/ui/atoms/input/ui';
 import { useFormik } from 'formik';
 import { Preloader } from '@/shared/ui/quarks/preloader';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
 
 const ChangePassword = observer(() => {
   useUnAuthorizated(userEntity);
@@ -62,11 +63,13 @@ const ChangePassword = observer(() => {
       <main className={styles.main}>
         <form className={styles.form} onSubmit={formik.handleSubmit}>
           <Preloader isLoading={userEntity.isLoadingChangePassword}>
-            <h2 className={styles.title}>Change password</h2>
+            <h2 className={styles.title}>
+              <Localize translationKey='pages:profile:changePassword' />
+            </h2>
             <Input
               id='oldPassword'
               type='password'
-              label='Old password'
+              label={<Localize translationKey='pages:profile:oldPassword' />}
               value={formik.values.oldPassword}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -77,7 +80,7 @@ const ChangePassword = observer(() => {
             <Input
               id='newPassword'
               type='password'
-              label='New password'
+              label={<Localize translationKey='pages:profile:newPassword' />}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.newPassword}
@@ -87,7 +90,7 @@ const ChangePassword = observer(() => {
             />
 
             <Button className={styles.submit} variant='bold' type='submit'>
-              Change password
+              <Localize translationKey='pages:profile:changePassword' />
             </Button>
           </Preloader>
         </form>

@@ -1,24 +1,22 @@
-import { FC, PropsWithChildren } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
+import { FC, PropsWithChildren, ReactNode } from 'react';
 
 import { Button } from '../../atoms/button';
 
 import styles from './ui.module.scss';
-import { RadixChildren } from '../../quarks/radix-children/ui';
+import { Localize } from '../../quarks/localize/ui';
 
 const Modal: FC<
   PropsWithChildren<{
-    title?: string;
-    description?: string;
+    title?: ReactNode;
+    description?: ReactNode;
     onConfirm?: () => void;
     onCancel?: (() => void) | boolean;
     trigger: React.ReactNode;
   }>
 > = ({ title, description, trigger, children, onCancel, onConfirm }) => (
   <Dialog.Root>
-    <Dialog.Trigger asChild>
-      <RadixChildren>{trigger}</RadixChildren>
-    </Dialog.Trigger>
+    <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
     <Dialog.Portal>
       <Dialog.Overlay className={styles.dialogOverlay} />
       <Dialog.Content className={styles.dialogContent}>
@@ -41,14 +39,14 @@ const Modal: FC<
                 onClick={() =>
                   typeof onCancel === 'boolean' ? null : onCancel?.()
                 }>
-                Cancel
+                <Localize translationKey='common:cancel' />
               </Button>
             </Dialog.Close>
           )}
           {Boolean(onConfirm) && (
             <Dialog.Close asChild>
               <Button className={styles.confirm} onClick={onConfirm}>
-                Confirm
+                <Localize translationKey='common:confirm' />
               </Button>
             </Dialog.Close>
           )}

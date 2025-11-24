@@ -20,6 +20,8 @@ import { getIslandClassNameByPboFile } from '@/entities/mission/lib';
 import { MissionSlotList, PlayerSlotList } from './slots-list';
 
 import styles from './ui.module.scss';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
+import { i18n } from '@/shared/lib/i18n/config';
 
 const MapOverlay = observer<{
   isPlan?: boolean;
@@ -65,8 +67,8 @@ const MapOverlay = observer<{
     navigator.clipboard.writeText(window.location.href);
 
     toasterEntity.call({
-      title: 'Plan link copied',
-      description: 'You can share it with your team',
+      title: 'widgets:mapOverlay:planLinkCopiedTitle',
+      description: 'widgets:mapOverlay:planLinkCopiedDescription',
     });
   };
 
@@ -83,8 +85,8 @@ const MapOverlay = observer<{
 
     if (islandClassName !== mapsEntity.selectedMap?.id) {
       toasterEntity.call({
-        title: 'Map and mission mismatch',
-        description: `Mission is not on ${mapsEntity.selectedMap?.name}!`,
+        title: i18n.t('toasters:mapAndMissionMismatch'),
+        description: i18n.t('toasters:missionIsNotOnMap', { map: mapsEntity.selectedMap?.name }),
       });
 
       return;
@@ -96,8 +98,8 @@ const MapOverlay = observer<{
   const onCofrimClearMarkers = () => {
     markersEntity.clearSWTMarkers();
     toasterEntity.call({
-      title: 'Markers cleared',
-      description: 'All markers have been removed',
+      title: 'entities:markers:clearedTitle',
+      description: 'entities:markers:clearedDescription',
     });
   };
 
@@ -158,12 +160,12 @@ const MapOverlay = observer<{
             customTime={
               missionEntity?.data?.briefing?.intel?.hour
                 ? {
-                    hours: missionEntity?.data?.briefing?.intel?.hour,
-                    minutes: missionEntity?.data?.briefing?.intel?.minute
-                      ? missionEntity?.data?.briefing?.intel?.minute
-                      : '00',
-                    seconds: '00',
-                  }
+                  hours: missionEntity?.data?.briefing?.intel?.hour,
+                  minutes: missionEntity?.data?.briefing?.intel?.minute
+                    ? missionEntity?.data?.briefing?.intel?.minute
+                    : '00',
+                  seconds: '00',
+                }
                 : undefined
             }
           />
@@ -174,34 +176,34 @@ const MapOverlay = observer<{
           <Overlay.MenuItem
             isActive={active.map}
             onClick={() => onMenuItemClick('map')}>
-            Map
+            <Localize translationKey='widgets:mapOverlay:map' />
           </Overlay.MenuItem>
 
           <View.Condition if={Boolean(missionEntity?.data?.briefing)}>
             <Overlay.MenuItem
               isActive={active.briefing}
               onClick={() => onMenuItemClick('briefing')}>
-              Briefing
+              <Localize translationKey='widgets:mapOverlay:briefing' />
             </Overlay.MenuItem>
           </View.Condition>
 
           <Overlay.MenuItem
             isActive={active.markers}
             onClick={() => onMenuItemClick('markers')}>
-            Markers
+            <Localize translationKey='widgets:mapOverlay:markers' />
           </Overlay.MenuItem>
 
           <Overlay.MenuItem
             isActive={active.mission}
             onClick={() => onMenuItemClick('mission')}>
-            Mission
+            <Localize translationKey='widgets:mapOverlay:mission' />
           </Overlay.MenuItem>
 
           <View.Condition if={Boolean(missionEntity?.data?.fileName)}>
             <Overlay.MenuItem
               isActive={active.squadSlots}
               onClick={() => onMenuItemClick('squadSlots')}>
-              Slots
+              <Localize translationKey='widgets:mapOverlay:slots' />
             </Overlay.MenuItem>
           </View.Condition>
 
@@ -209,7 +211,7 @@ const MapOverlay = observer<{
             <Overlay.MenuItem
               isActive={active.plan}
               onClick={() => onMenuItemClick('plan')}>
-              Plan
+              <Localize translationKey='widgets:mapOverlay:plan' />
             </Overlay.MenuItem>
           </View.Condition>
         </Overlay.Menu>
@@ -217,21 +219,21 @@ const MapOverlay = observer<{
         <View.Condition if={active.markers}>
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem onClick={onLoadMarkers}>
-              Load Markers
+              <Localize translationKey='widgets:mapOverlay:loadMarkers' />
             </Overlay.MenuItem>
 
             <Overlay.MenuItem onClick={onCopyMarkers}>
-              Copy Markers
+              <Localize translationKey='widgets:mapOverlay:copyMarkers' />
             </Overlay.MenuItem>
 
             <Modal
-              title='Clear all markers'
-              description='Are you sure to clear all markers from the map?'
+              title={<Localize translationKey='widgets:mapOverlay:clearMarkersTitle' />}
+              description={<Localize translationKey='widgets:mapOverlay:clearMarkersDescription' />}
               onConfirm={onCofrimClearMarkers}
               onCancel
               trigger={
                 <Overlay.MenuItem onClick={() => ({})}>
-                  Clear Markers
+                  <Localize translationKey='widgets:mapOverlay:clearMarkers' />
                 </Overlay.MenuItem>
               }
             />
@@ -239,8 +241,8 @@ const MapOverlay = observer<{
             <View.Condition if={Boolean(missionEntity?.data?.missionName)}>
               <Overlay.MenuItem onClick={onSwitchPlayersDisplayMode}>
                 {markersEntity.playersDisplayMode === 'groups'
-                  ? 'Show all players'
-                  : 'Show groups'}
+                  ? <Localize translationKey='widgets:mapOverlay:showAllPlayers' />
+                  : <Localize translationKey='widgets:mapOverlay:showGroups' />}
               </Overlay.MenuItem>
             </View.Condition>
 
@@ -251,8 +253,8 @@ const MapOverlay = observer<{
               }>
               <Overlay.MenuItem onClick={onSwitchUnitsNames}>
                 {markersEntity.isPlayersNameVisible
-                  ? 'Hide names'
-                  : 'Show names'}
+                  ? <Localize translationKey='widgets:mapOverlay:hideNames' />
+                  : <Localize translationKey='widgets:mapOverlay:showNames' />}
               </Overlay.MenuItem>
             </View.Condition>
           </Overlay.Menu>
@@ -261,11 +263,11 @@ const MapOverlay = observer<{
         <View.Condition if={active.plan}>
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem onClick={planEntity.savePlan}>
-              Save Plan
+              <Localize translationKey='widgets:mapOverlay:savePlan' />
             </Overlay.MenuItem>
             <View.Condition if={isPlan}>
               <Overlay.MenuItem onClick={onSharePlan}>
-                Share Plan
+                <Localize translationKey='widgets:mapOverlay:sharePlan' />
               </Overlay.MenuItem>
             </View.Condition>
           </Overlay.Menu>
@@ -288,7 +290,7 @@ const MapOverlay = observer<{
           <Overlay.Menu variant='secondary'>
             <View.Condition if={Boolean(!missionEntity?.data?.fileName)}>
               <Overlay.MenuItem onClick={onFileInputClick}>
-                Upload mission
+                <Localize translationKey='widgets:mapOverlay:uploadMission' />
               </Overlay.MenuItem>
             </View.Condition>
 
@@ -296,44 +298,44 @@ const MapOverlay = observer<{
               <Overlay.MenuItem
                 isActive={active.intel}
                 onClick={() => onMenuItemClick('mission', 'intel')}>
-                Intel
+                <Localize translationKey='widgets:mapOverlay:intel' />
               </Overlay.MenuItem>
               <View.Condition if={Boolean(missionEntity?.data?.dlcs)}>
                 <Overlay.MenuItem
                   isActive={active.dlcs}
                   onClick={() => onMenuItemClick('mission', 'dlcs')}>
-                  DLC used
+                  <Localize translationKey='widgets:mapOverlay:dlcs' />
                 </Overlay.MenuItem>
               </View.Condition>
               {missionEntity?.data?.groups.some(
                 (item) => item.side === 'West'
               ) && (
-                <Overlay.MenuItem
-                  isActive={active.slotsBluefor}
-                  onClick={() => onMenuItemClick('mission', 'slotsBluefor')}>
-                  Slots BLUEFOR
-                </Overlay.MenuItem>
-              )}
+                  <Overlay.MenuItem
+                    isActive={active.slotsBluefor}
+                    onClick={() => onMenuItemClick('mission', 'slotsBluefor')}>
+                    <Localize translationKey='widgets:mapOverlay:slotsBluefor' />
+                  </Overlay.MenuItem>
+                )}
               {missionEntity?.data?.groups.some(
                 (item) => item.side === 'East'
               ) && (
-                <Overlay.MenuItem
-                  isActive={active.slotsOpfor}
-                  onClick={() => onMenuItemClick('mission', 'slotsOpfor')}>
-                  Slots OPFOR
-                </Overlay.MenuItem>
-              )}
+                  <Overlay.MenuItem
+                    isActive={active.slotsOpfor}
+                    onClick={() => onMenuItemClick('mission', 'slotsOpfor')}>
+                    <Localize translationKey='widgets:mapOverlay:slotsOpfor' />
+                  </Overlay.MenuItem>
+                )}
               {missionEntity?.data?.groups.some(
                 (item) => item.side === 'Independent'
               ) && (
-                <Overlay.MenuItem
-                  isActive={active.slotsIndependent}
-                  onClick={() =>
-                    onMenuItemClick('mission', 'slotsIndependent')
-                  }>
-                  Slots Independent
-                </Overlay.MenuItem>
-              )}
+                  <Overlay.MenuItem
+                    isActive={active.slotsIndependent}
+                    onClick={() =>
+                      onMenuItemClick('mission', 'slotsIndependent')
+                    }>
+                    <Localize translationKey='widgets:mapOverlay:slotsIndependent' />
+                  </Overlay.MenuItem>
+                )}
             </View.Condition>
           </Overlay.Menu>
         </View.Condition>

@@ -1,10 +1,9 @@
+import axios from 'axios';
+import { makeAutoObservable } from 'mobx';
+
 import { mapList } from '@/shared/data/map-list';
 import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
 import { Location } from '@/shared/ui/atoms/marker';
-import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
-import axios from 'axios';
-
-import { makeAutoObservable } from 'mobx';
 
 class MapsModel {
   selectedMap: (typeof mapList)[0] | null = null;
@@ -55,6 +54,7 @@ class MapsModel {
 
       this.locations = [...(response.data as Location[])];
     } catch (error) {
+      this.locations = []
       // toasterEntity.call({
       //   title: 'Failed to load locations',
       //   description: 'Report to devs',

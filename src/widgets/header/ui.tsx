@@ -1,31 +1,22 @@
 'use client';
 
+import classNames from 'classnames';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
-
+import { IoMdClose } from 'react-icons/io';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
-import Image from 'next/image';
-
-import Link from 'next/link';
-
-import { Button } from '@/shared/ui/atoms/button';
-
-import { Authorized, UnAuthorized } from '@/entities/user/ui/authorization/ui';
-
-import { IoMdClose } from 'react-icons/io';
-
-import classNames from 'classnames';
-
 import { userEntity } from '@/entities/user/model';
-
+import { Authorized, UnAuthorized } from '@/entities/user/ui/authorization/ui';
+import { Button } from '@/shared/ui/atoms/button';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { View } from '@/shared/ui/quarks/view';
 
 import styles from './ui.module.scss';
 
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(
-    typeof window === 'undefined' ? 0 : window?.scrollY > 0
-  );
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
@@ -40,6 +31,8 @@ const Header = () => {
 
     window.addEventListener('scroll', handleScroll);
 
+    handleScroll();
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -47,73 +40,107 @@ const Header = () => {
 
   return (
     <header
-      className={classNames(styles.header, {
-        [styles.scrolledHeader]: isScrolled,
-      })}>
-      <View.Tablet>
-        {isMenuOpened ? (
-          <IoMdClose
-            className={styles.closeIcon}
-            color='#fff'
-            onClick={onBurgerMenuClick}
-          />
-        ) : (
-          <RxHamburgerMenu
-            className={styles.burgerIcon}
-            color='#fff'
-            onClick={onBurgerMenuClick}
-          />
-        )}
-      </View.Tablet>
+      className={classNames(
+        'sticky top-0 flex items-center justify-center h-24 duration-300 z-10 max-md:overflow-visible max-md:bg-black',
+        {
+          ['duration-300 transition-all bg-black shadow-sm']: isScrolled,
+        }
+      )}
+    >
+      {isMenuOpened ? (
+        <IoMdClose
+          className="absolute top-1/2 left-4 text-[25px] z-[11] transform -translate-y-1/2 lg:hidden"
+          color="#fff"
+          onClick={onBurgerMenuClick}
+        />
+      ) : (
+        <RxHamburgerMenu
+          className="absolute top-1/2 left-4 text-[25px] z-[11] transform -translate-y-1/2 lg:hidden"
+          color="#fff"
+          onClick={onBurgerMenuClick}
+        />
+      )}
+
       <div
-        className={classNames(styles.menu, {
-          [styles.menuOpened]: isMenuOpened,
-        })}>
+        className={classNames('flex flex-start items-center w-full h-8 bg-black px-4', {
+          'left-0 transition-all left duration-300': isMenuOpened,
+        })}
+      >
         <Link
           className={styles.menuItem}
-          href='https://savelife.in.ua/en/donate-en/'
-          target='_blank'>
-          <Button variant='transparent'>SUPPORT</Button>
+          href="https://savelife.in.ua/en/donate-en/"
+          target="_blank"
+        >
+          <Button className="" variant="transparent">
+            <Localize translationKey="widgets:header:support" />
+          </Button>
         </Link>
-        <Link className={classNames(styles.menuItem)} href='/changelog'>
-          <Button variant='transparent'>Changelog</Button>
+        <Link className={classNames(styles.menuItem)} href="/changelog">
+          <Button className="" variant="transparent">
+            <Localize translationKey="widgets:header:changelog" />
+          </Button>
         </Link>
-        <div className={styles.forceRightElements} />
+        <Link className={classNames(styles.menuItem)} href="/licence">
+          <Button className="" variant="transparent">
+            <Localize translationKey="widgets:header:licence" />
+          </Button>
+        </Link>
+        <div className="grow-[1]" />
         <UnAuthorized>
-          <Link className={styles.menuItem} href='/auth/login'>
-            <Button size='md' variant='transparent'>
-              LOG IN
+          <Link className="max-lg:text-center max-lg:w-full" href="/auth/login">
+            <Button className="text-center w-full " size="md" variant="transparent">
+              <Localize translationKey="widgets:header:logIn" />
             </Button>
           </Link>
-          <Link className={styles.menuItem} href='/auth/sign-up'>
-            <Button variant='transparent'>SIGN UP</Button>
+          <Link className="max-lg:text-center max-lg:w-full" href="/auth/sign-up">
+            <Button className="text-center w-full " variant="transparent">
+              <Localize translationKey="widgets:header:signUp" />
+            </Button>
           </Link>
         </UnAuthorized>
 
         <Authorized>
-          <Link className={styles.menuItem} href='/profile'>
-            <Button size='md' variant='transparent'>
-              Profile
+          <Link className="max-lg:text-center max-lg:w-full" href="/profile">
+            <Button className="" size="md" variant="transparent">
+              <Localize translationKey="widgets:header:profile" />
             </Button>
           </Link>
 
-          <Link className={styles.menuItem} href='/'>
-            <Button size='md' variant='transparent' onClick={userEntity.logout}>
-              Log out
+          <Link className="max-lg:text-center max-lg:w-full" href="/">
+            <Button className="" size="md" variant="transparent" onClick={userEntity.logout}>
+              <Localize translationKey="widgets:header:logOut" />
             </Button>
           </Link>
         </Authorized>
       </div>
-      <div className={styles.logo}>
-        <Link href='/'>
+      <div
+        className={classNames(
+          'absolute top-[5px] left-1/2 transform -translate-x-1/2 text-center duration-300 flex items-center z-10 justify-center',
+          {
+            ['top-[2px] text-[16px]']: isScrolled,
+          }
+        )}
+      >
+        <Link className="flex flex-col items-center" href="/">
           <Image
-            className={styles.logoImage}
-            src='/a3-logo.png'
+            className={classNames('duration-300 transition-all', {
+              'flex items-center justify-center h-16 w-auto text-center mx-auto': isScrolled,
+            })}
+            src="/a3-logo.png"
             width={159}
             height={91}
-            alt='logo'
+            alt="logo"
           />
-          <h1 className={styles.title}>PLAN MAKER ONLINE</h1>
+          <h1
+            className={classNames(
+              'mt-[-3px] text-[20px] font-medium text-white text-center transition duration-300 mx-auto',
+              {
+                'text-[16px]': isScrolled,
+              }
+            )}
+          >
+            PLAN MAKER ONLINE
+          </h1>
         </Link>
       </div>
     </header>
