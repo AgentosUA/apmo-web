@@ -1,12 +1,9 @@
+import dayjs from 'dayjs';
 import type { FC, PropsWithChildren } from 'react';
 
 import { Card } from '@/shared/ui/atoms/card';
-
-import dayjs from 'dayjs';
-
-import Image from 'next/image';
-
 import { View } from '@/shared/ui/quarks/view';
+import { cn } from '@/shared/utils/cn';
 
 import styles from './ui.module.scss';
 
@@ -17,15 +14,15 @@ const Post: FC<
     imageUrl?: string;
   }>
 > = ({ title, date, imageUrl, children }) => (
-  <Card className={styles.post}>
-    <header className={styles.header}>
+  <Card className="paper p-7 flex flex-col flex-wrap overflow-hidden leading-6">
+    <header className="leading-6 font-bold">
       <h2>{title}</h2>
       <span className={styles.date}>{dayjs(date).format('DD.MM.YYYY')}</span>
     </header>
     <View.Condition if={Boolean(imageUrl)}>
-      <img className={styles.image} src={imageUrl!} alt='post image' />
+      <img className="w-full object-cover" src={imageUrl!} alt="post image" />
     </View.Condition>
-    <main className={styles.content}>{children}</main>
+    <main className={cn(styles.post, 'mt-6')}>{children}</main>
   </Card>
 );
 

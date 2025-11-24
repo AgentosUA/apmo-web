@@ -101,13 +101,13 @@ const Header = () => {
 
         <Authorized>
           <Link className="max-lg:text-center max-lg:w-full" href="/profile">
-            <Button className="" size="md" variant="primary">
+            <Button className="" variant="primary">
               <Localize translationKey="widgets:header:profile" />
             </Button>
           </Link>
 
           <Link className="max-lg:text-center max-lg:w-full" href="/">
-            <Button className="" size="md" variant="primary" onClick={userEntity.logout}>
+            <Button className="" variant="primary" onClick={userEntity.logout}>
               <Localize translationKey="widgets:header:logOut" />
             </Button>
           </Link>

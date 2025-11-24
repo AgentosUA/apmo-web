@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: 'h-5 text-left hover:text-black hover:animate-white-blink w-max-lg:h-10',
-        primary: 'min-w-auto hover:animate-none hover:bg-a3-orange px-4',
+        primary: 'min-w-auto py-1 hover:animate-none hover:bg-a3-orange px-4',
         thin: 'h-auto text-left hover:text-black hover:animate-white-blink',
         transparent: 'h-8 text-center bg-transparent hover:bg-black hover:text-white hover:animate-none',
         destructive: 'bg-[#9F0F0F] hover:text-black hover:animate-white-blink w-max-lg:h-10',
