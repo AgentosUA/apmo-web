@@ -108,7 +108,7 @@ const Profile = observer(() => {
   return (
     <div className="flex flex-col h-full min-h-screen">
       <Header />
-      <main className="flex gap-5 flex-wrap items-center max-w-screen-lg w-full mx-auto bg-black/70 p-4 text-white">
+      <main className="my-12 flex gap-5 flex-wrap items-center max-w-screen-lg w-full mx-auto paper p-4 text-white">
         <Preloader isLoading={userEntity.isLoadingProfile || !userEntity.user}>
           <div className={styles.user}>
             <div className={styles.avatarWrapper}>
@@ -171,12 +171,7 @@ const Profile = observer(() => {
                     >
                       <Localize translationKey="pages:profile:viewPlan" />
                     </Button>
-                    <Button
-                      className={styles.planActionButton}
-                      variant="bold"
-                      onClick={() => onCopyMarkers(plan)}
-                    >
-                      <BsCopyIcon />
+                    <Button variant="bold" onClick={() => onCopyMarkers(plan)}>
                       <Localize translationKey="pages:profile:copyMarkers" />
                     </Button>
                     <Button
@@ -192,7 +187,7 @@ const Profile = observer(() => {
                       onConfirm={() => onDeletePlan(plan)}
                       onCancel
                       trigger={
-                        <Button className={styles.planActionButton} variant="red">
+                        <Button className={styles.planActionButton} variant="destructive">
                           <Localize translationKey="pages:profile:deletePlan" />
                         </Button>
                       }

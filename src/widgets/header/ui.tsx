@@ -71,29 +71,29 @@ const Header = () => {
           href="https://savelife.in.ua/en/donate-en/"
           target="_blank"
         >
-          <Button className="" variant="transparent">
+          <Button className="" variant="primary">
             <Localize translationKey="widgets:header:support" />
           </Button>
         </Link>
         <Link className={classNames(styles.menuItem)} href="/changelog">
-          <Button className="" variant="transparent">
+          <Button className="" variant="primary">
             <Localize translationKey="widgets:header:changelog" />
           </Button>
         </Link>
         <Link className={classNames(styles.menuItem)} href="/licence">
-          <Button className="" variant="transparent">
+          <Button className="" variant="primary">
             <Localize translationKey="widgets:header:licence" />
           </Button>
         </Link>
         <div className="grow-[1]" />
         <UnAuthorized>
           <Link className="max-lg:text-center max-lg:w-full" href="/auth/login">
-            <Button className="text-center w-full " size="md" variant="transparent">
+            <Button className="text-center w-full " variant="primary">
               <Localize translationKey="widgets:header:logIn" />
             </Button>
           </Link>
           <Link className="max-lg:text-center max-lg:w-full" href="/auth/sign-up">
-            <Button className="text-center w-full " variant="transparent">
+            <Button className="text-center w-full " variant="primary">
               <Localize translationKey="widgets:header:signUp" />
             </Button>
           </Link>
@@ -101,13 +101,13 @@ const Header = () => {
 
         <Authorized>
           <Link className="max-lg:text-center max-lg:w-full" href="/profile">
-            <Button className="" size="md" variant="transparent">
+            <Button className="" size="md" variant="primary">
               <Localize translationKey="widgets:header:profile" />
             </Button>
           </Link>
 
           <Link className="max-lg:text-center max-lg:w-full" href="/">
-            <Button className="" size="md" variant="transparent" onClick={userEntity.logout}>
+            <Button className="" size="md" variant="primary" onClick={userEntity.logout}>
               <Localize translationKey="widgets:header:logOut" />
             </Button>
           </Link>

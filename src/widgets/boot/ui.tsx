@@ -7,24 +7,22 @@ import { userEntity } from '@/entities/user/model';
 import { instance } from '@/shared/sdk';
 import { setTokenFromCookies } from '@/shared/sdk/lib';
 
-const BootProvider: FC<PropsWithChildren> = observer<PropsWithChildren>(
-  ({ children }) => {
-    useEffect(() => {
-      const isTokenExists = setTokenFromCookies(instance);
+const BootProvider: FC<PropsWithChildren> = observer<PropsWithChildren>(({ children }) => {
+  useEffect(() => {
+    const isTokenExists = setTokenFromCookies(instance);
 
-      if (isTokenExists) {
-        userEntity.isAuthorized = true;
+    if (isTokenExists) {
+      userEntity.isAuthorized = true;
 
-        if (window.location.pathname === '/profile') return;
+      if (window.location.pathname === '/profile') return;
 
-        userEntity.getUser();
-      }
+      userEntity.getUser();
+    }
 
-      userEntity.boot();
-    }, []);
+    userEntity.boot();
+  }, []);
 
-    return children;
-  }
-);
+  return children;
+});
 
 export { BootProvider };

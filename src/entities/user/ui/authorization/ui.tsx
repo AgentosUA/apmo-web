@@ -1,18 +1,16 @@
-import { observable } from 'mobx';
-
-import { FC, PropsWithChildren } from 'react';
+import { observer } from 'mobx-react-lite';
+import { PropsWithChildren } from 'react';
 
 import { userEntity } from '../../model';
-import { observer } from 'mobx-react-lite';
 
 const Authorized = observer<PropsWithChildren>(({ children }) => {
-  if (!userEntity.isAuthorized) return null;
+  if (!userEntity.booted || !userEntity.isAuthorized) return null;
 
   return children;
 });
 
 const UnAuthorized = observer<PropsWithChildren>(({ children }) => {
-  if (userEntity.isAuthorized) return null;
+  if (!userEntity.booted || userEntity.isAuthorized) return null;
 
   return children;
 });
