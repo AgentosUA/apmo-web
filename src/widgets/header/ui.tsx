@@ -133,13 +133,16 @@ const Header = () => {
           />
           <h1
             className={classNames(
-              'mt-[-3px] text-[20px] font-medium text-white text-center transition duration-300 mx-auto',
+              'relative mt-[-3px] text-[20px] font-medium text-white text-center transition duration-300 mx-auto',
               {
-                'text-[16px]': isScrolled,
+                'text-sm': isScrolled,
               }
             )}
           >
             PLAN MAKER ONLINE
+            <div className="absolute -bottom-2.5 transform text-xs font-light left-0 right-0">
+              v{process.env.APP_VERSION}
+            </div>
           </h1>
         </Link>
       </div>

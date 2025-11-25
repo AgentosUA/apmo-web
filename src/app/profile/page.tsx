@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { BsCopy as BsCopyIcon } from 'react-icons/bs';
+import { BsCopy as BsCopyIcon, BsEye, BsTrash } from 'react-icons/bs';
 import * as yup from 'yup';
 
 import { Callsigns } from '@/entities/mission/types';
@@ -77,7 +77,7 @@ const Profile = observer(() => {
     apmoApi.plan.delete({ id }).then(() => {
       if (!userEntity.user) return;
 
-      userEntity.user.plans = userEntity.user.plans.filter((plan) => plan.id !== id);
+      userEntity.user.plans = userEntity.user.plans.filter((plan) => plan.id == id);
     });
   };
 
@@ -143,64 +143,73 @@ const Profile = observer(() => {
             </div>
           </div>
           <div className="flex flex-col text-left w-full max-w-[645px] gap-[18px]">
-            <div className="text-lg font-normal">
-              <Button variant="primary">
+            <div className="flex justify-between">
+              <div className="text-lg font-normal">
                 <Localize translationKey="pages:profile:myPlans" />
-              </Button>
+              </div>
+              {/* <div>
+                <Button variant="primary">Фільтри</Button>
+              </div> */}
             </div>
 
             {userEntity?.user?.plans?.map((plan) => (
               <div
                 key={plan.id}
-                className="relative flex flex-col min-h-[100px] max-[1199px]:min-h-[210px] w-full p-[10px] overflow-hidden [&>*]:z-[2]"
+                className="relative flex flex-col min-h-[100px] max-[1199px]:min-h-[210px] w-full p-[10px] overflow-hidden border border-white/20 border-solid"
               >
-                <div className="absolute top-0 left-0 w-full h-full bg-black/90 z-40" />
+                <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-[2]" />
                 <Image
-                  className="object-cover w-full h-full absolute top-0 left-0 z-10"
+                  className="object-cover w-full h-full absolute top-0 left-0 z-[1]"
                   width={645}
                   height={100}
                   src={getPlanImage(plan)}
                   alt="island"
                 />
-                <h3 className="text-lg font-semibold">{plan?.mission?.missionName}</h3>
-                <div className="mt-auto flex flex-col flex-wrap">
-                  <p className="text-sm font-normal">{getPlanIslandName(plan)}</p>
-                  <div className="mt-[10px] mr-auto flex justify-between items-center gap-[15px] max-[1199px]:flex-col">
-                    <Button
-                      className="!h-7 !text-xs !text-left !w-fit !pr-2"
-                      onClick={() => onViewPlan(plan)}
-                      variant="default"
-                    >
-                      <Localize translationKey="pages:profile:viewPlan" />
-                    </Button>
-                    <Button
-                      className="!h-7 !text-xs !text-left !w-fit !pr-2"
-                      variant="default"
-                      onClick={() => onCopyMarkers(plan)}
-                    >
-                      <Localize translationKey="pages:profile:copyMarkers" />
-                    </Button>
-                    <Button
-                      className="!h-7 !text-xs !text-left !w-fit !pr-2"
-                      variant="default"
-                      onClick={() => onCopySlots(plan)}
-                    >
-                      <Localize translationKey="pages:profile:copySlots" />
-                    </Button>
-                    <Modal
-                      title="Delete plan"
-                      description="Are you sure you want to delete this plan?"
-                      onConfirm={() => onDeletePlan(plan)}
-                      onCancel
-                      trigger={
-                        <Button
-                          className="!h-7 !text-xs !text-left !w-fit !pr-2"
-                          variant="destructive"
-                        >
-                          <Localize translationKey="pages:profile:deletePlan" />
-                        </Button>
-                      }
-                    />
+                <div className="z-[3]">
+                  <h3 className="text-lg font-semibold">{plan?.mission?.missionName}</h3>
+                  <div className="mt-auto flex flex-col flex-wrap">
+                    <p className="text-sm font-normal">{getPlanIslandName(plan)}</p>
+                    <div className="mt-[10px] mr-auto flex justify-between items-center gap-[15px] max-[1199px]:flex-col">
+                      <Button
+                        className="h-7 text-xs text-left w-fit pr-2 flex items-center gap-2"
+                        onClick={() => onViewPlan(plan)}
+                        variant="default"
+                      >
+                        <BsEye />
+                        <Localize translationKey="pages:profile:viewPlan" />
+                      </Button>
+                      <Button
+                        className="h-7 text-xs text-left w-fit pr-2 flex items-center gap-2"
+                        variant="default"
+                        onClick={() => onCopyMarkers(plan)}
+                      >
+                        <BsCopyIcon />
+                        <Localize translationKey="pages:profile:copyMarkers" />
+                      </Button>
+                      <Button
+                        className="h-7 text-xs text-left w-fit pr-2 flex items-center gap-2"
+                        variant="default"
+                        onClick={() => onCopySlots(plan)}
+                      >
+                        <BsCopyIcon />
+                        <Localize translationKey="pages:profile:copySlots" />
+                      </Button>
+                      <Modal
+                        title="Delete plan"
+                        description="Are you sure you want to delete this plan?"
+                        onConfirm={() => onDeletePlan(plan)}
+                        onCancel
+                        trigger={
+                          <Button
+                            className="h-7 text-xs text-left w-fit pr-2 flex items-center gap-2"
+                            variant="destructive"
+                          >
+                            <BsTrash />
+                            <Localize translationKey="pages:profile:deletePlan" />
+                          </Button>
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
