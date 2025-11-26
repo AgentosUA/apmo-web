@@ -14,10 +14,10 @@ const Post: FC<
     imageUrl?: string;
   }>
 > = ({ title, date, imageUrl, children }) => (
-  <Card className="paper p-7 flex flex-col flex-wrap overflow-hidden leading-6">
+  <Card className="paper px-7 py-5 flex flex-col flex-wrap overflow-hidden leading-6">
     <header className="leading-6 font-bold">
-      <h2>{title}</h2>
-      <span className={styles.date}>{dayjs(date).format('DD.MM.YYYY')}</span>
+      <h2 className='text-xl'>{title}</h2>
+      <span className="text-a3-orange font-normal">{dayjs(date).format('DD.MM.YYYY')}</span>
     </header>
     <View.Condition if={Boolean(imageUrl)}>
       <img className="w-full object-cover" src={imageUrl!} alt="post image" />
