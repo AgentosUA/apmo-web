@@ -17,7 +17,7 @@ function LicencePage() {
             <Localize translationKey="pages:changelog:backToHome" />
           </Button>
         </Link>
-        <div className="mx-auto max-w-screen-sm p-4 bg-black/70 text-white border-neutral-500 border border-solid">
+        <div className="mx-auto max-w-screen-sm p-4 paper text-white">
           <h1 className="text-2xl font-bold mb-4">Licence</h1>
           Arma Plan Maker Online (APMO) uses certain Arma 3 materials in accordance with the Bohemia
           Interactive Community Licenses (including the Arma Public License). All Arma 3 content and

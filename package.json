@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
-    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-slot": "^1.2.4",
     "@radix-ui/react-toast": "^1.1.5",
     "axios": "^1.6.8",
     "babel-plugin-react-compiler": "^0.0.0-experimental-487cb0e-20240529",
+    "class-variance-authority": "^0.7.1",
     "classnames": "^2.5.1",
+    "clsx": "^2.1.1",
     "cookie-cutter": "^0.2.0",
     "dayjs": "^1.11.10",
     "formik": "^2.4.6",
@@ -34,6 +36,7 @@
     "react-leaflet": "^5.0.0",
     "sass": "^1.70.0",
     "sharp": "^0.33.3",
+    "tailwind-merge": "^3.4.0",
     "yup": "^1.4.0"
   },
   "devDependencies": {
