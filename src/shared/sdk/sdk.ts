@@ -1,9 +1,10 @@
+import axios, { AxiosPromise, AxiosResponse } from 'axios';
 import cookieCutter from 'cookie-cutter';
+import { headers } from 'next/headers';
 
 import { Mission } from '@/entities/mission/types';
 
-import axios, { AxiosPromise, AxiosResponse } from 'axios';
-import { headers } from 'next/headers';
+import { GetPlansDto, PaginatedResponse, PlanListItem } from './types';
 
 type DataType =
   | 'Number'
@@ -179,6 +180,9 @@ const apmoApi = {
     },
     delete: async (data: GetPlanByIdDto) => {
       return instance.delete(`/plans/${data.id}`);
+    },
+    getPlans: async (data: GetPlansDto) => {
+      return instance.get<PaginatedResponse<PlanListItem>>('/plans', { params: data });
     },
   },
   user: {

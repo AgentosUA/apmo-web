@@ -100,6 +100,8 @@ const czLocale: typeof enLocale = {
       newPassword: 'Nové heslo',
       confirmPassword: 'Potvrdit heslo',
       changePasswordSuccess: 'Heslo úspěšně změněno',
+      deletePlanTitle: 'Smazat plán',
+      deletePlanDescription: 'Jste si jisti, že chcete smazat tento plán?',
     },
     changelog: {
       backToHome: 'Zpátky na hlavní stránku',

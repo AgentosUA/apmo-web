@@ -1,8 +1,8 @@
-import { apmoApi, instance, LoginDto, User as UserType } from '@/shared/sdk';
-
+import cookieCutter from 'cookie-cutter';
 import { makeAutoObservable } from 'mobx';
 
-import cookieCutter from 'cookie-cutter';
+import { Pagination } from '@/shared/model/pagination';
+import { apmoApi, instance, LoginDto, User as UserType } from '@/shared/sdk';
 import { setTokenFromCookies } from '@/shared/sdk/lib';
 
 class User {
@@ -17,6 +17,10 @@ class User {
   isLoadingLogin = false;
 
   isLoadingChangePassword = false;
+
+  plans = new Pagination({
+    api: apmoApi.plan.getPlans,
+  });
 
   constructor() {
     makeAutoObservable(this);
@@ -38,6 +42,21 @@ class User {
       onError?.(error?.response?.data?.message ?? 'Unknown error');
     } finally {
       this.isLoadingProfile = false;
+    }
+  };
+
+  getPlans = async (onError?: (string: string) => void) => {
+    try {
+      this.plans.preloader.start();
+
+      await this.plans.init({
+        skip: 0,
+        take: 25,
+      });
+    } catch (error: any) {
+      onError?.(error?.response?.data?.message ?? 'Unknown error');
+    } finally {
+      this.plans.preloader.stop();
     }
   };
 

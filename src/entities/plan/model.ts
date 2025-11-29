@@ -1,11 +1,12 @@
 import { makeAutoObservable } from 'mobx';
-import { Mission, missionEntity } from '../mission';
+
 
 import { apmoApi } from '@/shared/sdk';
-import { MarkersModel, markersEntity } from '../markers';
-
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
+
 import { mapsEntity } from '../maps';
+import { MarkersModel, markersEntity } from '../markers';
+import { Mission, missionEntity } from '../mission';
 
 class Plan {
   private markers: MarkersModel;

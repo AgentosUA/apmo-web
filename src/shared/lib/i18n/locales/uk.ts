@@ -101,6 +101,8 @@ const ukLocale: typeof enLocale = {
       newPassword: 'Новий пароль',
       confirmPassword: 'Підтвердити пароль',
       changePasswordSuccess: 'Пароль успішно змінено',
+      deletePlanTitle: 'Видалити план',
+      deletePlanDescription: 'Ви впевнені, що хочете видалити цей план?',
     },
     changelog: {
       backToHome: 'До головної',

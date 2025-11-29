@@ -28,12 +28,13 @@ const Profile = observer(() => {
 
   useEffect(() => {
     userEntity.getUser();
+    userEntity.getPlans();
   }, []);
 
   const router = useRouter();
 
-  const onCopyMarkers = (plan: Plan) => {
-    navigator.clipboard.writeText(plan.planMarkers);
+  const onCopyMarkers = (planMarkers: string) => {
+    navigator.clipboard.writeText(planMarkers);
 
     toasterEntity.call({
       title: 'entities:markers:copiedTitle',
@@ -41,12 +42,12 @@ const Profile = observer(() => {
     });
   };
 
-  const onCopySlots = (plan: Plan) => {
-    if (!plan.mission.slots) return;
+  const onCopySlots = (payload: Callsigns) => {
+    if (!payload) return;
 
-    const slots = Object.keys(plan.mission.slots)
-      .filter((key) => Boolean(plan?.mission?.slots?.[key as keyof Callsigns]))
-      .map((key) => `${key}: ${plan?.mission?.slots?.[key as keyof Callsigns]}`);
+    const slots = Object.keys(payload)
+      .filter((key) => Boolean(payload?.[key as keyof Callsigns]))
+      .map((key) => `${key}: ${payload?.[key as keyof Callsigns]}`);
 
     navigator.clipboard.writeText(slots.join('\n'));
 
@@ -56,28 +57,30 @@ const Profile = observer(() => {
     });
   };
 
-  const onViewPlan = (plan: Plan) => {
-    router.push(`/plans/${plan.id}`);
+  const onViewPlan = (id: string) => {
+    router.push(`/plans/${id}`);
   };
 
-  const getPlanImage = (plan: Plan) => {
+  const getPlanImage = (island: string) => {
     return (
-      mapList.find((map) => map?.dir === plan?.mission?.island?.toLowerCase())?.image ??
+      mapList.find((map) => map?.dir === island?.toLowerCase())?.image ??
       'maps/no-island.jpg'
     );
   };
 
-  const getPlanIslandName = (plan: Plan) => {
+  const getPlanIslandName = (island?: string) => {
+    if (!island) return 'Unknown';
+
     return (
-      mapList.find((map) => map?.dir === plan?.mission?.island?.toLowerCase())?.name ?? 'Unknown'
+      mapList.find((map) => map?.dir === island?.toLowerCase?.())?.name ?? 'Unknown'
     );
   };
 
-  const onDeletePlan = ({ id }: Plan) => {
+  const onDeletePlan = (id: string) => {
     apmoApi.plan.delete({ id }).then(() => {
       if (!userEntity.user) return;
 
-      userEntity.user.plans = userEntity.user.plans.filter((plan) => plan.id == id);
+      userEntity.plans.refetch();
     });
   };
 
@@ -152,7 +155,7 @@ const Profile = observer(() => {
               </div> */}
             </div>
 
-            {userEntity?.user?.plans?.map((plan) => (
+            {userEntity?.plans.data.map((plan) => (
               <div
                 key={plan.id}
                 className="relative flex flex-col min-h-[100px] max-[1199px]:min-h-[210px] w-full p-[10px] overflow-hidden border border-white/20 border-solid"
@@ -162,7 +165,7 @@ const Profile = observer(() => {
                   className="object-cover w-full h-full absolute top-0 left-0 z-[1]"
                   width={645}
                   height={100}
-                  src={getPlanImage(plan)}
+                  src={getPlanImage(plan.mission.island)}
                   alt="island"
                 />
                 <div className="z-[3]">
@@ -172,7 +175,7 @@ const Profile = observer(() => {
                     <div className="mt-[10px] mr-auto flex justify-between items-center gap-[15px] max-[1199px]:flex-col">
                       <Button
                         className="h-7 text-xs text-left w-fit pr-2 flex items-center gap-2"
-                        onClick={() => onViewPlan(plan)}
+                        onClick={() => onViewPlan(plan.id)}
                         variant="default"
                       >
                         <BsEye />
@@ -181,7 +184,7 @@ const Profile = observer(() => {
                       <Button
                         className="h-7 text-xs text-left w-fit pr-2 flex items-center gap-2"
                         variant="default"
-                        onClick={() => onCopyMarkers(plan)}
+                        onClick={() => onCopyMarkers(plan.planMarkers)}
                       >
                         <BsCopyIcon />
                         <Localize translationKey="pages:profile:copyMarkers" />
@@ -189,15 +192,15 @@ const Profile = observer(() => {
                       <Button
                         className="h-7 text-xs text-left w-fit pr-2 flex items-center gap-2"
                         variant="default"
-                        onClick={() => onCopySlots(plan)}
+                        onClick={() => onCopySlots(plan.mission.slots)}
                       >
                         <BsCopyIcon />
                         <Localize translationKey="pages:profile:copySlots" />
                       </Button>
                       <Modal
-                        title="Delete plan"
-                        description="Are you sure you want to delete this plan?"
-                        onConfirm={() => onDeletePlan(plan)}
+                        title={<Localize translationKey="pages:profile:deletePlanTitle" />}
+                        description={<Localize translationKey="pages:profile:deletePlanDescription" />}
+                        onConfirm={() => onDeletePlan(plan.id)}
                         onCancel
                         trigger={
                           <Button

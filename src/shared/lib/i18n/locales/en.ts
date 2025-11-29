@@ -98,6 +98,8 @@ const enLocale = {
       newPassword: 'New password',
       confirmPassword: 'Confirm password',
       changePasswordSuccess: 'Password changed successfully',
+      deletePlanTitle: 'Delete plan',
+      deletePlanDescription: 'Are you sure you want to delete this plan?',
     },
     changelog: {
       backToHome: 'Back to home page',

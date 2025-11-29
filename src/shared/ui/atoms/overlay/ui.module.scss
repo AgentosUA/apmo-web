@@ -9,6 +9,7 @@
   background: linear-gradient(180deg, #3C3C3C 0%, #1A1A1A 100%);
   z-index: 400;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -111,5 +112,5 @@
 }
 
 .right-corner {
-  margin-left: auto;
+  // margin-left: auto;
 }

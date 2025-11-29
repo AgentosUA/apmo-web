@@ -1,20 +1,19 @@
 'use client';
 
-import { mapsEntity } from '@/entities/maps';
-import { markersEntity } from '@/entities/markers';
-import { missionEntity } from '@/entities/mission';
-import { planEntity } from '@/entities/plan';
-
-import { MapOverlay } from '@/widgets/map-overlay';
-
 import { observer } from 'mobx-react-lite';
-
 import dynamic from 'next/dynamic';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import styles from './page.module.scss';
+import { mapsEntity } from '@/entities/maps';
+import { markersEntity } from '@/entities/markers';
+import { missionEntity } from '@/entities/mission';
+import { planEntity } from '@/entities/plan';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
+import { MapOverlay } from '@/widgets/map-overlay';
+
+import styles from './page.module.scss';
+
 
 const ArmaMap = dynamic(
   () => import('@/widgets/arma-map/ui').then((m) => m.ArmaMap),

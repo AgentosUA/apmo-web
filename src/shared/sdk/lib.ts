@@ -1,5 +1,4 @@
 import type { AxiosInstance } from 'axios';
-
 import cookieCutter from 'cookie-cutter';
 
 const setTokenFromCookies = (instance: AxiosInstance) => {

@@ -1,7 +1,5 @@
-import { FC, PropsWithChildren, ReactNode, useState } from 'react';
-
 import classNames from 'classnames';
-
+import { FC, PropsWithChildren, ReactNode, useState } from 'react';
 import { MdArrowBackIosNew } from 'react-icons/md';
 
 import styles from './ui.module.scss';
@@ -35,17 +33,19 @@ const useMenu = (items: Record<string, boolean>) => {
 };
 
 const Header: FC<{
-  title?: string;
+  title?: ReactNode;
   rightCorner?: ReactNode;
+  leftCorner?: ReactNode;
   onBack?: () => void;
-}> = ({ title = '', rightCorner = '', onBack }) => (
+}> = ({ title = '', leftCorner, rightCorner = '', onBack }) => (
   <div className={styles.header}>
     <MdArrowBackIosNew
       className={styles.backArrowIcon}
       onClick={onBack}
       color='#fff'
     />
-    <h1 className={styles.headerTitle}>{title}</h1>
+    <h1 className='ml-2 text-white font-light text-xl leading-6 mr-auto'>{title}</h1>
+    {leftCorner}
     <div className={styles.rightCorner}>{rightCorner}</div>
   </div>
 );
