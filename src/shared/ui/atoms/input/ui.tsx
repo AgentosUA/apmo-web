@@ -1,6 +1,6 @@
 import { ReactNode, useState, type ComponentProps } from 'react';
 
-import classNames from 'classnames';
+import { cn } from '@/shared/utils/cn';
 
 import styles from './ui.module.scss';
 
@@ -30,10 +30,10 @@ const Input = ({
   };
 
   return (
-    <div className={classNames(styles.wrapper, className)}>
-      {
+    <div className={cn(styles.wrapper, className)}>
+      {label && 
         <label
-          className={classNames(styles.label, {
+          className={cn(styles.label, {
             [styles.labelFocused]: isFocused || Boolean(value),
           })}>
           {label}
@@ -41,7 +41,7 @@ const Input = ({
       }
       <input
         {...props}
-        className={classNames(styles.input)}
+        className={cn(styles.input)}
         value={value}
         onChange={onChange}
         onFocus={onFocused}

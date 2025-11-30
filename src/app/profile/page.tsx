@@ -22,6 +22,9 @@ import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { Preloader } from '@/shared/ui/quarks/preloader';
 import { Footer } from '@/widgets/footer';
 import { Header } from '@/widgets/header';
+import { FilterIcon } from 'lucide-react';
+import { Select } from '@/shared/ui/atoms/select';
+
 
 const Profile = observer(() => {
   useUnAuthorizated(userEntity);
@@ -34,6 +37,8 @@ const Profile = observer(() => {
   const router = useRouter();
 
   const onCopyMarkers = (planMarkers: string) => {
+   
+    
     navigator.clipboard.writeText(planMarkers);
 
     toasterEntity.call({
@@ -150,9 +155,10 @@ const Profile = observer(() => {
               <div className="text-lg font-normal">
                 <Localize translationKey="pages:profile:myPlans" />
               </div>
-              {/* <div>
-                <Button variant="primary">Фільтри</Button>
-              </div> */}
+              <div>
+                <Button variant="primary" className='flex gap-1 items-center'><FilterIcon className='size-4' /> Фільтри</Button>
+                <Select label='Карта' multiple options={[]} value={[]} onChange={() => {}} />
+              </div>
             </div>
 
             {userEntity?.plans.data.map((plan) => (
@@ -171,7 +177,7 @@ const Profile = observer(() => {
                 <div className="z-[3]">
                   <h3 className="text-lg font-semibold">{plan?.mission?.missionName}</h3>
                   <div className="mt-auto flex flex-col flex-wrap">
-                    <p className="text-sm font-normal">{getPlanIslandName(plan)}</p>
+                    <p className="text-sm font-normal">{getPlanIslandName(plan?.mission?.island)}</p>
                     <div className="mt-[10px] mr-auto flex justify-between items-center gap-[15px] max-[1199px]:flex-col">
                       <Button
                         className="h-7 text-xs text-left w-fit pr-2 flex items-center gap-2"

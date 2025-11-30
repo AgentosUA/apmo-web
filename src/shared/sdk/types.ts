@@ -25,5 +25,6 @@ export type PlanListItem = {
     missionName: string;
     island: string;
     slots: Callsigns;
+    author: string;
   }
 }
