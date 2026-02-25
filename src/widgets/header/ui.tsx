@@ -4,6 +4,15 @@ import classNames from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import {
+  FiFileText,
+  FiHeart,
+  FiLogIn,
+  FiLogOut,
+  FiRefreshCw,
+  FiUser,
+  FiUserPlus,
+} from 'react-icons/fi';
 import { IoMdClose } from 'react-icons/io';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
@@ -167,35 +176,40 @@ const Header = () => {
 
       {/* Mobile full-screen menu */}
       {isMenuOpened && (
-        <div className="fixed inset-x-0 top-20 bottom-0 bg-black flex flex-col items-center gap-4 px-4 pt-6 pb-8 overflow-y-auto lg:hidden">
+        <div className="fixed inset-x-0 top-20 bottom-0 bg-black flex flex-col items-stretch gap-4 px-4 pt-6 pb-8 overflow-y-auto lg:hidden">
           <Link
             href="https://savelife.in.ua/en/donate-en/"
             target="_blank"
             className="w-full"
           >
-            <Button className="w-full" variant="primary">
+            <Button className="w-full flex items-center justify-start gap-2" variant="primary">
+              <FiHeart className="text-lg" />
               <Localize translationKey="widgets:header:support" />
             </Button>
           </Link>
           <Link href="/changelog" className="w-full">
-            <Button className="w-full" variant="primary">
+            <Button className="w-full flex items-center justify-start gap-2" variant="primary">
+              <FiRefreshCw className="text-lg" />
               <Localize translationKey="widgets:header:changelog" />
             </Button>
           </Link>
           <Link href="/licence" className="w-full">
-            <Button className="w-full" variant="primary">
+            <Button className="w-full flex items-center justify-start gap-2" variant="primary">
+              <FiFileText className="text-lg" />
               <Localize translationKey="widgets:header:licence" />
             </Button>
           </Link>
 
           <UnAuthorized>
             <Link href="/auth/login" className="w-full">
-              <Button className="w-full" variant="primary">
+              <Button className="w-full flex items-center justify-start gap-2" variant="primary">
+                <FiLogIn className="text-lg" />
                 <Localize translationKey="widgets:header:logIn" />
               </Button>
             </Link>
             <Link href="/auth/sign-up" className="w-full">
-              <Button className="w-full" variant="primary">
+              <Button className="w-full flex items-center justify-start gap-2" variant="primary">
+                <FiUserPlus className="text-lg" />
                 <Localize translationKey="widgets:header:signUp" />
               </Button>
             </Link>
@@ -203,17 +217,19 @@ const Header = () => {
 
           <Authorized>
             <Link href="/profile" className="w-full">
-              <Button className="w-full" variant="primary">
+              <Button className="w-full flex items-center justify-start gap-2" variant="primary">
+                <FiUser className="text-lg" />
                 <Localize translationKey="widgets:header:profile" />
               </Button>
             </Link>
 
             <Link href="/" className="w-full">
               <Button
-                className="w-full"
+                className="w-full flex items-center justify-start gap-2"
                 variant="primary"
                 onClick={userEntity.logout}
               >
+                <FiLogOut className="text-lg" />
                 <Localize translationKey="widgets:header:logOut" />
               </Button>
             </Link>
