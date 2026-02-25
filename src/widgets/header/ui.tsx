@@ -47,8 +47,8 @@ const Header = () => {
   return (
     <header
       className={classNames(
-        'sticky top-0 z-20 max-lg:bg-black',
-        isScrolled && 'shadow-sm'
+        'sticky top-0 z-20 max-lg:bg-black transition-colors duration-300',
+        isScrolled && 'shadow-sm bg-black transition-colors duration-300'
       )}
     >
       {/* Mobile header bar */}
