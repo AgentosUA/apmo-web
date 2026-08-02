@@ -5,12 +5,11 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   env: {
     APP_VERSION: packageJson.version,
   },
+  // Keep webpack for CSS Modules camelCase (`styles.menuItem`).
+  // Next.js 16 defaults to Turbopack; pass --webpack in scripts.
   webpack: (config) => {
     const rules = config.module.rules
       .find((rule) => typeof rule.oneOf === 'object')
