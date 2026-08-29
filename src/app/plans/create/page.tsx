@@ -17,12 +17,10 @@ const ArmaMap = dynamic(
   }
 );
 
-import styles from './page.module.scss';
-
 const CreateMissionPage = observer(() => {
   if (!mapsEntity.selectedMap) {
     return (
-      <main className={styles.main}>
+      <main className="m-0 p-0 w-full h-full flex flex-col justify-center items-center min-h-screen min-h-svh">
         <MapSelection />
       </main>
     );

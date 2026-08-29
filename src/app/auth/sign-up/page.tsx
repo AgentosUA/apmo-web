@@ -16,7 +16,9 @@ import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { Footer } from '@/widgets/footer';
 import { Header } from '@/widgets/header/ui';
 
-import styles from './ui.module.scss';
+const AUTH_WRAPPER = 'flex flex-col h-full min-h-screen min-h-svh';
+const AUTH_FORM =
+  'mt-[150px] mx-auto p-[15px] w-full max-w-[450px] flex flex-col gap-[25px] bg-a3-surface [&_h2]:text-white [&_h2]:text-xl [&_h2]:text-center';
 
 const SignUpPage = observer(() => {
   const { t } = useTranslation();
@@ -64,10 +66,10 @@ const SignUpPage = observer(() => {
   useAuthorizated(userEntity);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={AUTH_WRAPPER}>
       <Header />
-      <main className={styles.main}>
-        <form className={styles.form} onSubmit={formik.handleSubmit}>
+      <main>
+        <form className={AUTH_FORM} onSubmit={formik.handleSubmit}>
           <h2>
             <Localize translationKey="pages:auth:signUp" />
           </h2>

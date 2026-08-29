@@ -5,15 +5,16 @@ import * as React from 'react';
 import { cn } from '@/shared/utils/cn';
 
 const buttonVariants = cva(
-  "min-w-[127px] w-max-lg:pl-2.5 pl-1.5 pr-1 text-white text-sm font-[var(--font-roboto)] font-normal border-none cursor-pointer uppercase bg-black focus-visible:outline-none focus-visible:border-none",
+  "min-w-[127px] tablet:pl-2.5 pl-1.5 pr-1 text-white text-sm font-[var(--font-roboto)] font-normal border-none cursor-pointer uppercase bg-black focus-visible:outline-none focus-visible:border-none",
   {
     variants: {
       variant: {
-        default: 'h-5 text-left hover:text-black hover:animate-white-blink w-max-lg:h-10',
+        default: 'h-5 text-left hover:text-black hover:animate-white-blink tablet:h-10',
+        bold: 'h-8 text-center font-normal hover:text-black hover:animate-white-blink tablet:h-10',
         primary: 'min-w-auto py-1 hover:animate-none hover:bg-a3-orange px-4',
         thin: 'h-auto text-left hover:text-black hover:animate-white-blink',
         transparent: 'h-8 text-center bg-transparent hover:bg-black hover:text-white hover:animate-none',
-        destructive: 'bg-[#9F0F0F] hover:text-black hover:animate-white-blink w-max-lg:h-10',
+        destructive: 'bg-[#9F0F0F] hover:text-black hover:animate-white-blink tablet:h-10',
         orange: 'h-8 text-center bg-a3-orange hover:bg-a3-orange/80',
       },
       size: {

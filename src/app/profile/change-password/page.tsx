@@ -1,28 +1,19 @@
 'use client';
 
+import { useFormik } from 'formik';
 import { observer } from 'mobx-react-lite';
-
-import { Header } from '@/widgets/header';
-
-import { Footer } from '@/widgets/footer';
-
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import * as yup from 'yup';
 
-import styles from './page.module.scss';
-import Image from 'next/image';
 import { userEntity } from '@/entities/user/model';
-import { useEffect } from 'react';
 import { useUnAuthorizated } from '@/entities/user/ui/authorization/hook';
-import { mapList } from '@/shared/data/map-list';
 import { Button } from '@/shared/ui/atoms/button';
-import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
-import { useRouter } from 'next/navigation';
-import { apmoApi, Plan } from '@/shared/sdk';
-import { Modal } from '@/shared/ui/moleculas/modal/ui';
 import { Input } from '@/shared/ui/atoms/input/ui';
-import { useFormik } from 'formik';
-import { Preloader } from '@/shared/ui/quarks/preloader';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
+import { Preloader } from '@/shared/ui/quarks/preloader';
+import { Footer } from '@/widgets/footer';
+import { Header } from '@/widgets/header';
 
 const ChangePassword = observer(() => {
   useUnAuthorizated(userEntity);
@@ -58,18 +49,21 @@ const ChangePassword = observer(() => {
   });
 
   return (
-    <div className={styles.wrapper}>
+    <div className="flex flex-col h-full min-h-screen min-h-svh">
       <Header />
-      <main className={styles.main}>
-        <form className={styles.form} onSubmit={formik.handleSubmit}>
+      <main className="flex gap-[25px] flex-nowrap tablet:flex-wrap tablet:flex-col tablet:items-center my-[45px] mx-auto p-[15px] w-full max-w-[650px] text-white bg-a3-surface">
+        <form
+          className="flex flex-col gap-5 w-full max-w-[300px] mx-auto"
+          onSubmit={formik.handleSubmit}
+        >
           <Preloader isLoading={userEntity.isLoadingChangePassword}>
-            <h2 className={styles.title}>
-              <Localize translationKey='pages:profile:changePassword' />
+            <h2 className="mb-2.5">
+              <Localize translationKey="pages:profile:changePassword" />
             </h2>
             <Input
-              id='oldPassword'
-              type='password'
-              label={<Localize translationKey='pages:profile:oldPassword' />}
+              id="oldPassword"
+              type="password"
+              label={<Localize translationKey="pages:profile:oldPassword" />}
               value={formik.values.oldPassword}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -78,9 +72,9 @@ const ChangePassword = observer(() => {
               }
             />
             <Input
-              id='newPassword'
-              type='password'
-              label={<Localize translationKey='pages:profile:newPassword' />}
+              id="newPassword"
+              type="password"
+              label={<Localize translationKey="pages:profile:newPassword" />}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.newPassword}
@@ -89,8 +83,8 @@ const ChangePassword = observer(() => {
               }
             />
 
-            <Button className={styles.submit} variant='bold' type='submit'>
-              <Localize translationKey='pages:profile:changePassword' />
+            <Button className="mt-[15px]" variant="bold" type="submit">
+              <Localize translationKey="pages:profile:changePassword" />
             </Button>
           </Preloader>
         </form>

@@ -8,8 +8,6 @@ import { I18nProvider } from '@/shared/lib/i18n/provider';
 import { Toaster } from '@/shared/ui/organisms/toaster';
 
 
-import '@/shared/ui/styles/reset.scss';
-
 import '@/shared/ui/styles/global.css';
 
 import '../processes/axios';

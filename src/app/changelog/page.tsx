@@ -3,44 +3,41 @@
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 
-
 import { Post } from '@/entities/post/ui';
 import { Button } from '@/shared/ui/atoms/button';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
-import { useBreakpoint } from '@/shared/ui/quarks/view';
 import { Footer } from '@/widgets/footer';
 import { Header } from '@/widgets/header';
 
-
-
 const ChangelogPage = observer(() => {
-  const { isDesktop } = useBreakpoint();
-
   return (
     <>
       <Header />
-      <main className='mx-auto px-5 w-full flex flex-col justify-center max-w-screen-lg'>
-        <Link className='my-7 w-fit' href='/'>
+      <main className="mx-auto px-4 py-8 w-full max-w-3xl flex flex-col">
+        <Link className="mb-6 w-fit" href="/">
           <Button>
-            <Localize translationKey='pages:changelog:backToHome' />
+            <Localize translationKey="pages:changelog:backToHome" />
           </Button>
         </Link>
-        <div className='flex flex-col gap-8 mb-4'>
-          <Post title='[1.0.0-RC1] Version release' date='05.09.2024'>
-            <iframe
-              width='100%'
-              height={isDesktop ? '512px' : '100%'}
-              src='https://www.youtube.com/embed/rR1S-dNhvOo?si=adyZ3wh_Yv3fMXwy'
-              title='YouTube video player'
-              frameBorder='0'
-              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-              referrerPolicy='strict-origin-when-cross-origin'
-              allowFullScreen></iframe>
+        <div className="flex flex-col gap-6">
+          <Post title="[1.0.0-RC1] Version release" date="05.09.2024">
+            <div className="aspect-video w-full max-w-2xl">
+              <iframe
+                className="h-full w-full"
+                src="https://www.youtube.com/embed/rR1S-dNhvOo?si=adyZ3wh_Yv3fMXwy"
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
+            </div>
           </Post>
           <Post
-            title='UPDATE: New maps & marker support'
-            date='06.20.2024'
-            imageUrl='/preview.jpg'>
+            title="UPDATE: New maps & marker support"
+            date="06.20.2024"
+            imageUrl="/preview.jpg"
+          >
             <p>List of changes:</p>
             <ul>
               <li>
@@ -56,15 +53,12 @@ const ChangelogPage = observer(() => {
             <br />
             During the usage of APMO you may occur some bugs, so feel free to
             inform us on{' '}
-            <Link href='https://github.com/AgentosUA/apmo-web/issues'>
+            <Link href="https://github.com/AgentosUA/apmo-web/issues">
               GitHub issues
             </Link>
             .
           </Post>
-          <Post
-            title='APMO Beta Release [MVP]'
-            date='05.11.2024'
-            imageUrl='/preview.jpg'>
+          <Post title="APMO Beta Release [MVP]" date="05.11.2024" imageUrl="/preview.jpg">
             <b>Welcome to APMO: Arma Plan Maker Online!</b>
             <br />
             We are happy to inform you that our project are now open for beta
@@ -85,7 +79,7 @@ const ChangelogPage = observer(() => {
             <br />
             During the usage of APMO you may occur some bugs, so feel free to
             inform us on{' '}
-            <Link href='https://github.com/AgentosUA/apmo-web/issues'>
+            <Link href="https://github.com/AgentosUA/apmo-web/issues">
               GitHub issues
             </Link>
             .

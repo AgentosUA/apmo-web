@@ -19,7 +19,6 @@ import { getIslandClassNameByPboFile } from '@/entities/mission/lib';
 
 import { MissionSlotList, PlayerSlotList } from './slots-list';
 
-import styles from './ui.module.scss';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { i18n } from '@/shared/lib/i18n/config';
 
@@ -140,7 +139,7 @@ const MapOverlay = observer<{
       <input
         ref={inputRef}
         onChange={onMissionUpload}
-        className={styles.hidden}
+        className="hidden"
         multiple={false}
         type='file'
         accept='.pbo'
@@ -156,7 +155,7 @@ const MapOverlay = observer<{
         }}
         rightCorner={
           <DateClock
-            className={styles.clock}
+            className="mr-2.5"
             customTime={
               missionEntity?.data?.briefing?.intel?.hour
                 ? {
@@ -344,13 +343,13 @@ const MapOverlay = observer<{
           if={Boolean(
             missionEntity?.data?.briefing?.diary?.some((key) => active[key.id])
           )}>
-          <Overlay.Menu className={styles.diary} variant='secondary'>
+          <Overlay.Menu variant="secondary">
             {missionEntity?.data?.briefing?.diary
               ?.filter((item) => active[item.id])
               .map((item) => (
                 <Overlay.MenuItem key={item.id}>
                   <div
-                    className={styles.html}
+                    className="max-w-[540px] leading-6 [&_a]:underline [&_marker]:underline"
                     dangerouslySetInnerHTML={{ __html: item.value.trim() }}
                   />
                 </Overlay.MenuItem>
@@ -361,7 +360,7 @@ const MapOverlay = observer<{
         <View.Condition if={active.dlcs && Boolean(missionEntity?.data?.dlcs)}>
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem>
-              <ul className={styles.list}>
+              <ul className="leading-6 text-white [&_b]:text-white">
                 {missionEntity?.data?.dlcs?.map((dlc) => (
                   <li key={dlc}>{dlc}</li>
                 ))}
@@ -406,7 +405,7 @@ const MapOverlay = observer<{
         <View.Condition if={active.intel}>
           <Overlay.Menu variant='secondary'>
             <Overlay.MenuItem>
-              <ul className={styles.list}>
+              <ul className="leading-6 text-white [&_b]:text-white">
                 {missionEntity?.data?.briefing?.intel?.day && (
                   <li>
                     <b>Date:</b>{' '}

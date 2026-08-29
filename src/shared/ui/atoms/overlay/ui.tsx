@@ -1,10 +1,8 @@
 import { FC, PropsWithChildren, ReactNode, useState } from 'react';
 
-import classNames from 'classnames';
-
 import { MdArrowBackIosNew } from 'react-icons/md';
 
-import styles from './ui.module.scss';
+import { cn } from '@/shared/utils/cn';
 
 const useMenu = (items: Record<string, boolean>) => {
   const [active, setActive] = useState(items);
@@ -39,14 +37,16 @@ const Header: FC<{
   rightCorner?: ReactNode;
   onBack?: () => void;
 }> = ({ title = '', rightCorner = '', onBack }) => (
-  <div className={styles.header}>
+  <div className="top-0 left-0 fixed w-full h-[30px] bg-gradient-to-b from-[#3C3C3C] to-[#1A1A1A] z-[400] flex items-center">
     <MdArrowBackIosNew
-      className={styles.backArrowIcon}
+      className="ml-[5px] hover:cursor-pointer"
       onClick={onBack}
-      color='#fff'
+      color="#fff"
     />
-    <h1 className={styles.headerTitle}>{title}</h1>
-    <div className={styles.rightCorner}>{rightCorner}</div>
+    <h1 className="ml-[5px] text-[#FAFAFA] font-light text-xl leading-[30px]">
+      {title}
+    </h1>
+    <div className="ml-auto">{rightCorner}</div>
   </div>
 );
 
@@ -55,7 +55,15 @@ const MenuWrapper: FC<
     className?: string;
   }>
 > = ({ className, children }) => (
-  <div className={classNames(styles.menuWrapper, className)}>{children}</div>
+  <div
+    className={cn(
+      'absolute top-10 left-5 right-5 flex items-start gap-[5px] max-w-[calc(100vw-20px)] max-h-[calc(100vh-20px)] z-[1000] pointer-events-none',
+      'tablet:top-[35px] tablet:left-[5px] tablet:right-[5px] tablet:max-w-none tablet:max-h-[calc(100vh-35px)] tablet:overflow-hidden tablet:flex-wrap',
+      className
+    )}
+  >
+    {children}
+  </div>
 );
 
 const MenuItem: FC<
@@ -66,13 +74,21 @@ const MenuItem: FC<
 > = ({ children, isActive, onClick }) => (
   <div
     onClick={onClick}
-    className={classNames(styles.item, {
-      [styles.itemActive]: isActive,
-      [styles.itemHoverable]: Boolean(onClick),
-    })}>
+    className={cn(
+      'flex items-center py-px px-2.5 text-[#FAFAFA] transition-all duration-300',
+      isActive && 'bg-white/20',
+      onClick && 'cursor-pointer hover:bg-white/20'
+    )}
+  >
     {children}
   </div>
 );
+
+const menuVariants = {
+  primary: 'min-w-[140px] tablet:w-full',
+  secondary:
+    'min-w-[230px] max-h-[calc(100svh-110px)] overflow-y-auto mb-5 tablet:mb-auto tablet:w-full tablet:last:max-h-[250px] tablet:last:overflow-y-auto',
+};
 
 const Menu: FC<
   PropsWithChildren<{
@@ -80,7 +96,13 @@ const Menu: FC<
     variant?: 'primary' | 'secondary';
   }>
 > = ({ className, children, variant = 'primary' }) => (
-  <div className={classNames(styles.menu, styles[variant], className)}>
+  <div
+    className={cn(
+      'py-2.5 min-w-[122px] bg-a3-surface pointer-events-auto',
+      menuVariants[variant],
+      className
+    )}
+  >
     {children}
   </div>
 );
@@ -90,7 +112,7 @@ const Content: FC<
     className?: string;
   }>
 > = ({ className, children }) => (
-  <div className={classNames(styles.content, className)}>{children}</div>
+  <div className={className}>{children}</div>
 );
 
 const Overlay = {

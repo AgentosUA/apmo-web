@@ -1,14 +1,13 @@
 'use client';
 
-import classNames from 'classnames';
+import { cn } from '@/shared/utils/cn';
 import { LeafletMouseEvent } from 'leaflet';
 import { observer } from 'mobx-react-lite';
-import { FC, PropsWithChildren, useEffect, memo, useRef } from 'react';
+import { FC, PropsWithChildren, useEffect, memo } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 
 import { createArmaCRS } from './lib';
 import { basicMapEntity } from './model';
-import styles from './ui.module.scss';
 
 const FlyComponent = observer<{
   maxZoom: number;
@@ -84,9 +83,12 @@ const BasicMap: FC<
     const isRetina = 1 !== window.devicePixelRatio;
 
     return (
-      <div id='map'>
+      <div id="map">
         <MapContainer
-          className={classNames(styles.map, className)}
+          className={cn(
+            'min-h-screen max-h-screen overflow-hidden bg-[#3C3C3C]',
+            className
+          )}
           center={[mapSize / 1.9, mapSize / 2]}
           crs={armaCRS}
           zoomControl={false}
@@ -96,7 +98,8 @@ const BasicMap: FC<
           doubleClickZoom={false}
           maxBoundsViscosity={0.7}
           wheelPxPerZoomLevel={500}
-          markerZoomAnimation>
+          markerZoomAnimation
+        >
           <MapHandlers
             onDoubleClick={onDoubleClick}
             onZoomLevelChange={onZoomLevelChange}

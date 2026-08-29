@@ -1,20 +1,18 @@
 import { Callsigns, Group, Side } from '@/entities/mission/types';
 import { FC, Fragment, useEffect } from 'react';
 
-import styles from './ui.module.scss';
-import classNames from 'classnames';
 import { callsigns, callsignsObject } from '@/entities/mission/data';
 import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
 import { Input } from '@/shared/ui/atoms/input/ui';
-import { Mission, missionEntity } from '@/entities/mission';
+import { missionEntity } from '@/entities/mission';
 import { useFormik } from 'formik';
 import { Button } from '@/shared/ui/atoms/button';
 import { observer } from 'mobx-react-lite';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { useBreakpoint, View } from '@/shared/ui/quarks/view';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
-import i18next from 'i18next';
 import { i18n } from '@/shared/lib/i18n/config';
+import { cn } from '@/shared/utils/cn';
 
 const MissionSlotList: FC<{
   groups?: Group[];
@@ -28,24 +26,24 @@ const MissionSlotList: FC<{
   };
 
   return (
-    <ul className={classNames(styles.list)}>
+    <ul className="leading-6 text-white [&_b]:text-white">
       {groups
         .filter((group) => group.side === side)
         .map((group, index) => (
           <Fragment key={group.id}>
-            <li className={styles.group}>
+            <li className="mb-5">
               <span
                 onClick={() => onGroupClick(group)}
-                className={classNames(styles.callsign, styles.link)}>
+                className="text-[#ffa30e] hover:underline cursor-pointer"
+              >
                 {callsigns[index]}
               </span>
-              <ol className={styles.units}>
+              <ol>
                 {group.units.map((item) => (
                   <li key={item.id}>{item.description ?? item.type}</li>
                 ))}
               </ol>
             </li>
-            {/* {index + 1 !== groups.length && <hr />} */}
           </Fragment>
         ))}
     </ul>
@@ -60,7 +58,7 @@ const PlayerSlotList: FC<{
       ...slots,
     },
     enableReinitialize: true,
-    onSubmit: () => { },
+    onSubmit: () => {},
   });
 
   useEffect(() => {
@@ -95,37 +93,40 @@ const PlayerSlotList: FC<{
   const { isDesktop, isTablet } = useBreakpoint();
 
   return (
-    <div className={styles.slotsWrapper}>
-      <div className={styles.slotsHeader}>
-        <h3 className={styles.title}>
-          <Localize translationKey='widgets:mapOverlay:slots' />
+    <div className="flex flex-col gap-5 w-full">
+      <div className="flex flex-col gap-[15px]">
+        <h3>
+          <Localize translationKey="widgets:mapOverlay:slots" />
         </h3>
-        <div className={styles.slotsActions}>
+        <div className="flex flex-col gap-[5px] max-w-[185px]">
           <View.Condition if={isDesktop || isTablet}>
-            <Button onClick={onListClick} size='sm'>
-              <Localize translationKey='widgets:mapOverlay:list' />
+            <Button onClick={onListClick} size="sm">
+              <Localize translationKey="widgets:mapOverlay:list" />
             </Button>
-            <Button onClick={onGridClick} size='sm'>
-              <Localize translationKey='widgets:mapOverlay:grid' />
+            <Button onClick={onGridClick} size="sm">
+              <Localize translationKey="widgets:mapOverlay:grid" />
             </Button>
           </View.Condition>
-          <Button onClick={onCopySlots} className={styles.copy} size='sm'>
-            <Localize translationKey='widgets:mapOverlay:copySlots' />
+          <Button onClick={onCopySlots} size="sm">
+            <Localize translationKey="widgets:mapOverlay:copySlots" />
           </Button>
         </div>
       </div>
       <div
-        className={classNames(styles.slots, {
-          [styles.slotsList]: missionEntity.slotsType === 'list',
-        })}>
+        className={cn('flex flex-wrap gap-[25px]', {
+          'flex-col': missionEntity.slotsType === 'list',
+        })}
+      >
         {callsigns.map((callsign, index) => (
           <Fragment key={callsign}>
-            <div className={styles.slot}>
-              <span className={styles.callsign}>{callsigns[index]}</span>
+            <div className="flex flex-col gap-[5px]">
+              <span className="text-[#ffa30e]">{callsigns[index]}</span>
               <Input
                 id={callsign}
-                className={styles.input}
-                placeholder={i18n.t('widgets:mapOverlay:enterSquadName') as string}
+                className="w-full"
+                placeholder={
+                  i18n.t('widgets:mapOverlay:enterSquadName') as string
+                }
                 value={formik.values[callsign]}
                 onChange={formik.handleChange}
               />

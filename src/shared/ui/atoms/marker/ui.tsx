@@ -1,7 +1,5 @@
 import Image from 'next/image';
 
-import classNames from 'classnames';
-
 import {
   Icon,
   DivIcon,
@@ -25,16 +23,24 @@ import 'leaflet-rotatedmarker';
 
 import { Unit, Vehicle } from '@/entities/mission/types';
 
-import styles from './ui.module.scss';
-
-import { View } from '../../quarks/view';
-
-import Ellipse from '../../quarks/ellipse-leaflet/ui';
 import { MarkerColorHEX } from '@/shared/data/marker';
+import {
+  getMarkerFilter,
+  getMarkerFilterClass,
+  getMarkerTextColor,
+  LOCATION_TYPE_CLASSES,
+  MARKER_TOOLTIP_BASE,
+  SIDE_TEXT_CLASSES,
+} from '@/shared/ui/styles/marker-colors';
+import { cn } from '@/shared/utils/cn';
 import {
   calculateRotatedRectangleCorners,
   getVehicleIconSizeByType,
 } from './lib';
+
+import { View } from '../../quarks/view';
+
+import Ellipse from '../../quarks/ellipse-leaflet/ui';
 
 type LocationType =
   | 'city'
@@ -55,14 +61,17 @@ const MarkerIconComponent: FC<{
   onClick?: () => void;
 }> = memo(
   ({ markerName, color, className, width = 32, height = 32, onClick }) => {
+    const filter = getMarkerFilter(color);
+
     return (
       <Image
         src={`/markers/${markerName}.png`}
-        className={classNames(styles[`${color}Filter`], className)}
+        className={className}
+        style={filter ? { filter } : undefined}
         width={Number(width)}
         height={height}
         onClick={onClick}
-        alt='marker'
+        alt="marker"
       />
     );
   }
@@ -83,10 +92,10 @@ const MarkerIcon = (
 
   return new Icon({
     iconUrl: `/markers/${markerName}.png`,
-    iconSize: [width * markerSize, height * markerSize], // size of the icon
-    iconAnchor: [(width * markerSize) / 2, (height * markerSize) / 2], // point of the icon which will correspond to marker's location
-    popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor,
-    className: classNames(styles[`${color}Filter`]),
+    iconSize: [width * markerSize, height * markerSize],
+    iconAnchor: [(width * markerSize) / 2, (height * markerSize) / 2],
+    popupAnchor: [0, 0],
+    className: getMarkerFilterClass(color),
   });
 };
 
@@ -214,11 +223,16 @@ const ArmaMarker: FC<
         eventHandlers={eventHandlers}>
         {children && (
           <Tooltip
-            direction='right'
+            direction="right"
             offset={[0, 0]}
             opacity={1}
             permanent
-            className={classNames(styles.text, styles[color])}>
+            className={cn(
+              MARKER_TOOLTIP_BASE,
+              type ? LOCATION_TYPE_CLASSES[type.toLowerCase()] : undefined
+            )}
+            style={{ color: getMarkerTextColor(color) }}
+          >
             {children}
           </Tooltip>
         )}
@@ -240,11 +254,15 @@ const LocationMarker: FC<{
   return (
     <Marker icon={icon} position={[y, x]}>
       <Tooltip
-        direction='right'
+        direction="right"
         offset={[0, 0]}
         opacity={1}
         permanent
-        className={classNames(styles.text, styles[type])}>
+        className={cn(
+          MARKER_TOOLTIP_BASE,
+          LOCATION_TYPE_CLASSES[type.toLowerCase()]
+        )}
+      >
         {text}
       </Tooltip>
     </Marker>
@@ -261,7 +279,7 @@ const UnitMarker: FC<{
   const icon = new Icon({
     iconUrl: `/icons/soldier.svg`,
     iconSize: [16, 16],
-    className: classNames(styles[data.side]),
+    className: getMarkerFilterClass(data.side),
   });
 
   const [isDescriptionVisible, setIsDescriptionVisible] =
@@ -283,14 +301,15 @@ const UnitMarker: FC<{
       }}
       position={[data.position.coordinates.y, data.position.coordinates.x]}>
       <Tooltip
-        direction='right'
+        direction="right"
         offset={[0, 0]}
         opacity={1}
         permanent
-        className={classNames(
-          styles.unitDescription,
-          styles[`${data.side.toLowerCase()}Text`]
-        )}>
+        className={cn(
+          'text-xs font-normal shadow-none !text-center ml-[35px] left-[15px] p-0 leading-normal capitalize [text-shadow:0_0_1px_rgba(0,0,0,0.4)]',
+          SIDE_TEXT_CLASSES[`${data.side.toLowerCase()}text`]
+        )}
+      >
         {isDescriptionVisible &&
           type === 'player' &&
           (data.description ?? data.type)}
@@ -305,7 +324,7 @@ const UnitMarker: FC<{
             },
           }}>
           {type === 'group' && (
-            <ol className={styles.unitList}>
+            <ol className="relative text-black text-sm text-left">
               {units.map((item) => (
                 <li key={item.id}>{item.description ?? item.type}</li>
               ))}
@@ -327,7 +346,6 @@ const VehicleMarker: FC<{
   const icon = new Icon({
     iconUrl: `/icons/${data.type}.svg`,
     iconSize: [size, size],
-    className: classNames(styles[data.type]),
   });
 
   return (

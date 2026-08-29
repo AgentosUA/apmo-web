@@ -13,7 +13,6 @@ import dynamic from 'next/dynamic';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import styles from './page.module.scss';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 
 const ArmaMap = dynamic(
@@ -53,9 +52,12 @@ const Page = observer(() => {
 
   if (isLoading) {
     return (
-      <div className={styles.wrapper}>
-        <div className={styles.card}>
-          <p><Localize translationKey='common:loading' />...</p>
+      <div className="relative w-full h-full min-w-[100vw] min-h-screen min-h-svh min-w-[100svw] flex justify-center items-center">
+        <div className="flex justify-center items-center h-[350px] w-full text-[22px] text-center text-white flex-col bg-a3-surface">
+          <p>
+            <Localize translationKey="common:loading" />
+            ...
+          </p>
         </div>
       </div>
     );
@@ -63,9 +65,11 @@ const Page = observer(() => {
 
   if (!isLoading && !missionEntity?.data?.fileName) {
     return (
-      <div className={styles.wrapper}>
-        <div className={styles.card}>
-          <p><Localize translationKey='pages:plans:planNotFound' /></p>
+      <div className="relative w-full h-full min-w-[100vw] min-h-screen min-h-svh min-w-[100svw] flex justify-center items-center">
+        <div className="flex justify-center items-center h-[350px] w-full text-[22px] text-center text-white flex-col bg-a3-surface">
+          <p>
+            <Localize translationKey="pages:plans:planNotFound" />
+          </p>
         </div>
       </div>
     );

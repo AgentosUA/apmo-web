@@ -21,8 +21,6 @@ import { Authorized, UnAuthorized } from '@/entities/user/ui/authorization/ui';
 import { Button } from '@/shared/ui/atoms/button';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 
-import styles from './ui.module.scss';
-
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpened, setIsMenuOpened] = useState(false);
@@ -90,7 +88,6 @@ const Header = () => {
       <div className="hidden lg:flex items-center justify-center h-24 relative">
         <div className="flex items-center w-full h-8 bg-black px-4">
           <Link
-            className={styles.menuItem}
             href="https://savelife.in.ua/en/donate-en/"
             target="_blank"
           >
@@ -98,12 +95,12 @@ const Header = () => {
               <Localize translationKey="widgets:header:support" />
             </Button>
           </Link>
-          <Link className={classNames(styles.menuItem)} href="/changelog">
+          <Link href="/changelog">
             <Button variant="primary">
               <Localize translationKey="widgets:header:changelog" />
             </Button>
           </Link>
-          <Link className={classNames(styles.menuItem)} href="/licence">
+          <Link href="/licence">
             <Button variant="primary">
               <Localize translationKey="widgets:header:licence" />
             </Button>

@@ -1,9 +1,8 @@
-import { FC, PropsWithChildren, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+
+import { cn } from '@/shared/utils/cn';
 
 import { getTime } from './lib';
-
-import styles from './ui.module.scss';
-import classNames from 'classnames';
 
 const DateClock: FC<{
   variant?: 'simple' | 'styled';
@@ -24,15 +23,15 @@ const DateClock: FC<{
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [customTime]);
 
   const actualDate = customTime ? customTime : date;
 
   if (variant === 'styled') {
     return (
-      <span className={classNames(styles.clock, className)}>
+      <span className={cn('text-[#FAFAFA] text-lg', className)}>
         {actualDate.hours}:{actualDate.minutes}
-        <span className={styles.seconds}>{actualDate.seconds}</span>
+        <span className="text-sm">{actualDate.seconds}</span>
       </span>
     );
   }

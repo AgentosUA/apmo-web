@@ -2,26 +2,25 @@
 
 import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
+import { useMap } from 'react-leaflet';
 
-import { CreateMarkerModel, createMarkerEntity } from './model';
+import {
+  MarkersModel,
+  SWTMarkerID,
+  markersEntity as sharedMarkersEntity,
+} from '@/entities/markers';
 import {
   MarkerColor,
   MarkerType,
   markerColorNames,
   markerTypes,
 } from '@/shared/data/marker';
-import classNames from 'classnames';
-
-import styles from './ui.module.scss';
-import { MarkerIconComponent } from '@/shared/ui/atoms/marker';
-import { useMap } from 'react-leaflet';
-import {
-  MarkersModel,
-  SWTMarkerID,
-  markersEntity as sharedMarkersEntity,
-} from '@/entities/markers';
-import { View } from '@/shared/ui/quarks/view';
 import { Button } from '@/shared/ui/atoms/button';
+import { MarkerIconComponent } from '@/shared/ui/atoms/marker';
+import { getMarkerBackgroundColor } from '@/shared/ui/styles/marker-colors';
+import { View } from '@/shared/ui/quarks/view';
+
+import { CreateMarkerModel, createMarkerEntity } from './model';
 
 const CreateMarker: FC<{
   model?: CreateMarkerModel;
@@ -69,23 +68,22 @@ const CreateMarker: FC<{
   if (!entity.isVisible) return null;
 
   return (
-    <div className={styles.overlay}>
+    <div className="absolute top-[30px] w-full h-full z-[400]">
       <div
-        className={styles.wrapper}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[238px]"
         style={{
           top: entity.controlsPosition.y - 60,
           left: entity.controlsPosition.x + 150,
-        }}>
-        <div className={styles.content}>
+        }}
+      >
+        <div className="relative">
           <View.Condition if={entity.isAllListsVisible}>
-            <div className={classNames(styles.list, styles.colorList)}>
+            <div className="pl-2.5 w-11 h-[241px] overflow-y-auto bg-black/40 absolute left-[-185px] top-0">
               {markerColorNames.map((color, index) => (
                 <div
                   key={index}
-                  className={classNames(
-                    styles.listItem,
-                    styles[`${color}Background`]
-                  )}
+                  className="mx-auto w-6 h-6 cursor-pointer"
+                  style={{ backgroundColor: getMarkerBackgroundColor(color) }}
                   onClick={() =>
                     entity.setMarkerColor(
                       MarkerColor[color as keyof typeof MarkerColor]
@@ -95,7 +93,7 @@ const CreateMarker: FC<{
               ))}
             </div>
 
-            <div className={classNames(styles.list, styles.typeList)}>
+            <div className="p-0 w-11 h-[241px] overflow-y-auto bg-black/40 absolute left-[-122px] top-0 [&_img]:mx-auto [&_img]:flex [&_img]:flex-col [&_img]:items-center [&_img]:justify-center [&_img]:flex-nowrap">
               {markerTypes.map((markerType) => (
                 <MarkerIconComponent
                   key={markerType}
@@ -106,7 +104,7 @@ const CreateMarker: FC<{
                       MarkerType[markerType as keyof typeof MarkerType]
                     );
                   }}
-                  className={styles.marker}
+                  className="cursor-pointer"
                   markerName={markerType}
                   color={markerColorNames[MarkerColor.ColorWhite]}
                 />
@@ -116,50 +114,54 @@ const CreateMarker: FC<{
           <MarkerIconComponent
             width={32}
             height={32}
-            className={styles.selectedMarker}
+            className="absolute top-[78px] left-[-46px] cursor-pointer"
             markerName={markerTypes[entity.marker.data[SWTMarkerID.type]]}
             color={markerColorNames[entity.marker.data[SWTMarkerID.color]]}
             onClick={entity.switchAllListsVisibility}
           />
 
-          <div className={styles.quickMarkerSelection}>
+          <div className="flex flex-nowrap w-full mb-[5px]">
             {entity.defaultSWTMarkers.map((markerType) => (
               <MarkerIconComponent
                 key={markerType}
                 width={39}
                 height={39}
                 onClick={() => entity.setMarkerType(markerType)}
-                className={styles.marker}
+                className="cursor-pointer"
                 markerName={markerTypes[markerType]}
                 color={markerColorNames[entity.marker.data[SWTMarkerID.color]]}
               />
             ))}
           </div>
 
-          <div className={styles.colorSelection}>
+          <div className="flex flex-nowrap w-full">
             {entity.defaultSWTColors.map((markerColor) => (
               <div
                 key={markerColor}
                 onClick={() => entity.setMarkerColor(markerColor)}
-                className={classNames(
-                  styles.color,
-                  styles[`${markerColorNames[markerColor]}Background`]
-                )}
+                className="w-full h-4 opacity-70 cursor-pointer"
+                style={{
+                  backgroundColor: getMarkerBackgroundColor(
+                    markerColorNames[markerColor]
+                  ),
+                }}
               />
             ))}
           </div>
 
-          <div className={styles.channel}>Side Channel</div>
+          <div className="pl-[7px] h-[23px] text-sm font-medium leading-[23px] text-[#46D2FB] bg-a3-surface pointer-events-none">
+            Side Channel
+          </div>
 
           <input
             autoFocus
-            className={styles.input}
+            className="w-full h-[30px] px-[7px] text-white text-sm font-normal shadow-none outline-none border-none font-[var(--font-roboto),Tahoma,sans-serif] bg-a3-surface"
             value={entity.marker.data[SWTMarkerID.text]}
             onChange={(e) => entity.setMarkerText(e.target.value)}
-            placeholder=''
-            alt='input'
+            placeholder=""
+            alt="input"
           />
-          <div className={styles.actionButtons}>
+          <div className="mt-0.5 flex items-center max-w-[238px] gap-[5px] [&_button]:min-w-0 [&_button]:w-full">
             <Button
               onClick={() => {
                 markersEntity.addMarker({
@@ -168,14 +170,16 @@ const CreateMarker: FC<{
 
                 entity.resetMarker();
                 entity.close();
-              }}>
+              }}
+            >
               OK
             </Button>
             <Button
               onClick={() => {
                 entity.resetMarker();
                 entity.close();
-              }}>
+              }}
+            >
               CANCEL
             </Button>
           </div>
