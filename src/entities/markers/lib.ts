@@ -1,5 +1,6 @@
-import { SWTMarkerID, type Marker, type SWTMarker } from '.';
 import { markerColorNames, markerTypes } from '@/shared/data/marker';
+
+import { SWTMarkerID, type Marker, type SWTMarker } from '.';
 
 const checkIsSWTMarkerType = (element: unknown[]) => {
   if (typeof element[0] !== 'string') return false;

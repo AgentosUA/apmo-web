@@ -1,6 +1,8 @@
+import { makeAutoObservable } from 'mobx';
+
+import { apmoApi } from '@/shared/sdk';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 
-import { makeAutoObservable } from 'mobx';
 
 import {
   Briefing,
@@ -10,7 +12,7 @@ import {
   Vehicle,
   Mission as MissionFile,
 } from './types';
-import { apmoApi } from '@/shared/sdk';
+
 
 class Mission {
   constructor() {

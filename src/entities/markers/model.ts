@@ -1,10 +1,13 @@
-import { generateRandomId } from '@/shared/utils/string';
+import i18next from 'i18next';
 import { makeAutoObservable } from 'mobx';
+
+import { i18n } from '@/shared/lib/i18n/config';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
+import { generateRandomId } from '@/shared/utils/string';
 
 import { getValidSWTMarkers } from './lib';
-import { i18n } from '@/shared/lib/i18n/config';
-import i18next from 'i18next';
+
+
 
 enum SWTMarkerID {
   text,

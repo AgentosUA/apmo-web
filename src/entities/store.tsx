@@ -1,13 +1,13 @@
 'use client';
 
 import { useContext, createContext } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 
 import { I18nProvider } from '@/shared/lib/i18n/provider';
 
 import { SettingsStore } from './settings/model';
 import { Language } from './settings/model';
 
-import type { FC, PropsWithChildren } from 'react';
 
 type Store = {
   settings: SettingsStore;

@@ -1,26 +1,25 @@
+import dayjs from 'dayjs';
+import { observer } from 'mobx-react-lite';
 import { ChangeEvent, Fragment, useEffect, useRef } from 'react';
 
 import { mapsEntity } from '@/entities/maps';
 import { markersEntity } from '@/entities/markers';
+import { missionEntity } from '@/entities/mission';
+import { getIslandClassNameByPboFile } from '@/entities/mission/lib';
+import { planEntity } from '@/entities/plan';
+import { i18n } from '@/shared/lib/i18n/config';
 import { Overlay, useMenu } from '@/shared/ui/atoms/overlay';
 import { DateClock } from '@/shared/ui/moleculas/date-clock/ui';
 import { Modal } from '@/shared/ui/moleculas/modal/ui';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { View } from '@/shared/ui/quarks/view';
-import { observer } from 'mobx-react-lite';
 
-import { missionEntity } from '@/entities/mission';
 
-import dayjs from 'dayjs';
 
-import { planEntity } from '@/entities/plan';
-
-import { getIslandClassNameByPboFile } from '@/entities/mission/lib';
 
 import { MissionSlotList, PlayerSlotList } from './slots-list';
 
-import { Localize } from '@/shared/ui/quarks/localize/ui';
-import { i18n } from '@/shared/lib/i18n/config';
 
 const MapOverlay = observer<{
   isPlan?: boolean;

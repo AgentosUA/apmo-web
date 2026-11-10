@@ -1,8 +1,8 @@
 /* eslint-disable react/display-name */
 
 import type { ComponentProps, ReactHTML } from 'react';
-
 import { createElement } from 'react';
+
 import { cn } from './cn';
 
 const styled =

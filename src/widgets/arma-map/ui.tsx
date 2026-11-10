@@ -1,7 +1,5 @@
 'use client';
 
-import { useMounted } from '@/shared/ui/hooks';
-
 import { LeafletMouseEvent } from 'leaflet';
 import { observer } from 'mobx-react-lite';
 import dynamic from 'next/dynamic';
@@ -35,6 +33,7 @@ import {
   UnitMarker,
   VehicleMarker,
 } from '@/shared/ui/atoms/marker';
+import { useMounted } from '@/shared/ui/hooks/use-mounted';
 import { View } from '@/shared/ui/quarks/view';
 
 const ArmaMap = observer(() => {

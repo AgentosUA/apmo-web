@@ -1,10 +1,11 @@
 'use client';
 
-import { cn } from '@/shared/utils/cn';
 import { LeafletMouseEvent } from 'leaflet';
 import { observer } from 'mobx-react-lite';
 import { FC, PropsWithChildren, useEffect, memo } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+
+import { cn } from '@/shared/utils/cn';
 
 import { createArmaCRS } from './lib';
 import { basicMapEntity } from './model';

@@ -17,8 +17,8 @@ import {
 } from '@/shared/data/marker';
 import { Button } from '@/shared/ui/atoms/button';
 import { MarkerIconComponent } from '@/shared/ui/atoms/marker';
-import { getMarkerBackgroundColor } from '@/shared/ui/styles/marker-colors';
 import { View } from '@/shared/ui/quarks/view';
+import { getMarkerBackgroundColor } from '@/shared/ui/styles/marker-colors';
 
 import { CreateMarkerModel, createMarkerEntity } from './model';
 

@@ -1,4 +1,5 @@
 import { MarkerType } from '@/shared/data/marker';
+
 import { MissionMarker } from './types';
 
 const getMissionMarkerType = (marker: MissionMarker) => {

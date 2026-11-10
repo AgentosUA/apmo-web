@@ -1,5 +1,4 @@
 import { createPathComponent } from '@react-leaflet/core';
-
 import L from 'leaflet';
 
 import '@/shared/lib/l.ellipse.min';

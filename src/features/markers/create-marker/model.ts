@@ -1,6 +1,7 @@
+import { makeAutoObservable } from 'mobx';
+
 import { Marker, SWTMarkerID } from '@/entities/markers';
 import { MarkerColor, MarkerType } from '@/shared/data/marker';
-import { makeAutoObservable } from 'mobx';
 
 import { generateNewMarker } from './lib';
 

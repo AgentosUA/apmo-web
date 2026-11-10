@@ -1,9 +1,9 @@
+import axios, { AxiosPromise, AxiosResponse } from 'axios';
 import cookieCutter from 'cookie-cutter';
+import { headers } from 'next/headers';
 
 import { Mission } from '@/entities/mission/types';
 
-import axios, { AxiosPromise, AxiosResponse } from 'axios';
-import { headers } from 'next/headers';
 
 type DataType =
   | 'Number'

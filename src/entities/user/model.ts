@@ -1,8 +1,7 @@
-import { apmoApi, instance, LoginDto, User as UserType } from '@/shared/sdk';
-
+import cookieCutter from 'cookie-cutter';
 import { makeAutoObservable } from 'mobx';
 
-import cookieCutter from 'cookie-cutter';
+import { apmoApi, instance, LoginDto, User as UserType } from '@/shared/sdk';
 import { setTokenFromCookies } from '@/shared/sdk/lib';
 
 class User {

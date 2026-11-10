@@ -1,5 +1,4 @@
 import { FC, PropsWithChildren, ReactNode, useState } from 'react';
-
 import { MdArrowBackIosNew } from 'react-icons/md';
 
 import { cn } from '@/shared/utils/cn';

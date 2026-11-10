@@ -1,6 +1,6 @@
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-import { useRouter } from 'next/navigation';
 
 import { User } from '../../model';
 

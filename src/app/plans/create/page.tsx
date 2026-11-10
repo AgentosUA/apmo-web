@@ -1,14 +1,13 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 
 import { observer } from 'mobx-react-lite';
+import dynamic from 'next/dynamic';
 
-import { MapSelection } from '@/widgets/map-selection';
 
 import { mapsEntity } from '@/entities/maps';
-
 import { MapOverlay } from '@/widgets/map-overlay';
+import { MapSelection } from '@/widgets/map-selection';
 
 const ArmaMap = dynamic(
   () => import('@/widgets/arma-map/ui').then((m) => m.ArmaMap),

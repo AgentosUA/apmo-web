@@ -1,17 +1,17 @@
-import { Callsigns, Group, Side } from '@/entities/mission/types';
+import { useFormik } from 'formik';
+import { observer } from 'mobx-react-lite';
 import { FC, Fragment, useEffect } from 'react';
 
-import { callsigns, callsignsObject } from '@/entities/mission/data';
-import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
-import { Input } from '@/shared/ui/atoms/input/ui';
 import { missionEntity } from '@/entities/mission';
-import { useFormik } from 'formik';
-import { Button } from '@/shared/ui/atoms/button';
-import { observer } from 'mobx-react-lite';
-import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
-import { useBreakpoint, View } from '@/shared/ui/quarks/view';
-import { Localize } from '@/shared/ui/quarks/localize/ui';
+import { callsigns, callsignsObject } from '@/entities/mission/data';
+import { Callsigns, Group, Side } from '@/entities/mission/types';
 import { i18n } from '@/shared/lib/i18n/config';
+import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
+import { Button } from '@/shared/ui/atoms/button';
+import { Input } from '@/shared/ui/atoms/input/ui';
+import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
+import { useBreakpoint, View } from '@/shared/ui/quarks/view';
 import { cn } from '@/shared/utils/cn';
 
 const MissionSlotList: FC<{

@@ -1,6 +1,7 @@
+import { makeAutoObservable } from 'mobx';
+
 import { i18n } from '@/shared/lib/i18n/config';
 import { generateRandomId } from '@/shared/utils/string';
-import { makeAutoObservable } from 'mobx';
 
 type ToasterType = 'radio';
 

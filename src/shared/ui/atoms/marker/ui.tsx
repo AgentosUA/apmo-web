@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 import {
   Icon,
   DivIcon,
@@ -7,7 +5,7 @@ import {
   MarkerOptions,
   LatLngExpression,
 } from 'leaflet';
-
+import Image from 'next/image';
 import {
   FC,
   PropsWithChildren,
@@ -22,7 +20,6 @@ import { Marker, Polygon, Popup, Rectangle, Tooltip } from 'react-leaflet';
 import 'leaflet-rotatedmarker';
 
 import { Unit, Vehicle } from '@/entities/mission/types';
-
 import { MarkerColorHEX } from '@/shared/data/marker';
 import {
   getMarkerFilter,
@@ -33,14 +30,13 @@ import {
   SIDE_TEXT_CLASSES,
 } from '@/shared/ui/styles/marker-colors';
 import { cn } from '@/shared/utils/cn';
+
 import {
   calculateRotatedRectangleCorners,
   getVehicleIconSizeByType,
 } from './lib';
-
-import { View } from '../../quarks/view';
-
 import Ellipse from '../../quarks/ellipse-leaflet/ui';
+import { View } from '../../quarks/view';
 
 type LocationType =
   | 'city'

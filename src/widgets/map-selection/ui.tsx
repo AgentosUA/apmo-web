@@ -1,17 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import { observer } from 'mobx-react-lite';
+import Image from 'next/image';
+import Link from 'next/link';
 import { FC, useEffect, useState } from 'react';
 
-import Link from 'next/link';
-import Image from 'next/image';
-
-import { observer } from 'mobx-react-lite';
-
-import { Button } from '@/shared/ui/atoms/button';
 
 import { mapsEntity } from '@/entities/maps';
-
+import { Button } from '@/shared/ui/atoms/button';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { cn } from '@/shared/utils/cn';
 
