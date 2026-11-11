@@ -11,6 +11,7 @@ import { mapsEntity } from '@/entities/maps';
 import { missionEntity } from '@/entities/mission';
 import { i18n } from '@/shared/lib/i18n/config';
 import { getWorldDisplayName } from '@/shared/lib/ocap/worlds';
+import { ScreenLoader } from '@/shared/ui/moleculas/screen-loader';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { Footer } from '@/widgets/footer';
@@ -77,7 +78,12 @@ const HomePage = observer(() => {
 
   const onMissionUpload = (e: ChangeEvent<HTMLInputElement>) => {
     missionEntity.loadMission(e.target.files?.[0]);
+    // Reset so picking the same file again still fires onChange.
+    e.target.value = '';
   };
+
+  // Covers both steps: parsing the .pbo and loading its map before redirecting.
+  const isMissionMapLoading = Boolean(missionEntity.data?.island) && mapsEntity.isMapLoading;
 
   useEffect(() => {
     const island = missionEntity.data?.island;
@@ -104,6 +110,17 @@ const HomePage = observer(() => {
   return (
     <div className="flex flex-col h-full min-h-screen min-h-svh">
       <Header />
+
+      <ScreenLoader
+        isLoading={missionEntity.isLoading || isMissionMapLoading}
+        label={
+          <Localize
+            translationKey={
+              missionEntity.isLoading ? 'pages:home:loadingMission' : 'pages:home:loadingMap'
+            }
+          />
+        }
+      />
 
       <input
         ref={inputRef}

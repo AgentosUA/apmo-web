@@ -98,6 +98,8 @@ const ukLocale: typeof enLocale = {
       searchMap: 'Пошук мапи…',
       noMapsFound: 'Мап не знайдено',
       loadMission: 'Завантажити місію',
+      loadingMission: 'Завантаження місії',
+      loadingMap: 'Завантаження карти',
       changelog: 'Список змін',
     },
     plans: {

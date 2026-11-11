@@ -95,6 +95,8 @@ const enLocale = {
       searchMap: 'Search map…',
       noMapsFound: 'No maps found',
       loadMission: 'Load mission',
+      loadingMission: 'Loading mission',
+      loadingMap: 'Loading map',
       changelog: 'Changelog',
     },
     plans: {

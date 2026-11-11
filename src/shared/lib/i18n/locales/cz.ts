@@ -97,6 +97,8 @@ const czLocale: typeof enLocale = {
       searchMap: 'Hledat mapu…',
       noMapsFound: 'Žádné mapy nenalezeny',
       loadMission: 'Načíst mise',
+      loadingMission: 'Načítání mise',
+      loadingMap: 'Načítání mapy',
       changelog: 'Seznam změn',
     },
     plans: {

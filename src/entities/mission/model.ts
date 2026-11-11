@@ -37,11 +37,18 @@ class Mission {
       const data = await api.missions.parse({ file: mission });
 
       if (data) {
-        this.setMission(data);
+        // Not every mission.sqm has Intel.briefingName (the name may live only in
+        // description.ext), so fall back to the file name, e.g. "VTG_Mission_v1.Altis" → "VTG_Mission_v1".
+        const fileName = data.fileName || mission.name.replace(/\.pbo$/i, '');
+        const missionName =
+          data.missionName?.trim() ||
+          (data.island ? fileName.replace(new RegExp(`\\.${data.island}$`, 'i'), '') : fileName);
+
+        this.setMission({ ...data, missionName });
 
         toasterEntity.call({
-          title: `Mission loaded`,
-          description: `${this?.data?.missionName}`,
+          title: 'Mission loaded',
+          description: missionName,
         });
       }
     } catch (error) {
