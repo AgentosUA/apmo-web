@@ -1,6 +1,4 @@
-import axios, { AxiosPromise, AxiosResponse } from 'axios';
-import cookieCutter from 'cookie-cutter';
-import { headers } from 'next/headers';
+import axios from 'axios';
 
 import { Mission } from '@/entities/mission/types';
 
