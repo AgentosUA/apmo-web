@@ -181,7 +181,7 @@ const CreateMarker: FC<{
 
           <input
             autoFocus
-            className="w-full h-[30px] px-[7px] text-white text-sm font-normal shadow-none outline-none border-none font-[var(--font-roboto),Tahoma,sans-serif] bg-a3-surface"
+            className="w-full h-[30px] px-[7px] text-white text-sm font-normal shadow-none outline-hidden border-none font-[var(--font-roboto),Tahoma,sans-serif] bg-a3-surface"
             value={entity.marker.data[SWTMarkerID.text]}
             onChange={(e) => entity.setMarkerText(e.target.value)}
             placeholder=""

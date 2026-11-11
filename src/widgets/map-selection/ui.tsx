@@ -87,7 +87,7 @@ const MapSelection: FC<{
                   if (e.key === 'Enter' && selected) void onContinue();
                 }}
                 placeholder={i18n.t('pages:home:searchMap')}
-                className="w-full h-[26px] px-1.5 text-sm text-white bg-a3-surface border border-white/20 placeholder:text-white/40 focus:outline-none focus:border-white/60"
+                className="w-full h-[26px] px-1.5 text-sm text-white bg-a3-surface border border-white/20 placeholder:text-white/40 focus:outline-hidden focus:border-white/60"
               />
             </div>
             {mapsEntity.isWorldsLoading && !worlds.length && (

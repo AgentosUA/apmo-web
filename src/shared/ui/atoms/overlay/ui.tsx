@@ -36,7 +36,7 @@ const Header: FC<{
   rightCorner?: ReactNode;
   onBack?: () => void;
 }> = ({ title = '', rightCorner = '', onBack }) => (
-  <div className="top-0 left-0 fixed w-full h-[30px] bg-gradient-to-b from-[#3C3C3C] to-[#1A1A1A] z-[400] flex items-center">
+  <div className="top-0 left-0 fixed w-full h-[30px] bg-linear-to-b from-[#3C3C3C] to-[#1A1A1A] z-[400] flex items-center">
     <MdArrowBackIosNew
       className="ml-[5px] hover:cursor-pointer"
       onClick={onBack}

@@ -46,7 +46,7 @@ const Header = () => {
     <header
       className={classNames(
         'sticky top-0 z-20 max-lg:bg-black transition-colors duration-300',
-        isScrolled && 'shadow-sm bg-black transition-colors duration-300'
+        isScrolled && 'shadow-xs bg-black transition-colors duration-300'
       )}
     >
       {/* Mobile header bar */}
@@ -136,7 +136,7 @@ const Header = () => {
 
         <div
           className={classNames(
-            'absolute left-1/2 transform -translate-x-1/2 text-center duration-300 flex items-center z-10 justify-center',
+            'absolute left-1/2 -translate-x-1/2 text-center duration-300 flex items-center z-10 justify-center',
             'top-[5px]',
             {
               ['top-[2px] text-[16px]']: isScrolled,
@@ -163,7 +163,7 @@ const Header = () => {
               )}
             >
               PLAN MAKER ONLINE
-              <div className="absolute -bottom-2.5 transform text-xs font-light left-0 right-0">
+              <div className="absolute -bottom-2.5 text-xs font-light left-0 right-0">
                 v{process.env.APP_VERSION}
               </div>
             </h1>

@@ -1,115 +1,292 @@
-@import 'leaflet/dist/leaflet.css';
-@import 'maplibre-gl/dist/maplibre-gl.css';
+/*
+ * Third-party CSS goes into the `base` layer *before* Tailwind's preflight,
+ * matching the Tailwind v3 order (leaflet → preflight → utilities), so
+ * utilities keep overriding it.
+ */
+@import 'leaflet/dist/leaflet.css' layer(base);
+@import 'maplibre-gl/dist/maplibre-gl.css' layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-@layer utilities {
-  .paper {
-    background: rgba(0, 0, 0, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+/* ---------------- theme (was tailwind.config.js) ---------------- */
+
+@theme {
+  --color-a3-orange: #a16c14;
+  --color-a3-grey: #808080;
+  --color-a3-red: #9f0f0f;
+  --color-a3-black: #000000;
+  --color-a3-panel: rgba(7, 11, 10, 0.7);
+  --color-a3-surface: rgba(0, 0, 0, 0.7);
+
+  --color-marker-default: #ffffff;
+  --color-marker-black: #000000;
+  --color-marker-grey: #808080;
+  --color-marker-red: #e60000;
+  --color-marker-brown: #804000;
+  --color-marker-orange: #d96600;
+  --color-marker-yellow: #d9d900;
+  --color-marker-khaki: #809966;
+  --color-marker-green: #00cc00;
+  --color-marker-blue: #0000ff;
+  --color-marker-pink: #ff4d66;
+  --color-marker-white: #ffffff;
+  --color-marker-west: #004d99;
+  --color-marker-east: #800000;
+  --color-marker-guer: #008000;
+  --color-marker-civ: #660080;
+  --color-marker-unknown: #b39900;
+  --color-marker-blufor: #004d99;
+  --color-marker-opfor: #800000;
+  --color-marker-independent: #008000;
+  --color-marker-civilian: #660080;
+  --color-marker-fd1: #b13339;
+  --color-marker-fd2: #adbfb3;
+  --color-marker-fd3: #f08231;
+  --color-marker-fd4: #678b9c;
+  --color-marker-fd5: #b040a7;
+  --color-marker-fd6: #5a595a;
+
+  /* Keep the Tailwind v3 (sRGB) value of the only default palette color in use. */
+  --color-orange-400: #fb923c;
+
+  --animate-white-blink: white-blink 2s infinite;
+  --animate-overlayShow: overlayShow 150ms cubic-bezier(0.16, 1, 0, 1);
+  --animate-contentShow: contentShow 150ms cubic-bezier(0.16, 1, 0, 1);
+  --animate-show-title:
+    show-title 220ms ease-in 0ms 1 normal forwards, hide-title 220ms ease-out 3700ms 1 normal forwards;
+  --animate-show-content:
+    show-content 220ms ease-in 325ms 1 normal forwards, hide-content 220ms ease-out 3300ms 1 normal forwards;
+  --animate-lds-ring: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+
+  @keyframes white-blink {
+    0% {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+    50% {
+      background-color: rgba(255, 255, 255, 1);
+    }
+    100% {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
   }
 
+  @keyframes overlayShow {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes contentShow {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -48%) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  @keyframes show-title {
+    from {
+      font-size: 0;
+      max-width: 0;
+    }
+    to {
+      font-size: 14px;
+      max-width: 270px;
+    }
+  }
+
+  @keyframes hide-title {
+    from {
+      font-size: 14px;
+      max-width: 270px;
+    }
+    to {
+      font-size: 0;
+      max-width: 0;
+      overflow: hidden;
+      padding: 0;
+    }
+  }
+
+  @keyframes show-content {
+    from {
+      max-height: 0;
+      overflow: hidden;
+    }
+    to {
+      max-height: 32px;
+    }
+  }
+
+  @keyframes hide-content {
+    from {
+      max-height: 32px;
+    }
+    to {
+      overflow: hidden;
+      max-height: 0;
+    }
+  }
+
+  @keyframes lds-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 }
 
-body {
-  position: relative;
-  font-size: 16px;
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-roboto), Tahoma, sans-serif;
-  font-weight: 300;
-  background: url('/bg.webp') #000;
-  background-position-y: 0;
-  background-position-x: center;
-  background-size: cover;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+/*
+ * Breakpoints from v3 `screens` (mobile/tablet were max-width). Declared in
+ * the same order as before so that later variants still win.
+ */
+@custom-variant mobile (@media (max-width: 600px));
+@custom-variant tablet (@media (max-width: 1199px));
+@custom-variant desktop (@media (min-width: 1200px));
+
+/* v3 behaviour: `hover:` applies on any device, not only (hover: hover). */
+@custom-variant hover (&:hover);
+@custom-variant group-hover (&:is(:where(.group):hover *));
+
+@utility paper {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-span,
-p,
-div {
-  font-family: var(--font-roboto), Tahoma, sans-serif;
+/* ---------------- Tailwind v3 preflight compatibility ---------------- */
+
+@layer base {
+  /* v4 defaults borders to currentColor; v3 used gray-200. */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: #e5e7eb;
+  }
+
+  /* v4 placeholders are 50% of the text color; v3 used gray-400. */
+  input::placeholder,
+  textarea::placeholder {
+    color: #9ca3af;
+  }
+
+  /* v4 buttons use the default cursor. */
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
-a,
-a:visited {
-  color: #fff;
-  text-decoration: none;
-}
+/* ---------------- global styles ---------------- */
 
-::-webkit-scrollbar {
-  width: 8px;
-}
+@layer base {
+  body {
+    position: relative;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-roboto), Tahoma, sans-serif;
+    font-weight: 300;
+    background: url('/bg.webp') #000;
+    background-position-y: 0;
+    background-position-x: center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
 
-::-webkit-scrollbar-track {
-  background: #000;
-}
+  span,
+  p,
+  div {
+    font-family: var(--font-roboto), Tahoma, sans-serif;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: #fff;
-}
+  a,
+  a:visited {
+    color: #fff;
+    text-decoration: none;
+  }
 
-/* Leaflet */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
 
-.leaflet-container {
-  font-family: var(--font-roboto), Tahoma, sans-serif;
-  background: #3c3c3c;
-}
+  ::-webkit-scrollbar-track {
+    background: #000;
+  }
 
-.apmo-popup .leaflet-popup-content-wrapper {
-  border-radius: 0;
-  background: rgba(0, 0, 0, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #fff;
-  box-shadow: none;
-}
+  ::-webkit-scrollbar-thumb {
+    background: #fff;
+  }
 
-.apmo-popup .leaflet-popup-content {
-  margin: 6px 10px;
-  font-size: 13px;
-  line-height: 1.4;
-}
+  /* Leaflet */
 
-.apmo-popup .leaflet-popup-tip {
-  background: rgba(0, 0, 0, 0.75);
-}
+  .leaflet-container {
+    font-family: var(--font-roboto), Tahoma, sans-serif;
+    background: #3c3c3c;
+  }
 
-.apmo-popup-title {
-  font-weight: 600;
-  margin-bottom: 4px;
-}
+  .apmo-popup .leaflet-popup-content-wrapper {
+    border-radius: 0;
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    box-shadow: none;
+  }
 
-.apmo-popup-list {
-  list-style: decimal;
-  padding-left: 18px;
-}
+  .apmo-popup .leaflet-popup-content {
+    margin: 6px 10px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
 
-.leaflet-tooltip {
-  background: none;
-  padding: 0;
-  border: none;
-}
+  .apmo-popup .leaflet-popup-tip {
+    background: rgba(0, 0, 0, 0.75);
+  }
 
-.leaflet-tooltip-right {
-  margin: 0 !important;
-}
+  .apmo-popup-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
 
-.leaflet-tooltip-right:before {
-  display: none !important;
-}
+  .apmo-popup-list {
+    list-style: decimal;
+    padding-left: 18px;
+  }
 
-.leaflet-tooltip-left:before {
-  display: none !important;
-}
+  .leaflet-tooltip {
+    background: none;
+    padding: 0;
+    border: none;
+  }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: #fff;
+  .leaflet-tooltip-right {
+    margin: 0 !important;
+  }
+
+  .leaflet-tooltip-right:before {
+    display: none !important;
+  }
+
+  .leaflet-tooltip-left:before {
+    display: none !important;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #fff;
+  }
 }

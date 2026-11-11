@@ -141,7 +141,7 @@ const UserPanel = ({ username, avatar, formik, variant }: UserPanelProps) => {
     return (
       <div className="flex flex-col gap-4 w-full">
         <div className="flex items-center gap-4">
-          <div className="relative w-20 h-20 shrink-0 overflow-hidden rounded-sm">
+          <div className="relative w-20 h-20 shrink-0 overflow-hidden rounded-xs">
             <img
               width={80}
               height={80}

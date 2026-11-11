@@ -20,7 +20,7 @@ const Post: FC<
     </header>
     <View.Condition if={Boolean(imageUrl)}>
       <img
-        className="mt-4 w-full max-h-48 desktop:max-h-64 object-cover object-center rounded-sm"
+        className="mt-4 w-full max-h-48 desktop:max-h-64 object-cover object-center rounded-xs"
         src={imageUrl!}
         alt="post image"
       />

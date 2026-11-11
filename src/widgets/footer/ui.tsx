@@ -15,7 +15,7 @@ const Footer = () => {
         <div>
           <Localize translationKey="widgets:footer:feelFreeToContribute" />{' '}
           <a
-            className="hover:underline !text-a3-orange"
+            className="hover:underline text-a3-orange!"
             target="_blank"
             rel="noopener noreferrer"
             href="https://github.com/AgentosUA/apmo-web"
