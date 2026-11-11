@@ -1,5 +1,2 @@
-import { styled } from '@/shared/utils/react';
-
-const Card = styled('div', 'paper text-white');
-
-export { Card };
+/** @deprecated use `Paper` from '@/shared/ui/atoms/paper' */
+export { Paper as Card } from '../paper';

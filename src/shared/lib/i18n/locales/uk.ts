@@ -120,6 +120,16 @@ const ukLocale: typeof enLocale = {
     },
     changelog: {
       backToHome: 'До головної',
+      title: 'Список змін',
+      subtitle: 'Що нового в Arma Plan Maker Online',
+      versions: 'Версії',
+      latest: 'Остання',
+      currentVersion: 'Поточна версія',
+      tags: {
+        release: 'Реліз',
+        update: 'Оновлення',
+        beta: 'Бета',
+      },
     },
     auth: {
       signUp: 'Зареєструватися',

@@ -12,12 +12,9 @@ import { planEntity } from '@/entities/plan';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { MapOverlay } from '@/widgets/map-overlay';
 
-const ArmaMap = dynamic(
-  () => import('@/widgets/arma-map/ui').then((m) => m.ArmaMap),
-  {
-    ssr: false,
-  }
-);
+const ArmaMap = dynamic(() => import('@/widgets/arma-map/ui').then((m) => m.ArmaMap), {
+  ssr: false,
+});
 
 const Page = observer(() => {
   const params = useParams();

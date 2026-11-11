@@ -3,7 +3,9 @@
 import classNames from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { ComponentType, ReactNode, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   FiFileText,
   FiHeart,
@@ -19,15 +21,65 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import { userEntity } from '@/entities/user/model';
 import { Authorized, UnAuthorized } from '@/entities/user/ui/authorization/ui';
 import { Button } from '@/shared/ui/atoms/button';
+import { useMounted } from '@/shared/ui/hooks';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
+
+const MenuLink = ({
+  href,
+  icon: Icon,
+  external,
+  onClick,
+  children,
+}: {
+  href: string;
+  icon: ComponentType<{ className?: string }>;
+  external?: boolean;
+  onClick?: () => void;
+  children: ReactNode;
+}) => (
+  <Link
+    href={href}
+    onClick={onClick}
+    {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+    className="group flex items-center gap-3 h-12 px-4 text-sm uppercase font-normal text-white! border-l-2 border-transparent transition-colors hover:bg-white/5 hover:border-a3-orange active:bg-a3-orange/20"
+  >
+    <Icon className="text-lg text-white/70 group-hover:text-a3-orange" />
+    {children}
+  </Link>
+);
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
-  const onBurgerMenuClick = () => {
-    setIsMenuOpened((prev) => !prev);
-  };
+  const pathname = usePathname();
+  const isMounted = useMounted();
+
+  const openMenu = () => setIsMenuOpened(true);
+  const closeMenu = () => setIsMenuOpened(false);
+
+  // Close the drawer on navigation.
+  useEffect(() => {
+    setIsMenuOpened(false);
+  }, [pathname]);
+
+  // Esc closes the drawer; lock page scroll while it's open.
+  useEffect(() => {
+    if (!isMenuOpened) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsMenuOpened(false);
+    };
+    const prevOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isMenuOpened]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,15 +105,13 @@ const Header = () => {
       <div className="flex items-center justify-between h-20 px-4 lg:hidden">
         <button
           type="button"
-          onClick={onBurgerMenuClick}
-          className="flex items-center justify-center text-white"
-          aria-label="Toggle navigation"
+          onClick={openMenu}
+          className="flex items-center justify-center w-10 h-10 -ml-2 text-white hover:text-a3-orange"
+          aria-label="Open navigation"
+          aria-expanded={isMenuOpened}
+          aria-controls="mobile-menu"
         >
-          {isMenuOpened ? (
-            <IoMdClose className="text-2xl" />
-          ) : (
-            <RxHamburgerMenu className="text-2xl" />
-          )}
+          <RxHamburgerMenu className="text-2xl" />
         </button>
 
         <Link className="flex flex-col items-center" href="/">
@@ -74,23 +124,18 @@ const Header = () => {
           />
           <h1 className="mt-[-2px] text-xs font-medium text-white text-center leading-tight">
             PLAN MAKER ONLINE
-            <div className="text-[10px] font-light">
-              v{process.env.APP_VERSION}
-            </div>
+            <div className="text-[10px] font-light">v{process.env.APP_VERSION}</div>
           </h1>
         </Link>
 
         {/* Spacer to balance the burger button */}
-        <div className="w-6" />
+        <div className="w-10" />
       </div>
 
       {/* Desktop header + menu */}
       <div className="hidden lg:flex items-center justify-center h-24 relative">
         <div className="flex items-center w-full h-8 bg-black px-4">
-          <Link
-            href="https://savelife.in.ua/en/donate-en/"
-            target="_blank"
-          >
+          <Link href="https://savelife.in.ua/en/donate-en/" target="_blank">
             <Button variant="primary">
               <Localize translationKey="widgets:header:support" />
             </Button>
@@ -146,8 +191,7 @@ const Header = () => {
           <Link className="flex flex-col items-center" href="/">
             <Image
               className={classNames('duration-300 transition-all', {
-                'flex items-center justify-center h-16 w-auto text-center mx-auto':
-                  isScrolled,
+                'flex items-center justify-center h-16 w-auto text-center mx-auto': isScrolled,
               })}
               src="/a3-logo.png"
               width={159}
@@ -171,71 +215,107 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile full-screen menu */}
-      {isMenuOpened && (
-        <div className="fixed inset-x-0 top-20 bottom-0 bg-black flex flex-col items-stretch gap-4 px-4 pt-6 pb-8 overflow-y-auto lg:hidden">
-          <Link
-            href="https://savelife.in.ua/en/donate-en/"
-            target="_blank"
-            className="w-full"
+      {/* Mobile side drawer: portalled to <body> so it sits above any page overlay; always mounted to animate in/out */}
+      {isMounted &&
+        createPortal(
+          <div
+            className={classNames(
+              'fixed inset-0 z-[1050] lg:hidden',
+              isMenuOpened ? 'pointer-events-auto' : 'pointer-events-none'
+            )}
+            aria-hidden={!isMenuOpened}
+            inert={!isMenuOpened}
           >
-            <Button className="w-full flex items-center justify-start gap-2" variant="primary">
-              <FiHeart className="text-lg" />
-              <Localize translationKey="widgets:header:support" />
-            </Button>
-          </Link>
-          <Link href="/changelog" className="w-full">
-            <Button className="w-full flex items-center justify-start gap-2" variant="primary">
-              <FiRefreshCw className="text-lg" />
-              <Localize translationKey="widgets:header:changelog" />
-            </Button>
-          </Link>
-          <Link href="/licence" className="w-full">
-            <Button className="w-full flex items-center justify-start gap-2" variant="primary">
-              <FiFileText className="text-lg" />
-              <Localize translationKey="widgets:header:licence" />
-            </Button>
-          </Link>
+            <div
+              className={classNames(
+                'absolute inset-0 bg-black/60 transition-opacity duration-300',
+                isMenuOpened ? 'opacity-100' : 'opacity-0'
+              )}
+              onClick={closeMenu}
+            />
 
-          <UnAuthorized>
-            <Link href="/auth/login" className="w-full">
-              <Button className="w-full flex items-center justify-start gap-2" variant="primary">
-                <FiLogIn className="text-lg" />
-                <Localize translationKey="widgets:header:logIn" />
-              </Button>
-            </Link>
-            <Link href="/auth/sign-up" className="w-full">
-              <Button className="w-full flex items-center justify-start gap-2" variant="primary">
-                <FiUserPlus className="text-lg" />
-                <Localize translationKey="widgets:header:signUp" />
-              </Button>
-            </Link>
-          </UnAuthorized>
+            <nav
+              id="mobile-menu"
+              aria-label="Main"
+              className={classNames(
+                'absolute inset-y-0 left-0 flex flex-col w-[82vw] max-w-[320px] bg-a3-black border-r border-white/15 shadow-[8px_0_30px_rgba(0,0,0,0.6)]',
+                'transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform',
+                isMenuOpened ? 'translate-x-0' : '-translate-x-full'
+              )}
+            >
+              <div className="flex items-center justify-between h-20 px-4 border-b border-white/10">
+                <Link className="flex items-center gap-3" href="/" onClick={closeMenu}>
+                  <Image
+                    className="h-8 w-auto"
+                    src="/a3-logo.png"
+                    width={159}
+                    height={91}
+                    alt="logo"
+                  />
+                  <span className="text-xs font-medium text-white leading-tight">
+                    PLAN MAKER ONLINE
+                    <span className="block text-[10px] font-light">v{process.env.APP_VERSION}</span>
+                  </span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={closeMenu}
+                  className="flex items-center justify-center w-10 h-10 -mr-2 text-white hover:text-a3-orange"
+                  aria-label="Close navigation"
+                >
+                  <IoMdClose className="text-2xl" />
+                </button>
+              </div>
 
-          <Authorized>
-            <Link href="/profile" className="w-full">
-              <Button className="w-full flex items-center justify-start gap-2" variant="primary">
-                <FiUser className="text-lg" />
-                <Localize translationKey="widgets:header:profile" />
-              </Button>
-            </Link>
+              <div className="flex flex-col flex-1 overflow-y-auto py-3">
+                <MenuLink
+                  href="https://savelife.in.ua/en/donate-en/"
+                  external
+                  icon={FiHeart}
+                  onClick={closeMenu}
+                >
+                  <Localize translationKey="widgets:header:support" />
+                </MenuLink>
+                <MenuLink href="/changelog" icon={FiRefreshCw} onClick={closeMenu}>
+                  <Localize translationKey="widgets:header:changelog" />
+                </MenuLink>
+                <MenuLink href="/licence" icon={FiFileText} onClick={closeMenu}>
+                  <Localize translationKey="widgets:header:licence" />
+                </MenuLink>
 
-            <Link href="/" className="w-full">
-              <Button
-                className="w-full flex items-center justify-start gap-2"
-                variant="primary"
-                onClick={userEntity.logout}
-              >
-                <FiLogOut className="text-lg" />
-                <Localize translationKey="widgets:header:logOut" />
-              </Button>
-            </Link>
-          </Authorized>
-        </div>
-      )}
+                <div className="my-3 mx-4 border-t border-white/10" />
+
+                <UnAuthorized>
+                  <MenuLink href="/auth/login" icon={FiLogIn} onClick={closeMenu}>
+                    <Localize translationKey="widgets:header:logIn" />
+                  </MenuLink>
+                  <MenuLink href="/auth/sign-up" icon={FiUserPlus} onClick={closeMenu}>
+                    <Localize translationKey="widgets:header:signUp" />
+                  </MenuLink>
+                </UnAuthorized>
+
+                <Authorized>
+                  <MenuLink href="/profile" icon={FiUser} onClick={closeMenu}>
+                    <Localize translationKey="widgets:header:profile" />
+                  </MenuLink>
+                  <MenuLink
+                    href="/"
+                    icon={FiLogOut}
+                    onClick={() => {
+                      userEntity.logout();
+                      closeMenu();
+                    }}
+                  >
+                    <Localize translationKey="widgets:header:logOut" />
+                  </MenuLink>
+                </Authorized>
+              </div>
+            </nav>
+          </div>,
+          document.body
+        )}
     </header>
   );
 };
 
 export { Header };
-

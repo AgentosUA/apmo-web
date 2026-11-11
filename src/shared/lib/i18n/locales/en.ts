@@ -117,6 +117,16 @@ const enLocale = {
     },
     changelog: {
       backToHome: 'Back to home page',
+      title: 'Changelog',
+      subtitle: 'What is new in Arma Plan Maker Online',
+      versions: 'Versions',
+      latest: 'Latest',
+      currentVersion: 'Current version',
+      tags: {
+        release: 'Release',
+        update: 'Update',
+        beta: 'Beta',
+      },
     },
     auth: {
       signUp: 'Sign up',

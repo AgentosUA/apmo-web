@@ -119,6 +119,16 @@ const czLocale: typeof enLocale = {
     },
     changelog: {
       backToHome: 'Zpátky na hlavní stránku',
+      title: 'Seznam změn',
+      subtitle: 'Co je nového v Arma Plan Maker Online',
+      versions: 'Verze',
+      latest: 'Nejnovější',
+      currentVersion: 'Aktuální verze',
+      tags: {
+        release: 'Vydání',
+        update: 'Aktualizace',
+        beta: 'Beta',
+      },
     },
     auth: {
       signUp: 'Registrovat se',

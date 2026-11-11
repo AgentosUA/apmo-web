@@ -1,20 +1,15 @@
 'use client';
 
-
 import { observer } from 'mobx-react-lite';
 import dynamic from 'next/dynamic';
-
 
 import { mapsEntity } from '@/entities/maps';
 import { MapOverlay } from '@/widgets/map-overlay';
 import { MapSelection } from '@/widgets/map-selection';
 
-const ArmaMap = dynamic(
-  () => import('@/widgets/arma-map/ui').then((m) => m.ArmaMap),
-  {
-    ssr: false,
-  }
-);
+const ArmaMap = dynamic(() => import('@/widgets/arma-map/ui').then((m) => m.ArmaMap), {
+  ssr: false,
+});
 
 const CreateMissionPage = observer(() => {
   if (!mapsEntity.selectedMap) {
