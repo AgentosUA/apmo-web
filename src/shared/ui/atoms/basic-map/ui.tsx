@@ -1,53 +1,56 @@
 'use client';
 
-import { LeafletMouseEvent } from 'leaflet';
-import { observer } from 'mobx-react-lite';
-import { FC, PropsWithChildren, useEffect, memo } from 'react';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+import { reaction } from 'mobx';
+import {
+  createContext,
+  FC,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
+import type { CanvasItem } from '@/shared/lib/ocap/canvas-layer';
+import type { ArmaCoord } from '@/shared/lib/ocap/coordinates';
+import { ArmaMapRenderer } from '@/shared/lib/ocap/renderer';
+import type { ShapeItem } from '@/shared/lib/ocap/shapes';
+import type { WorldConfig } from '@/shared/lib/ocap/worlds';
 import { cn } from '@/shared/utils/cn';
 
-import { createArmaCRS } from './lib';
 import { basicMapEntity } from './model';
 
-const FlyComponent = observer<{
-  maxZoom: number;
-}>(({ maxZoom }) => {
-  const map = useMap();
+const ArmaMapContext = createContext<ArmaMapRenderer | null>(null);
+
+/** Access the imperative map renderer from a child of <BasicMap>. */
+const useArmaMap = () => useContext(ArmaMapContext);
+
+/** Push a list of canvas icons/labels into a named layer. */
+const CanvasItemsLayer: FC<{ id: string; items: CanvasItem[]; zIndex?: number }> = ({
+  id,
+  items,
+  zIndex = 0,
+}) => {
+  const renderer = useArmaMap();
 
   useEffect(() => {
-    if (!basicMapEntity.flyCoordinates.x && !basicMapEntity.flyCoordinates.y)
-      return;
+    renderer?.setItems(id, items, zIndex);
+  }, [renderer, id, items, zIndex]);
 
-    map.flyTo(
-      [basicMapEntity.flyCoordinates.x, basicMapEntity.flyCoordinates.y],
-      maxZoom + 1
-    );
-  }, [basicMapEntity.flyCoordinates]);
+  useEffect(() => () => renderer?.removeItems(id), [renderer, id]);
 
   return null;
-});
+};
 
-const MapHandlers: FC<{
-  onDoubleClick?: (event: LeafletMouseEvent) => void;
-  onZoomLevelChange?: (zoomLevel: number) => void;
-}> = ({ onDoubleClick, onZoomLevelChange }) => {
-  const map = useMap();
+/** Push a list of area markers (ellipses / rectangles / lines) into a named layer. */
+const ShapesLayer: FC<{ id: string; items: ShapeItem[] }> = ({ id, items }) => {
+  const renderer = useArmaMap();
 
   useEffect(() => {
-    map.addEventListener('dblclick', (event) => {
-      onDoubleClick?.(event);
-    });
+    renderer?.setShapes(id, items);
+  }, [renderer, id, items]);
 
-    map.addEventListener('zoom', () => {
-      onZoomLevelChange?.(map.getZoom());
-    });
-
-    return () => {
-      map.removeEventListener('dblclick', onDoubleClick);
-      map.removeEventListener('zoom', map.getZoom);
-    };
-  }, []);
+  useEffect(() => () => renderer?.setShapes(id, []), [renderer, id]);
 
   return null;
 };
@@ -55,80 +58,63 @@ const MapHandlers: FC<{
 const BasicMap: FC<
   PropsWithChildren<{
     className?: string;
-    name: string;
-    mapSize?: number;
-    defaultZoom?: number;
-    minZoom: number;
-    maxZoom: number;
-    scale?: number;
-    dragging?: boolean;
-    merged?: boolean;
-    onDoubleClick?: (event: LeafletMouseEvent) => void;
+    world: WorldConfig;
+    interactive?: boolean;
+    onDoubleClick?: (position: ArmaCoord, event: MouseEvent) => void;
     onZoomLevelChange?: (zoomLevel: number) => void;
   }>
-> = memo(
-  ({
-    className,
-    children,
-    mapSize = 0,
-    name,
-    minZoom = 0,
-    maxZoom,
-    defaultZoom = 2,
-    dragging = true,
-    onDoubleClick,
-    onZoomLevelChange,
-  }) => {
-    const armaCRS = createArmaCRS(mapSize);
+> = ({ className, children, world, interactive = true, onDoubleClick, onZoomLevelChange }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [renderer, setRenderer] = useState<ArmaMapRenderer | null>(null);
 
-    const isRetina = 1 !== window.devicePixelRatio;
+  const handlersRef = useRef({ onDoubleClick, onZoomLevelChange });
+  handlersRef.current = { onDoubleClick, onZoomLevelChange };
 
-    return (
-      <div id="map">
-        <MapContainer
-          className={cn(
-            'min-h-screen max-h-screen overflow-hidden bg-[#3C3C3C]',
-            className
-          )}
-          center={[mapSize / 1.9, mapSize / 2]}
-          crs={armaCRS}
-          zoomControl={false}
-          zoom={defaultZoom}
-          maxZoom={maxZoom}
-          dragging={dragging}
-          doubleClickZoom={false}
-          maxBoundsViscosity={0.7}
-          wheelPxPerZoomLevel={500}
-          markerZoomAnimation
-        >
-          <MapHandlers
-            onDoubleClick={onDoubleClick}
-            onZoomLevelChange={onZoomLevelChange}
-          />
+  useEffect(() => {
+    if (!containerRef.current) return;
 
-          <FlyComponent maxZoom={maxZoom} />
-
-          <TileLayer
-            url={`${process.env.NEXT_PUBLIC_API_URL}/maps/${name}/{z}/{x}_{y}.png`}
-            tileSize={256}
-            keepBuffer={4}
-            updateInterval={100}
-            updateWhenZooming
-            updateWhenIdle={false}
-            minZoom={minZoom}
-            maxZoom={maxZoom + 10}
-            maxNativeZoom={isRetina ? maxZoom - 1 : maxZoom}
-            noWrap
-            detectRetina
-          />
-
-          {children}
-        </MapContainer>
-      </div>
+    const instance = new ArmaMapRenderer(containerRef.current, world);
+    const offDblClick = instance.on('dblclick', (position, event) =>
+      handlersRef.current.onDoubleClick?.(position, event)
     );
-  }
-);
+    const offZoom = instance.on('zoom', (zoom) => handlersRef.current.onZoomLevelChange?.(zoom));
+    handlersRef.current.onZoomLevelChange?.(instance.getZoom());
 
-BasicMap.displayName = 'BasicMap';
+    // Fly to requested Arma coordinates (slot list, etc.).
+    const disposeFly = reaction(
+      () => basicMapEntity.flyCoordinates,
+      ({ x, y }) => {
+        if (!x && !y) return;
+        instance.flyTo([x, y]);
+      }
+    );
 
-export { BasicMap };
+    setRenderer(instance);
+
+    return () => {
+      disposeFly();
+      offDblClick();
+      offZoom();
+      instance.dispose();
+      setRenderer(null);
+    };
+    // Re-create the map only when the world changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [world.worldName, world.tileBaseUrl]);
+
+  useEffect(() => {
+    renderer?.setInteractive(interactive);
+  }, [renderer, interactive]);
+
+  return (
+    <div id="map" className="relative">
+      <div
+        ref={containerRef}
+        className={cn('isolate min-h-screen max-h-screen h-screen w-full overflow-hidden bg-[#3C3C3C]', className)}
+      />
+      <ArmaMapContext.Provider value={renderer}>{renderer && children}</ArmaMapContext.Provider>
+    </div>
+  );
+};
+
+export { BasicMap, CanvasItemsLayer, ShapesLayer, useArmaMap };

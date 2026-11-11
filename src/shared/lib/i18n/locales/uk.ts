@@ -16,6 +16,8 @@ const ukLocale: typeof enLocale = {
   toasters: {
     mapAndMissionMismatch: 'Карта і місія не збігаються',
     missionIsNotOnMap: 'Місія не на карті {{map}}!',
+    mapNotAvailable: 'Карта недоступна',
+    mapNotInOcapDatabase: 'Карти {{map}} поки немає в базі мап OCAP',
   },
   entities: {
     markers: {
@@ -25,6 +27,8 @@ const ukLocale: typeof enLocale = {
       clearedDescription: 'Всі маркери були очищені',
       loadedTitle: 'Маркери завантажені',
       loadedDescription: 'Маркерів завантажено: {{count}}',
+      loadFailedTitle: 'Маркери не завантажено',
+      loadFailedDescription: 'У буфері обміну немає даних Sweet Markers',
     },
     slots: {
       copiedTitle: 'Слоти скопійовано',
@@ -72,6 +76,16 @@ const ukLocale: typeof enLocale = {
       planLinkCopiedTitle: 'План скопійовано',
       planLinkCopiedDescription: 'Ви можете поділитися ним з командою',
     },
+    mapHints: {
+      title: 'Клавіші',
+      newMarker: 'Подвійний клік — новий маркер',
+      quickMarker: 'Ctrl/⌘ + клік — швидкий маркер',
+      line: 'Ctrl/⌘ + Alt + тягнути — лінія (Alt / Ctrl або колесо — товщина)',
+      ellipse: 'Shift + Alt + тягнути — еліпс',
+      rotate: 'Тягнути маркер / лінію / еліпс — перемістити, Alt + тягнути — повернути',
+      size: 'Shift + колесо над маркером або у вікні нового маркера — розмір (0.7 / 1 / 1.3)',
+      delete: 'Delete / Backspace над маркером — видалити',
+    },
     footer: {
       createdBy: 'Створено',
       feelFreeToContribute: 'Долучайтеся до розробки на',
@@ -81,6 +95,8 @@ const ukLocale: typeof enLocale = {
   pages: {
     home: {
       selectMap: 'Обрати карту',
+      searchMap: 'Пошук мапи…',
+      noMapsFound: 'Мап не знайдено',
       loadMission: 'Завантажити місію',
       changelog: 'Список змін',
     },

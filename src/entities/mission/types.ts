@@ -14,6 +14,10 @@ type MissionMarker = {
   type?: string;
   markerType?: string;
   colorName?: string;
+  /** Arma brush (CfgMarkerBrushes), e.g. "Solid", "Border", "FDiagonal". */
+  fillName?: string;
+  /** Marker text, when provided by the parser. */
+  text?: string;
   width: number;
   height: number;
   position: {

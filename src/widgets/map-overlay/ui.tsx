@@ -108,12 +108,6 @@ const MapOverlay = observer<{
   };
 
   useEffect(() => {
-    if (!mapsEntity.selectedMap) return;
-
-    mapsEntity.getLocations(mapsEntity.selectedMap.dir);
-  }, [mapsEntity.selectedMap]);
-
-  useEffect(() => {
     if (missionEntity?.data?.briefing?.diary?.length) {
       const diaryIds = missionEntity?.data?.briefing.diary.map(
         (item) => item.id

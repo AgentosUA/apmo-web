@@ -2,6 +2,8 @@ import i18next from 'i18next';
 import { makeAutoObservable } from 'mobx';
 
 import { i18n } from '@/shared/lib/i18n/config';
+import { stepSwtIconSize } from '@/shared/data/marker';
+import { parseSqfOrJson, toSqf } from '@/shared/lib/sqf';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { generateRandomId } from '@/shared/utils/string';
 
@@ -93,7 +95,8 @@ class MarkersModel {
       this.isSWTLoading = true;
 
       const text = await navigator.clipboard.readText();
-      const data = JSON.parse(text) as unknown;
+      // SWT clipboard data is SQF (`"` is escaped as `""`), not JSON.
+      const data = parseSqfOrJson(text);
 
       const swtMarkers = getValidSWTMarkers(data);
 
@@ -114,14 +117,19 @@ class MarkersModel {
         }),
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      toasterEntity.call({
+        title: 'entities:markers:loadFailedTitle',
+        description: 'entities:markers:loadFailedDescription',
+      });
     } finally {
       this.isSWTLoading = false;
     }
   };
 
   SWTMarkerToClipboard = () => {
-    const text = JSON.stringify(this.swtMarkers.map((marker) => marker.data));
+    // SQF array, loadable by SWT ("Load from clipboard") in Arma 3.
+    const text = toSqf(this.swtMarkers.map((marker) => marker.data));
     navigator.clipboard.writeText(text);
 
     toasterEntity.call({
@@ -136,6 +144,21 @@ class MarkersModel {
     if (index === -1) return;
 
     this.swtMarkers[index].data[SWTMarkerID.coordinates] = [x, y];
+  };
+
+  /** Shift + wheel (SWT): switch icon size 0.7 / 1 / 1.3. */
+  changeMarkerSize = (id: string | number, direction: number) => {
+    const marker = this.swtMarkers.find((item) => item.id === id);
+    if (!marker || Array.isArray(marker.data[SWTMarkerID.size])) return;
+
+    marker.data[SWTMarkerID.size] = stepSwtIconSize(marker.data[SWTMarkerID.size], direction);
+  };
+
+  updateMarkerDirection = (id: string | number, direction: number) => {
+    const marker = this.swtMarkers.find((item) => item.id === id);
+    if (!marker) return;
+
+    marker.data[SWTMarkerID.direction] = direction;
   };
 
   clearMarkers = () => {

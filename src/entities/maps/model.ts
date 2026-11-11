@@ -1,66 +1,131 @@
 import axios from 'axios';
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
-import { mapList } from '@/shared/data/map-list';
+import {
+  getWorldConfig,
+  getWorldDisplayName,
+  getWorldLocationsFile,
+  getWorlds,
+  normalizeWorldName,
+  WorldConfig,
+  WorldInfo,
+} from '@/shared/lib/ocap/worlds';
 import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
 import { Location } from '@/shared/ui/atoms/marker';
 
+type SelectedMap = {
+  /** Arma worldName, lower-case (also the OCAP map id). */
+  id: string;
+  name: string;
+  /** OCAP map.json; null while loading. */
+  config: WorldConfig | null;
+};
+
 class MapsModel {
-  selectedMap: (typeof mapList)[0] | null = null;
-  defaultMap = mapList[8];
+  worlds: WorldInfo[] = [];
+  selectedMap: SelectedMap | null = null;
+  /** Last world chosen in the selector. */
+  defaultMap = 'altis';
   locations: Location[] = [];
 
+  isWorldsLoading = false;
+  isMapLoading = false;
   isLocationsLoading = false;
+  /** worldName that could not be found in the OCAP map database. */
+  unavailableMap: string | null = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  getMaps = () => {
-    return mapList;
+  loadWorlds = async () => {
+    if (this.worlds.length) return this.worlds;
+    this.isWorldsLoading = true;
+    try {
+      const worlds = await getWorlds();
+      runInAction(() => {
+        this.worlds = worlds;
+      });
+      return worlds;
+    } finally {
+      runInAction(() => {
+        this.isWorldsLoading = false;
+      });
+    }
   };
+
+  getMaps = () => this.worlds;
 
   unselectMap = () => {
     this.selectedMap = null;
     this.locations = [];
   };
 
-  selectMap = (map: (typeof mapList)[0] | string) => {
-    if (typeof map === 'string') {
-      if (this.selectedMap?.id === map) return;
+  /**
+   * Select a world by Arma worldName and load its OCAP map configuration.
+   * Resolves to `false` when the world is not in the OCAP map database.
+   */
+  selectMap = async (worldName: string): Promise<boolean> => {
+    const id = normalizeWorldName(worldName);
+    if (!id) return false;
+    if (this.selectedMap?.id === id && this.selectedMap.config) return true;
 
-      const newMap = mapList.find((m) => m.id === map?.toLowerCase());
-
-      if (!newMap) return;
-
-      this.selectedMap = { ...newMap };
-
-      return;
-    }
-
-    this.selectedMap = { ...map };
-    this.defaultMap = { ...map };
-
-    basicMapEntity.flyTo(0, 0);
-  };
-
-  getLocations = async (map?: string) => {
-    if (!this.selectedMap || !map) return;
+    this.isMapLoading = true;
+    this.unavailableMap = null;
 
     try {
-      if (!map) return;
+      const config = await getWorldConfig(id);
 
-      const response = await axios.get(`/locations/${map}.json`);
+      if (!config) {
+        runInAction(() => {
+          this.unavailableMap = id;
+        });
+        return false;
+      }
 
-      this.locations = [...(response.data as Location[])];
-    } catch (error) {
-      this.locations = []
-      // toasterEntity.call({
-      //   title: 'Failed to load locations',
-      //   description: 'Report to devs',
-      // });
+      runInAction(() => {
+        this.selectedMap = {
+          id,
+          name: config.displayName || getWorldDisplayName(id),
+          config,
+        };
+        this.defaultMap = id;
+        this.locations = [];
+      });
+
+      basicMapEntity.flyTo(0, 0);
+      void this.getLocations();
+
+      return true;
     } finally {
-      this.isLocationsLoading = false;
+      runInAction(() => {
+        this.isMapLoading = false;
+      });
+    }
+  };
+
+  /** Legacy location labels (only used for raster maps; vector styles have their own). */
+  getLocations = async () => {
+    const map = this.selectedMap;
+    if (!map || map.config?.maplibre) return;
+
+    const file = getWorldLocationsFile(map.id);
+    if (!file) return;
+
+    this.isLocationsLoading = true;
+    try {
+      const response = await axios.get(`/locations/${file}.json`, { baseURL: '' });
+      runInAction(() => {
+        if (this.selectedMap?.id === map.id) this.locations = [...(response.data as Location[])];
+      });
+    } catch {
+      runInAction(() => {
+        this.locations = [];
+      });
+    } finally {
+      runInAction(() => {
+        this.isLocationsLoading = false;
+      });
     }
   };
 }
@@ -68,3 +133,4 @@ class MapsModel {
 const mapsEntity = new MapsModel();
 
 export { mapsEntity, MapsModel };
+export type { SelectedMap };

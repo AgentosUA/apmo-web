@@ -2,7 +2,6 @@
 
 import { useFormik, type FormikProps } from 'formik';
 import { observer } from 'mobx-react-lite';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -12,7 +11,8 @@ import * as yup from 'yup';
 import { Callsigns } from '@/entities/mission/types';
 import { userEntity } from '@/entities/user/model';
 import { useUnAuthorizated } from '@/entities/user/ui/authorization/hook';
-import { mapList } from '@/shared/data/map-list';
+import { getWorldDisplayName } from '@/shared/lib/ocap/worlds';
+import { WorldPreview } from '@/shared/ui/atoms/world-preview/ui';
 import { apmoApi, Plan } from '@/shared/sdk';
 import { Button } from '@/shared/ui/atoms/button';
 import { Input } from '@/shared/ui/atoms/input/ui';
@@ -64,11 +64,11 @@ const PlanCard = ({
       }
     >
       <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-[2]" />
-      <Image
+      <WorldPreview
         className="object-cover w-full h-full absolute top-0 left-0 z-[1]"
         width={645}
         height={100}
-        src={getPlanImage(plan)}
+        worldName={getPlanImage(plan)}
         alt="island"
       />
       <div className="relative z-[3] flex flex-col flex-1">
@@ -256,18 +256,9 @@ const Profile = observer(() => {
     router.push(`/plans/${plan.id}`);
   };
 
-  const getPlanImage = (plan: Plan) => {
-    return (
-      mapList.find((map) => map?.dir === plan?.mission?.island?.toLowerCase())?.image ??
-      'maps/no-island.jpg'
-    );
-  };
+  const getPlanImage = (plan: Plan) => plan?.mission?.island ?? '';
 
-  const getPlanIslandName = (plan: Plan) => {
-    return (
-      mapList.find((map) => map?.dir === plan?.mission?.island?.toLowerCase())?.name ?? 'Unknown'
-    );
-  };
+  const getPlanIslandName = (plan: Plan) => getWorldDisplayName(plan?.mission?.island);
 
   const onDeletePlan = ({ id }: Plan) => {
     apmoApi.plan.delete({ id }).then(() => {

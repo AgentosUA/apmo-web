@@ -1,6 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 
 
+import { i18n } from '@/shared/lib/i18n/config';
+import { getWorldDisplayName } from '@/shared/lib/ocap/worlds';
 import { apmoApi } from '@/shared/sdk';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 
@@ -85,7 +87,17 @@ class Plan {
       planEntity.title = data.title;
       planEntity.id = data.id;
       missionEntity.setMission(data.mission);
-      mapsEntity.selectMap(data.mission.island);
+      const isMapAvailable = await mapsEntity.selectMap(data.mission.island);
+
+      if (!isMapAvailable) {
+        toasterEntity.call({
+          title: i18n.t('toasters:mapNotAvailable'),
+          description: i18n.t('toasters:mapNotInOcapDatabase', {
+            map: getWorldDisplayName(data.mission.island),
+          }),
+        });
+      }
+
       markersEntity.setSWTMarkers(JSON.parse(data.planMarkers));
     } catch (error) {}
   };

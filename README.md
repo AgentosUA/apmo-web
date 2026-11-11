@@ -20,6 +20,26 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
+## Map rendering (v2)
+
+The map is rendered the same way as [OCAP2/web](https://github.com/OCAP2/web):
+
+- **Basemap** – worlds are merged from several OCAP-compatible sources; the
+  first source that has a world wins:
+  1. OCAP web servers from `NEXT_PUBLIC_OCAP_URL` / `NEXT_PUBLIC_OCAP_URLS`
+     (default: VTG replays, `replays.vtg.in.ua`) – vector MapLibre/PMTiles map
+     packs with previews (`/api/v1/worlds`, `/images/maps/{world}`);
+  2. `NEXT_PUBLIC_OCAP_MAPS_URL` (a bare `{world}/map.json` folder);
+  3. the OCAP map CDN `maps.ocap2.com` (`worlds.json`, raster tiles).
+- **Icons & labels** – units, vehicles and markers are drawn on one `<canvas>`
+  over Leaflet (`src/shared/lib/ocap/canvas-layer.ts`) instead of one DOM node
+  per marker.
+- **Area markers** – ellipses, rectangles and SWT lines use Arma half-extent
+  geometry and CfgMarkerBrushes fills (`src/shared/lib/ocap/shapes.ts`).
+- **Colors** – marker images in `public/markers` are tinted per pixel like the
+  OCAP server does (`src/shared/lib/ocap/icons.ts`). After adding images run
+  `pnpm generate:markers`.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

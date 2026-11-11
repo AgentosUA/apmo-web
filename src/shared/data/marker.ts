@@ -183,7 +183,26 @@ const markerColorNames = Object.keys(MarkerColor).filter((key) =>
   isNaN(Number(key))
 ) as string[];
 
+/**
+ * Sweet Markers icon sizes (`sweetk_s` in swt_markers_a3): Shift + mouse
+ * wheel switches between 0.7, 1 and 1.3.
+ */
+const SWT_ICON_SIZES: number[] = [0.7, 1, 1.3];
+
+/** Next SWT icon size in `direction` (+1 bigger, -1 smaller), clamped. */
+const stepSwtIconSize = (size: unknown, direction: number): number => {
+  const current = typeof size === 'number' ? size : 1;
+  let index = 1;
+  SWT_ICON_SIZES.forEach((value, i) => {
+    if (Math.abs(value - current) < Math.abs(SWT_ICON_SIZES[index] - current)) index = i;
+  });
+  const next = Math.min(SWT_ICON_SIZES.length - 1, Math.max(0, index + Math.sign(direction)));
+  return SWT_ICON_SIZES[next];
+};
+
 export {
+  SWT_ICON_SIZES,
+  stepSwtIconSize,
   markerTypes,
   markerColorNames,
   MarkerColor,

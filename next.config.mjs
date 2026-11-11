@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 import packageJson from './package.json' with { type: 'json' };
 const nextConfig = {
-  reactStrictMode: false, // enable after react-leaflet fix,
+  reactStrictMode: true,
+  // Self-contained server for the Docker image (.next/standalone/server.js).
+  output: 'standalone',
   typescript: {
     ignoreBuildErrors: true,
   },

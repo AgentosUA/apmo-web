@@ -1,10 +1,12 @@
 import { makeAutoObservable } from 'mobx';
 
 class BasicMap {
-  zoomLevel: number = 2;
+  zoomLevel: number = 0;
+  /** Arma coordinates (meters) to focus; `nonce` re-triggers the same point. */
   flyCoordinates = {
     x: 0,
     y: 0,
+    nonce: 0,
   };
 
   constructor() {
@@ -15,10 +17,12 @@ class BasicMap {
     this.zoomLevel = zoomLevel;
   };
 
-  flyTo = (lat: number, lng: number) => {
+  /** Focus the map on an Arma position (x = east, y = north). */
+  flyTo = (x: number, y: number) => {
     this.flyCoordinates = {
-      x: lat,
-      y: lng,
+      x,
+      y,
+      nonce: this.flyCoordinates.nonce + 1,
     };
   };
 }

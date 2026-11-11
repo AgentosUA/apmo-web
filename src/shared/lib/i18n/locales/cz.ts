@@ -16,6 +16,8 @@ const czLocale: typeof enLocale = {
   toasters: {
     mapAndMissionMismatch: 'Mapa a mise nesedí',
     missionIsNotOnMap: 'Mise není na mapě {{map}}!',
+    mapNotAvailable: 'Mapa není dostupná',
+    mapNotInOcapDatabase: 'Mapa {{map}} zatím není v databázi map OCAP',
   },
   entities: {
     markers: {
@@ -25,6 +27,8 @@ const czLocale: typeof enLocale = {
       clearedDescription: 'Všechny markery byly odstraněny',
       loadedTitle: 'Markery načteny',
       loadedDescription: 'Načteno markerů: {{count}}',
+      loadFailedTitle: 'Značky nenačteny',
+      loadFailedDescription: 'Schránka neobsahuje data Sweet Markers',
     },
     slots: {
       copiedTitle: 'Složky zkopírovány',
@@ -72,6 +76,16 @@ const czLocale: typeof enLocale = {
       planLinkCopiedTitle: 'Plán zkopírován',
       planLinkCopiedDescription: 'Můžete ho sdílet s týmem',
     },
+    mapHints: {
+      title: 'Klávesy',
+      newMarker: 'Dvojklik — nová značka',
+      quickMarker: 'Ctrl/⌘ + klik — rychlá značka',
+      line: 'Ctrl/⌘ + Alt + tažení — čára (Alt / Ctrl nebo kolečko — tloušťka)',
+      ellipse: 'Shift + Alt + tažení — elipsa',
+      rotate: 'Tažení značky / čáry / elipsy — přesun, Alt + tažení — otočení',
+      size: 'Shift + kolečko nad značkou nebo v okně nové značky — velikost (0.7 / 1 / 1.3)',
+      delete: 'Delete / Backspace nad značkou — smazat',
+    },
     footer: {
       createdBy: 'Vytvořil',
       feelFreeToContribute: 'Přidejte se k vývoji na',
@@ -80,6 +94,8 @@ const czLocale: typeof enLocale = {
   pages: {
     home: {
       selectMap: 'Vybrat mapu',
+      searchMap: 'Hledat mapu…',
+      noMapsFound: 'Žádné mapy nenalezeny',
       loadMission: 'Načíst mise',
       changelog: 'Seznam změn',
     },

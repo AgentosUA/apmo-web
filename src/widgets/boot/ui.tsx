@@ -3,11 +3,17 @@
 import { observer } from 'mobx-react-lite';
 import { FC, PropsWithChildren, useEffect } from 'react';
 
+import { mapsEntity } from '@/entities/maps';
 import { userEntity } from '@/entities/user/model';
 import { instance } from '@/shared/sdk';
 import { setTokenFromCookies } from '@/shared/sdk/lib';
 
 const BootProvider: FC<PropsWithChildren> = observer<PropsWithChildren>(({ children }) => {
+  useEffect(() => {
+    // Preload the OCAP world list so the map selector opens instantly.
+    void mapsEntity.loadWorlds();
+  }, []);
+
   useEffect(() => {
     const isTokenExists = setTokenFromCookies(instance);
 

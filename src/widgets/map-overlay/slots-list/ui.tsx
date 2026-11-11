@@ -20,8 +20,8 @@ const MissionSlotList: FC<{
 }> = ({ groups = [], side }) => {
   const onGroupClick = (group: Group) => {
     basicMapEntity.flyTo(
-      group.units[0].position.coordinates.y,
-      group.units[0].position.coordinates.x
+      group.units[0].position.coordinates.x,
+      group.units[0].position.coordinates.y
     );
   };
 

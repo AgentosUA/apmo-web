@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 
 import { Marker, SWTMarkerID } from '@/entities/markers';
-import { MarkerColor, MarkerType } from '@/shared/data/marker';
+import { MarkerColor, MarkerType, stepSwtIconSize } from '@/shared/data/marker';
 
 import { generateNewMarker } from './lib';
 
@@ -83,9 +83,33 @@ class CreateMarkerModel {
     this.marker.data[SWTMarkerID.text] = text;
   };
 
-  resetMarker = () => {
-    this.marker = generateNewMarker();
+  /** Shift + wheel in SWT: switch icon size 0.7 / 1 / 1.3. */
+  changeMarkerSize = (direction: number) => {
+    this.marker.data[SWTMarkerID.size] = stepSwtIconSize(this.marker.data[SWTMarkerID.size], direction);
   };
+
+  /** New marker keeps the last used type, color and size (like SWT in Arma 3). */
+  resetMarker = () => {
+    this.marker = generateNewMarker(
+      this.marker.data[SWTMarkerID.type],
+      this.marker.data[SWTMarkerID.color],
+      this.currentSize
+    );
+  };
+
+  get currentSize() {
+    const size = this.marker.data[SWTMarkerID.size];
+    return typeof size === 'number' ? size : 1;
+  }
+
+  /** Type / color used for quick markers and drawn lines / ellipses. */
+  get currentType() {
+    return this.marker.data[SWTMarkerID.type];
+  }
+
+  get currentColor() {
+    return this.marker.data[SWTMarkerID.color];
+  }
 }
 
 const createMarkerEntity = new CreateMarkerModel();

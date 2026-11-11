@@ -8,7 +8,8 @@ import { ChangeEvent, useEffect, useRef } from 'react';
 
 import { mapsEntity } from '@/entities/maps';
 import { missionEntity } from '@/entities/mission';
-import { mapList } from '@/shared/data/map-list';
+import { i18n } from '@/shared/lib/i18n/config';
+import { getWorldDisplayName } from '@/shared/lib/ocap/worlds';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { Footer } from '@/widgets/footer';
@@ -30,22 +31,23 @@ const HomePage = observer(() => {
   };
 
   useEffect(() => {
-    if (!missionEntity.data?.island) return;
-    const island = mapList.find(
-      (map) => map.id === missionEntity.data?.island.toLowerCase()
-    );
+    const island = missionEntity.data?.island;
+    if (!island) return;
 
-    if (!island) {
-      toasterEntity.call({
-        title: 'Current map is not supported',
-        description: 'Check for changelog',
-      });
+    mapsEntity.selectMap(island).then((isAvailable) => {
+      if (!isAvailable) {
+        toasterEntity.call({
+          title: i18n.t('toasters:mapNotAvailable'),
+          description: i18n.t('toasters:mapNotInOcapDatabase', {
+            map: getWorldDisplayName(island),
+          }),
+        });
 
-      return;
-    }
+        return;
+      }
 
-    mapsEntity.selectMap(island);
-    router.replace('/plans/create');
+      router.replace('/plans/create');
+    });
   }, [missionEntity.data?.island]);
 
   return (

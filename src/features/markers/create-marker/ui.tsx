@@ -2,7 +2,6 @@
 
 import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
-import { useMap } from 'react-leaflet';
 
 import {
   MarkersModel,
@@ -15,12 +14,15 @@ import {
   markerColorNames,
   markerTypes,
 } from '@/shared/data/marker';
+import { resolveShapeColor } from '@/shared/lib/ocap/colors';
+import { useArmaMap } from '@/shared/ui/atoms/basic-map/ui';
 import { Button } from '@/shared/ui/atoms/button';
 import { MarkerIconComponent } from '@/shared/ui/atoms/marker';
 import { View } from '@/shared/ui/quarks/view';
-import { getMarkerBackgroundColor } from '@/shared/ui/styles/marker-colors';
 
 import { CreateMarkerModel, createMarkerEntity } from './model';
+
+const getSwatchColor = (colorName: string) => `#${resolveShapeColor(colorName)}`;
 
 const CreateMarker: FC<{
   model?: CreateMarkerModel;
@@ -29,7 +31,7 @@ const CreateMarker: FC<{
   const entity = model;
   const markersEntity = markersModel ?? sharedMarkersEntity;
 
-  const map = useMap();
+  const renderer = useArmaMap();
 
   useEffect(() => {
     const onEscapePress = (e: KeyboardEvent) => {
@@ -49,21 +51,36 @@ const CreateMarker: FC<{
       }
     };
 
+    // SWT: Shift + mouse wheel while the dialog is open changes the icon size.
+    let lastWheel = 0;
+    const onWheel = (e: WheelEvent) => {
+      if (!e.shiftKey) return;
+      // Shift + wheel is reported as horizontal scroll on some systems.
+      const delta = e.deltaY || e.deltaX;
+      if (!delta) return;
+      e.preventDefault();
+      // One step per wheel "notch" (trackpads fire many events).
+      const now = performance.now();
+      if (now - lastWheel < 200) return;
+      lastWheel = now;
+      entity.changeMarkerSize(delta < 0 ? 1 : -1);
+    };
+
     if (entity.isVisible) {
+      window.addEventListener('wheel', onWheel, { passive: false });
       document.addEventListener('keydown', onEscapePress);
       document.addEventListener('keydown', onEnterPress);
-      map.dragging.disable();
-      map.scrollWheelZoom.disable();
+      renderer?.setInteractive(false);
     }
 
     return () => {
+      window.removeEventListener('wheel', onWheel);
       document.removeEventListener('keydown', onEscapePress);
       document.removeEventListener('keydown', onEnterPress);
       entity.closeAllList();
-      map.dragging.enable();
-      map.scrollWheelZoom.enable();
+      renderer?.setInteractive(true);
     };
-  }, [entity.isVisible]);
+  }, [entity.isVisible, renderer]);
 
   if (!entity.isVisible) return null;
 
@@ -83,7 +100,7 @@ const CreateMarker: FC<{
                 <div
                   key={index}
                   className="mx-auto w-6 h-6 cursor-pointer"
-                  style={{ backgroundColor: getMarkerBackgroundColor(color) }}
+                  style={{ backgroundColor: getSwatchColor(color) }}
                   onClick={() =>
                     entity.setMarkerColor(
                       MarkerColor[color as keyof typeof MarkerColor]
@@ -104,21 +121,30 @@ const CreateMarker: FC<{
                       MarkerType[markerType as keyof typeof MarkerType]
                     );
                   }}
-                  className="cursor-pointer"
+                  className="cursor-pointer mx-auto"
                   markerName={markerType}
                   color={markerColorNames[MarkerColor.ColorWhite]}
                 />
               ))}
             </div>
           </View.Condition>
-          <MarkerIconComponent
-            width={32}
-            height={32}
-            className="absolute top-[78px] left-[-46px] cursor-pointer"
-            markerName={markerTypes[entity.marker.data[SWTMarkerID.type]]}
-            color={markerColorNames[entity.marker.data[SWTMarkerID.color]]}
-            onClick={entity.switchAllListsVisibility}
-          />
+          {/* Current marker; Shift + wheel changes its size (SWT: 0.7 / 1 / 1.3). */}
+          <div
+            className="absolute top-[70px] left-[-54px] w-12 h-12 flex items-center justify-center"
+            title="Shift + wheel: size"
+          >
+            <MarkerIconComponent
+              width={Math.round(32 * entity.currentSize)}
+              height={Math.round(32 * entity.currentSize)}
+              className="cursor-pointer"
+              markerName={markerTypes[entity.marker.data[SWTMarkerID.type]]}
+              color={markerColorNames[entity.marker.data[SWTMarkerID.color]]}
+              onClick={entity.switchAllListsVisibility}
+            />
+            <span className="absolute -bottom-3 left-0 w-full text-center text-[10px] leading-none text-white/80 pointer-events-none">
+              ×{entity.currentSize}
+            </span>
+          </div>
 
           <div className="flex flex-nowrap w-full mb-[5px]">
             {entity.defaultSWTMarkers.map((markerType) => (
@@ -141,7 +167,7 @@ const CreateMarker: FC<{
                 onClick={() => entity.setMarkerColor(markerColor)}
                 className="w-full h-4 opacity-70 cursor-pointer"
                 style={{
-                  backgroundColor: getMarkerBackgroundColor(
+                  backgroundColor: getSwatchColor(
                     markerColorNames[markerColor]
                   ),
                 }}

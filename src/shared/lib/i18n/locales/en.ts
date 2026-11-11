@@ -14,6 +14,8 @@ const enLocale = {
   toasters: {
     mapAndMissionMismatch: 'Map and mission mismatch',
     missionIsNotOnMap: 'Mission is not on {{map}}!',
+    mapNotAvailable: 'Map is not available',
+    mapNotInOcapDatabase: '{{map}} is not in the OCAP map database yet',
   },
   entities: {
     markers: {
@@ -23,6 +25,8 @@ const enLocale = {
       clearedDescription: 'All markers have been removed',
       loadedTitle: 'Markers loaded',
       loadedDescription: 'Markers loaded: {{count}}',
+      loadFailedTitle: 'Markers not loaded',
+      loadFailedDescription: 'Clipboard does not contain Sweet Markers data',
     },
     slots: {
       copiedTitle: 'Slots copied',
@@ -70,6 +74,16 @@ const enLocale = {
       planLinkCopiedTitle: 'Plan link copied',
       planLinkCopiedDescription: 'You can share it with your team',
     },
+    mapHints: {
+      title: 'Shortcuts',
+      newMarker: 'Double click — new marker',
+      quickMarker: 'Ctrl/⌘ + click — quick marker',
+      line: 'Ctrl/⌘ + Alt + drag — line (Alt / Ctrl or wheel — thickness)',
+      ellipse: 'Shift + Alt + drag — ellipse',
+      rotate: 'Drag a marker / line / ellipse — move, Alt + drag — rotate',
+      size: 'Shift + wheel over a marker or in the new marker window — size (0.7 / 1 / 1.3)',
+      delete: 'Delete / Backspace over a marker — delete',
+    },
     footer: {
       createdBy: 'Created by',
       feelFreeToContribute: 'Feel free to contribute on',
@@ -78,6 +92,8 @@ const enLocale = {
   pages: {
     home: {
       selectMap: 'Select map',
+      searchMap: 'Search map…',
+      noMapsFound: 'No maps found',
       loadMission: 'Load mission',
       changelog: 'Changelog',
     },
