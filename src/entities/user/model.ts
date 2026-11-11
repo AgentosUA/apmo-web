@@ -9,6 +9,7 @@ import {
   type User as UserType,
 } from '@/shared/sdk';
 
+import { squadsEntity } from '../squads';
 import { profilePlansEntity } from './plans-model';
 
 class User {
@@ -120,6 +121,7 @@ class User {
     this.isAuthorized = false;
 
     profilePlansEntity.reset();
+    squadsEntity.reset();
   };
 }
 

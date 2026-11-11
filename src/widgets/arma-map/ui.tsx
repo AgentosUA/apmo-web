@@ -113,9 +113,15 @@ const toSwtShape = (marker: Marker, kind: 'ellipse' | 'line'): ShapeItem => {
     direction: getMarkerDirection(marker) ?? 0,
     color: resolveShapeColor(getMarkerColorName(marker)),
     brush: kind === 'ellipse' ? 'Solid' : 'SolidFull',
-    onDelete: () => markersEntity.deleteMarker(marker.id),
-    onDragEnd: ([nx, ny]) => markersEntity.updateMarker(marker.id, nx, ny),
-    onRotateEnd: (direction) => markersEntity.updateMarkerDirection(marker.id, direction),
+    // View-only plans: no handlers = not interactive.
+    ...(markersEntity.isReadOnly
+      ? {}
+      : {
+          onDelete: () => markersEntity.deleteMarker(marker.id),
+          onDragEnd: ([nx, ny]: [number, number]) => markersEntity.updateMarker(marker.id, nx, ny),
+          onRotateEnd: (direction: number) =>
+            markersEntity.updateMarkerDirection(marker.id, direction),
+        }),
   };
 };
 
@@ -137,11 +143,18 @@ const toSwtIcon = (marker: Marker): CanvasItem => {
       size: [MARKER_ICON_SIZE * w, MARKER_ICON_SIZE * h],
     },
     label: text ? { text, color: resolveTextColor(colorName, type), size: 14 } : undefined,
-    draggable: true,
-    onDragEnd: (_, [nx, ny]) => markersEntity.updateMarker(marker.id, nx, ny),
-    onRotateEnd: (_, direction) => markersEntity.updateMarkerDirection(marker.id, direction),
-    onResize: (_, direction) => markersEntity.changeMarkerSize(marker.id, direction),
-    onDelete: () => markersEntity.deleteMarker(marker.id),
+    ...(markersEntity.isReadOnly
+      ? { draggable: false }
+      : {
+          draggable: true,
+          onDragEnd: (_: CanvasItem, [nx, ny]: [number, number]) =>
+            markersEntity.updateMarker(marker.id, nx, ny),
+          onRotateEnd: (_: CanvasItem, direction: number) =>
+            markersEntity.updateMarkerDirection(marker.id, direction),
+          onResize: (_: CanvasItem, direction: number) =>
+            markersEntity.changeMarkerSize(marker.id, direction),
+          onDelete: () => markersEntity.deleteMarker(marker.id),
+        }),
   };
 };
 
@@ -403,6 +416,8 @@ const ArmaMap = observer(() => {
   if (!isMounted || !world) return null;
 
   const onDoubleClick = ([x, y]: [number, number], event: MouseEvent) => {
+    if (markersEntity.isReadOnly) return;
+
     createMarkerEntity.open();
     createMarkerEntity.setMarkerPosition(x, y);
     createMarkerEntity.setControlsPosition(event.clientX, event.clientY);

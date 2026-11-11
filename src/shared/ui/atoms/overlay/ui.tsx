@@ -34,18 +34,23 @@ const useMenu = (items: Record<string, boolean>) => {
 const Header: FC<{
   title?: string;
   rightCorner?: ReactNode;
+  /** Plan controls (presence, save, share…) between the title and `rightCorner`. */
+  actions?: ReactNode;
   onBack?: () => void;
-}> = ({ title = '', rightCorner = '', onBack }) => (
+}> = ({ title = '', rightCorner = '', actions, onBack }) => (
   <div className="top-0 left-0 fixed w-full h-[30px] bg-linear-to-b from-[#3C3C3C] to-[#1A1A1A] z-[400] flex items-center">
     <MdArrowBackIosNew
-      className="ml-[5px] hover:cursor-pointer"
+      className="ml-[5px] shrink-0 hover:cursor-pointer"
       onClick={onBack}
       color="#fff"
     />
-    <h1 className="ml-[5px] text-[#FAFAFA] font-light text-xl leading-[30px]">
+    <h1 className="ml-[5px] min-w-0 truncate text-[#FAFAFA] font-light text-xl leading-[30px]">
       {title}
     </h1>
-    <div className="ml-auto">{rightCorner}</div>
+    <div className="ml-auto flex shrink-0 items-center gap-2">
+      {actions}
+      {rightCorner}
+    </div>
   </div>
 );
 

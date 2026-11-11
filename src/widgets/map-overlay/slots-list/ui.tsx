@@ -4,6 +4,7 @@ import { ChangeEvent, FC, Fragment } from 'react';
 import { missionEntity } from '@/entities/mission';
 import { callsigns, callsignsObject } from '@/entities/mission/data';
 import { Group, Mission, Side } from '@/entities/mission/types';
+import { planEntity, planSession } from '@/entities/plan';
 import { i18n } from '@/shared/lib/i18n/config';
 import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
 import { Button } from '@/shared/ui/atoms/button';
@@ -57,9 +58,16 @@ const PlayerSlotList: FC<{
   const values: Record<string, string> = { ...callsignsObject, ...(slots ?? {}) };
 
   const onSquadChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!missionEntity.data) return;
+    if (!missionEntity.data || !planEntity.canEdit) return;
 
-    missionEntity.data.slots = { ...values, [e.target.name]: e.target.value };
+    const slots = { ...values, [e.target.name]: e.target.value };
+
+    missionEntity.data.slots = slots;
+
+    // Saved plans: synced with everyone and saved automatically.
+    if (planEntity.isSaved) {
+      planSession.patch({ slots });
+    }
   };
 
   const onListClick = () => {
@@ -122,6 +130,7 @@ const PlayerSlotList: FC<{
                 placeholder={i18n.t('widgets:mapOverlay:enterSquadName') as string}
                 value={values[callsign] ?? ''}
                 onChange={onSquadChange}
+                disabled={!planEntity.canEdit}
               />
             </div>
           </Fragment>

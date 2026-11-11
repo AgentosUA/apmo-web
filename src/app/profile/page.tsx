@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { type ChangeEvent, type ReactNode, useEffect, useRef } from 'react';
+import { type ChangeEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
@@ -43,6 +43,7 @@ import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { cn } from '@/shared/utils/cn';
 import { ContentPage } from '@/widgets/content-page';
+import { ProfileSquads } from '@/widgets/profile-squads';
 
 type Plan = ProfilePlan;
 
@@ -614,6 +615,64 @@ const PlansToolbar = observer(() => {
   );
 });
 
+const PROFILE_TABS = ['plans', 'squads'] as const;
+
+type ProfileTab = (typeof PROFILE_TABS)[number];
+
+/** Active tab, kept in `?tab=` so it survives reloads and can be linked. */
+const useProfileTab = () => {
+  const [tab, setTab] = useState<ProfileTab>('plans');
+
+  useEffect(() => {
+    const value = new URLSearchParams(window.location.search).get('tab');
+
+    if (PROFILE_TABS.includes(value as ProfileTab)) setTab(value as ProfileTab);
+  }, []);
+
+  const select = (value: ProfileTab) => {
+    setTab(value);
+
+    const url = new URL(window.location.href);
+
+    if (value === 'plans') url.searchParams.delete('tab');
+    else url.searchParams.set('tab', value);
+
+    window.history.replaceState(window.history.state, '', url);
+  };
+
+  return [tab, select] as const;
+};
+
+const ProfileTabs = ({
+  active,
+  onChange,
+}: {
+  active: ProfileTab;
+  onChange: (tab: ProfileTab) => void;
+}) => (
+  <div role="tablist" className="flex gap-1 border-b border-white/10">
+    {PROFILE_TABS.map((tab) => (
+      <button
+        key={tab}
+        type="button"
+        role="tab"
+        id={`profile-tab-${tab}`}
+        aria-selected={active === tab}
+        aria-controls={`profile-panel-${tab}`}
+        onClick={() => onChange(tab)}
+        className={cn(
+          '-mb-px border-b-2 px-3 py-2 text-sm uppercase tracking-[0.08em] transition-colors',
+          active === tab
+            ? 'border-a3-orange text-white'
+            : 'border-transparent text-white/50 hover:text-white'
+        )}
+      >
+        <Localize translationKey={`pages:profile:tabs:${tab}`} />
+      </button>
+    ))}
+  </div>
+);
+
 const PlansEmpty = ({ children }: { children: ReactNode }) => (
   <div className="flex flex-col items-center gap-3 py-10 text-center text-sm text-white/60 border border-dashed border-white/15">
     {children}
@@ -629,6 +688,7 @@ const Profile = observer(() => {
   }, []);
 
   const router = useRouter();
+  const [tab, setTab] = useProfileTab();
 
   const onCopyMarkers = (plan: Plan) => {
     navigator.clipboard.writeText(plan.planMarkers);
@@ -782,16 +842,35 @@ const Profile = observer(() => {
           panel={(variant) => <UserPanel {...userPanelProps} variant={variant} />}
           plans={
             <>
-              <h2 className="flex items-baseline gap-2 text-lg font-medium uppercase">
-                <Localize translationKey="pages:profile:myPlans" />
-                <span className="text-sm font-normal text-white/50 tabular-nums">
-                  {plans.hasActiveFilters && plans.isLoaded
-                    ? `${plans.total} / ${plans.totalAll}`
-                    : plans.totalAll}
-                </span>
-              </h2>
-              {(plans.totalAll > 0 || plans.hasActiveFilters) && <PlansToolbar />}
-              {renderPlans()}
+              <ProfileTabs active={tab} onChange={setTab} />
+              {tab === 'squads' ? (
+                <div
+                  role="tabpanel"
+                  id="profile-panel-squads"
+                  aria-labelledby="profile-tab-squads"
+                  className="flex flex-col gap-4"
+                >
+                  <ProfileSquads />
+                </div>
+              ) : (
+                <div
+                  role="tabpanel"
+                  id="profile-panel-plans"
+                  aria-labelledby="profile-tab-plans"
+                  className="flex flex-col gap-4"
+                >
+                  <h2 className="flex items-baseline gap-2 text-lg font-medium uppercase">
+                    <Localize translationKey="pages:profile:myPlans" />
+                    <span className="text-sm font-normal text-white/50 tabular-nums">
+                      {plans.hasActiveFilters && plans.isLoaded
+                        ? `${plans.total} / ${plans.totalAll}`
+                        : plans.totalAll}
+                    </span>
+                  </h2>
+                  {(plans.totalAll > 0 || plans.hasActiveFilters) && <PlansToolbar />}
+                  {renderPlans()}
+                </div>
+              )}
             </>
           }
         />

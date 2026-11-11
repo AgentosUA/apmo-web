@@ -14,23 +14,18 @@ import { Modal } from '@/shared/ui/moleculas/modal/ui';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { View } from '@/shared/ui/quarks/view';
-
-
-
+import { PlanToolbar } from '@/widgets/plan-toolbar';
 
 import { MissionSlotList, PlayerSlotList } from './slots-list';
 
-
 const MapOverlay = observer<{
-  isPlan?: boolean;
   onBackClick?: () => void;
-}>(({ isPlan = false, onBackClick }) => {
+}>(({ onBackClick }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { active, onMenuItemClick, setActive } = useMenu({
     map: true,
     markers: false,
-    plan: false,
     mission: false,
     briefing: false,
     author: false,
@@ -61,15 +56,6 @@ const MapOverlay = observer<{
     markersEntity.SWTMarkerFromClipboard();
   };
 
-  const onSharePlan = () => {
-    navigator.clipboard.writeText(window.location.href);
-
-    toasterEntity.call({
-      title: 'widgets:mapOverlay:planLinkCopiedTitle',
-      description: 'widgets:mapOverlay:planLinkCopiedDescription',
-    });
-  };
-
   const onFileInputClick = () => {
     inputRef?.current?.click?.();
   };
@@ -90,7 +76,12 @@ const MapOverlay = observer<{
       return;
     }
 
-    missionEntity.loadMission(e.target.files?.[0]);
+    await missionEntity.loadMission(e.target.files?.[0]);
+
+    // A saved plan keeps the mission right away (changes are saved automatically).
+    if (planEntity.isSaved && missionEntity.data?.fileName) {
+      await planEntity.saveMission();
+    }
   };
 
   const onCofrimClearMarkers = () => {
@@ -146,6 +137,7 @@ const MapOverlay = observer<{
         onBack={() => {
           onBackClick ? onBackClick() : onResetClick();
         }}
+        actions={<PlanToolbar />}
         rightCorner={
           <DateClock
             className="mr-2.5"
@@ -199,36 +191,33 @@ const MapOverlay = observer<{
             </Overlay.MenuItem>
           </View.Condition>
 
-          <View.Condition if={Boolean(missionEntity?.data?.fileName)}>
-            <Overlay.MenuItem
-              isActive={active.plan}
-              onClick={() => onMenuItemClick('plan')}>
-              <Localize translationKey='widgets:mapOverlay:plan' />
-            </Overlay.MenuItem>
-          </View.Condition>
         </Overlay.Menu>
 
         <View.Condition if={active.markers}>
           <Overlay.Menu variant='secondary'>
-            <Overlay.MenuItem onClick={onLoadMarkers}>
-              <Localize translationKey='widgets:mapOverlay:loadMarkers' />
-            </Overlay.MenuItem>
+            <View.Condition if={planEntity.canEdit}>
+              <Overlay.MenuItem onClick={onLoadMarkers}>
+                <Localize translationKey='widgets:mapOverlay:loadMarkers' />
+              </Overlay.MenuItem>
+            </View.Condition>
 
             <Overlay.MenuItem onClick={onCopyMarkers}>
               <Localize translationKey='widgets:mapOverlay:copyMarkers' />
             </Overlay.MenuItem>
 
-            <Modal
-              title={<Localize translationKey='widgets:mapOverlay:clearMarkersTitle' />}
-              description={<Localize translationKey='widgets:mapOverlay:clearMarkersDescription' />}
-              onConfirm={onCofrimClearMarkers}
-              onCancel
-              trigger={
-                <Overlay.MenuItem onClick={() => ({})}>
-                  <Localize translationKey='widgets:mapOverlay:clearMarkers' />
-                </Overlay.MenuItem>
-              }
-            />
+            <View.Condition if={planEntity.canEdit}>
+              <Modal
+                title={<Localize translationKey='widgets:mapOverlay:clearMarkersTitle' />}
+                description={<Localize translationKey='widgets:mapOverlay:clearMarkersDescription' />}
+                onConfirm={onCofrimClearMarkers}
+                onCancel
+                trigger={
+                  <Overlay.MenuItem onClick={() => ({})}>
+                    <Localize translationKey='widgets:mapOverlay:clearMarkers' />
+                  </Overlay.MenuItem>
+                }
+              />
+            </View.Condition>
 
             <View.Condition if={Boolean(missionEntity?.data?.missionName)}>
               <Overlay.MenuItem onClick={onSwitchPlayersDisplayMode}>
@@ -252,19 +241,6 @@ const MapOverlay = observer<{
           </Overlay.Menu>
         </View.Condition>
 
-        <View.Condition if={active.plan}>
-          <Overlay.Menu variant='secondary'>
-            <Overlay.MenuItem onClick={planEntity.savePlan}>
-              <Localize translationKey='widgets:mapOverlay:savePlan' />
-            </Overlay.MenuItem>
-            <View.Condition if={isPlan}>
-              <Overlay.MenuItem onClick={onSharePlan}>
-                <Localize translationKey='widgets:mapOverlay:sharePlan' />
-              </Overlay.MenuItem>
-            </View.Condition>
-          </Overlay.Menu>
-        </View.Condition>
-
         <View.Condition if={active.briefing}>
           <Overlay.Menu variant='secondary'>
             {missionEntity?.data?.briefing?.diary?.map((item) => (
@@ -280,7 +256,7 @@ const MapOverlay = observer<{
 
         <View.Condition if={active.mission}>
           <Overlay.Menu variant='secondary'>
-            <View.Condition if={Boolean(!missionEntity?.data?.fileName)}>
+            <View.Condition if={!missionEntity?.data?.fileName && planEntity.canEdit}>
               <Overlay.MenuItem onClick={onFileInputClick}>
                 <Localize translationKey='widgets:mapOverlay:uploadMission' />
               </Overlay.MenuItem>

@@ -4,9 +4,11 @@ import {
   createPlanRequestSchema,
   deletePlanResponseSchema,
   planResponseSchema,
+  updatePlanAccessRequestSchema,
   updatePlanRequestSchema,
   type CreatePlanRequest,
   type PlanId,
+  type UpdatePlanAccessRequest,
   type UpdatePlanRequest,
 } from './plan.schema';
 
@@ -23,6 +25,15 @@ class PlanApi extends API {
     return this.patch(`/${encodeURIComponent(id)}`, {
       data,
       body: updatePlanRequestSchema,
+      response: planResponseSchema,
+    });
+  }
+
+  /** Owner only. Users / squads are passed as ids. */
+  updateAccess({ id, ...data }: UpdatePlanAccessRequest & PlanId) {
+    return this.patch(`/${encodeURIComponent(id)}/access`, {
+      data,
+      body: updatePlanAccessRequestSchema,
       response: planResponseSchema,
     });
   }
