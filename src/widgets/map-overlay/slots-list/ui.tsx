@@ -1,10 +1,9 @@
-import { useFormik } from 'formik';
 import { observer } from 'mobx-react-lite';
-import { FC, Fragment, useEffect } from 'react';
+import { ChangeEvent, FC, Fragment } from 'react';
 
 import { missionEntity } from '@/entities/mission';
 import { callsigns, callsignsObject } from '@/entities/mission/data';
-import { Callsigns, Group, Side } from '@/entities/mission/types';
+import { Group, Mission, Side } from '@/entities/mission/types';
 import { i18n } from '@/shared/lib/i18n/config';
 import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
 import { Button } from '@/shared/ui/atoms/button';
@@ -51,25 +50,17 @@ const MissionSlotList: FC<{
 };
 
 const PlayerSlotList: FC<{
-  slots: Callsigns;
+  slots: Mission['slots'];
 }> = observer(({ slots }) => {
   // `slots` is null for missions without saved squad names.
-  const formik = useFormik<Record<string, string>>({
-    initialValues: {
-      ...callsignsObject,
-      ...(slots ?? {}),
-    },
-    enableReinitialize: true,
-    onSubmit: () => {},
-  });
+  // Inputs are bound straight to the mission store — no local form state needed.
+  const values: Record<string, string> = { ...callsignsObject, ...(slots ?? {}) };
 
-  useEffect(() => {
+  const onSquadChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!missionEntity.data) return;
 
-    missionEntity.data.slots = {
-      ...formik.values,
-    } as NonNullable<Callsigns>;
-  }, [formik.values]);
+    missionEntity.data.slots = { ...values, [e.target.name]: e.target.value };
+  };
 
   const onListClick = () => {
     missionEntity.slotsType = 'list';
@@ -80,9 +71,9 @@ const PlayerSlotList: FC<{
   };
 
   const onCopySlots = () => {
-    const slots = Object.keys(formik.values)
-      .filter((key) => Boolean(formik.values[key]))
-      .map((key) => `${key}: ${formik.values[key]}`);
+    const slots = Object.keys(values)
+      .filter((key) => Boolean(values[key]))
+      .map((key) => `${key}: ${values[key]}`);
 
     navigator.clipboard.writeText(slots.join('\n'));
 
@@ -124,13 +115,13 @@ const PlayerSlotList: FC<{
             <div className="flex flex-col gap-[5px]">
               <span className="text-[#ffa30e]">{callsigns[index]}</span>
               <Input
-                id={callsign}
+                name={callsign}
+                size="sm"
                 className="w-full"
-                placeholder={
-                  i18n.t('widgets:mapOverlay:enterSquadName') as string
-                }
-                value={formik.values[callsign]}
-                onChange={formik.handleChange}
+                aria-label={callsign}
+                placeholder={i18n.t('widgets:mapOverlay:enterSquadName') as string}
+                value={values[callsign] ?? ''}
+                onChange={onSquadChange}
               />
             </div>
           </Fragment>

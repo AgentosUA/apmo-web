@@ -1,58 +1,53 @@
 'use client';
 
-import { AxiosError } from 'axios';
-import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import * as yup from 'yup';
 
-import { apmoApi } from '@/shared/sdk';
+import { setServerError, useZodForm } from '@/shared/lib/validation';
+import { api, forgotPasswordRequestSchema, getApiErrorMessage } from '@/shared/sdk';
 import { Button } from '@/shared/ui/atoms/button';
+import { FormAlert } from '@/shared/ui/atoms/form-alert';
+import { Input } from '@/shared/ui/atoms/input';
 import { Paper } from '@/shared/ui/atoms/paper';
-import { Input } from '@/shared/ui/atoms/input/ui';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
-import { Preloader } from '@/shared/ui/quarks/preloader';
 import { ContentPage } from '@/widgets/content-page';
 
 const ForgotPasswordPage: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const { t } = useTranslation();
   const router = useRouter();
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-    },
-    validationSchema: yup.object({
-      email: yup.string().email(t('common:notValidEmail')).required(t('common:required')),
-    }),
-    onSubmit: async (values) => {
-      try {
-        setIsLoading(true);
-        await apmoApi.user.forgotPassword(values);
+  const form = useZodForm(forgotPasswordRequestSchema, {
+    defaultValues: { email: '' },
+  });
 
-        toasterEntity.call({
-          title: 'New password sended to email',
-          description: 'Check your email',
-        });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = form;
 
-        router.push('/auth/login');
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          if (error?.response?.data?.message === 'Email is not found') {
-            formik.setErrors({ email: t('errors:emailNotFound') ?? '' });
+  const onSubmit = handleSubmit(async (values) => {
+    try {
+      await api.auth.forgotPassword(values);
 
-            return;
-          }
+      toasterEntity.call({
+        title: 'pages:auth:resetSentTitle',
+        description: 'pages:auth:resetSentDescription',
+      });
 
-          formik.setErrors({ email: '' });
-        }
-      } finally {
-        setIsLoading(false);
+      router.push('/auth/login');
+    } catch (error) {
+      if (getApiErrorMessage(error) === 'Email is not found') {
+        form.setError(
+          'email',
+          { type: 'server', message: 'errors:emailNotFound' },
+          { shouldFocus: true }
+        );
+
+        return;
       }
-    },
+
+      setServerError(form, error);
+    }
   });
 
   return (
@@ -61,20 +56,24 @@ const ForgotPasswordPage: React.FC = () => {
       title={<Localize translationKey="common:resetPassword" />}
       back={{ href: '/auth/login', label: <Localize translationKey="common:back" /> }}
     >
-      <Paper as="form" padding="lg" className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
-        <Preloader isLoading={isLoading}>
+      <Paper as="form" padding="lg" noValidate onSubmit={onSubmit}>
+        <fieldset disabled={isSubmitting} className="flex flex-col gap-5 min-w-0">
+          <FormAlert message={errors.root?.server?.message} />
+
           <Input
-            id="email"
             type="email"
-            label="Email"
-            value={formik.values.email}
-            error={formik.touched.email ? formik.errors.email : ''}
-            onChange={formik.handleChange}
+            label={<Localize translationKey="pages:auth:email" />}
+            hint={<Localize translationKey="pages:auth:resetHint" />}
+            autoComplete="email"
+            autoFocus
+            error={errors.email?.message}
+            {...register('email')}
           />
-          <Button variant="bold" type="submit">
-            <Localize translationKey="common:continue" />
+
+          <Button variant="bold" type="submit" className="w-full mt-1" aria-busy={isSubmitting}>
+            <Localize translationKey={isSubmitting ? 'common:loading' : 'common:continue'} />
           </Button>
-        </Preloader>
+        </fieldset>
       </Paper>
     </ContentPage>
   );

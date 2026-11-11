@@ -124,6 +124,12 @@ class ArmaMapRenderer {
   private drawColor = '0000ff';
   private suppressClick = false;
   private disposed = false;
+  /** Own wheel / pinch zoom (Leaflet's scrollWheelZoom is off). */
+  private wheelZoomEnabled = true;
+  private zoomTarget: number | null = null;
+  private zoomAnchor: L.Point | null = null;
+  private zoomFrame: number | null = null;
+  private gestureStartZoom = 0;
 
   constructor(container: HTMLElement, world: WorldConfig) {
     this.container = container;
@@ -169,9 +175,10 @@ class ArmaMapRenderer {
       fadeAnimation: true,
       crs: L.CRS.EPSG3857,
       attributionControl: false,
-      zoomSnap: 0.5,
+      // Fractional zoom: wheel / trackpad zoom is handled smoothly by onWheel.
+      zoomSnap: 0,
       zoomDelta: 0.5,
-      wheelPxPerZoomLevel: 120,
+      scrollWheelZoom: false,
       closePopupOnClick: true,
       preferCanvas: false,
       // No maxBounds (same as OCAP): when the whole world fits on screen,
@@ -320,9 +327,10 @@ class ArmaMapRenderer {
       fadeAnimation: true,
       crs: OCAP_CRS,
       attributionControl: false,
-      zoomSnap: 0.5,
+      // Fractional zoom: wheel / trackpad zoom is handled smoothly by onWheel.
+      zoomSnap: 0,
       zoomDelta: 0.5,
-      wheelPxPerZoomLevel: 120,
+      scrollWheelZoom: false,
       closePopupOnClick: true,
     });
 
@@ -486,10 +494,10 @@ class ArmaMapRenderer {
     this.interactive = enabled;
     if (enabled) {
       this.map.dragging.enable();
-      this.map.scrollWheelZoom.enable();
+      this.wheelZoomEnabled = true;
     } else {
       this.map.dragging.disable();
-      this.map.scrollWheelZoom.disable();
+      this.wheelZoomEnabled = false;
     }
   }
 
@@ -518,13 +526,13 @@ class ArmaMapRenderer {
 
   private lockMap() {
     this.map.dragging.disable();
-    this.map.scrollWheelZoom.disable();
+    this.wheelZoomEnabled = false;
   }
 
   private unlockMap() {
     if (!this.interactive) return;
     this.map.dragging.enable();
-    this.map.scrollWheelZoom.enable();
+    this.wheelZoomEnabled = true;
   }
 
   private suppressNextClick() {
@@ -836,7 +844,86 @@ class ArmaMapRenderer {
       event.stopPropagation();
       const step = this.wheelStep(event);
       if (step) item.onResize(item, step);
+      return;
     }
+
+    this.wheelZoom(event);
+  };
+
+  /**
+   * Smooth zoom for mouse wheel, trackpad scroll and trackpad pinch.
+   * macOS pinch arrives as wheel events with ctrlKey and small deltas.
+   */
+  private wheelZoom(event: WheelEvent) {
+    // Let popups / controls inside the map scroll normally.
+    const target = event.target as Element | null;
+    if (target?.closest?.('.leaflet-popup, .leaflet-control')) return;
+    // Always stop the browser page zoom on pinch over the map.
+    if (event.ctrlKey) event.preventDefault();
+    if (!this.wheelZoomEnabled) return;
+    event.preventDefault();
+    event.stopPropagation();
+
+    let delta = event.deltaY;
+    if (event.deltaMode === 1) delta *= 20; // lines
+    else if (event.deltaMode === 2) delta *= 400; // pages
+    if (!delta) return;
+
+    const pinch = event.ctrlKey;
+    let dz = -delta / (pinch ? 50 : 150);
+    if (!pinch) dz = Math.max(-0.75, Math.min(0.75, dz)); // one mouse notch ≈ 0.67
+
+    this.zoomTowards(this.pointFromEvent(event), dz, pinch);
+  }
+
+  private zoomTowards(anchor: L.Point, dz: number, immediate: boolean) {
+    const map = this.map;
+    const base = this.zoomTarget ?? map.getZoom();
+    this.zoomTarget = Math.max(map.getMinZoom(), Math.min(map.getMaxZoom(), base + dz));
+    this.zoomAnchor = anchor;
+    if (immediate) {
+      this.applyZoomStep(1);
+      return;
+    }
+    if (this.zoomFrame === null) this.zoomFrame = requestAnimationFrame(this.zoomLoop);
+  }
+
+  private zoomLoop = () => {
+    this.zoomFrame = null;
+    if (this.disposed) return;
+    if (this.applyZoomStep(0.35)) this.zoomFrame = requestAnimationFrame(this.zoomLoop);
+  };
+
+  /** Moves the zoom part of the way to the target; returns true if not there yet. */
+  private applyZoomStep(ease: number) {
+    if (this.zoomTarget === null || !this.zoomAnchor) return false;
+    const current = this.map.getZoom();
+    let next = current + (this.zoomTarget - current) * ease;
+    if (Math.abs(this.zoomTarget - next) < 0.01) next = this.zoomTarget;
+    this.map.stop();
+    this.map.setZoomAround(this.zoomAnchor, next, { animate: false });
+    if (next === this.zoomTarget) {
+      this.zoomTarget = null;
+      return false;
+    }
+    return true;
+  }
+
+  // Safari reports trackpad pinch as gesture events instead of ctrl+wheel.
+  private onGestureStart = (event: Event) => {
+    event.preventDefault();
+    this.gestureStartZoom = this.map.getZoom();
+  };
+
+  private onGestureChange = (event: Event) => {
+    event.preventDefault();
+    if (!this.wheelZoomEnabled) return;
+    const e = event as Event & { scale: number; clientX: number; clientY: number };
+    if (!e.scale) return;
+    const rect = this.container.getBoundingClientRect();
+    const anchor = L.point(e.clientX - rect.left, e.clientY - rect.top);
+    this.zoomTarget = null;
+    this.zoomTowards(anchor, this.gestureStartZoom + Math.log2(e.scale) - this.map.getZoom(), true);
   };
 
   private onContextMenu = (event: MouseEvent) => {
@@ -892,6 +979,8 @@ class ArmaMapRenderer {
     this.container.addEventListener('click', this.onClick, true);
     this.container.addEventListener('wheel', this.onWheel, { capture: true, passive: false });
     this.container.addEventListener('contextmenu', this.onContextMenu);
+    this.container.addEventListener('gesturestart', this.onGestureStart);
+    this.container.addEventListener('gesturechange', this.onGestureChange);
     document.addEventListener('keydown', this.onKeyDown);
 
     this.map.on('dblclick', (event: L.LeafletMouseEvent) => {
@@ -910,6 +999,9 @@ class ArmaMapRenderer {
     this.container.removeEventListener('click', this.onClick, true);
     this.container.removeEventListener('wheel', this.onWheel, true);
     this.container.removeEventListener('contextmenu', this.onContextMenu);
+    this.container.removeEventListener('gesturestart', this.onGestureStart);
+    this.container.removeEventListener('gesturechange', this.onGestureChange);
+    if (this.zoomFrame !== null) cancelAnimationFrame(this.zoomFrame);
     document.removeEventListener('keydown', this.onKeyDown);
     this.canvasLayer.dispose();
     this.shapes.forEach((layer) => layer.forEach((handle) => this.removeShape(handle)));

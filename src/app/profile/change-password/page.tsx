@@ -1,19 +1,21 @@
 'use client';
 
-import { useFormik } from 'formik';
 import { observer } from 'mobx-react-lite';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import * as yup from 'yup';
 
 import { userEntity } from '@/entities/user/model';
 import { useUnAuthorizated } from '@/entities/user/ui/authorization/hook';
+import { setServerError, useZodForm } from '@/shared/lib/validation';
 import { Button } from '@/shared/ui/atoms/button';
+import { FormAlert } from '@/shared/ui/atoms/form-alert';
+import { Input } from '@/shared/ui/atoms/input';
 import { Paper } from '@/shared/ui/atoms/paper';
-import { Input } from '@/shared/ui/atoms/input/ui';
+import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
-import { Preloader } from '@/shared/ui/quarks/preloader';
 import { ContentPage } from '@/widgets/content-page';
+
+import { changePasswordFormSchema } from './schema';
 
 const ChangePassword = observer(() => {
   useUnAuthorizated(userEntity);
@@ -24,28 +26,29 @@ const ChangePassword = observer(() => {
 
   const router = useRouter();
 
-  const validationSchema = yup.object({
-    oldPassword: yup.string().required('Required'),
-    newPassword: yup.string().required('Required'),
+  const form = useZodForm(changePasswordFormSchema, {
+    defaultValues: { oldPassword: '', newPassword: '', confirmPassword: '' },
   });
 
-  const formik = useFormik({
-    initialValues: {
-      oldPassword: '',
-      newPassword: '',
-    },
-    enableReinitialize: true,
-    validateOnBlur: true,
-    validationSchema,
-    onSubmit: () => {
-      userEntity.changePassword(
-        formik.values,
-        () => router.push('/profile'),
-        (error) => {
-          formik.setErrors({ newPassword: error });
-        }
-      );
-    },
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = form;
+
+  const onSubmit = handleSubmit(async ({ confirmPassword: _, ...values }) => {
+    try {
+      await userEntity.changePassword(values);
+
+      toasterEntity.call({
+        title: 'pages:profile:changePassword',
+        description: 'pages:profile:changePasswordSuccess',
+      });
+
+      router.push('/profile');
+    } catch (error) {
+      setServerError(form, error);
+    }
   });
 
   return (
@@ -54,31 +57,58 @@ const ChangePassword = observer(() => {
       title={<Localize translationKey="pages:profile:changePassword" />}
       back={{ href: '/profile', label: <Localize translationKey="common:back" /> }}
     >
-      <Paper as="form" padding="lg" className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
-        <Preloader isLoading={userEntity.isLoadingChangePassword}>
-          <Input
-            id="oldPassword"
-            type="password"
-            label={<Localize translationKey="pages:profile:oldPassword" />}
-            value={formik.values.oldPassword}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.oldPassword ? formik.errors.oldPassword : ''}
-          />
-          <Input
-            id="newPassword"
-            type="password"
-            label={<Localize translationKey="pages:profile:newPassword" />}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.newPassword}
-            error={formik.touched.newPassword ? formik.errors.newPassword : ''}
+      <Paper as="form" padding="lg" noValidate onSubmit={onSubmit}>
+        <fieldset disabled={isSubmitting} className="flex flex-col gap-5 min-w-0">
+          {/* Lets password managers attach the new password to the right account. */}
+          <input
+            type="text"
+            name="username"
+            autoComplete="username"
+            value={userEntity.user?.username ?? ''}
+            readOnly
+            hidden
           />
 
-          <Button className="mt-2" variant="bold" type="submit">
-            <Localize translationKey="pages:profile:changePassword" />
+          <FormAlert message={errors.root?.server?.message} />
+
+          <Input
+            type="password"
+            label={<Localize translationKey="pages:profile:oldPassword" />}
+            autoComplete="current-password"
+            autoFocus
+            required
+            error={errors.oldPassword?.message}
+            {...register('oldPassword')}
+          />
+
+          <div className="h-px bg-white/10" aria-hidden />
+
+          <Input
+            type="password"
+            label={<Localize translationKey="pages:profile:newPassword" />}
+            autoComplete="new-password"
+            required
+            error={errors.newPassword?.message}
+            {...register('newPassword', {
+              onChange: () =>
+                form.formState.touchedFields.confirmPassword && form.trigger('confirmPassword'),
+            })}
+          />
+          <Input
+            type="password"
+            label={<Localize translationKey="pages:profile:confirmPassword" />}
+            autoComplete="new-password"
+            required
+            error={errors.confirmPassword?.message}
+            {...register('confirmPassword')}
+          />
+
+          <Button className="w-full mt-1" variant="bold" type="submit" aria-busy={isSubmitting}>
+            <Localize
+              translationKey={isSubmitting ? 'common:loading' : 'pages:profile:changePassword'}
+            />
           </Button>
-        </Preloader>
+        </fieldset>
       </Paper>
     </ContentPage>
   );

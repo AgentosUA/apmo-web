@@ -1,108 +1,106 @@
 'use client';
 
-import { useFormik } from 'formik';
 import { observer } from 'mobx-react-lite';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
-import * as yup from 'yup';
 
 import { userEntity } from '@/entities/user/model';
 import { useAuthorizated } from '@/entities/user/ui/authorization/hook';
-import { apmoApi } from '@/shared/sdk';
+import { setServerError, useZodForm } from '@/shared/lib/validation';
+import { api } from '@/shared/sdk';
 import { Button } from '@/shared/ui/atoms/button';
+import { FormAlert } from '@/shared/ui/atoms/form-alert';
+import { Input } from '@/shared/ui/atoms/input';
 import { Paper } from '@/shared/ui/atoms/paper';
-import { Input } from '@/shared/ui/atoms/input/ui';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { ContentPage } from '@/widgets/content-page';
 
+import { signUpFormSchema } from './schema';
+
 const SignUpPage = observer(() => {
-  const { t } = useTranslation();
   const router = useRouter();
 
-  const validationSchema = yup.object({
-    email: yup.string().email(t('common:notValidEmail')).required(t('common:required')),
-    username: yup.string().required(t('common:required')),
-    password: yup.string().required(t('common:required')),
-    rePassword: yup
-      .string()
-      .required(t('common:required'))
-      .oneOf([yup.ref('password'), ''], t('common:passwordsMustMatch')),
+  const form = useZodForm(signUpFormSchema, {
+    defaultValues: { email: '', username: '', password: '', rePassword: '' },
   });
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      username: '',
-      password: '',
-      rePassword: '',
-    },
-    onSubmit: async (values) => {
-      try {
-        await apmoApi.user.signUp(values);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = form;
 
-        router.push('/auth/login');
+  const onSubmit = handleSubmit(async ({ rePassword: _, ...values }) => {
+    try {
+      await api.auth.signUp(values);
 
-        toasterEntity.call({
-          title: 'Acount created',
-          description: 'You can now login',
-        });
-      } catch (error: any) {
-        formik.setErrors({
-          rePassword: error?.response?.data?.message ?? 'Unknown error',
-        });
-      }
-    },
+      toasterEntity.call({
+        title: 'pages:auth:accountCreatedTitle',
+        description: 'pages:auth:accountCreatedDescription',
+      });
 
-    enableReinitialize: true,
-    validateOnBlur: true,
-    validationSchema,
+      router.push('/auth/login');
+    } catch (error) {
+      setServerError(form, error);
+    }
   });
 
   useAuthorizated(userEntity);
 
   return (
     <ContentPage width="sm" title={<Localize translationKey="pages:auth:signUp" />}>
-      <Paper as="form" padding="lg" className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
-        <Input
-          id="email"
-          type="Email"
-          label={<Localize translationKey="pages:auth:email" />}
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={formik.touched.email ? formik.errors.email : ''}
-        />
-        <Input
-          id="username"
-          type="text"
-          label={<Localize translationKey="pages:auth:username" />}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.username}
-          error={formik.touched.username ? formik.errors.username : ''}
-        />
-        <Input
-          id="password"
-          type="password"
-          label={<Localize translationKey="pages:auth:password" />}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.password}
-          error={formik.touched.password ? formik.errors.password : ''}
-        />
-        <Input
-          id="rePassword"
-          type="password"
-          label={<Localize translationKey="pages:auth:rePassword" />}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.rePassword}
-          error={formik.touched.rePassword ? formik.errors.rePassword : ''}
-        />
-        <Button variant="bold" type="submit">
-          <Localize translationKey="pages:auth:signUp" />
-        </Button>
+      <Paper as="form" padding="lg" noValidate onSubmit={onSubmit}>
+        <fieldset disabled={isSubmitting} className="flex flex-col gap-5 min-w-0">
+          <FormAlert message={errors.root?.server?.message} />
+
+          <Input
+            type="email"
+            label={<Localize translationKey="pages:auth:email" />}
+            autoComplete="email"
+            autoFocus
+            required
+            error={errors.email?.message}
+            {...register('email')}
+          />
+          <Input
+            label={<Localize translationKey="pages:auth:username" />}
+            autoComplete="username"
+            required
+            error={errors.username?.message}
+            {...register('username')}
+          />
+          <Input
+            type="password"
+            label={<Localize translationKey="pages:auth:password" />}
+            autoComplete="new-password"
+            required
+            error={errors.password?.message}
+            {...register('password', {
+              // Keep the confirmation error in sync when the password changes.
+              onChange: () => form.formState.touchedFields.rePassword && form.trigger('rePassword'),
+            })}
+          />
+          <Input
+            type="password"
+            label={<Localize translationKey="pages:auth:rePassword" />}
+            autoComplete="new-password"
+            required
+            error={errors.rePassword?.message}
+            {...register('rePassword')}
+          />
+
+          <Button variant="bold" type="submit" className="w-full mt-1" aria-busy={isSubmitting}>
+            <Localize translationKey={isSubmitting ? 'common:loading' : 'pages:auth:signUp'} />
+          </Button>
+
+          <p className="text-center text-xs text-white/50">
+            <Localize translationKey="pages:auth:haveAccount" />{' '}
+            <Link href="/auth/login" className="text-white hover:text-a3-orange hover:underline">
+              <Localize translationKey="pages:auth:login" />
+            </Link>
+          </p>
+        </fieldset>
       </Paper>
     </ContentPage>
   );

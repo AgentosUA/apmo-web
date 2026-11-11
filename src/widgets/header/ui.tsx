@@ -4,7 +4,14 @@ import classNames from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ComponentType, ReactNode, useEffect, useState } from 'react';
+import {
+  ComponentPropsWithoutRef,
+  ComponentType,
+  ReactNode,
+  forwardRef,
+  useEffect,
+  useState,
+} from 'react';
 import { createPortal } from 'react-dom';
 import {
   FiFileText,
@@ -18,11 +25,14 @@ import {
 import { IoMdClose } from 'react-icons/io';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
-import { userEntity } from '@/entities/user/model';
 import { Authorized, UnAuthorized } from '@/entities/user/ui/authorization/ui';
+import { LogoutConfirm } from '@/features/user/logout';
 import { Button } from '@/shared/ui/atoms/button';
 import { useMounted } from '@/shared/ui/hooks';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
+
+const MENU_ITEM_CLASS =
+  'group flex items-center gap-3 w-full h-12 px-4 text-sm uppercase font-normal text-white! border-l-2 border-transparent transition-colors hover:bg-white/5 hover:border-a3-orange active:bg-a3-orange/20';
 
 const MenuLink = ({
   href,
@@ -41,12 +51,24 @@ const MenuLink = ({
     href={href}
     onClick={onClick}
     {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-    className="group flex items-center gap-3 h-12 px-4 text-sm uppercase font-normal text-white! border-l-2 border-transparent transition-colors hover:bg-white/5 hover:border-a3-orange active:bg-a3-orange/20"
+    className={MENU_ITEM_CLASS}
   >
     <Icon className="text-lg text-white/70 group-hover:text-a3-orange" />
     {children}
   </Link>
 );
+
+const MenuButton = forwardRef<
+  HTMLButtonElement,
+  ComponentPropsWithoutRef<'button'> & { icon: ComponentType<{ className?: string }> }
+>(({ icon: Icon, children, className, ...props }, ref) => (
+  <button ref={ref} type="button" className={classNames(MENU_ITEM_CLASS, className)} {...props}>
+    <Icon className="text-lg text-white/70 group-hover:text-a3-orange" />
+    {children}
+  </button>
+));
+
+MenuButton.displayName = 'MenuButton';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -171,11 +193,13 @@ const Header = () => {
               </Button>
             </Link>
 
-            <Link href="/">
-              <Button variant="primary" onClick={userEntity.logout}>
-                <Localize translationKey="widgets:header:logOut" />
-              </Button>
-            </Link>
+            <LogoutConfirm
+              trigger={
+                <Button variant="primary">
+                  <Localize translationKey="widgets:header:logOut" />
+                </Button>
+              }
+            />
           </Authorized>
         </div>
 
@@ -298,16 +322,14 @@ const Header = () => {
                   <MenuLink href="/profile" icon={FiUser} onClick={closeMenu}>
                     <Localize translationKey="widgets:header:profile" />
                   </MenuLink>
-                  <MenuLink
-                    href="/"
-                    icon={FiLogOut}
-                    onClick={() => {
-                      userEntity.logout();
-                      closeMenu();
-                    }}
-                  >
-                    <Localize translationKey="widgets:header:logOut" />
-                  </MenuLink>
+                  <LogoutConfirm
+                    trigger={
+                      // Close the drawer so the dialog is not covered by it.
+                      <MenuButton icon={FiLogOut} onClick={closeMenu}>
+                        <Localize translationKey="widgets:header:logOut" />
+                      </MenuButton>
+                    }
+                  />
                 </Authorized>
               </div>
             </nav>

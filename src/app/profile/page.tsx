@@ -1,21 +1,21 @@
 'use client';
 
-import { useFormik, type FormikProps } from 'formik';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { type ReactNode, useEffect } from 'react';
+import { Controller } from 'react-hook-form';
 import { BsCopy as BsCopyIcon, BsEye, BsTrash } from 'react-icons/bs';
-import * as yup from 'yup';
 
-import { Callsigns } from '@/entities/mission/types';
 import { userEntity } from '@/entities/user/model';
 import { useUnAuthorizated } from '@/entities/user/ui/authorization/hook';
+import { LogoutConfirm } from '@/features/user/logout';
 import { getWorldDisplayName } from '@/shared/lib/ocap/worlds';
-import { WorldPreview } from '@/shared/ui/atoms/world-preview/ui';
-import { apmoApi, Plan } from '@/shared/sdk';
+import { setServerError, useZodForm } from '@/shared/lib/validation';
+import { api, changeAvatarRequestSchema, getApiErrorMessage, type Plan } from '@/shared/sdk';
 import { Button } from '@/shared/ui/atoms/button';
-import { Input } from '@/shared/ui/atoms/input/ui';
+import { Input } from '@/shared/ui/atoms/input';
+import { WorldPreview } from '@/shared/ui/atoms/world-preview/ui';
 import { Paper } from '@/shared/ui/atoms/paper';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import { Modal } from '@/shared/ui/moleculas/modal/ui';
@@ -23,7 +23,74 @@ import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { ContentPage } from '@/widgets/content-page';
 
-type AvatarFormValues = { avatar: string };
+type AvatarForm = ReturnType<typeof useAvatarForm>;
+
+/** One form instance shared by the mobile and desktop panels. */
+const useAvatarForm = () => {
+  const form = useZodForm(changeAvatarRequestSchema, {
+    // Re-syncs when the profile is (re)loaded.
+    values: { avatar: userEntity.user?.avatar ?? '' },
+  });
+
+  const onSubmit = form.handleSubmit(async ({ avatar }) => {
+    try {
+      await userEntity.changeAvatar(avatar);
+
+      toasterEntity.call({
+        title: 'pages:profile:changeAvatar',
+        description: 'pages:profile:avatarChanged',
+      });
+    } catch (error) {
+      setServerError(form, error, 'avatar');
+    }
+  });
+
+  return { form, onSubmit };
+};
+
+const AvatarFields = ({
+  avatarForm: { form, onSubmit },
+  id,
+}: {
+  avatarForm: AvatarForm;
+  id: string;
+}) => {
+  const {
+    control,
+    formState: { isSubmitting, isDirty },
+  } = form;
+
+  return (
+    <form noValidate onSubmit={onSubmit} className="flex flex-col gap-2 w-full text-left">
+      {/* Controlled: the mobile and desktop panels are both mounted and share this field. */}
+      <Controller
+        control={control}
+        name="avatar"
+        render={({ field, fieldState }) => (
+          <Input
+            {...field}
+            id={id}
+            type="url"
+            inputMode="url"
+            placeholder="https://…/avatar.png"
+            label={<Localize translationKey="pages:profile:avatarUrl" />}
+            hint={<Localize translationKey="pages:profile:avatarHint" />}
+            disabled={isSubmitting}
+            error={fieldState.error?.message}
+          />
+        )}
+      />
+      <Button
+        type="submit"
+        variant="orange"
+        disabled={isSubmitting || !isDirty}
+        aria-busy={isSubmitting}
+      >
+        <Localize translationKey={isSubmitting ? 'common:loading' : 'pages:profile:changeAvatar'} />
+      </Button>
+    </form>
+  );
+};
 
 type PlanCardProps = {
   plan: Plan;
@@ -116,11 +183,11 @@ const PlanCard = ({
 type UserPanelProps = {
   username?: string;
   avatar?: string;
-  formik: FormikProps<AvatarFormValues>;
+  avatarForm: AvatarForm;
   variant: 'mobile' | 'desktop';
 };
 
-const UserPanel = ({ username, avatar, formik, variant }: UserPanelProps) => {
+const UserPanel = ({ username, avatar, avatarForm, variant }: UserPanelProps) => {
   const isMobile = variant === 'mobile';
 
   if (isMobile) {
@@ -140,26 +207,19 @@ const UserPanel = ({ username, avatar, formik, variant }: UserPanelProps) => {
           <h2 className="text-lg font-normal break-all">{username}</h2>
         </div>
         <div className="flex flex-col gap-3 [&_button]:w-full">
-          <Input
-            id="avatar-mobile"
-            name="avatar"
-            label={<Localize translationKey="pages:profile:avatarUrl" />}
-            value={formik.values.avatar}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.avatar ? formik.errors.avatar : ''}
-          />
-          <Button onClick={formik.submitForm} variant="orange">
-            <Localize translationKey="pages:profile:changeAvatar" />
-          </Button>
+          <AvatarFields avatarForm={avatarForm} id="avatar-mobile" />
           <Link href="/profile/change-password" className="w-full">
             <Button variant="orange" className="w-full">
               <Localize translationKey="pages:profile:changePassword" />
             </Button>
           </Link>
-          <Button variant="orange" onClick={userEntity.logout} className="w-full">
-            <Localize translationKey="pages:profile:logout" />
-          </Button>
+          <LogoutConfirm
+            trigger={
+              <Button variant="orange" className="w-full">
+                <Localize translationKey="pages:profile:logout" />
+              </Button>
+            }
+          />
         </div>
       </div>
     );
@@ -172,28 +232,19 @@ const UserPanel = ({ username, avatar, formik, variant }: UserPanelProps) => {
       </div>
       <h2 className="text-base font-normal">{username}</h2>
       <div className="flex flex-col justify-center gap-[15px] [&_button]:w-full">
-        <div className="flex justify-end flex-col h-auto w-full">
-          <Input
-            id="avatar-desktop"
-            name="avatar"
-            label={<Localize translationKey="pages:profile:avatarUrl" />}
-            value={formik.values.avatar}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.avatar ? formik.errors.avatar : ''}
-          />
-          <Button onClick={formik.submitForm} variant="orange">
-            <Localize translationKey="pages:profile:changeAvatar" />
-          </Button>
-        </div>
+        <AvatarFields avatarForm={avatarForm} id="avatar-desktop" />
         <Link href="/profile/change-password">
           <Button variant="orange">
             <Localize translationKey="pages:profile:changePassword" />
           </Button>
         </Link>
-        <Button variant="orange" onClick={userEntity.logout}>
-          <Localize translationKey="pages:profile:logout" />
-        </Button>
+        <LogoutConfirm
+          trigger={
+            <Button variant="orange">
+              <Localize translationKey="pages:profile:logout" />
+            </Button>
+          }
+        />
       </div>
     </div>
   );
@@ -332,11 +383,13 @@ const Profile = observer(() => {
   };
 
   const onCopySlots = (plan: Plan) => {
-    if (!plan.mission.slots) return;
+    const missionSlots = plan.mission?.slots;
 
-    const slots = Object.keys(plan.mission.slots)
-      .filter((key) => Boolean(plan?.mission?.slots?.[key as keyof Callsigns]))
-      .map((key) => `${key}: ${plan?.mission?.slots?.[key as keyof Callsigns]}`);
+    if (!missionSlots) return;
+
+    const slots = Object.entries(missionSlots)
+      .filter(([, squad]) => Boolean(squad))
+      .map(([callsign, squad]) => `${callsign}: ${squad}`);
 
     navigator.clipboard.writeText(slots.join('\n'));
 
@@ -354,32 +407,19 @@ const Profile = observer(() => {
 
   const getPlanIslandName = (plan: Plan) => getWorldDisplayName(plan?.mission?.island);
 
-  const onDeletePlan = ({ id }: Plan) => {
-    apmoApi.plan.delete({ id }).then(() => {
-      if (!userEntity.user) return;
-
-      userEntity.user.plans = userEntity.user.plans.filter((plan) => plan.id == id);
-    });
+  const onDeletePlan = async ({ id }: Plan) => {
+    try {
+      await api.plans.remove({ id });
+      userEntity.removePlan(id);
+    } catch (error) {
+      toasterEntity.call({
+        title: 'pages:profile:deletePlan',
+        description: getApiErrorMessage(error),
+      });
+    }
   };
 
-  const validationSchema = yup.object({
-    avatar: yup
-      .string()
-      .url('Invalid image url')
-      .matches(/\.(jpeg|jpg|gif|png)$/, 'Invalid image url'),
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      avatar: userEntity?.user?.avatar ?? '',
-    },
-    validationSchema,
-    enableReinitialize: true,
-    validateOnBlur: true,
-    onSubmit: () => {
-      userEntity.changeAvatar(formik.values.avatar);
-    },
-  });
+  const avatarForm = useAvatarForm();
 
   const planCardProps = {
     getPlanImage,
@@ -393,7 +433,7 @@ const Profile = observer(() => {
   const userPanelProps = {
     username: userEntity?.user?.username,
     avatar: userEntity?.user?.avatar ?? undefined,
-    formik,
+    avatarForm,
   };
 
   const isLoading = userEntity.isLoadingProfile || !userEntity.user;

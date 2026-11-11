@@ -1,8 +1,13 @@
-import cookieCutter from 'cookie-cutter';
 import { makeAutoObservable } from 'mobx';
 
-import { apmoApi, instance, LoginDto, User as UserType } from '@/shared/sdk';
-import { setTokenFromCookies } from '@/shared/sdk/lib';
+import {
+  api,
+  getApiErrorMessage,
+  tokenStorage,
+  type ChangePasswordRequest,
+  type SignInRequest,
+  type User as UserType,
+} from '@/shared/sdk';
 
 class User {
   user: UserType | null = null;
@@ -22,91 +27,62 @@ class User {
   }
 
   boot = () => {
-    setTokenFromCookies(instance);
-
     this.booted = true;
   };
 
-  getUser = async (onError?: (string: string) => void) => {
+  getUser = async (onError?: (message: string) => void) => {
     try {
       this.isLoadingProfile = true;
-      const { data } = await apmoApi.user.get();
-
-      this.user = data;
-    } catch (error: any) {
-      onError?.(error?.response?.data?.message ?? 'Unknown error');
+      this.user = await api.profile.me();
+    } catch (error) {
+      onError?.(getApiErrorMessage(error));
     } finally {
       this.isLoadingProfile = false;
     }
   };
 
-  changePassword = async (
-    values: {
-      oldPassword: string;
-      newPassword: string;
-    },
-    cb?: () => void,
-    onError?: (string: string) => void
-  ) => {
+  /** Resolves on success, throws the API error otherwise (forms map it onto fields). */
+  changePassword = async (values: ChangePasswordRequest) => {
     try {
       this.isLoadingChangePassword = true;
-      await apmoApi.user.changePassword(values);
-
-      cb?.();
-    } catch (error: any) {
-      onError?.(error?.response?.data?.message ?? 'Unknown error');
+      await api.auth.changePassword(values);
     } finally {
       this.isLoadingChangePassword = false;
     }
   };
 
+  /** Throws on failure so the form can show the error. */
   changeAvatar = async (avatar: string) => {
-    try {
-      await apmoApi.user.changeAvatar({ avatar });
+    await api.profile.changeAvatar({ avatar });
 
-      if (this.user) {
-        this.user.avatar = avatar;
-      }
-    } catch (error) {
-      console.error(error);
+    if (this.user) {
+      this.user.avatar = avatar || null;
     }
   };
 
-  login = async (values: LoginDto, onError?: (string: string) => void) => {
+  removePlan = (id: string) => {
+    if (!this.user) return;
+
+    this.user.plans = this.user.plans.filter((plan) => plan.id !== id);
+  };
+
+  /** Throws on failure so the form can show the error. */
+  login = async (values: SignInRequest) => {
     try {
       this.isLoadingLogin = true;
 
-      const {
-        data: { token, refreshToken },
-      } = await apmoApi.user.login(values);
-
-      cookieCutter.set('token', token, {
-        path: '/',
-      });
-
-      cookieCutter.set('refreshToken', refreshToken, {
-        path: '/',
-      });
-
-      setTokenFromCookies(instance);
+      tokenStorage.set(await api.auth.signIn(values));
 
       this.isAuthorized = true;
-    } catch (error: any) {
-      onError?.(error?.response?.data?.message ?? 'Unknown error');
     } finally {
       this.isLoadingLogin = false;
     }
   };
 
   logout = () => {
-    cookieCutter.set('token', '', {
-      path: '/',
-    });
+    tokenStorage.clear();
 
-    cookieCutter.set('refreshToken', '', {
-      path: '/',
-    });
-
+    this.user = null;
     this.isAuthorized = false;
   };
 }

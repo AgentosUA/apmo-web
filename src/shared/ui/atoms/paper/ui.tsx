@@ -40,6 +40,8 @@ type PaperProps = Omit<HTMLAttributes<HTMLElement>, 'onSubmit'> &
     ref?: Ref<HTMLElement>;
     /** Passed through when `as="form"`. */
     onSubmit?: HTMLAttributes<HTMLFormElement>['onSubmit'];
+    /** Passed through when `as="form"` — disables native browser validation. */
+    noValidate?: boolean;
   };
 
 const Paper = ({ as = 'div', variant, padding, className, ...props }: PaperProps) =>

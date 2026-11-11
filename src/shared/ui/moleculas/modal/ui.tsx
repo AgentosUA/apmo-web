@@ -16,6 +16,11 @@ const Modal: FC<
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
     contentClassName?: string;
+    /** Defaults to "Confirm". */
+    confirmLabel?: ReactNode;
+    /** Defaults to "Cancel". */
+    cancelLabel?: ReactNode;
+    confirmVariant?: 'default' | 'destructive' | 'orange';
   }>
 > = ({
   title,
@@ -27,14 +32,17 @@ const Modal: FC<
   open,
   onOpenChange,
   contentClassName,
+  confirmLabel,
+  cancelLabel,
+  confirmVariant,
 }) => (
   <Dialog.Root open={open} onOpenChange={onOpenChange}>
     {Boolean(trigger) && <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>}
     <Dialog.Portal>
-      <Dialog.Overlay className="bg-black/60 fixed inset-0 animate-overlayShow z-[1000]" />
+      <Dialog.Overlay className="bg-black/60 fixed inset-0 animate-overlayShow z-[1100]" />
       <Dialog.Content
         className={cn(
-          'fixed top-[40%] left-1/2 w-[90vw] max-w-[450px] max-h-[85vh] z-[1001] -translate-x-1/2 -translate-y-1/2 bg-a3-black animate-contentShow focus:outline-none',
+          'fixed top-[40%] left-1/2 w-[90vw] max-w-[450px] max-h-[85vh] z-[1101] -translate-x-1/2 -translate-y-1/2 bg-a3-black animate-contentShow focus:outline-none',
           contentClassName
         )}
       >
@@ -58,14 +66,14 @@ const Modal: FC<
                 className="mr-auto"
                 onClick={() => (typeof onCancel === 'boolean' ? null : onCancel?.())}
               >
-                <Localize translationKey="common:cancel" />
+                {cancelLabel ?? <Localize translationKey="common:cancel" />}
               </Button>
             </Dialog.Close>
           )}
           {Boolean(onConfirm) && (
             <Dialog.Close asChild>
-              <Button className="ml-auto" onClick={onConfirm}>
-                <Localize translationKey="common:confirm" />
+              <Button className="ml-auto" variant={confirmVariant} onClick={onConfirm}>
+                {confirmLabel ?? <Localize translationKey="common:confirm" />}
               </Button>
             </Dialog.Close>
           )}

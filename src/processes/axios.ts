@@ -1,64 +1,47 @@
 'use client';
 
-import cookieCutter from 'cookie-cutter';
-
 import { userEntity } from '@/entities/user/model';
-import { apmoApi, instance } from '@/shared/sdk';
+import { api, http, isApiError, tokenStorage } from '@/shared/sdk';
 
-let refreshPromise: Promise<string | void> | null = null;
+/** One refresh at a time: concurrent 401s wait for the same promise. */
+let refreshPromise: Promise<string | null> | null = null;
 
-instance.interceptors.request.use(function (config) {
-  const token = cookieCutter.get('token');
-  const refreshToken = cookieCutter.get('refreshToken');
+const refreshAccessToken = () => {
+  refreshPromise ??= api.auth
+    .refreshToken()
+    .then((tokens) => {
+      tokenStorage.set(tokens);
 
-  if (config.url?.includes('refresh-token')) {
-    config.headers.Authorization = refreshToken
-      ? `Bearer ${refreshToken}`
-      : undefined;
-  } else {
-    config.headers.Authorization = token ? `Bearer ${token}` : undefined;
-  }
+      return tokens.token;
+    })
+    .catch(() => {
+      userEntity.logout();
 
-  return config;
-});
+      return null;
+    })
+    .finally(() => {
+      refreshPromise = null;
+    });
 
-instance.interceptors.response.use(
+  return refreshPromise;
+};
+
+http.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status !== 401) {
+    const config = error?.config;
+
+    if (!isApiError(error, 401) || !config || config._retry || !tokenStorage.getRefreshToken()) {
       return Promise.reject(error);
     }
 
-    if (!refreshPromise) {
-      refreshPromise = apmoApi.user
-        .refreshToken()
-        .then(({ data: { token, refreshToken } }) => {
-          cookieCutter.set('token', token, {
-            path: '/',
-          });
-
-          cookieCutter.set('refreshToken', refreshToken, {
-            path: '/',
-          });
-
-          return token;
-        })
-        .catch(() => {
-          userEntity.logout();
-        })
-        .finally(() => {
-          refreshPromise = null;
-        });
-    }
-
-    const token = await refreshPromise;
+    const token = await refreshAccessToken();
 
     if (!token) {
       return Promise.reject(error);
     }
 
-    error.config.headers.Authorization = `Bearer ${token}`;
-
-    return instance.request(error.config);
+    // The request interceptor attaches the fresh token from cookies.
+    return http.request({ ...config, _retry: true });
   }
 );

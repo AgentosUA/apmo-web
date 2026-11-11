@@ -114,6 +114,9 @@ const enLocale = {
       newPassword: 'New password',
       confirmPassword: 'Confirm password',
       changePasswordSuccess: 'Password changed successfully',
+      invalidAvatarUrl: 'Link to a .jpg, .png, .gif or .webp image',
+      avatarHint: 'Direct link to an image. Leave empty for the default avatar',
+      avatarChanged: 'Avatar updated',
     },
     changelog: {
       backToHome: 'Back to home page',
@@ -142,7 +145,21 @@ const enLocale = {
       logout: 'Logout',
       oldPassword: 'Old password',
       newPassword: 'New password',
+      noAccount: 'No account yet?',
+      haveAccount: 'Already have an account?',
+      accountCreatedTitle: 'Account created',
+      accountCreatedDescription: 'You can now log in',
+      resetSentTitle: 'Check your email',
+      resetSentDescription: 'A new password has been sent to your email',
+      resetHint: 'We will send a new password to this address',
     }
+  },
+  features: {
+    logout: {
+      title: 'Log out',
+      description: 'Are you sure you want to log out?',
+      confirm: 'Log out',
+    },
   },
   errors: {
     emailNotFound: 'Email is not found',

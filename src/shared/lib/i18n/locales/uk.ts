@@ -117,6 +117,9 @@ const ukLocale: typeof enLocale = {
       newPassword: 'Новий пароль',
       confirmPassword: 'Підтвердити пароль',
       changePasswordSuccess: 'Пароль успішно змінено',
+      invalidAvatarUrl: 'Посилання на зображення .jpg, .png, .gif або .webp',
+      avatarHint: 'Пряме посилання на зображення. Залиште порожнім для стандартного аватара',
+      avatarChanged: 'Аватар оновлено',
     },
     changelog: {
       backToHome: 'До головної',
@@ -145,6 +148,20 @@ const ukLocale: typeof enLocale = {
       logout: 'Вийти',
       oldPassword: 'Старий пароль',
       newPassword: 'Новий пароль',
+      noAccount: 'Ще немає акаунта?',
+      haveAccount: 'Вже маєте акаунт?',
+      accountCreatedTitle: 'Акаунт створено',
+      accountCreatedDescription: 'Тепер ви можете увійти',
+      resetSentTitle: 'Перевірте пошту',
+      resetSentDescription: 'Новий пароль надіслано на ваш email',
+      resetHint: 'Ми надішлемо новий пароль на цю адресу',
+    },
+  },
+  features: {
+    logout: {
+      title: 'Вихід',
+      description: 'Ви впевнені, що хочете вийти?',
+      confirm: 'Вийти',
     },
   },
   errors: {

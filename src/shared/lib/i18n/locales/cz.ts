@@ -116,6 +116,9 @@ const czLocale: typeof enLocale = {
       newPassword: 'Nové heslo',
       confirmPassword: 'Potvrdit heslo',
       changePasswordSuccess: 'Heslo úspěšně změněno',
+      invalidAvatarUrl: 'Odkaz na obrázek .jpg, .png, .gif nebo .webp',
+      avatarHint: 'Přímý odkaz na obrázek. Ponechte prázdné pro výchozí avatar',
+      avatarChanged: 'Avatar aktualizován',
     },
     changelog: {
       backToHome: 'Zpátky na hlavní stránku',
@@ -144,6 +147,20 @@ const czLocale: typeof enLocale = {
       logout: 'Odhlásit se',
       oldPassword: 'Staré heslo',
       newPassword: 'Nové heslo',
+      noAccount: 'Ještě nemáte účet?',
+      haveAccount: 'Už máte účet?',
+      accountCreatedTitle: 'Účet vytvořen',
+      accountCreatedDescription: 'Nyní se můžete přihlásit',
+      resetSentTitle: 'Zkontrolujte e-mail',
+      resetSentDescription: 'Nové heslo bylo odesláno na váš e-mail',
+      resetHint: 'Nové heslo pošleme na tuto adresu',
+    },
+  },
+  features: {
+    logout: {
+      title: 'Odhlášení',
+      description: 'Opravdu se chcete odhlásit?',
+      confirm: 'Odhlásit se',
     },
   },
   errors: {

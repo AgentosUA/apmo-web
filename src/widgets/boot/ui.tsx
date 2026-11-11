@@ -5,8 +5,7 @@ import { FC, PropsWithChildren, useEffect } from 'react';
 
 import { mapsEntity } from '@/entities/maps';
 import { userEntity } from '@/entities/user/model';
-import { instance } from '@/shared/sdk';
-import { setTokenFromCookies } from '@/shared/sdk/lib';
+import { tokenStorage } from '@/shared/sdk';
 
 const BootProvider: FC<PropsWithChildren> = observer<PropsWithChildren>(({ children }) => {
   useEffect(() => {
@@ -15,9 +14,7 @@ const BootProvider: FC<PropsWithChildren> = observer<PropsWithChildren>(({ child
   }, []);
 
   useEffect(() => {
-    const isTokenExists = setTokenFromCookies(instance);
-
-    if (isTokenExists) {
+    if (tokenStorage.hasToken()) {
       userEntity.isAuthorized = true;
 
       if (window.location.pathname === '/profile') {

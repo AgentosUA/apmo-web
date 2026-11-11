@@ -1,18 +1,9 @@
 import { makeAutoObservable } from 'mobx';
 
-import { apmoApi } from '@/shared/sdk';
+import { api } from '@/shared/sdk';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 
-
-import {
-  Briefing,
-  Group,
-  MissionMarker,
-  Preview,
-  Vehicle,
-  Mission as MissionFile,
-} from './types';
-
+import type { Mission as MissionFile } from './types';
 
 class Mission {
   constructor() {
@@ -43,7 +34,7 @@ class Mission {
     this.isLoading = true;
 
     try {
-      const { data } = await apmoApi.mission.parse(mission);
+      const data = await api.missions.parse({ file: mission });
 
       if (data) {
         this.setMission(data);

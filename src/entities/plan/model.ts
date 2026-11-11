@@ -1,9 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 
-
 import { i18n } from '@/shared/lib/i18n/config';
 import { getWorldDisplayName } from '@/shared/lib/ocap/worlds';
-import { apmoApi } from '@/shared/sdk';
+import { api, getApiErrorMessage } from '@/shared/sdk';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 
 import { mapsEntity } from '../maps';
@@ -24,21 +23,23 @@ class Plan {
   }
 
   public savePlan = async (isRedirect = true) => {
+    const mission = missionEntity.data;
+
     const payload = {
       title: this.title ?? 'Untitled',
-      mission: missionEntity.data?.fileName
+      mission: mission?.fileName
         ? {
-            author: missionEntity.data?.author,
-            fileName: missionEntity.data?.fileName,
-            dlcs: missionEntity.data?.dlcs,
-            briefing: missionEntity.data?.briefing,
-            groups: missionEntity.data?.groups,
-            island: missionEntity.data?.island,
-            markers: missionEntity.data?.markers,
-            preview: missionEntity.data?.preview,
-            missionName: missionEntity.data?.missionName,
-            vehicles: missionEntity.data?.vehicles,
-            slots: missionEntity.data?.slots,
+            author: mission.author,
+            fileName: mission.fileName,
+            dlcs: mission.dlcs,
+            briefing: mission.briefing,
+            groups: mission.groups,
+            island: mission.island,
+            markers: mission.markers,
+            preview: mission.preview,
+            missionName: mission.missionName,
+            vehicles: mission.vehicles,
+            slots: mission.slots,
           }
         : null,
       planMarkers: JSON.stringify(this.markers.swtMarkers),
@@ -46,7 +47,7 @@ class Plan {
 
     if (planEntity.id && missionEntity.data?.missionName) {
       try {
-        await apmoApi.plan.updatePlan({
+        await api.plans.update({
           id: planEntity.id,
           ...payload,
         });
@@ -55,17 +56,28 @@ class Plan {
           title: 'Plan saved',
           description: 'Your plan has been saved',
         });
-      } catch (error: any) {
+      } catch (error) {
         toasterEntity.call({
           title: 'Failed to save plan',
-          description: error?.response?.data?.message,
+          description: getApiErrorMessage(error),
         });
       }
 
       return;
     }
 
-    const { data } = await apmoApi.plan.createPlan(payload);
+    let data;
+
+    try {
+      data = await api.plans.create(payload);
+    } catch (error) {
+      toasterEntity.call({
+        title: 'Failed to save plan',
+        description: getApiErrorMessage(error),
+      });
+
+      return;
+    }
 
     if (isRedirect && data.id) {
       // redirect(`/plans/${data.id}`);
@@ -80,22 +92,23 @@ class Plan {
 
   public loadPlan = async (id: string) => {
     try {
-      const { data, status } = await apmoApi.plan.getPlanById({ id });
-
-      if (status === 404) return;
+      const data = await api.plans.getById({ id });
 
       planEntity.title = data.title;
       planEntity.id = data.id;
-      missionEntity.setMission(data.mission);
-      const isMapAvailable = await mapsEntity.selectMap(data.mission.island);
 
-      if (!isMapAvailable) {
-        toasterEntity.call({
-          title: i18n.t('toasters:mapNotAvailable'),
-          description: i18n.t('toasters:mapNotInOcapDatabase', {
-            map: getWorldDisplayName(data.mission.island),
-          }),
-        });
+      if (data.mission) {
+        missionEntity.setMission(data.mission);
+        const isMapAvailable = await mapsEntity.selectMap(data.mission.island);
+
+        if (!isMapAvailable) {
+          toasterEntity.call({
+            title: i18n.t('toasters:mapNotAvailable'),
+            description: i18n.t('toasters:mapNotInOcapDatabase', {
+              map: getWorldDisplayName(data.mission.island),
+            }),
+          });
+        }
       }
 
       markersEntity.setSWTMarkers(JSON.parse(data.planMarkers));
