@@ -52,10 +52,12 @@ const MissionSlotList: FC<{
 
 const PlayerSlotList: FC<{
   slots: Callsigns;
-}> = observer(({ slots = callsignsObject }) => {
-  const formik = useFormik({
+}> = observer(({ slots }) => {
+  // `slots` is null for missions without saved squad names.
+  const formik = useFormik<Record<string, string>>({
     initialValues: {
-      ...slots,
+      ...callsignsObject,
+      ...(slots ?? {}),
     },
     enableReinitialize: true,
     onSubmit: () => {},
@@ -66,7 +68,7 @@ const PlayerSlotList: FC<{
 
     missionEntity.data.slots = {
       ...formik.values,
-    };
+    } as NonNullable<Callsigns>;
   }, [formik.values]);
 
   const onListClick = () => {

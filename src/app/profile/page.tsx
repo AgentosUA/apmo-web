@@ -298,7 +298,7 @@ const Profile = observer(() => {
 
   const userPanelProps = {
     username: userEntity?.user?.username,
-    avatar: userEntity?.user?.avatar,
+    avatar: userEntity?.user?.avatar ?? undefined,
     formik,
   };
 
