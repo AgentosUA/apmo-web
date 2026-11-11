@@ -11,6 +11,9 @@ const planSchema = z.object({
   mission: missionSchema.nullable(),
   /** JSON-serialized Sweet Markers. */
   planMarkers: z.string(),
+  /** ISO dates. Missing on plans saved before the API had timestamps. */
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
 });
 
 /* ----------------------------- requests ----------------------------- */

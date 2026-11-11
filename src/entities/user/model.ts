@@ -9,6 +9,8 @@ import {
   type User as UserType,
 } from '@/shared/sdk';
 
+import { profilePlansEntity } from './plans-model';
+
 class User {
   user: UserType | null = null;
 
@@ -21,6 +23,8 @@ class User {
   isLoadingLogin = false;
 
   isLoadingChangePassword = false;
+
+  isUpdatingAvatar = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -60,6 +64,36 @@ class User {
     }
   };
 
+  /** Uploads an image file as the avatar. Throws on failure. */
+  uploadAvatar = async (file: File) => {
+    try {
+      this.isUpdatingAvatar = true;
+
+      const { avatar } = await api.profile.uploadAvatar({ avatar: file });
+
+      if (this.user) {
+        this.user.avatar = avatar;
+      }
+    } finally {
+      this.isUpdatingAvatar = false;
+    }
+  };
+
+  /** Resets to the default avatar. Throws on failure. */
+  removeAvatar = async () => {
+    try {
+      this.isUpdatingAvatar = true;
+
+      await api.profile.removeAvatar();
+
+      if (this.user) {
+        this.user.avatar = null;
+      }
+    } finally {
+      this.isUpdatingAvatar = false;
+    }
+  };
+
   removePlan = (id: string) => {
     if (!this.user) return;
 
@@ -84,6 +118,8 @@ class User {
 
     this.user = null;
     this.isAuthorized = false;
+
+    profilePlansEntity.reset();
   };
 }
 

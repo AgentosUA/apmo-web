@@ -1,27 +1,50 @@
 'use client';
 
+import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { type ReactNode, useEffect } from 'react';
+import { type ChangeEvent, type ReactNode, useEffect, useRef } from 'react';
 import { Controller } from 'react-hook-form';
-import { BsCopy as BsCopyIcon, BsEye, BsTrash } from 'react-icons/bs';
+import { useTranslation } from 'react-i18next';
+import {
+  BsCopy as BsCopyIcon,
+  BsEye,
+  BsSortDown,
+  BsSortUp,
+  BsTrash,
+  BsUpload,
+  BsXLg,
+} from 'react-icons/bs';
 
 import { userEntity } from '@/entities/user/model';
+import { profilePlansEntity } from '@/entities/user/plans-model';
 import { useUnAuthorizated } from '@/entities/user/ui/authorization/hook';
 import { LogoutConfirm } from '@/features/user/logout';
 import { getWorldDisplayName } from '@/shared/lib/ocap/worlds';
 import { setServerError, useZodForm } from '@/shared/lib/validation';
-import { api, changeAvatarRequestSchema, getApiErrorMessage, type Plan } from '@/shared/sdk';
+import {
+  api,
+  avatarFileSchema,
+  AVATAR_MIME_TYPES,
+  changeAvatarRequestSchema,
+  getApiErrorMessage,
+  type ProfilePlan,
+  type ProfilePlanSort,
+} from '@/shared/sdk';
 import { Button } from '@/shared/ui/atoms/button';
 import { Input } from '@/shared/ui/atoms/input';
+import { Select } from '@/shared/ui/atoms/select';
 import { WorldPreview } from '@/shared/ui/atoms/world-preview/ui';
 import { Paper } from '@/shared/ui/atoms/paper';
 import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import { Modal } from '@/shared/ui/moleculas/modal/ui';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
+import { cn } from '@/shared/utils/cn';
 import { ContentPage } from '@/widgets/content-page';
+
+type Plan = ProfilePlan;
 
 type AvatarForm = ReturnType<typeof useAvatarForm>;
 
@@ -92,6 +115,112 @@ const AvatarFields = ({
   );
 };
 
+/** Upload / remove controls. Both panels are mounted, so state lives in `userEntity`. */
+const AvatarUpload = observer(({ hasAvatar }: { hasAvatar: boolean }) => {
+  const { t } = useTranslation();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const isBusy = userEntity.isUpdatingAvatar;
+
+  const onFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    // Allow choosing the same file again.
+    event.target.value = '';
+
+    if (!file) return;
+
+    const parsed = avatarFileSchema.safeParse(file);
+
+    if (!parsed.success) {
+      toasterEntity.call({
+        title: 'pages:profile:changeAvatar',
+        description: parsed.error.issues[0]?.message ?? 'pages:profile:avatarInvalidType',
+      });
+      return;
+    }
+
+    try {
+      await userEntity.uploadAvatar(file);
+
+      toasterEntity.call({
+        title: 'pages:profile:changeAvatar',
+        description: 'pages:profile:avatarChanged',
+      });
+    } catch (error) {
+      toasterEntity.call({
+        title: 'pages:profile:changeAvatar',
+        description: getApiErrorMessage(error),
+      });
+    }
+  };
+
+  const onRemove = async () => {
+    try {
+      await userEntity.removeAvatar();
+
+      toasterEntity.call({
+        title: 'pages:profile:removeAvatar',
+        description: 'pages:profile:avatarRemoved',
+      });
+    } catch (error) {
+      toasterEntity.call({
+        title: 'pages:profile:removeAvatar',
+        description: getApiErrorMessage(error),
+      });
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-2 w-full text-left">
+      <input
+        ref={inputRef}
+        type="file"
+        accept={AVATAR_MIME_TYPES.join(',')}
+        className="hidden"
+        onChange={onFileChange}
+        tabIndex={-1}
+        aria-hidden
+      />
+      <div className="flex gap-2">
+        <Button
+          type="button"
+          variant="orange"
+          className="flex-1 min-w-0 flex items-center justify-center gap-2"
+          disabled={isBusy}
+          aria-busy={isBusy}
+          onClick={() => inputRef.current?.click()}
+        >
+          <BsUpload aria-hidden />
+          <Localize translationKey={isBusy ? 'common:loading' : 'pages:profile:uploadAvatar'} />
+        </Button>
+        {hasAvatar && (
+          <Modal
+            title={<Localize translationKey="pages:profile:removeAvatar" />}
+            onConfirm={onRemove}
+            onCancel
+            confirmVariant="destructive"
+            trigger={
+              <Button
+                type="button"
+                variant="destructive"
+                className="!min-w-0 !h-8 !w-8 shrink-0 !p-0 flex items-center justify-center"
+                disabled={isBusy}
+                title={t('pages:profile:removeAvatar')}
+                aria-label={t('pages:profile:removeAvatar')}
+              >
+                <BsXLg aria-hidden />
+              </Button>
+            }
+          />
+        )}
+      </div>
+      <p className="text-xs text-white/45">
+        <Localize translationKey="pages:profile:avatarFileHint" />
+      </p>
+    </div>
+  );
+});
+
 type PlanCardProps = {
   plan: Plan;
   getPlanImage: (plan: Plan) => string;
@@ -106,6 +235,28 @@ type PlanCardProps = {
 const MOBILE_PLAN_ACTION = 'h-10 min-w-0 w-full text-xs flex items-center justify-start gap-2 px-3';
 
 const DESKTOP_PLAN_ACTION = 'h-7 text-xs text-left w-fit pr-2 flex items-center gap-2';
+
+const formatDate = (value?: string) => (value ? dayjs(value).format('DD.MM.YYYY HH:mm') : null);
+
+const PlanDates = ({ plan }: { plan: Plan }) => {
+  const created = formatDate(plan.createdAt);
+  const updated = formatDate(plan.updatedAt);
+
+  if (!created) return null;
+
+  return (
+    <p className="text-xs text-white/60 tabular-nums flex flex-wrap gap-x-3">
+      <span>
+        <Localize translationKey="pages:profile:created" />: {created}
+      </span>
+      {updated && updated !== created && (
+        <span>
+          <Localize translationKey="pages:profile:updated" />: {updated}
+        </span>
+      )}
+    </p>
+  );
+};
 
 const PlanCard = ({
   plan,
@@ -142,6 +293,7 @@ const PlanCard = ({
         </h3>
         <div className="mt-auto flex flex-col">
           <p className="text-sm font-normal">{getPlanIslandName(plan)}</p>
+          <PlanDates plan={plan} />
           <div
             className={
               isMobile
@@ -180,6 +332,17 @@ const PlanCard = ({
   );
 };
 
+/** The URL field is secondary to the upload, so it is collapsed by default. */
+const AvatarUrlDetails = ({ children }: { children: ReactNode }) => (
+  <details className="group/url text-left">
+    <summary className="cursor-pointer select-none text-xs uppercase tracking-[0.08em] text-white/60 hover:text-white list-none [&::-webkit-details-marker]:hidden">
+      <span className="inline-block mr-1 transition-transform group-open/url:rotate-90">›</span>
+      <Localize translationKey="pages:profile:avatarOrUrl" />
+    </summary>
+    <div className="mt-2">{children}</div>
+  </details>
+);
+
 type UserPanelProps = {
   username?: string;
   avatar?: string;
@@ -207,7 +370,10 @@ const UserPanel = ({ username, avatar, avatarForm, variant }: UserPanelProps) =>
           <h2 className="text-lg font-normal break-all">{username}</h2>
         </div>
         <div className="flex flex-col gap-3 [&_button]:w-full">
-          <AvatarFields avatarForm={avatarForm} id="avatar-mobile" />
+          <AvatarUpload hasAvatar={Boolean(avatar)} />
+          <AvatarUrlDetails>
+            <AvatarFields avatarForm={avatarForm} id="avatar-mobile" />
+          </AvatarUrlDetails>
           <Link href="/profile/change-password" className="w-full">
             <Button variant="orange" className="w-full">
               <Localize translationKey="pages:profile:changePassword" />
@@ -232,7 +398,10 @@ const UserPanel = ({ username, avatar, avatarForm, variant }: UserPanelProps) =>
       </div>
       <h2 className="text-base font-normal">{username}</h2>
       <div className="flex flex-col justify-center gap-[15px] [&_button]:w-full">
-        <AvatarFields avatarForm={avatarForm} id="avatar-desktop" />
+        <AvatarUpload hasAvatar={Boolean(avatar)} />
+        <AvatarUrlDetails>
+          <AvatarFields avatarForm={avatarForm} id="avatar-desktop" />
+        </AvatarUrlDetails>
         <Link href="/profile/change-password">
           <Button variant="orange">
             <Localize translationKey="pages:profile:changePassword" />
@@ -364,11 +533,99 @@ const ProfileSkeleton = () => (
   />
 );
 
+const SORT_OPTIONS: { value: ProfilePlanSort; labelKey: string }[] = [
+  { value: 'createdAt', labelKey: 'pages:profile:filters:sortCreatedAt' },
+  { value: 'updatedAt', labelKey: 'pages:profile:filters:sortUpdatedAt' },
+  { value: 'missionName', labelKey: 'pages:profile:filters:sortMissionName' },
+  { value: 'world', labelKey: 'pages:profile:filters:sortWorld' },
+];
+
+const isPlanSort = (value: string): value is ProfilePlanSort =>
+  SORT_OPTIONS.some((option) => option.value === value);
+
+/** Search by mission name, world filter and sorting. */
+const PlansToolbar = observer(() => {
+  const { t } = useTranslation();
+  const { filters, worldOptions, hasActiveFilters } = profilePlansEntity;
+
+  const isAsc = filters.order === 'asc';
+  const orderLabel = t(
+    isAsc ? 'pages:profile:filters:orderAsc' : 'pages:profile:filters:orderDesc'
+  );
+
+  return (
+    <div
+      role="search"
+      className="grid grid-cols-1 gap-3 tablet:grid-cols-2 desktop:grid-cols-[minmax(0,1fr)_180px_220px] desktop:items-end"
+    >
+      <Input
+        type="search"
+        size="md"
+        className="tablet:col-span-2 desktop:col-span-1"
+        label={<Localize translationKey="pages:profile:filters:search" />}
+        placeholder={t('pages:profile:filters:searchPlaceholder')}
+        value={filters.search}
+        onChange={(event) => profilePlansEntity.setSearch(event.target.value)}
+        maxLength={100}
+        autoComplete="off"
+      />
+      <Select
+        label={<Localize translationKey="pages:profile:filters:world" />}
+        value={filters.world}
+        onChange={(event) => profilePlansEntity.setWorld(event.target.value)}
+        options={[
+          { value: '', label: t('pages:profile:filters:allWorlds') },
+          ...worldOptions.map(({ value, label, count }) => ({
+            value,
+            label: `${label} (${count})`,
+          })),
+        ]}
+      />
+      <div className="flex items-end gap-2">
+        <Select
+          className="flex-1 min-w-0"
+          label={<Localize translationKey="pages:profile:filters:sortBy" />}
+          value={filters.sort}
+          onChange={(event) => {
+            if (isPlanSort(event.target.value)) profilePlansEntity.setSort(event.target.value);
+          }}
+          options={SORT_OPTIONS.map(({ value, labelKey }) => ({ value, label: t(labelKey) }))}
+        />
+        <button
+          type="button"
+          onClick={profilePlansEntity.toggleOrder}
+          title={orderLabel}
+          aria-label={orderLabel}
+          className="h-10 w-10 shrink-0 flex items-center justify-center bg-black/60 text-white/80 border border-solid border-white/15 hover:border-white/30 hover:text-white focus-visible:outline-none focus-visible:border-a3-orange transition-colors"
+        >
+          {isAsc ? <BsSortUp aria-hidden /> : <BsSortDown aria-hidden />}
+        </button>
+      </div>
+      {hasActiveFilters && (
+        <button
+          type="button"
+          onClick={profilePlansEntity.resetFilters}
+          className="justify-self-start text-xs uppercase tracking-[0.08em] text-a3-orange hover:text-white transition-colors tablet:col-span-2 desktop:col-span-3"
+        >
+          <Localize translationKey="pages:profile:filters:reset" />
+        </button>
+      )}
+    </div>
+  );
+});
+
+const PlansEmpty = ({ children }: { children: ReactNode }) => (
+  <div className="flex flex-col items-center gap-3 py-10 text-center text-sm text-white/60 border border-dashed border-white/15">
+    {children}
+  </div>
+);
+
 const Profile = observer(() => {
   useUnAuthorizated(userEntity);
 
   useEffect(() => {
     userEntity.getUser();
+    profilePlansEntity.load();
   }, []);
 
   const router = useRouter();
@@ -411,6 +668,7 @@ const Profile = observer(() => {
     try {
       await api.plans.remove({ id });
       userEntity.removePlan(id);
+      profilePlansEntity.removePlan(id);
     } catch (error) {
       toasterEntity.call({
         title: 'pages:profile:deletePlan',
@@ -438,6 +696,79 @@ const Profile = observer(() => {
 
   const isLoading = userEntity.isLoadingProfile || !userEntity.user;
 
+  const plans = profilePlansEntity;
+
+  const renderPlans = () => {
+    if (!plans.isLoaded) {
+      if (plans.error) {
+        return (
+          <PlansEmpty>
+            <p role="alert">
+              <Localize translationKey="pages:profile:filters:loadError" />
+            </p>
+            <Button variant="orange" onClick={plans.load}>
+              <Localize translationKey="pages:profile:filters:retry" />
+            </Button>
+          </PlansEmpty>
+        );
+      }
+
+      return Array.from({ length: PLAN_SKELETONS }, (_, i) => (
+        <div key={i}>
+          <div className="desktop:hidden">
+            <PlanCardSkeleton variant="mobile" />
+          </div>
+          <div className="hidden desktop:block">
+            <PlanCardSkeleton variant="desktop" />
+          </div>
+        </div>
+      ));
+    }
+
+    if (plans.items.length === 0) {
+      return (
+        <PlansEmpty>
+          {plans.hasActiveFilters ? (
+            <>
+              <p>
+                <Localize translationKey="pages:profile:filters:noResults" />
+              </p>
+              <Button variant="orange" onClick={plans.resetFilters}>
+                <Localize translationKey="pages:profile:filters:reset" />
+              </Button>
+            </>
+          ) : (
+            <p>
+              <Localize translationKey="pages:profile:filters:noPlans" />
+            </p>
+          )}
+        </PlansEmpty>
+      );
+    }
+
+    return (
+      <div
+        aria-busy={plans.isLoading}
+        aria-live="polite"
+        className={cn(
+          'flex flex-col gap-4 transition-opacity',
+          plans.isLoading && 'opacity-60 pointer-events-none'
+        )}
+      >
+        {plans.sortedItems.map((plan) => (
+          <div key={plan.id}>
+            <div className="desktop:hidden">
+              <PlanCard plan={plan} {...planCardProps} variant="mobile" />
+            </div>
+            <div className="hidden desktop:block">
+              <PlanCard plan={plan} {...planCardProps} variant="desktop" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <ContentPage
       width="lg"
@@ -454,19 +785,13 @@ const Profile = observer(() => {
               <h2 className="flex items-baseline gap-2 text-lg font-medium uppercase">
                 <Localize translationKey="pages:profile:myPlans" />
                 <span className="text-sm font-normal text-white/50 tabular-nums">
-                  {userEntity.user?.plans?.length ?? 0}
+                  {plans.hasActiveFilters && plans.isLoaded
+                    ? `${plans.total} / ${plans.totalAll}`
+                    : plans.totalAll}
                 </span>
               </h2>
-              {userEntity.user?.plans?.map((plan) => (
-                <div key={plan.id}>
-                  <div className="desktop:hidden">
-                    <PlanCard plan={plan} {...planCardProps} variant="mobile" />
-                  </div>
-                  <div className="hidden desktop:block">
-                    <PlanCard plan={plan} {...planCardProps} variant="desktop" />
-                  </div>
-                </div>
-              ))}
+              {(plans.totalAll > 0 || plans.hasActiveFilters) && <PlansToolbar />}
+              {renderPlans()}
             </>
           }
         />

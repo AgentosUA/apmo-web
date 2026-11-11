@@ -87,7 +87,7 @@ const enLocale = {
     footer: {
       createdBy: 'Created by',
       feelFreeToContribute: 'Feel free to contribute on',
-    }
+    },
   },
   pages: {
     home: {
@@ -119,6 +119,33 @@ const enLocale = {
       invalidAvatarUrl: 'Link to a .jpg, .png, .gif or .webp image',
       avatarHint: 'Direct link to an image. Leave empty for the default avatar',
       avatarChanged: 'Avatar updated',
+      uploadAvatar: 'Upload photo',
+      removeAvatar: 'Remove avatar',
+      avatarRemoved: 'Avatar removed',
+      avatarFileHint: 'JPG, PNG, WEBP or GIF, up to 5 MB',
+      avatarInvalidType: 'Choose a JPG, PNG, WEBP or GIF image',
+      avatarTooLarge: 'The image must be at most 5 MB',
+      avatarOrUrl: 'or set an image URL',
+      filters: {
+        search: 'Mission name',
+        searchPlaceholder: 'Search by mission name…',
+        world: 'Map',
+        allWorlds: 'All maps',
+        sortBy: 'Sort by',
+        sortCreatedAt: 'Date created',
+        sortUpdatedAt: 'Date modified',
+        sortMissionName: 'Mission name',
+        sortWorld: 'Map',
+        orderAsc: 'Ascending',
+        orderDesc: 'Descending',
+        reset: 'Reset filters',
+        noPlans: 'You have no saved plans yet',
+        noResults: 'No plans match the filters',
+        loadError: 'Failed to load plans',
+        retry: 'Retry',
+      },
+      created: 'Created',
+      updated: 'Modified',
     },
     changelog: {
       backToHome: 'Back to home page',
@@ -154,7 +181,7 @@ const enLocale = {
       resetSentTitle: 'Check your email',
       resetSentDescription: 'A new password has been sent to your email',
       resetHint: 'We will send a new password to this address',
-    }
+    },
   },
   features: {
     logout: {
@@ -165,7 +192,7 @@ const enLocale = {
   },
   errors: {
     emailNotFound: 'Email is not found',
-  }
+  },
 };
 
 export default enLocale;
