@@ -16,10 +16,10 @@ import { WorldPreview } from '@/shared/ui/atoms/world-preview/ui';
 import { apmoApi, Plan } from '@/shared/sdk';
 import { Button } from '@/shared/ui/atoms/button';
 import { Input } from '@/shared/ui/atoms/input/ui';
+import { Skeleton } from '@/shared/ui/atoms/skeleton';
 import { Modal } from '@/shared/ui/moleculas/modal/ui';
 import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
-import { Preloader } from '@/shared/ui/quarks/preloader';
 import { Footer } from '@/widgets/footer';
 import { Header } from '@/widgets/header';
 
@@ -36,11 +36,9 @@ type PlanCardProps = {
   variant: 'mobile' | 'desktop';
 };
 
-const MOBILE_PLAN_ACTION =
-  'h-10 min-w-0 w-full text-xs flex items-center justify-start gap-2 px-3';
+const MOBILE_PLAN_ACTION = 'h-10 min-w-0 w-full text-xs flex items-center justify-start gap-2 px-3';
 
-const DESKTOP_PLAN_ACTION =
-  'h-7 text-xs text-left w-fit pr-2 flex items-center gap-2';
+const DESKTOP_PLAN_ACTION = 'h-7 text-xs text-left w-fit pr-2 flex items-center gap-2';
 
 const PlanCard = ({
   plan,
@@ -84,27 +82,15 @@ const PlanCard = ({
                 : 'mt-[10px] mr-auto flex justify-between items-center gap-[15px]'
             }
           >
-            <Button
-              className={actionClass}
-              onClick={() => onViewPlan(plan)}
-              variant="default"
-            >
+            <Button className={actionClass} onClick={() => onViewPlan(plan)} variant="default">
               <BsEye />
               <Localize translationKey="pages:profile:viewPlan" />
             </Button>
-            <Button
-              className={actionClass}
-              variant="default"
-              onClick={() => onCopyMarkers(plan)}
-            >
+            <Button className={actionClass} variant="default" onClick={() => onCopyMarkers(plan)}>
               <BsCopyIcon />
               <Localize translationKey="pages:profile:copyMarkers" />
             </Button>
-            <Button
-              className={actionClass}
-              variant="default"
-              onClick={() => onCopySlots(plan)}
-            >
+            <Button className={actionClass} variant="default" onClick={() => onCopySlots(plan)}>
               <BsCopyIcon />
               <Localize translationKey="pages:profile:copySlots" />
             </Button>
@@ -182,13 +168,7 @@ const UserPanel = ({ username, avatar, formik, variant }: UserPanelProps) => {
   return (
     <div className="w-[250px] flex flex-col text-center gap-[15px] h-fit sticky top-[100px]">
       <div className="relative w-[250px] h-[250px] overflow-hidden">
-        <img
-          width={250}
-          height={250}
-          src={avatar || '/avatar.jpg'}
-          loading="lazy"
-          alt="avatar"
-        />
+        <img width={250} height={250} src={avatar || '/avatar.jpg'} loading="lazy" alt="avatar" />
       </div>
       <h2 className="text-base font-normal">{username}</h2>
       <div className="flex flex-col justify-center gap-[15px] [&_button]:w-full">
@@ -218,6 +198,104 @@ const UserPanel = ({ username, avatar, formik, variant }: UserPanelProps) => {
     </div>
   );
 };
+
+const PLAN_SKELETONS = 3;
+
+const PlanCardSkeleton = ({ variant }: { variant: 'mobile' | 'desktop' }) => {
+  const isMobile = variant === 'mobile';
+
+  return (
+    <div
+      className={
+        isMobile
+          ? 'flex flex-col min-h-[180px] w-full p-3 border border-white/10 border-solid bg-white/[0.03]'
+          : 'flex flex-col min-h-[100px] w-full p-[10px] border border-white/10 border-solid bg-white/[0.03]'
+      }
+    >
+      <Skeleton className={isMobile ? 'h-5 w-2/3' : 'h-5 w-1/2'} />
+      <div className="mt-auto flex flex-col">
+        <Skeleton className="mt-3 h-3.5 w-24" />
+        <div
+          className={
+            isMobile
+              ? 'mt-3 grid grid-cols-2 gap-2 mobile:grid-cols-1'
+              : 'mt-[10px] flex items-center gap-[15px]'
+          }
+        >
+          {Array.from({ length: 4 }, (_, i) => (
+            <Skeleton key={i} className={isMobile ? 'h-10 w-full' : 'h-7 w-[127px]'} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const UserPanelSkeleton = ({ variant }: { variant: 'mobile' | 'desktop' }) => {
+  if (variant === 'mobile') {
+    return (
+      <div className="flex flex-col gap-4 w-full">
+        <div className="flex items-center gap-4">
+          <Skeleton className="w-20 h-20 shrink-0" />
+          <Skeleton className="h-5 w-40" />
+        </div>
+        <div className="flex flex-col gap-3">
+          <Skeleton className="h-3.5 w-20" />
+          <Skeleton className="h-10 w-full" />
+          {Array.from({ length: 3 }, (_, i) => (
+            <Skeleton key={i} className="h-8 w-full" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-[250px] shrink-0 flex flex-col items-center gap-[15px]">
+      <Skeleton className="w-[250px] h-[250px]" />
+      <Skeleton className="h-4 w-32" />
+      <div className="flex flex-col gap-[15px] w-full">
+        <div className="flex flex-col gap-2 w-full">
+          <Skeleton className="h-3.5 w-20" />
+          <Skeleton className="h-9 w-full" />
+          <Skeleton className="h-8 w-full" />
+        </div>
+        <Skeleton className="h-8 w-full" />
+        <Skeleton className="h-8 w-full" />
+      </div>
+    </div>
+  );
+};
+
+const ProfileSkeleton = () => (
+  <>
+    <main
+      aria-busy
+      className="desktop:hidden flex flex-col gap-5 mx-auto px-4 py-5 w-full text-white bg-black/70 paper"
+    >
+      <UserPanelSkeleton variant="mobile" />
+      <div className="flex flex-col w-full gap-4">
+        <Skeleton className="h-5 w-28" />
+        {Array.from({ length: PLAN_SKELETONS }, (_, i) => (
+          <PlanCardSkeleton key={i} variant="mobile" />
+        ))}
+      </div>
+    </main>
+
+    <main
+      aria-busy
+      className="hidden desktop:flex gap-[25px] flex-nowrap my-[45px] mx-auto p-[15px] w-full max-w-[950px] min-h-[650px] text-white bg-black/70 paper"
+    >
+      <UserPanelSkeleton variant="desktop" />
+      <div className="flex flex-col w-full max-w-[645px] gap-[18px]">
+        <Skeleton className="h-5 w-28" />
+        {Array.from({ length: PLAN_SKELETONS }, (_, i) => (
+          <PlanCardSkeleton key={i} variant="desktop" />
+        ))}
+      </div>
+    </main>
+  </>
+);
 
 const Profile = observer(() => {
   useUnAuthorizated(userEntity);
@@ -305,31 +383,35 @@ const Profile = observer(() => {
   return (
     <div className="flex flex-col h-full min-h-screen min-h-svh">
       <Header />
-      <Preloader isLoading={userEntity.isLoadingProfile || !userEntity.user}>
-        <main className="desktop:hidden flex flex-col gap-5 mx-auto px-4 py-5 w-full text-white bg-black/70 paper">
-          <UserPanel {...userPanelProps} variant="mobile" />
-          <div className="flex flex-col text-left w-full gap-4">
-            <h2 className="text-lg font-normal">
-              <Localize translationKey="pages:profile:myPlans" />
-            </h2>
-            {userEntity?.user?.plans?.map((plan) => (
-              <PlanCard key={plan.id} plan={plan} {...planCardProps} variant="mobile" />
-            ))}
-          </div>
-        </main>
-
-        <main className="hidden desktop:flex gap-[25px] flex-nowrap my-[45px] mx-auto p-[15px] w-full max-w-[950px] min-h-[650px] text-white bg-black/70 paper">
-          <UserPanel {...userPanelProps} variant="desktop" />
-          <div className="flex flex-col text-left w-full max-w-[645px] gap-[18px]">
-            <div className="text-lg font-normal">
-              <Localize translationKey="pages:profile:myPlans" />
+      {userEntity.isLoadingProfile || !userEntity.user ? (
+        <ProfileSkeleton />
+      ) : (
+        <>
+          <main className="desktop:hidden flex flex-col gap-5 mx-auto px-4 py-5 w-full text-white bg-black/70 paper">
+            <UserPanel {...userPanelProps} variant="mobile" />
+            <div className="flex flex-col text-left w-full gap-4">
+              <h2 className="text-lg font-normal">
+                <Localize translationKey="pages:profile:myPlans" />
+              </h2>
+              {userEntity?.user?.plans?.map((plan) => (
+                <PlanCard key={plan.id} plan={plan} {...planCardProps} variant="mobile" />
+              ))}
             </div>
-            {userEntity?.user?.plans?.map((plan) => (
-              <PlanCard key={plan.id} plan={plan} {...planCardProps} variant="desktop" />
-            ))}
-          </div>
-        </main>
-      </Preloader>
+          </main>
+
+          <main className="hidden desktop:flex gap-[25px] flex-nowrap my-[45px] mx-auto p-[15px] w-full max-w-[950px] min-h-[650px] text-white bg-black/70 paper">
+            <UserPanel {...userPanelProps} variant="desktop" />
+            <div className="flex flex-col text-left w-full max-w-[645px] gap-[18px]">
+              <div className="text-lg font-normal">
+                <Localize translationKey="pages:profile:myPlans" />
+              </div>
+              {userEntity?.user?.plans?.map((plan) => (
+                <PlanCard key={plan.id} plan={plan} {...planCardProps} variant="desktop" />
+              ))}
+            </div>
+          </main>
+        </>
+      )}
       <Footer />
     </div>
   );

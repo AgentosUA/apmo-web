@@ -1,13 +1,12 @@
 'use client';
 
-import { useContext, createContext } from 'react';
+import { useContext, createContext, useState } from 'react';
 import type { FC, PropsWithChildren } from 'react';
 
 import { I18nProvider } from '@/shared/lib/i18n/provider';
 
 import { SettingsStore } from './settings/model';
 import { Language } from './settings/model';
-
 
 type Store = {
   settings: SettingsStore;
@@ -28,16 +27,16 @@ const useStore = () => {
 const StoreProvider: FC<
   PropsWithChildren<{
     initial: {
-      settingsLocale: Language;
+      settingsLocale?: Language;
     };
   }>
 > = ({ initial, children }) => {
-  const store = {
+  const [store] = useState<Store>(() => ({
     settings: new SettingsStore(initial.settingsLocale),
-  };
+  }));
 
   return (
-    <I18nProvider initLang={initial.settingsLocale}>
+    <I18nProvider initLang={store.settings.getLocale()}>
       <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
     </I18nProvider>
   );

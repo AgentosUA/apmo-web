@@ -53,57 +53,60 @@ const HomePage = observer(() => {
   return (
     <div className="flex flex-col h-full min-h-screen min-h-svh">
       <Header />
-      <main className="pt-[30px] mt-[133px] mx-auto tablet:mt-auto">
-        <div className="relative flex justify-center items-center min-h-[325px] gap-0 w-full bg-a3-panel tablet:min-h-[115px] tablet:flex-col">
-          <Link href="/plans/create" className={NAV_ITEM_CLASS}>
-            <Image
-              className={NAV_IMAGE_CLASS}
-              src="/select-map.png"
-              width={325}
-              height={325}
-              alt="Select map"
-            />
-            <p className="text-[22px] text-center text-white z-[1] uppercase font-medium">
-              <Localize translationKey="pages:home:selectMap" />
-            </p>
-          </Link>
-          <div
-            className={NAV_ITEM_CLASS}
-            onClick={() => {
-              inputRef?.current?.click();
-            }}
-          >
-            <Image
-              className={NAV_IMAGE_CLASS}
-              src="/load-mission.png"
-              width={325}
-              height={325}
-              alt="Load mission"
-            />
-            <input
-              ref={inputRef}
-              onChange={onMissionUpload}
-              className="hidden"
-              multiple={false}
-              type="file"
-              accept=".pbo"
-            />
-            <p className="text-[22px] text-center text-white z-[1] uppercase font-medium">
-              <Localize translationKey="pages:home:loadMission" />
-            </p>
+      <main className="pt-[30px] mt-[133px] w-full tablet:mt-auto">
+        {/* Full-width band behind the tiles, like the Arma 3 main menu strip */}
+        <div className="relative w-full border-y border-white/10 bg-[linear-gradient(to_right,rgba(7,11,10,0)_0%,rgba(7,11,10,0.55)_10%,rgba(7,11,10,0.55)_90%,rgba(7,11,10,0)_100%)] shadow-[0_0_40px_rgba(0,0,0,0.35)] tablet:border-y-0 tablet:bg-none tablet:shadow-none">
+          <div className="relative flex justify-center items-center min-h-[325px] gap-0 w-fit mx-auto bg-a3-panel tablet:w-full tablet:min-h-[115px] tablet:flex-col">
+            <Link href="/plans/create" className={NAV_ITEM_CLASS}>
+              <Image
+                className={NAV_IMAGE_CLASS}
+                src="/select-map.png"
+                width={325}
+                height={325}
+                alt="Select map"
+              />
+              <p className="text-[22px] text-center text-white z-[1] uppercase font-medium">
+                <Localize translationKey="pages:home:selectMap" />
+              </p>
+            </Link>
+            <div
+              className={NAV_ITEM_CLASS}
+              onClick={() => {
+                inputRef?.current?.click();
+              }}
+            >
+              <Image
+                className={NAV_IMAGE_CLASS}
+                src="/load-mission.png"
+                width={325}
+                height={325}
+                alt="Load mission"
+              />
+              <input
+                ref={inputRef}
+                onChange={onMissionUpload}
+                className="hidden"
+                multiple={false}
+                type="file"
+                accept=".pbo"
+              />
+              <p className="text-[22px] text-center text-white z-[1] uppercase font-medium">
+                <Localize translationKey="pages:home:loadMission" />
+              </p>
+            </div>
+            <Link href="/changelog" className={NAV_ITEM_CLASS}>
+              <Image
+                className={NAV_IMAGE_CLASS}
+                src="/changelog.png"
+                width={325}
+                height={325}
+                alt="Changelog"
+              />
+              <p className="text-[22px] text-center text-white z-[1] uppercase font-medium">
+                <Localize translationKey="pages:home:changelog" />
+              </p>
+            </Link>
           </div>
-          <Link href="/changelog" className={NAV_ITEM_CLASS}>
-            <Image
-              className={NAV_IMAGE_CLASS}
-              src="/changelog.png"
-              width={325}
-              height={325}
-              alt="Changelog"
-            />
-            <p className="text-[22px] text-center text-white z-[1] uppercase font-medium">
-              <Localize translationKey="pages:home:changelog" />
-            </p>
-          </Link>
         </div>
       </main>
       <Footer />

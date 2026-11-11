@@ -2,15 +2,14 @@ import type { Metadata } from 'next';
 import { Roboto_Condensed } from 'next/font/google';
 import { cookies } from 'next/headers';
 
-import { Language } from '@/entities/settings/model';
+import { isLanguage } from '@/shared/lib/i18n/lib';
 import { StoreProvider } from '@/entities/store';
-import { I18nProvider } from '@/shared/lib/i18n/provider';
 import { Toaster } from '@/shared/ui/organisms/toaster';
-
 
 import '@/shared/ui/styles/global.css';
 
 import '../processes/axios';
+import { LanguageOnboarding } from '@/features/settings/change-language/ui';
 import { BootProvider } from '@/widgets/boot';
 
 const roboto = Roboto_Condensed({
@@ -34,8 +33,11 @@ export default async function RootLayout({
 }>) {
   const cookiesStore = await cookies();
 
+  const savedLocale = cookiesStore.get('locale')?.value;
+
   const initial = {
-    settingsLocale: (cookiesStore.get('locale')?.value || 'en') as Language,
+    // undefined = the user hasn't picked a language yet -> language picker opens on start
+    settingsLocale: isLanguage(savedLocale) ? savedLocale : undefined,
   };
 
   return (
@@ -74,9 +76,8 @@ export default async function RootLayout({
         <Toaster />
 
         <StoreProvider initial={initial}>
-          <I18nProvider initLang={initial.settingsLocale}>
-            <BootProvider>{children}</BootProvider>
-          </I18nProvider>
+          <BootProvider>{children}</BootProvider>
+          <LanguageOnboarding />
         </StoreProvider>
       </body>
     </html>

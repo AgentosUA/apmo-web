@@ -57,6 +57,17 @@
   --animate-show-content:
     show-content 220ms ease-in 325ms 1 normal forwards, hide-content 220ms ease-out 3300ms 1 normal forwards;
   --animate-lds-ring: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  --animate-skeleton: skeleton 1.4s ease-in-out infinite;
+
+  @keyframes skeleton {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
 
   @keyframes white-blink {
     0% {

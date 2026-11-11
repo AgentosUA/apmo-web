@@ -4,4 +4,7 @@ enum Language {
   UK = 'uk',
 }
 
-export { Language };
+const isLanguage = (value: unknown): value is Language =>
+  Object.values(Language).includes(value as Language);
+
+export { Language, isLanguage };

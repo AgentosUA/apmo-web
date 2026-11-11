@@ -12,14 +12,32 @@ const Modal: FC<
     description?: ReactNode;
     onConfirm?: () => void;
     onCancel?: (() => void) | boolean;
-    trigger: React.ReactNode;
+    trigger?: React.ReactNode;
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    contentClassName?: string;
   }>
-> = ({ title, description, trigger, children, onCancel, onConfirm }) => (
-  <Dialog.Root>
-    <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
+> = ({
+  title,
+  description,
+  trigger,
+  children,
+  onCancel,
+  onConfirm,
+  open,
+  onOpenChange,
+  contentClassName,
+}) => (
+  <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    {Boolean(trigger) && <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>}
     <Dialog.Portal>
       <Dialog.Overlay className="bg-black/60 fixed inset-0 animate-overlayShow z-[1000]" />
-      <Dialog.Content className="fixed top-[40%] left-1/2 w-[90vw] max-w-[450px] max-h-[85vh] z-[1001] -translate-x-1/2 -translate-y-1/2 bg-a3-black animate-contentShow focus:outline-none">
+      <Dialog.Content
+        className={cn(
+          'fixed top-[40%] left-1/2 w-[90vw] max-w-[450px] max-h-[85vh] z-[1001] -translate-x-1/2 -translate-y-1/2 bg-a3-black animate-contentShow focus:outline-none',
+          contentClassName
+        )}
+      >
         {Boolean(title) && (
           <Dialog.Title className="m-0 pl-[7px] h-[25px] leading-[25px] font-normal uppercase text-white text-sm bg-a3-orange">
             {title}
@@ -33,14 +51,12 @@ const Modal: FC<
 
         {children}
 
-        <div className="absolute bottom-[-22px] left-0 flex justify-start gap-2.5 w-[90vw] max-w-[450px]">
+        <div className="absolute bottom-[-22px] left-0 flex justify-start gap-2.5 w-full">
           {Boolean(onCancel) && (
             <Dialog.Close asChild>
               <Button
                 className="mr-auto"
-                onClick={() =>
-                  typeof onCancel === 'boolean' ? null : onCancel?.()
-                }
+                onClick={() => (typeof onCancel === 'boolean' ? null : onCancel?.())}
               >
                 <Localize translationKey="common:cancel" />
               </Button>
