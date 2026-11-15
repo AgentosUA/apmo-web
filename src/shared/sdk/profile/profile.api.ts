@@ -3,6 +3,8 @@ import { API } from '../api';
 import {
   changeAvatarRequestSchema,
   changeAvatarResponseSchema,
+  changeUsernameRequestSchema,
+  changeUsernameResponseSchema,
   profilePlansQuerySchema,
   profilePlansResponseSchema,
   profileResponseSchema,
@@ -10,6 +12,7 @@ import {
   uploadAvatarRequestSchema,
   uploadAvatarResponseSchema,
   type ChangeAvatarRequest,
+  type ChangeUsernameRequest,
   type ProfilePlansQuery,
   type UploadAvatarRequest,
 } from './profile.schema';
@@ -32,6 +35,15 @@ class ProfileApi extends API {
       params: { search: search || undefined, world: world || undefined, sort, order },
       response: profilePlansResponseSchema,
       signal,
+    });
+  }
+
+  /** Changes the nickname; fails when it is taken (ignoring case). */
+  changeUsername(data: ChangeUsernameRequest) {
+    return this.patch('/username', {
+      data,
+      body: changeUsernameRequestSchema,
+      response: changeUsernameResponseSchema,
     });
   }
 

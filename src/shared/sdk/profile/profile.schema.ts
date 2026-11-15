@@ -2,17 +2,30 @@ import { z } from 'zod';
 
 import { fields } from '@/shared/lib/validation';
 
+import { authProviderSchema } from '../auth/auth.schema';
 import { planSchema } from '../plans/plan.schema';
 
 /* ----------------------------- entities ----------------------------- */
 
+/** A sign-in method linked to the user. */
+const linkedAccountSchema = z.object({
+  provider: authProviderSchema,
+  /** Name on the provider (Google email / Steam / VTG nickname). */
+  name: z.string().nullable(),
+  linkedAt: z.string(),
+});
+
 const userSchema = z.object({
   id: z.string(),
-  email: z.string(),
+  /** Null for users who signed up with Steam. */
+  email: z.string().nullable().optional(),
   username: z.string(),
   avatar: z.string().nullable(),
-  squadTag: z.string().nullable(),
+  squadTag: z.string().nullable().optional(),
   plans: z.array(planSchema),
+  accounts: z.array(linkedAccountSchema).optional(),
+  /** False for users who only sign in with Google / Steam / VTG. */
+  hasPassword: z.boolean().optional(),
 });
 
 /** Plan as listed in the profile: the mission without units, vehicles, markers and briefing. */
@@ -39,6 +52,14 @@ const SORT_ORDERS = ['asc', 'desc'] as const;
 const changeAvatarRequestSchema = z.object({
   avatar: fields.optionalImageUrl(),
 });
+
+/** `PATCH /profile/username` — unique ignoring case. */
+const changeUsernameRequestSchema = z.object({
+  username: fields.username(),
+});
+
+/** Error message of the API when the nickname belongs to someone else. */
+const USERNAME_TAKEN_ERROR = 'Username is already taken';
 
 /** Max avatar size, bytes. Keep in sync with the API. */
 const AVATAR_MAX_SIZE = 5 * 1024 * 1024;
@@ -68,6 +89,7 @@ const profilePlansQuerySchema = z.object({
 
 const profileResponseSchema = userSchema;
 const changeAvatarResponseSchema = z.unknown();
+const changeUsernameResponseSchema = z.object({ username: z.string() });
 const uploadAvatarResponseSchema = userSchema.omit({ plans: true }).extend({
   plans: z.array(z.string()),
 });
@@ -86,18 +108,24 @@ const profilePlansResponseSchema = z.object({
 /* ------------------------------- types ------------------------------ */
 
 type User = z.infer<typeof userSchema>;
+type LinkedAccount = z.infer<typeof linkedAccountSchema>;
 type ProfilePlan = z.infer<typeof profilePlanSchema>;
 type ProfilePlanSort = (typeof PROFILE_PLAN_SORTS)[number];
 type SortOrder = (typeof SORT_ORDERS)[number];
 type ChangeAvatarRequest = z.input<typeof changeAvatarRequestSchema>;
+type ChangeUsernameRequest = z.input<typeof changeUsernameRequestSchema>;
 type UploadAvatarRequest = z.input<typeof uploadAvatarRequestSchema>;
 type ProfilePlansQuery = z.input<typeof profilePlansQuerySchema>;
 type ProfilePlansResponse = z.infer<typeof profilePlansResponseSchema>;
 
 export {
   userSchema,
+  linkedAccountSchema,
   profilePlanSchema,
   changeAvatarRequestSchema,
+  changeUsernameRequestSchema,
+  changeUsernameResponseSchema,
+  USERNAME_TAKEN_ERROR,
   uploadAvatarRequestSchema,
   avatarFileSchema,
   profilePlansQuerySchema,
@@ -114,10 +142,12 @@ export {
 
 export type {
   User,
+  LinkedAccount,
   ProfilePlan,
   ProfilePlanSort,
   SortOrder,
   ChangeAvatarRequest,
+  ChangeUsernameRequest,
   UploadAvatarRequest,
   ProfilePlansQuery,
   ProfilePlansResponse,

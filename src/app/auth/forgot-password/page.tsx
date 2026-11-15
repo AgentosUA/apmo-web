@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 import { setServerError, useZodForm } from '@/shared/lib/validation';
 import { api, forgotPasswordRequestSchema, getApiErrorMessage } from '@/shared/sdk';
@@ -14,6 +15,7 @@ import { ContentPage } from '@/widgets/content-page';
 
 const ForgotPasswordPage: React.FC = () => {
   const router = useRouter();
+  const { i18n } = useTranslation();
 
   const form = useZodForm(forgotPasswordRequestSchema, {
     defaultValues: { email: '' },
@@ -27,7 +29,7 @@ const ForgotPasswordPage: React.FC = () => {
 
   const onSubmit = handleSubmit(async (values) => {
     try {
-      await api.auth.forgotPassword(values);
+      await api.auth.forgotPassword({ ...values, language: i18n.language });
 
       toasterEntity.call({
         title: 'pages:auth:resetSentTitle',

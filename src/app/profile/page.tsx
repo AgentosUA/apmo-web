@@ -20,6 +20,7 @@ import {
 import { userEntity } from '@/entities/user/model';
 import { profilePlansEntity } from '@/entities/user/plans-model';
 import { useUnAuthorizated } from '@/entities/user/ui/authorization/hook';
+import { ChangeUsername } from '@/features/user/change-username';
 import { LogoutConfirm } from '@/features/user/logout';
 import { getWorldDisplayName } from '@/shared/lib/ocap/worlds';
 import { setServerError, useZodForm } from '@/shared/lib/validation';
@@ -43,6 +44,7 @@ import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { cn } from '@/shared/utils/cn';
 import { ContentPage } from '@/widgets/content-page';
+import { ProfileAccounts } from '@/widgets/profile-accounts';
 import { ProfileSquads } from '@/widgets/profile-squads';
 
 type Plan = ProfilePlan;
@@ -346,12 +348,20 @@ const AvatarUrlDetails = ({ children }: { children: ReactNode }) => (
 
 type UserPanelProps = {
   username?: string;
+  /** False for users who only sign in with Google / Steam / VTG. */
+  hasPassword?: boolean;
   avatar?: string;
   avatarForm: AvatarForm;
   variant: 'mobile' | 'desktop';
 };
 
-const UserPanel = ({ username, avatar, avatarForm, variant }: UserPanelProps) => {
+const UserPanel = ({
+  username,
+  avatar,
+  avatarForm,
+  variant,
+  hasPassword = true,
+}: UserPanelProps) => {
   const isMobile = variant === 'mobile';
 
   if (isMobile) {
@@ -368,7 +378,10 @@ const UserPanel = ({ username, avatar, avatarForm, variant }: UserPanelProps) =>
               className="h-full w-full object-cover"
             />
           </div>
-          <h2 className="text-lg font-normal break-all">{username}</h2>
+          <div className="flex items-center gap-2 min-w-0">
+            <h2 className="text-lg font-normal break-all">{username}</h2>
+            <ChangeUsername />
+          </div>
         </div>
         <div className="flex flex-col gap-3 [&_button]:w-full">
           <AvatarUpload hasAvatar={Boolean(avatar)} />
@@ -377,7 +390,11 @@ const UserPanel = ({ username, avatar, avatarForm, variant }: UserPanelProps) =>
           </AvatarUrlDetails>
           <Link href="/profile/change-password" className="w-full">
             <Button variant="orange" className="w-full">
-              <Localize translationKey="pages:profile:changePassword" />
+              <Localize
+                translationKey={
+                  hasPassword ? 'pages:profile:changePassword' : 'pages:profile:setPassword'
+                }
+              />
             </Button>
           </Link>
           <LogoutConfirm
@@ -397,7 +414,10 @@ const UserPanel = ({ username, avatar, avatarForm, variant }: UserPanelProps) =>
       <div className="relative w-[250px] h-[250px] overflow-hidden">
         <img width={250} height={250} src={avatar || '/avatar.jpg'} loading="lazy" alt="avatar" />
       </div>
-      <h2 className="text-base font-normal">{username}</h2>
+      <div className="flex items-center justify-center gap-2 min-w-0">
+        <h2 className="text-base font-normal break-all">{username}</h2>
+        <ChangeUsername />
+      </div>
       <div className="flex flex-col justify-center gap-[15px] [&_button]:w-full">
         <AvatarUpload hasAvatar={Boolean(avatar)} />
         <AvatarUrlDetails>
@@ -405,7 +425,11 @@ const UserPanel = ({ username, avatar, avatarForm, variant }: UserPanelProps) =>
         </AvatarUrlDetails>
         <Link href="/profile/change-password">
           <Button variant="orange">
-            <Localize translationKey="pages:profile:changePassword" />
+            <Localize
+              translationKey={
+                hasPassword ? 'pages:profile:changePassword' : 'pages:profile:setPassword'
+              }
+            />
           </Button>
         </Link>
         <LogoutConfirm
@@ -615,7 +639,7 @@ const PlansToolbar = observer(() => {
   );
 });
 
-const PROFILE_TABS = ['plans', 'squads'] as const;
+const PROFILE_TABS = ['plans', 'squads', 'accounts'] as const;
 
 type ProfileTab = (typeof PROFILE_TABS)[number];
 
@@ -751,6 +775,7 @@ const Profile = observer(() => {
   const userPanelProps = {
     username: userEntity?.user?.username,
     avatar: userEntity?.user?.avatar ?? undefined,
+    hasPassword: userEntity?.user?.hasPassword !== false,
     avatarForm,
   };
 
@@ -843,7 +868,16 @@ const Profile = observer(() => {
           plans={
             <>
               <ProfileTabs active={tab} onChange={setTab} />
-              {tab === 'squads' ? (
+              {tab === 'accounts' ? (
+                <div
+                  role="tabpanel"
+                  id="profile-panel-accounts"
+                  aria-labelledby="profile-tab-accounts"
+                  className="flex flex-col gap-4"
+                >
+                  <ProfileAccounts />
+                </div>
+              ) : tab === 'squads' ? (
                 <div
                   role="tabpanel"
                   id="profile-panel-squads"

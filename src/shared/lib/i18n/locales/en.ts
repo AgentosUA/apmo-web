@@ -1,5 +1,6 @@
 const enLocale = {
   common: {
+    save: 'Save',
     back: 'Back',
     continue: 'Continue',
     confirm: 'Confirm',
@@ -168,6 +169,7 @@ const enLocale = {
       tabs: {
         plans: 'Plans',
         squads: 'Squads',
+        accounts: 'Sign-in',
       },
       squads: {
         title: 'My squads',
@@ -195,6 +197,36 @@ const enLocale = {
         leaveDescription: 'You will lose access to plans shared with this squad.',
         empty: 'You are not in any squad yet',
         loadError: 'Failed to load squads',
+      },
+      username: {
+        change: 'Change nickname',
+        hint: '3–24 characters: letters, digits, spaces and _ . - [ ]. Must be unique',
+        tooShort: 'At least 3 characters',
+        tooLong: 'At most 24 characters',
+        invalid: 'Only letters, digits, spaces and _ . - [ ]',
+        taken: 'This nickname is already taken',
+        changedTitle: 'Nickname changed',
+      },
+      setPassword: 'Set password',
+      setPasswordHint:
+        'You signed up with an external service. Set a password to also log in with your email or username.',
+      accounts: {
+        title: 'Sign-in methods',
+        description: 'Ways to log in to your account. Keep at least one.',
+        noEmail: 'No email — link Google or VTG to add one',
+        passwordSet: 'Log in with email or username',
+        passwordNotSet: 'Not set',
+        linkedAt: 'linked',
+        notLinked: 'Not linked',
+        link: 'Link',
+        unlink: 'Unlink',
+        unlinkTitle: 'Unlink sign-in method',
+        unlinkDescription: 'You will no longer be able to log in with {{provider}}.',
+        unlinkedTitle: 'Sign-in method unlinked',
+        linkFailed: 'Failed to link',
+        unlinkFailed: 'Failed to unlink',
+        lastMethod:
+          'This is your only sign-in method. Set a password or link another service first.',
       },
       created: 'Created',
       updated: 'Modified',
@@ -233,6 +265,26 @@ const enLocale = {
       resetSentTitle: 'Check your email',
       resetSentDescription: 'A new password has been sent to your email',
       resetHint: 'We will send a new password to this address',
+      orContinueWith: 'or continue with',
+      oauth: {
+        welcomeTitle: 'Welcome!',
+        welcomeDescription: 'Your account has been created',
+        linkedTitle: 'Sign-in method linked',
+        errorTitle: 'Sign-in failed',
+        backToProfile: 'Back to profile',
+        emailInUseHint:
+          'Log in with your email or username and password, then link this service in Profile → Sign-in. Forgot the password? Reset it below.',
+        errors: {
+          cancelled: 'Sign-in was cancelled',
+          invalid_state: 'The sign-in session expired. Please try again',
+          provider_error: 'The service did not respond. Please try again later',
+          not_enabled: 'This sign-in method is not available',
+          email_in_use: 'An account with this email already exists',
+          account_in_use: 'This account is already linked to another user',
+          provider_already_linked: 'Another account of this service is already linked to you',
+          user_not_found: 'User not found',
+        },
+      },
     },
   },
   features: {

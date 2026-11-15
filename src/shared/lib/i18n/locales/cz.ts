@@ -2,6 +2,7 @@ import enLocale from './en';
 
 const czLocale: typeof enLocale = {
   common: {
+    save: 'Uložit',
     back: 'Zpátky',
     continue: 'Pokračovat',
     confirm: 'Potvrdit',
@@ -170,6 +171,7 @@ const czLocale: typeof enLocale = {
       tabs: {
         plans: 'Plány',
         squads: 'Jednotky',
+        accounts: 'Přihlášení',
       },
       squads: {
         title: 'Moje jednotky',
@@ -197,6 +199,36 @@ const czLocale: typeof enLocale = {
         leaveDescription: 'Ztratíte přístup k plánům sdíleným s touto jednotkou.',
         empty: 'Zatím nejste v žádné jednotce',
         loadError: 'Jednotky se nepodařilo načíst',
+      },
+      username: {
+        change: 'Změnit přezdívku',
+        hint: '3–24 znaků: písmena, číslice, mezery a _ . - [ ]. Musí být jedinečná',
+        tooShort: 'Alespoň 3 znaky',
+        tooLong: 'Nejvýše 24 znaků',
+        invalid: 'Pouze písmena, číslice, mezery a _ . - [ ]',
+        taken: 'Tato přezdívka je již obsazená',
+        changedTitle: 'Přezdívka změněna',
+      },
+      setPassword: 'Nastavit heslo',
+      setPasswordHint:
+        'Zaregistrovali jste se přes externí službu. Nastavte si heslo, abyste se mohli přihlásit i e-mailem nebo uživatelským jménem.',
+      accounts: {
+        title: 'Způsoby přihlášení',
+        description: 'Jak se můžete přihlásit ke svému účtu. Ponechte alespoň jeden.',
+        noEmail: 'Bez e-mailu — propojte Google nebo VTG a přidejte ho',
+        passwordSet: 'Přihlášení e-mailem nebo uživatelským jménem',
+        passwordNotSet: 'Nenastaveno',
+        linkedAt: 'propojeno',
+        notLinked: 'Nepropojeno',
+        link: 'Propojit',
+        unlink: 'Odpojit',
+        unlinkTitle: 'Odpojit způsob přihlášení',
+        unlinkDescription: 'Přes {{provider}} se už nebudete moci přihlásit.',
+        unlinkedTitle: 'Způsob přihlášení odpojen',
+        linkFailed: 'Propojení se nezdařilo',
+        unlinkFailed: 'Odpojení se nezdařilo',
+        lastMethod:
+          'Toto je váš jediný způsob přihlášení. Nejprve si nastavte heslo nebo propojte jinou službu.',
       },
       created: 'Vytvořeno',
       updated: 'Upraveno',
@@ -235,6 +267,26 @@ const czLocale: typeof enLocale = {
       resetSentTitle: 'Zkontrolujte e-mail',
       resetSentDescription: 'Nové heslo bylo odesláno na váš e-mail',
       resetHint: 'Nové heslo pošleme na tuto adresu',
+      orContinueWith: 'nebo pokračovat přes',
+      oauth: {
+        welcomeTitle: 'Vítejte!',
+        welcomeDescription: 'Váš účet byl vytvořen',
+        linkedTitle: 'Způsob přihlášení propojen',
+        errorTitle: 'Přihlášení se nezdařilo',
+        backToProfile: 'Zpět na profil',
+        emailInUseHint:
+          'Přihlaste se e-mailem nebo uživatelským jménem a heslem a poté tuto službu propojte v Profil → Přihlášení. Zapomněli jste heslo? Obnovte ho níže.',
+        errors: {
+          cancelled: 'Přihlášení bylo zrušeno',
+          invalid_state: 'Relace přihlášení vypršela. Zkuste to znovu',
+          provider_error: 'Služba neodpověděla. Zkuste to později',
+          not_enabled: 'Tento způsob přihlášení není dostupný',
+          email_in_use: 'Účet s tímto e-mailem již existuje',
+          account_in_use: 'Tento účet je již propojen s jiným uživatelem',
+          provider_already_linked: 'K vašemu účtu je již propojen jiný účet této služby',
+          user_not_found: 'Uživatel nenalezen',
+        },
+      },
     },
   },
   features: {

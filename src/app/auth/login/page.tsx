@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 import { userEntity } from '@/entities/user/model';
 import { useAuthorizated } from '@/entities/user/ui/authorization/hook';
+import { SocialLogin } from '@/features/user/social-login';
 import { setServerError, useZodForm } from '@/shared/lib/validation';
 import { signInRequestSchema } from '@/shared/sdk';
 import { Button } from '@/shared/ui/atoms/button';
@@ -67,6 +68,8 @@ const LoginPage = observer(() => {
           <Button variant="bold" type="submit" className="w-full mt-1" aria-busy={isSubmitting}>
             <Localize translationKey={isSubmitting ? 'common:loading' : 'pages:auth:login'} />
           </Button>
+
+          <SocialLogin disabled={isSubmitting} />
 
           <p className="text-center text-xs text-white/50">
             <Localize translationKey="pages:auth:noAccount" />{' '}

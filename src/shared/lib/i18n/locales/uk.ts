@@ -2,6 +2,7 @@ import enLocale from './en';
 
 const ukLocale: typeof enLocale = {
   common: {
+    save: 'Зберегти',
     back: 'Назад',
     continue: 'Продовжити',
     confirm: 'Підтвердити',
@@ -170,6 +171,7 @@ const ukLocale: typeof enLocale = {
       tabs: {
         plans: 'Плани',
         squads: 'Загони',
+        accounts: 'Вхід',
       },
       squads: {
         title: 'Мої загони',
@@ -197,6 +199,36 @@ const ukLocale: typeof enLocale = {
         leaveDescription: 'Ви втратите доступ до планів, відкритих для цього загону.',
         empty: 'Ви ще не в жодному загоні',
         loadError: 'Не вдалося завантажити загони',
+      },
+      username: {
+        change: 'Змінити нікнейм',
+        hint: '3–24 символи: літери, цифри, пробіли та _ . - [ ]. Має бути унікальним',
+        tooShort: 'Щонайменше 3 символи',
+        tooLong: 'Щонайбільше 24 символи',
+        invalid: 'Лише літери, цифри, пробіли та _ . - [ ]',
+        taken: 'Цей нікнейм уже зайнятий',
+        changedTitle: 'Нікнейм змінено',
+      },
+      setPassword: 'Задати пароль',
+      setPasswordHint:
+        'Ви зареєструвалися через зовнішній сервіс. Задайте пароль, щоб також входити з email або іменем користувача.',
+      accounts: {
+        title: 'Способи входу',
+        description: 'Як ви можете входити в акаунт. Має лишатися хоча б один.',
+        noEmail: "Email немає — прив'яжіть Google або VTG, щоб додати його",
+        passwordSet: "Вхід з email або ім'ям користувача",
+        passwordNotSet: 'Не задано',
+        linkedAt: "прив'язано",
+        notLinked: "Не прив'язано",
+        link: "Прив'язати",
+        unlink: "Відв'язати",
+        unlinkTitle: "Відв'язати спосіб входу",
+        unlinkDescription: 'Ви більше не зможете входити через {{provider}}.',
+        unlinkedTitle: "Спосіб входу відв'язано",
+        linkFailed: "Не вдалося прив'язати",
+        unlinkFailed: "Не вдалося відв'язати",
+        lastMethod:
+          "Це ваш єдиний спосіб входу. Спершу задайте пароль або прив'яжіть інший сервіс.",
       },
       created: 'Створено',
       updated: 'Змінено',
@@ -235,6 +267,26 @@ const ukLocale: typeof enLocale = {
       resetSentTitle: 'Перевірте пошту',
       resetSentDescription: 'Новий пароль надіслано на ваш email',
       resetHint: 'Ми надішлемо новий пароль на цю адресу',
+      orContinueWith: 'або увійти через',
+      oauth: {
+        welcomeTitle: 'Ласкаво просимо!',
+        welcomeDescription: 'Ваш акаунт створено',
+        linkedTitle: "Спосіб входу прив'язано",
+        errorTitle: 'Не вдалося увійти',
+        backToProfile: 'До профілю',
+        emailInUseHint:
+          "Увійдіть з email або іменем користувача й паролем, а потім прив'яжіть цей сервіс у Профіль → Вхід. Забули пароль? Відновіть його нижче.",
+        errors: {
+          cancelled: 'Вхід скасовано',
+          invalid_state: 'Сесія входу застаріла. Спробуйте ще раз',
+          provider_error: 'Сервіс не відповів. Спробуйте пізніше',
+          not_enabled: 'Цей спосіб входу недоступний',
+          email_in_use: 'Акаунт із цим email уже існує',
+          account_in_use: "Цей акаунт уже прив'язано до іншого користувача",
+          provider_already_linked: "До вас уже прив'язано інший акаунт цього сервісу",
+          user_not_found: 'Користувача не знайдено',
+        },
+      },
     },
   },
   features: {

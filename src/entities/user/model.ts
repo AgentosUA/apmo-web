@@ -4,7 +4,11 @@ import {
   api,
   getApiErrorMessage,
   tokenStorage,
+  type AuthProvider,
+  type AuthTokens,
   type ChangePasswordRequest,
+  type ChangeUsernameRequest,
+  type SetPasswordRequest,
   type SignInRequest,
   type User as UserType,
 } from '@/shared/sdk';
@@ -26,6 +30,12 @@ class User {
   isLoadingChangePassword = false;
 
   isUpdatingAvatar = false;
+
+  /** Sign-in methods configured on the server; null until loaded. */
+  providers: AuthProvider[] | null = null;
+
+  /** Provider being linked / unlinked in the profile. */
+  pendingProvider: AuthProvider | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -53,6 +63,69 @@ class User {
       await api.auth.changePassword(values);
     } finally {
       this.isLoadingChangePassword = false;
+    }
+  };
+
+  /** First password of a user who signed up with Google / Steam / VTG. */
+  setPassword = async (values: SetPasswordRequest) => {
+    try {
+      this.isLoadingChangePassword = true;
+      await api.auth.setPassword(values);
+
+      if (this.user) this.user.hasPassword = true;
+    } finally {
+      this.isLoadingChangePassword = false;
+    }
+  };
+
+  /** Loads once; an unreachable API just means no external sign-in buttons. */
+  loadProviders = async () => {
+    if (this.providers) return;
+
+    try {
+      const { providers } = await api.auth.oauthProviders();
+
+      this.providers = providers;
+    } catch {
+      this.providers = [];
+    }
+  };
+
+  /** Sends the browser to the provider; it comes back to `/auth/callback`. Throws on failure. */
+  linkProvider = async (provider: AuthProvider, lang?: string) => {
+    try {
+      this.pendingProvider = provider;
+
+      const { url } = await api.auth.oauthLink(provider, lang);
+
+      window.location.assign(url);
+    } catch (error) {
+      this.pendingProvider = null;
+      throw error;
+    }
+  };
+
+  /** Throws on failure (e.g. the last sign-in method). */
+  unlinkProvider = async (provider: AuthProvider) => {
+    try {
+      this.pendingProvider = provider;
+
+      await api.auth.oauthUnlink(provider);
+
+      if (this.user?.accounts) {
+        this.user.accounts = this.user.accounts.filter((account) => account.provider !== provider);
+      }
+    } finally {
+      this.pendingProvider = null;
+    }
+  };
+
+  /** Throws on failure (e.g. the nickname is taken) so the form can show the error. */
+  changeUsername = async (values: ChangeUsernameRequest) => {
+    const { username } = await api.profile.changeUsername(values);
+
+    if (this.user) {
+      this.user.username = username;
     }
   };
 
@@ -112,6 +185,13 @@ class User {
     } finally {
       this.isLoadingLogin = false;
     }
+  };
+
+  /** Tokens received from an external sign-in (`/auth/callback`). */
+  loginWithTokens = (tokens: AuthTokens) => {
+    tokenStorage.set(tokens);
+
+    this.isAuthorized = true;
   };
 
   logout = () => {

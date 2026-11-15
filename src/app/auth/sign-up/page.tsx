@@ -3,9 +3,11 @@
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 import { userEntity } from '@/entities/user/model';
 import { useAuthorizated } from '@/entities/user/ui/authorization/hook';
+import { SocialLogin } from '@/features/user/social-login';
 import { setServerError, useZodForm } from '@/shared/lib/validation';
 import { api } from '@/shared/sdk';
 import { Button } from '@/shared/ui/atoms/button';
@@ -20,6 +22,7 @@ import { signUpFormSchema } from './schema';
 
 const SignUpPage = observer(() => {
   const router = useRouter();
+  const { i18n } = useTranslation();
 
   const form = useZodForm(signUpFormSchema, {
     defaultValues: { email: '', username: '', password: '', rePassword: '' },
@@ -33,7 +36,7 @@ const SignUpPage = observer(() => {
 
   const onSubmit = handleSubmit(async ({ rePassword: _, ...values }) => {
     try {
-      await api.auth.signUp(values);
+      await api.auth.signUp({ ...values, language: i18n.language });
 
       toasterEntity.call({
         title: 'pages:auth:accountCreatedTitle',
@@ -93,6 +96,8 @@ const SignUpPage = observer(() => {
           <Button variant="bold" type="submit" className="w-full mt-1" aria-busy={isSubmitting}>
             <Localize translationKey={isSubmitting ? 'common:loading' : 'pages:auth:signUp'} />
           </Button>
+
+          <SocialLogin disabled={isSubmitting} />
 
           <p className="text-center text-xs text-white/50">
             <Localize translationKey="pages:auth:haveAccount" />{' '}

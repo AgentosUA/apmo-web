@@ -23,6 +23,26 @@ const optionalImageUrl = () =>
     z.url('pages:profile:invalidAvatarUrl').regex(IMAGE_URL_RE, 'pages:profile:invalidAvatarUrl'),
   ]);
 
-const fields = { requiredString, password, email, optionalImageUrl };
+const USERNAME_MIN = 3;
+const USERNAME_MAX = 24;
 
-export { fields };
+/** Letters of any script, digits, space and `_ . - [ ]` (no `@`). Keep in sync with the API. */
+const USERNAME_RE = /^[\p{L}\p{N}_.\-[\] ]+$/u;
+
+/** Nickname: normalized like on the API (NFKC, single spaces, trimmed). */
+const username = () =>
+  z
+    .string()
+    .transform((value) => value.normalize('NFKC').replace(/\s+/g, ' ').trim())
+    .pipe(
+      z
+        .string()
+        .min(1, 'common:required')
+        .min(USERNAME_MIN, 'pages:profile:username:tooShort')
+        .max(USERNAME_MAX, 'pages:profile:username:tooLong')
+        .regex(USERNAME_RE, 'pages:profile:username:invalid')
+    );
+
+const fields = { requiredString, password, email, optionalImageUrl, username };
+
+export { fields, USERNAME_MAX, USERNAME_MIN };
