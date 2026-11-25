@@ -29,8 +29,9 @@ const missionMarkerSchema = z.object({
   fillName: z.string().optional(),
   /** Marker text, when provided by the parser. */
   text: z.string().optional(),
-  width: z.number(),
-  height: z.number(),
+  /** Missions parsed before the API filled defaults may lack these (Arma omits 1). */
+  width: z.number().default(1),
+  height: z.number().default(1),
   position: z.object({
     coordinates: coordinatesSchema,
     angle: z.number(),
@@ -41,20 +42,21 @@ const briefingSchema = z.object({
   diary: z.array(z.object({ id: z.string(), name: z.string(), value: z.string() })),
   intel: z.object({
     overviewText: z.string(),
-    year: z.number(),
-    month: z.number(),
-    day: z.number(),
-    hour: z.number(),
-    minute: z.number(),
+    // Optional: mission.sqm omits default values.
+    year: z.number().optional(),
+    month: z.number().optional(),
+    day: z.number().optional(),
+    hour: z.number().default(0),
+    minute: z.number().default(0),
   }),
 });
 
 const unitSchema = z.object({
   id: z.number(),
   side: sideSchema,
-  rank: z.string(),
+  rank: z.string().default('PRIVATE'),
   type: z.string(),
-  description: z.string(),
+  description: z.string().default(''),
   isPlayable: z.boolean(),
   inventory: z.unknown(),
   position: positionSchema,
@@ -70,11 +72,24 @@ const vehicleSchema = z.object({
   id: z.number(),
   type: z.enum(['land', 'air', 'crate', 'static', 'unknown']),
   description: z.string(),
-  position: positionSchema,
+  /** Older missions stored only `angle` (yaw) instead of `angles`. */
+  position: z
+    .object({
+      coordinates: coordinatesSchema,
+      angles: z.tuple([z.number(), z.number(), z.number()]).optional(),
+      angle: z.number().optional(),
+    })
+    .transform(({ coordinates, angles, angle }) => ({
+      coordinates,
+      angles: angles ?? ([0, angle ?? 0, 0] as [number, number, number]),
+    })),
 });
 
-/** Squad name per callsign ("Alpha 1-1" → "Hammer"). `null` when never filled in. */
-const slotsSchema = z.record(z.string(), z.string()).nullable();
+/**
+ * Squad name per callsign ("Alpha 1-1" → "Hammer"). `null` when never filled in;
+ * missing in a freshly parsed mission (the API fills the callsigns on save).
+ */
+const slotsSchema = z.record(z.string(), z.string()).nullish();
 
 const missionSchema = z.object({
   fileName: z.string(),

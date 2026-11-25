@@ -17,7 +17,12 @@ const getApiErrorMessage = (error: unknown, fallback = 'common:unknownError'): s
   }
 
   if (error instanceof ZodError) {
-    return error.issues[0]?.message ?? fallback;
+    const issue = error.issues[0];
+
+    if (!issue) return fallback;
+
+    // The path tells which field is wrong ("mission.markers.3.width: …").
+    return issue.path.length ? `${issue.path.join('.')}: ${issue.message}` : issue.message;
   }
 
   return fallback;

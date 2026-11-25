@@ -12,7 +12,8 @@ const Toaster: FC<{
   const entity = model ?? toasterEntity;
 
   return (
-    <div className="fixed top-[250px] left-1/2 gap-0.5 w-[270px] z-[1001] -translate-x-1/2 text-white overflow-hidden flex flex-col items-center justify-center">
+    // Above dialogs (z-[1101]) so errors are visible while a modal is open.
+    <div className="fixed top-[250px] left-1/2 gap-0.5 w-[270px] z-[1200] -translate-x-1/2 text-white overflow-hidden flex flex-col items-center justify-center">
       {entity.toasters.map((toaster, index) => (
         <div
           key={toaster.id}

@@ -43,8 +43,10 @@ class Toaster {
 
     this.toasters.unshift({
       ...data,
-      title: i18n.t(title),
-      description: i18n.t(description),
+      // Only i18n keys are translated: raw messages (API / validation errors)
+      // contain ':' and '.', which i18next would read as namespace / key paths.
+      title: i18n.exists(title) ? i18n.t(title) : title,
+      description: i18n.exists(description) ? i18n.t(description) : description,
       id,
       sound,
       type,
