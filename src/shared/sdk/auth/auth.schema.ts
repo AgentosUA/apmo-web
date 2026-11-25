@@ -70,13 +70,15 @@ const OAUTH_ERROR_CODES = [
 
 /* ----------------------------- responses ---------------------------- */
 
-const authTokensSchema = z.object({
-  token: z.string(),
-  refreshToken: z.string(),
+/** Sign-in / refresh: the tokens go to httpOnly cookies, the body only says when it expires. */
+const sessionInfoSchema = z.object({
+  expiresIn: z.number(),
+  expirationDate: z.string(),
 });
 
-const signInResponseSchema = authTokensSchema;
-const refreshTokenResponseSchema = authTokensSchema;
+const signInResponseSchema = sessionInfoSchema;
+const refreshTokenResponseSchema = sessionInfoSchema;
+const logoutResponseSchema = z.unknown();
 const signUpResponseSchema = z.unknown();
 const changePasswordResponseSchema = z.unknown();
 const forgotPasswordResponseSchema = z.unknown();
@@ -90,7 +92,7 @@ type ForgotPasswordRequest = z.input<typeof forgotPasswordRequestSchema>;
 type SetPasswordRequest = z.input<typeof setPasswordRequestSchema>;
 type AuthProvider = (typeof AUTH_PROVIDERS)[number];
 type OAuthErrorCode = (typeof OAUTH_ERROR_CODES)[number];
-type AuthTokens = z.infer<typeof authTokensSchema>;
+type SessionInfo = z.infer<typeof sessionInfoSchema>;
 
 export {
   signInRequestSchema,
@@ -98,7 +100,7 @@ export {
   changePasswordRequestSchema,
   forgotPasswordRequestSchema,
   setPasswordRequestSchema,
-  authTokensSchema,
+  sessionInfoSchema,
   AUTH_PROVIDERS,
   OAUTH_ERROR_CODES,
   authProviderSchema,
@@ -107,6 +109,7 @@ export {
   oauthUnlinkResponseSchema,
   signInResponseSchema,
   refreshTokenResponseSchema,
+  logoutResponseSchema,
   signUpResponseSchema,
   changePasswordResponseSchema,
   forgotPasswordResponseSchema,
@@ -118,7 +121,7 @@ export type {
   ChangePasswordRequest,
   ForgotPasswordRequest,
   SetPasswordRequest,
-  AuthTokens,
+  SessionInfo,
   AuthProvider,
   OAuthErrorCode,
 };

@@ -1,24 +1,17 @@
 'use client';
 
 import { userEntity } from '@/entities/user/model';
-import { api, http, isApiError, tokenStorage } from '@/shared/sdk';
+import { api, http, isApiError } from '@/shared/sdk';
 
 /** One refresh at a time: concurrent 401s wait for the same promise. */
-let refreshPromise: Promise<string | null> | null = null;
+let refreshPromise: Promise<boolean> | null = null;
 
-const refreshAccessToken = () => {
+/** The API rotates the httpOnly cookies; we only need to know whether it worked. */
+const refreshSession = () => {
   refreshPromise ??= api.auth
     .refreshToken()
-    .then((tokens) => {
-      tokenStorage.set(tokens);
-
-      return tokens.token;
-    })
-    .catch(() => {
-      userEntity.logout();
-
-      return null;
-    })
+    .then(() => true)
+    .catch(() => false)
     .finally(() => {
       refreshPromise = null;
     });
@@ -31,17 +24,26 @@ http.interceptors.response.use(
   async (error) => {
     const config = error?.config;
 
-    if (!isApiError(error, 401) || !config || config._retry || !tokenStorage.getRefreshToken()) {
+    if (!isApiError(error, 401) || !config) {
       return Promise.reject(error);
     }
 
-    const token = await refreshAccessToken();
+    // The refresh itself, logout, or a request that already failed after a
+    // successful refresh: the session is over.
+    if (config._retry) {
+      userEntity.expireSession();
 
-    if (!token) {
       return Promise.reject(error);
     }
 
-    // The request interceptor attaches the fresh token from cookies.
+    const refreshed = await refreshSession();
+
+    if (!refreshed) {
+      userEntity.expireSession();
+
+      return Promise.reject(error);
+    }
+
     return http.request({ ...config, _retry: true });
   }
 );

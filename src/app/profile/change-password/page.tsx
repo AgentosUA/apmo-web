@@ -183,7 +183,8 @@ const ChangePassword = observer(() => {
   useUnAuthorizated(userEntity);
 
   useEffect(() => {
-    userEntity.getUser();
+    // On a direct visit boot() loads the profile; refetch after client navigation.
+    if (userEntity.booted) userEntity.getUser();
   }, []);
 
   const { user } = userEntity;

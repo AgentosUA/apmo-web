@@ -5,6 +5,7 @@ import {
   changePasswordResponseSchema,
   forgotPasswordRequestSchema,
   forgotPasswordResponseSchema,
+  logoutResponseSchema,
   oauthLinkResponseSchema,
   oauthProvidersResponseSchema,
   oauthUnlinkResponseSchema,
@@ -100,12 +101,19 @@ class AuthApi extends API {
     return this.delete(`/oauth/${provider}`, { response: oauthUnlinkResponseSchema });
   }
 
-  /** Exchanges the refresh token (sent as Bearer) for a new token pair. */
+  /** Renews the session cookies using the `apmo_refresh` cookie. */
   refreshToken() {
     return this.post('/refresh-token', {
       response: refreshTokenResponseSchema,
-      useRefreshToken: true,
       // Never retry the refresh itself — a 401 here means the session is over.
+      _retry: true,
+    });
+  }
+
+  /** Clears the session cookies. Works with an expired session too. */
+  logout() {
+    return this.post('/logout', {
+      response: logoutResponseSchema,
       _retry: true,
     });
   }

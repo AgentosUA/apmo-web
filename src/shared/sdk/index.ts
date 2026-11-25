@@ -17,7 +17,7 @@ const api = {
 
 export { api };
 export { API, http } from './api';
-export { tokenStorage } from './token';
+export { clearLegacyTokens } from './token';
 export { getApiErrorMessage, isApiError } from './errors';
 
 export * from './auth';

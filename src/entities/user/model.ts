@@ -1,17 +1,17 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 import {
   api,
+  clearLegacyTokens,
   getApiErrorMessage,
-  tokenStorage,
   type AuthProvider,
-  type AuthTokens,
   type ChangePasswordRequest,
   type ChangeUsernameRequest,
   type SetPasswordRequest,
   type SignInRequest,
   type User as UserType,
 } from '@/shared/sdk';
+import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 
 import { squadsEntity } from '../squads';
 import { profilePlansEntity } from './plans-model';
@@ -41,18 +41,48 @@ class User {
     makeAutoObservable(this);
   }
 
-  boot = () => {
-    this.booted = true;
+  /**
+   * The session lives in httpOnly cookies the app cannot read, so the only way
+   * to know who we are is to ask the API. A dead session goes through the
+   * refresh in `processes/axios`; for a guest `expireSession` is a no-op.
+   */
+  boot = async () => {
+    clearLegacyTokens();
+
+    try {
+      const user = await api.profile.me();
+
+      runInAction(() => {
+        this.user = user;
+        this.isAuthorized = true;
+      });
+    } catch {
+      runInAction(() => {
+        this.user = null;
+        this.isAuthorized = false;
+      });
+    } finally {
+      runInAction(() => {
+        this.booted = true;
+      });
+    }
   };
 
   getUser = async (onError?: (message: string) => void) => {
     try {
       this.isLoadingProfile = true;
-      this.user = await api.profile.me();
+
+      const user = await api.profile.me();
+
+      runInAction(() => {
+        this.user = user;
+      });
     } catch (error) {
       onError?.(getApiErrorMessage(error));
     } finally {
-      this.isLoadingProfile = false;
+      runInAction(() => {
+        this.isLoadingProfile = false;
+      });
     }
   };
 
@@ -174,29 +204,61 @@ class User {
     this.user.plans = this.user.plans.filter((plan) => plan.id !== id);
   };
 
-  /** Throws on failure so the form can show the error. */
+  /** Throws on failure so the form can show the error. The API sets the session cookies. */
   login = async (values: SignInRequest) => {
     try {
       this.isLoadingLogin = true;
 
-      tokenStorage.set(await api.auth.signIn(values));
+      await api.auth.signIn(values);
 
-      this.isAuthorized = true;
+      runInAction(() => {
+        this.isAuthorized = true;
+      });
     } finally {
-      this.isLoadingLogin = false;
+      runInAction(() => {
+        this.isLoadingLogin = false;
+      });
     }
   };
 
-  /** Tokens received from an external sign-in (`/auth/callback`). */
-  loginWithTokens = (tokens: AuthTokens) => {
-    tokenStorage.set(tokens);
+  /** After an external sign-in (`/auth/callback`): the API already set the cookies on the redirect. */
+  completeExternalLogin = async () => {
+    await this.getUser();
 
-    this.isAuthorized = true;
+    runInAction(() => {
+      this.isAuthorized = Boolean(this.user);
+    });
+
+    return this.isAuthorized;
   };
 
-  logout = () => {
-    tokenStorage.clear();
+  /** Manual logout: the API clears the cookies; local state goes either way. */
+  logout = async () => {
+    this.clearSession();
 
+    try {
+      await api.auth.logout();
+    } catch {
+      // Already logged out locally; the cookies expire on their own.
+    }
+  };
+
+  /**
+   * The session ran out (refresh failed). Called by `processes/axios`.
+   * Guarded by `isAuthorized`: one toast for many failed requests, none for guests.
+   */
+  expireSession = () => {
+    if (!this.isAuthorized) return;
+
+    this.clearSession();
+
+    toasterEntity.call({
+      title: 'toasters:sessionExpiredTitle',
+      description: 'toasters:sessionExpiredDescription',
+    });
+  };
+
+  private clearSession = () => {
     this.user = null;
     this.isAuthorized = false;
 

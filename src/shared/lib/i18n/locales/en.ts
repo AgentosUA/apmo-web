@@ -17,6 +17,8 @@ const enLocale = {
     missionIsNotOnMap: 'Mission is not on {{map}}!',
     mapNotAvailable: 'Map is not available',
     mapNotInOcapDatabase: '{{map}} is not in the OCAP map database yet',
+    sessionExpiredTitle: 'Session expired',
+    sessionExpiredDescription: 'Please log in again',
   },
   entities: {
     markers: {

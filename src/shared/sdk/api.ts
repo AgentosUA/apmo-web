@@ -1,37 +1,26 @@
 import axios, { type AxiosRequestConfig, type Method } from 'axios';
 import { z } from 'zod';
 
-import { tokenStorage } from './token';
-
 declare module 'axios' {
   interface AxiosRequestConfig {
-    /** Set on a request that was already retried after a token refresh. */
+    /** Set on a request that was already retried after a session refresh. */
     _retry?: boolean;
-    /** Send the refresh token instead of the access token. */
-    useRefreshToken?: boolean;
   }
 }
 
 const isDev = process.env.NODE_ENV !== 'production';
 
-/** The one and only axios instance — every API section shares it. */
+/**
+ * The one and only axios instance — every API section shares it.
+ * The session lives in httpOnly cookies set by the API (`apmo_access`,
+ * `apmo_refresh`); JS never sees the tokens, it only sends the cookies.
+ */
 const http = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
-});
-
-http.interceptors.request.use((config) => {
-  const token = config.useRefreshToken ? tokenStorage.getRefreshToken() : tokenStorage.getToken();
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  } else {
-    delete config.headers.Authorization;
-  }
-
-  return config;
 });
 
 type RequestOptions<TResponse extends z.ZodType> = Omit<AxiosRequestConfig, 'url' | 'method'> & {

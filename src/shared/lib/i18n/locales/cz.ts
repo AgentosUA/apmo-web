@@ -19,6 +19,8 @@ const czLocale: typeof enLocale = {
     missionIsNotOnMap: 'Mise není na mapě {{map}}!',
     mapNotAvailable: 'Mapa není dostupná',
     mapNotInOcapDatabase: 'Mapa {{map}} zatím není v databázi map OCAP',
+    sessionExpiredTitle: 'Relace vypršela',
+    sessionExpiredDescription: 'Přihlaste se prosím znovu',
   },
   entities: {
     markers: {

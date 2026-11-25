@@ -19,6 +19,8 @@ const ukLocale: typeof enLocale = {
     missionIsNotOnMap: 'Місія не на карті {{map}}!',
     mapNotAvailable: 'Карта недоступна',
     mapNotInOcapDatabase: 'Карти {{map}} поки немає в базі мап OCAP',
+    sessionExpiredTitle: 'Сесія закінчилася',
+    sessionExpiredDescription: 'Будь ласка, увійдіть знову',
   },
   entities: {
     markers: {

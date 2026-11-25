@@ -22,7 +22,7 @@ const LogoutConfirm = ({
   const router = useRouter();
 
   const onConfirm = () => {
-    userEntity.logout();
+    void userEntity.logout();
     onLoggedOut?.();
     router.push('/');
   };

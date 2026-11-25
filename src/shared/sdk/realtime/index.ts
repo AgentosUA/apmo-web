@@ -1,7 +1,6 @@
 import { io, type Socket } from 'socket.io-client';
 
 import type { PlanPermissions } from '../plans/plan.schema';
-import { tokenStorage } from '../token';
 
 /* ------------------------------- types ------------------------------ */
 
@@ -77,7 +76,10 @@ const getSocketTarget = () => {
   };
 };
 
-/** Not connected yet — call `.connect()`. Auth is re-read on every (re)connect. */
+/**
+ * Not connected yet — call `.connect()`. The user is identified by the
+ * session cookie sent with the handshake (guests by `guestName`).
+ */
 const createPlanSocket = ({ guestName }: { guestName: string }): PlanSocket => {
   const { url, path } = getSocketTarget();
 
@@ -85,7 +87,9 @@ const createPlanSocket = ({ guestName }: { guestName: string }): PlanSocket => {
     path,
     autoConnect: false,
     transports: ['websocket', 'polling'],
-    auth: (callback) => callback({ token: tokenStorage.getToken() ?? '', guestName }),
+    // Polling is a cross-origin XHR in dev: cookies need credentials.
+    withCredentials: true,
+    auth: { guestName },
   });
 };
 

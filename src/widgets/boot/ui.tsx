@@ -5,7 +5,6 @@ import { FC, PropsWithChildren, useEffect } from 'react';
 
 import { mapsEntity } from '@/entities/maps';
 import { userEntity } from '@/entities/user/model';
-import { tokenStorage } from '@/shared/sdk';
 
 const BootProvider: FC<PropsWithChildren> = observer<PropsWithChildren>(({ children }) => {
   useEffect(() => {
@@ -14,19 +13,8 @@ const BootProvider: FC<PropsWithChildren> = observer<PropsWithChildren>(({ child
   }, []);
 
   useEffect(() => {
-    if (tokenStorage.hasToken()) {
-      userEntity.isAuthorized = true;
-
-      if (window.location.pathname === '/profile') {
-        userEntity.boot();
-
-        return;
-      }
-
-      userEntity.getUser();
-    }
-
-    userEntity.boot();
+    // Asks the API whether the session cookie is valid (and loads the profile).
+    void userEntity.boot();
   }, []);
 
   return children;

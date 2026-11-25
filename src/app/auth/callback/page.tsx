@@ -28,8 +28,8 @@ const readProvider = (value: string | null) =>
 
 /**
  * The API sends the browser here after Google / Steam / VTG with the result
- * in the URL fragment (never sent to servers):
- * `#token=…&refreshToken=…[&new=1]`, `#linked=<provider>` or `#error=<code>`.
+ * in the URL fragment: `#signedIn=1[&new=1]` (the session cookies are already
+ * set on that redirect), `#linked=<provider>` or `#error=<code>`.
  */
 const OAuthCallbackPage = observer(() => {
   const router = useRouter();
@@ -43,25 +43,32 @@ const OAuthCallbackPage = observer(() => {
 
     const params = new URLSearchParams(window.location.hash.slice(1));
 
-    // Do not keep tokens in the address bar or the history.
+    // Keep the address bar clean (and out of the history).
     window.history.replaceState(window.history.state, '', window.location.pathname);
 
-    const token = params.get('token');
-    const refreshToken = params.get('refreshToken');
+    const signedIn = params.get('signedIn') === '1';
     const linked = readProvider(params.get('linked'));
     const errorCode = params.get('error');
 
-    if (token && refreshToken) {
-      userEntity.loginWithTokens({ token, refreshToken });
+    if (signedIn) {
+      const isNew = params.get('new') === '1';
 
-      if (params.get('new') === '1') {
-        toasterEntity.call({
-          title: 'pages:auth:oauth:welcomeTitle',
-          description: 'pages:auth:oauth:welcomeDescription',
-        });
-      }
+      void userEntity.completeExternalLogin().then((ok) => {
+        if (!ok) {
+          setError({ code: 'provider_error', provider: readProvider(params.get('provider')) });
+          return;
+        }
 
-      router.replace('/profile');
+        if (isNew) {
+          toasterEntity.call({
+            title: 'pages:auth:oauth:welcomeTitle',
+            description: 'pages:auth:oauth:welcomeDescription',
+          });
+        }
+
+        router.replace('/profile');
+      });
+
       return;
     }
 
