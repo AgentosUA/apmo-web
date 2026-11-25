@@ -317,8 +317,8 @@ const PlanCard = ({
               <Localize translationKey="pages:profile:copySlots" />
             </Button>
             <Modal
-              title="Delete plan"
-              description="Are you sure you want to delete this plan?"
+              title={<Localize translationKey="pages:profile:deletePlanTitle" />}
+              description={<Localize translationKey="pages:profile:deletePlanDescription" />}
               onConfirm={() => onDeletePlan(plan)}
               onCancel
               trigger={

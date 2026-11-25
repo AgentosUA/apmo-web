@@ -1,5 +1,7 @@
 const enLocale = {
   common: {
+    ok: 'OK',
+    unknown: 'Unknown',
     save: 'Save',
     back: 'Back',
     continue: 'Continue',
@@ -13,6 +15,9 @@ const enLocale = {
     unknownError: 'Unknown error',
   },
   toasters: {
+    missionLoadedTitle: 'Mission loaded',
+    missionLoadFailedTitle: 'Failed to load mission',
+    missionLoadFailedDescription: 'Check your file and try again',
     mapAndMissionMismatch: 'Map and mission mismatch',
     missionIsNotOnMap: 'Mission is not on {{map}}!',
     mapNotAvailable: 'Map is not available',
@@ -37,7 +42,17 @@ const enLocale = {
     },
   },
   widgets: {
+    createMarker: {
+      sideChannel: 'Side Channel',
+      sizeHint: 'Shift + wheel: size',
+    },
+    contentPage: {
+      sections: 'Sections',
+    },
     header: {
+      openNavigation: 'Open navigation',
+      closeNavigation: 'Close navigation',
+      mainNavigation: 'Main',
       support: 'Support us',
       changelog: 'Changelog',
       logIn: 'Log in',
@@ -47,6 +62,9 @@ const enLocale = {
       licence: 'Licence',
     },
     mapOverlay: {
+      intelDate: 'Date',
+      intelTime: 'Time',
+      intelDescription: 'Description',
       markers: 'Markers',
       briefing: 'Briefing',
       mission: 'Mission',
@@ -112,6 +130,11 @@ const enLocale = {
     },
   },
   pages: {
+    licence: {
+      textBefore: 'Arma Plan Maker Online (APMO) uses certain Arma 3 materials in accordance with the Bohemia Interactive Community Licenses (including the Arma Public License). All Arma 3 content and trademarks are the property of Bohemia Interactive. Use of such content is permitted only under the terms of the licenses available at the',
+      linkText: 'licences page',
+      textAfter: '. This software is an independent, non-commercial project and is not endorsed by, affiliated with, or sponsored by Bohemia Interactive.',
+    },
     home: {
       selectMap: 'Select map',
       searchMap: 'Search map…',
@@ -127,6 +150,8 @@ const enLocale = {
       logInForAccess: 'Log in',
     },
     profile: {
+      deletePlanTitle: 'Delete plan',
+      deletePlanDescription: 'Are you sure you want to delete this plan?',
       myPlans: 'My plans',
       viewPlan: 'View',
       copyMarkers: 'Copy markers',

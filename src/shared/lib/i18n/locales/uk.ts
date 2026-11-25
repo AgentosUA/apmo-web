@@ -2,6 +2,8 @@ import enLocale from './en';
 
 const ukLocale: typeof enLocale = {
   common: {
+    ok: 'OK',
+    unknown: 'Невідомо',
     save: 'Зберегти',
     back: 'Назад',
     continue: 'Продовжити',
@@ -15,6 +17,9 @@ const ukLocale: typeof enLocale = {
     unknownError: 'Невідома помилка',
   },
   toasters: {
+    missionLoadedTitle: 'Місію завантажено',
+    missionLoadFailedTitle: 'Не вдалося завантажити місію',
+    missionLoadFailedDescription: 'Перевірте файл і спробуйте ще раз',
     mapAndMissionMismatch: 'Карта і місія не збігаються',
     missionIsNotOnMap: 'Місія не на карті {{map}}!',
     mapNotAvailable: 'Карта недоступна',
@@ -39,7 +44,17 @@ const ukLocale: typeof enLocale = {
     },
   },
   widgets: {
+    createMarker: {
+      sideChannel: 'Канал сторони',
+      sizeHint: 'Shift + коліщатко: розмір',
+    },
+    contentPage: {
+      sections: 'Розділи',
+    },
     header: {
+      openNavigation: 'Відкрити навігацію',
+      closeNavigation: 'Закрити навігацію',
+      mainNavigation: 'Головне меню',
       logIn: 'Увійти',
       logOut: 'Вийти',
       changelog: 'Список змін',
@@ -49,6 +64,9 @@ const ukLocale: typeof enLocale = {
       licence: 'Ліцензія',
     },
     mapOverlay: {
+      intelDate: 'Дата',
+      intelTime: 'Час',
+      intelDescription: 'Опис',
       markers: 'Маркери',
       briefing: 'Брифінг',
       mission: 'Місія',
@@ -114,6 +132,11 @@ const ukLocale: typeof enLocale = {
     },
   },
   pages: {
+    licence: {
+      textBefore: 'Arma Plan Maker Online (APMO) використовує окремі матеріали Arma 3 відповідно до ліцензій спільноти Bohemia Interactive (зокрема Arma Public License). Увесь контент і торговельні марки Arma 3 є власністю Bohemia Interactive. Використання такого контенту дозволене лише на умовах ліцензій, наведених на',
+      linkText: 'сторінці ліцензій',
+      textAfter: '. Це програмне забезпечення є незалежним некомерційним проєктом і не схвалене Bohemia Interactive, не пов’язане з нею та не спонсороване нею.',
+    },
     home: {
       selectMap: 'Обрати карту',
       searchMap: 'Пошук мапи…',
@@ -129,6 +152,8 @@ const ukLocale: typeof enLocale = {
       logInForAccess: 'Увійти',
     },
     profile: {
+      deletePlanTitle: 'Видалити план',
+      deletePlanDescription: 'Ви впевнені, що хочете видалити цей план?',
       myPlans: 'Мої плани',
       viewPlan: 'Переглянути',
       copyMarkers: 'Копіювати маркери',

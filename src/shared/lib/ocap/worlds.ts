@@ -18,6 +18,7 @@
  * `shared/data/worlds.ts` is a snapshot of the lists, used if requests fail.
  */
 import { worldCatalog, WorldCatalogEntry } from '@/shared/data/worlds';
+import { i18n } from '@/shared/lib/i18n/config';
 
 /** Per-world map configuration (OCAP `map.json`). */
 type WorldConfig = {
@@ -275,7 +276,7 @@ const getWorldConfig = (worldName: string, preferredSource?: string): Promise<Wo
 
 /** Human readable world name; falls back to the worldName itself. */
 const getWorldDisplayName = (worldName?: string | null) => {
-  if (!worldName) return 'Unknown';
+  if (!worldName) return i18n.t('common:unknown');
   return worldNames.get(normalizeWorldName(worldName)) ?? worldName;
 };
 

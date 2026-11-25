@@ -47,14 +47,14 @@ class Mission {
         this.setMission({ ...data, missionName });
 
         toasterEntity.call({
-          title: 'Mission loaded',
+          title: 'toasters:missionLoadedTitle',
           description: missionName,
         });
       }
     } catch (error) {
       toasterEntity.call({
-        title: 'Failed to load mission',
-        description: 'Check your file and try again',
+        title: 'toasters:missionLoadFailedTitle',
+        description: 'toasters:missionLoadFailedDescription',
       });
     } finally {
       this.isLoading = false;

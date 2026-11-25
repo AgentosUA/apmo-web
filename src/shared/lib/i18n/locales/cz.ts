@@ -2,6 +2,8 @@ import enLocale from './en';
 
 const czLocale: typeof enLocale = {
   common: {
+    ok: 'OK',
+    unknown: 'Neznámá',
     save: 'Uložit',
     back: 'Zpátky',
     continue: 'Pokračovat',
@@ -15,6 +17,9 @@ const czLocale: typeof enLocale = {
     unknownError: 'Neznámá chyba',
   },
   toasters: {
+    missionLoadedTitle: 'Mise načtena',
+    missionLoadFailedTitle: 'Misi se nepodařilo načíst',
+    missionLoadFailedDescription: 'Zkontrolujte soubor a zkuste to znovu',
     mapAndMissionMismatch: 'Mapa a mise nesedí',
     missionIsNotOnMap: 'Mise není na mapě {{map}}!',
     mapNotAvailable: 'Mapa není dostupná',
@@ -39,7 +44,17 @@ const czLocale: typeof enLocale = {
     },
   },
   widgets: {
+    createMarker: {
+      sideChannel: 'Kanál strany',
+      sizeHint: 'Shift + kolečko: velikost',
+    },
+    contentPage: {
+      sections: 'Sekce',
+    },
     header: {
+      openNavigation: 'Otevřít navigaci',
+      closeNavigation: 'Zavřít navigaci',
+      mainNavigation: 'Hlavní menu',
       logIn: 'Přihlásit se',
       logOut: 'Odhlásit se',
       changelog: 'Seznam změn',
@@ -49,6 +64,9 @@ const czLocale: typeof enLocale = {
       licence: 'Licence',
     },
     mapOverlay: {
+      intelDate: 'Datum',
+      intelTime: 'Čas',
+      intelDescription: 'Popis',
       markers: 'Markery',
       briefing: 'Briefing',
       mission: 'Mise',
@@ -114,6 +132,11 @@ const czLocale: typeof enLocale = {
     },
   },
   pages: {
+    licence: {
+      textBefore: 'Arma Plan Maker Online (APMO) používá některé materiály ze hry Arma 3 v souladu s komunitními licencemi Bohemia Interactive (včetně Arma Public License). Veškerý obsah a ochranné známky Arma 3 jsou majetkem Bohemia Interactive. Použití tohoto obsahu je povoleno pouze za podmínek licencí uvedených na',
+      linkText: 'stránce licencí',
+      textAfter: '. Tento software je nezávislý nekomerční projekt a není schválen, přidružen ani sponzorován společností Bohemia Interactive.',
+    },
     home: {
       selectMap: 'Vybrat mapu',
       searchMap: 'Hledat mapu…',
@@ -129,6 +152,8 @@ const czLocale: typeof enLocale = {
       logInForAccess: 'Přihlásit se',
     },
     profile: {
+      deletePlanTitle: 'Smazat plán',
+      deletePlanDescription: 'Opravdu chcete tento plán smazat?',
       myPlans: 'Moje plány',
       viewPlan: 'Zobrazit',
       copyMarkers: 'Kopírovat markery',

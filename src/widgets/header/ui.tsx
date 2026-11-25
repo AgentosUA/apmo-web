@@ -13,6 +13,7 @@ import {
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
+import { useTranslation } from 'react-i18next';
 import {
   FiFileText,
   FiHeart,
@@ -71,6 +72,7 @@ const MenuButton = forwardRef<
 MenuButton.displayName = 'MenuButton';
 
 const Header = () => {
+  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
@@ -129,7 +131,7 @@ const Header = () => {
           type="button"
           onClick={openMenu}
           className="flex items-center justify-center w-10 h-10 -ml-2 text-white hover:text-a3-orange"
-          aria-label="Open navigation"
+          aria-label={t('widgets:header:openNavigation')}
           aria-expanded={isMenuOpened}
           aria-controls="mobile-menu"
         >
@@ -260,7 +262,7 @@ const Header = () => {
 
             <nav
               id="mobile-menu"
-              aria-label="Main"
+              aria-label={t('widgets:header:mainNavigation')}
               className={classNames(
                 'absolute inset-y-0 left-0 flex flex-col w-[82vw] max-w-[320px] bg-a3-black border-r border-white/15 shadow-[8px_0_30px_rgba(0,0,0,0.6)]',
                 'transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform',
@@ -285,7 +287,7 @@ const Header = () => {
                   type="button"
                   onClick={closeMenu}
                   className="flex items-center justify-center w-10 h-10 -mr-2 text-white hover:text-a3-orange"
-                  aria-label="Close navigation"
+                  aria-label={t('widgets:header:closeNavigation')}
                 >
                   <IoMdClose className="text-2xl" />
                 </button>

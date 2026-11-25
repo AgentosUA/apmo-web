@@ -41,7 +41,10 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang="en" className={roboto.variable}>
+    <html
+      lang={initial.settingsLocale === 'cz' ? 'cs' : (initial.settingsLocale ?? 'en')}
+      className={roboto.variable}
+    >
       <head>
         <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
+import { useTranslation } from 'react-i18next';
 
 import { Paper } from '@/shared/ui/atoms/paper';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
@@ -89,6 +90,7 @@ const useActiveSection = (ids: string[]) => {
 };
 
 const ContentNav = ({ items, title }: { items: ContentNavItem[]; title?: ReactNode }) => {
+  const { t } = useTranslation();
   const pathname = usePathname();
   const activeSection = useActiveSection(items.filter((i) => !i.href).map((i) => i.id));
   const chipsRef = useRef<HTMLDivElement>(null);
@@ -113,7 +115,7 @@ const ContentNav = ({ items, title }: { items: ContentNavItem[]; title?: ReactNo
       <Paper
         as="nav"
         padding="none"
-        aria-label="Sections"
+        aria-label={t('widgets:contentPage:sections')}
         className="desktop:hidden sticky top-20 z-10 -mx-4 border-x-0"
       >
         <div
@@ -145,7 +147,7 @@ const ContentNav = ({ items, title }: { items: ContentNavItem[]; title?: ReactNo
 
       {/* Desktop: sticky side list */}
       <aside className="hidden desktop:block">
-        <nav className="sticky top-32" aria-label="Sections">
+        <nav className="sticky top-32" aria-label={t('widgets:contentPage:sections')}>
           {title && <p className="mb-3 text-xs uppercase tracking-widest text-white/50">{title}</p>}
           <Paper as="div" padding="none" className="py-1">
             <ul className="flex flex-col">

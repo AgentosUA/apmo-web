@@ -23,4 +23,10 @@ i18n
     },
   });
 
+// Keep <html lang> in sync with the UI language (screen readers, hyphenation, spellcheck).
+i18n.on('languageChanged', (language) => {
+  if (typeof document === 'undefined') return;
+  document.documentElement.lang = language === Language.CZ ? 'cs' : language;
+});
+
 export { i18n };

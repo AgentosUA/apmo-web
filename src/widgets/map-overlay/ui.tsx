@@ -1,6 +1,6 @@
-import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
 import { ChangeEvent, Fragment, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { mapsEntity } from '@/entities/maps';
 import { markersEntity } from '@/entities/markers';
@@ -18,10 +18,28 @@ import { PlanToolbar } from '@/widgets/plan-toolbar';
 
 import { MissionSlotList, PlayerSlotList } from './slots-list';
 
+const pad2 = (value?: number) => String(value ?? 0).padStart(2, '0');
+
+// The app uses `cz` for Czech, Intl expects the ISO code `cs`.
+const toIntlLocale = (language: string) => (language === 'cz' ? 'cs' : language);
+
+/** Mission date from mission.sqm Intel (month is 1-based): "June 12" / "12 червня" / "12. června". */
+const formatIntelDate = (language: string, day?: number, month?: number) => {
+  if (!day) return '';
+  if (!month) return String(day);
+
+  // Leap year so 29 February stays valid.
+  return new Intl.DateTimeFormat(toIntlLocale(language), { day: 'numeric', month: 'long' }).format(
+    new Date(2000, month - 1, day)
+  );
+};
+
 const MapOverlay = observer<{
   onBackClick?: () => void;
 }>(({ onBackClick }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { i18n: i18nInstance } = useTranslation();
 
   const { active, onMenuItemClick, setActive } = useMenu({
     map: true,
@@ -377,28 +395,27 @@ const MapOverlay = observer<{
               <ul className="leading-6 text-white [&_b]:text-white">
                 {missionEntity?.data?.briefing?.intel?.day && (
                   <li>
-                    <b>Date:</b>{' '}
-                    {dayjs(missionEntity?.data?.briefing?.intel?.day).format(
-                      'DD'
-                    )}
-                    ,{' '}
-                    {dayjs(missionEntity?.data?.briefing?.intel?.month).format(
-                      'MMMM'
+                    <b>
+                      <Localize translationKey="widgets:mapOverlay:intelDate" />:
+                    </b>{' '}
+                    {formatIntelDate(
+                      i18nInstance.language,
+                      missionEntity?.data?.briefing?.intel?.day,
+                      missionEntity?.data?.briefing?.intel?.month
                     )}
                   </li>
                 )}
                 <li>
-                  <b>Time:</b>{' '}
-                  {dayjs(missionEntity?.data?.briefing?.intel?.hour).format(
-                    'hh'
-                  )}
-                  :
-                  {dayjs(missionEntity?.data?.briefing?.intel?.minute).format(
-                    'mm'
-                  )}
+                  <b>
+                    <Localize translationKey="widgets:mapOverlay:intelTime" />:
+                  </b>{' '}
+                  {pad2(missionEntity?.data?.briefing?.intel?.hour)}:
+                  {pad2(missionEntity?.data?.briefing?.intel?.minute)}
                 </li>
                 <li>
-                  <b>Description:</b>{' '}
+                  <b>
+                    <Localize translationKey="widgets:mapOverlay:intelDescription" />:
+                  </b>{' '}
                   {missionEntity?.data?.briefing?.intel?.overviewText}
                 </li>
               </ul>

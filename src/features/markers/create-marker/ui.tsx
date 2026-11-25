@@ -2,6 +2,7 @@
 
 import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   MarkersModel,
@@ -18,6 +19,7 @@ import { resolveShapeColor } from '@/shared/lib/ocap/colors';
 import { useArmaMap } from '@/shared/ui/atoms/basic-map/ui';
 import { Button } from '@/shared/ui/atoms/button';
 import { MarkerIconComponent } from '@/shared/ui/atoms/marker';
+import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { View } from '@/shared/ui/quarks/view';
 
 import { CreateMarkerModel, createMarkerEntity } from './model';
@@ -28,6 +30,7 @@ const CreateMarker: FC<{
   model?: CreateMarkerModel;
   markersModel?: MarkersModel;
 }> = observer(({ model = createMarkerEntity, markersModel }) => {
+  const { t } = useTranslation();
   const entity = model;
   const markersEntity = markersModel ?? sharedMarkersEntity;
 
@@ -131,7 +134,7 @@ const CreateMarker: FC<{
           {/* Current marker; Shift + wheel changes its size (SWT: 0.7 / 1 / 1.3). */}
           <div
             className="absolute top-[70px] left-[-54px] w-12 h-12 flex items-center justify-center"
-            title="Shift + wheel: size"
+            title={t('widgets:createMarker:sizeHint')}
           >
             <MarkerIconComponent
               width={Math.round(32 * entity.currentSize)}
@@ -176,7 +179,7 @@ const CreateMarker: FC<{
           </div>
 
           <div className="pl-[7px] h-[23px] text-sm font-medium leading-[23px] text-[#46D2FB] bg-a3-surface pointer-events-none">
-            Side Channel
+            <Localize translationKey="widgets:createMarker:sideChannel" />
           </div>
 
           <input
@@ -198,7 +201,7 @@ const CreateMarker: FC<{
                 entity.close();
               }}
             >
-              OK
+              <Localize translationKey="common:ok" />
             </Button>
             <Button
               onClick={() => {
@@ -206,7 +209,7 @@ const CreateMarker: FC<{
                 entity.close();
               }}
             >
-              CANCEL
+              <Localize translationKey="common:cancel" />
             </Button>
           </div>
         </div>
