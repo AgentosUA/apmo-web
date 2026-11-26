@@ -11,15 +11,13 @@ import { Localize } from '@/shared/ui/quarks/localize/ui';
 import { cn } from '@/shared/utils/cn';
 
 const VtgIcon = ({ className }: { className?: string }) => (
-  <span
+  // eslint-disable-next-line @next/next/no-img-element
+  <img
+    src="/vtg-logo.webp"
+    alt=""
     aria-hidden
-    className={cn(
-      'inline-flex items-center justify-center h-[1.15em] px-[0.2em] text-[0.62em] font-bold leading-none tracking-tight border border-current',
-      className
-    )}
-  >
-    VTG
-  </span>
+    className={cn('inline-block size-6 object-contain', className)}
+  />
 );
 
 /** Icon and name of each sign-in method. */
