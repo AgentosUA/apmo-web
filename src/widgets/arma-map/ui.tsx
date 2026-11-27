@@ -33,6 +33,7 @@ import {
 import { radToDeg } from '@/shared/lib/ocap/coordinates';
 import { resolveMarkerUrl } from '@/shared/lib/ocap/icons';
 import type { ShapeItem } from '@/shared/lib/ocap/shapes';
+import { VEHICLE_ICON_SIZES, getVehicleIconType, getVehicleIconUrl } from '@/shared/lib/ocap/vehicle-icons';
 import { markerColorNames } from '@/shared/data/marker';
 import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
 import { BasicMap, CanvasItemsLayer, ShapesLayer, useArmaMap } from '@/shared/ui/atoms/basic-map/ui';
@@ -49,12 +50,20 @@ const escapeHtml = (text: string) =>
 
 // --------------- mission vehicles ---------------
 
-const VEHICLE_ICONS: Record<Vehicle['type'], { url: string; size: number; tint: boolean }> = {
-  land: { url: '/markers/car.svg', size: 24, tint: true },
-  air: { url: '/markers/heli.svg', size: 32, tint: true },
-  static: { url: '/icons/static.svg', size: 20, tint: false },
-  crate: { url: '/icons/crate.svg', size: 16, tint: false },
-  unknown: { url: '/markers/unknown.svg', size: 24, tint: true },
+/** Static weapons and crates keep our own icons; OCAP has none for them. */
+const NATIVE_VEHICLE_ICONS: Partial<Record<Vehicle['type'], { url: string; size: number }>> = {
+  static: { url: '/icons/static.svg', size: 20 },
+  crate: { url: '/icons/crate.svg', size: 16 },
+};
+
+/** OCAP icon (car / truck / apc / tank / heli / plane / ship…) picked from the class name. */
+const getVehicleIcon = (vehicle: Vehicle): CanvasItem['icon'] => {
+  const native = NATIVE_VEHICLE_ICONS[vehicle.type];
+  if (native) return { url: native.url, color: null, size: [native.size, native.size] };
+
+  const type = getVehicleIconType(vehicle);
+  const size = VEHICLE_ICON_SIZES[type];
+  return { url: getVehicleIconUrl(type), color: EMPTY_VEHICLE_COLOR, size: [size, size] };
 };
 
 /** Empty vehicles use OCAP's "unknown" side color. */
@@ -323,17 +332,12 @@ const MapLayers = observer(() => {
   // ---- vehicles ----
   const vehicleItems: CanvasItem[] =
     mission?.vehicles?.map((vehicle) => {
-      const icon = VEHICLE_ICONS[vehicle.type] ?? VEHICLE_ICONS.unknown;
       return {
         id: `vehicle-${vehicle.id}`,
         x: vehicle.position.coordinates.x,
         y: vehicle.position.coordinates.y,
         direction: radToDeg(vehicle.position.angles?.[1] ?? 0),
-        icon: {
-          url: icon.url,
-          color: icon.tint ? EMPTY_VEHICLE_COLOR : null,
-          size: [icon.size, icon.size],
-        },
+        icon: getVehicleIcon(vehicle),
         interactive: true,
         onClick: () =>
           renderer?.openPopup(
