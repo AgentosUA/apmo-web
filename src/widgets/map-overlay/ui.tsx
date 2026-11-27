@@ -7,6 +7,7 @@ import { markersEntity } from '@/entities/markers';
 import { missionEntity } from '@/entities/mission';
 import { findMissionMarkerByName, getIslandClassNameByPboFile } from '@/entities/mission/lib';
 import { planEntity } from '@/entities/plan';
+import { useLeavePlanGuard } from '@/features/plan/leave-plan';
 import { i18n } from '@/shared/lib/i18n/config';
 import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
 import { Overlay, useMenu } from '@/shared/ui/atoms/overlay';
@@ -139,6 +140,10 @@ const MapOverlay = observer<{
     markersEntity.clearMarkers();
   };
 
+  const { requestLeave, modal: leavePlanModal } = useLeavePlanGuard(() => {
+    onBackClick ? onBackClick() : onResetClick();
+  });
+
   useEffect(() => {
     if (missionEntity?.data?.briefing?.diary?.length) {
       const diaryIds = missionEntity?.data?.briefing.diary.map(
@@ -161,6 +166,7 @@ const MapOverlay = observer<{
 
   return (
     <>
+      {leavePlanModal}
       <input
         ref={inputRef}
         onChange={onMissionUpload}
@@ -175,9 +181,7 @@ const MapOverlay = observer<{
           missionEntity?.data?.missionName ||
           mapsEntity.selectedMap.name
         }
-        onBack={() => {
-          onBackClick ? onBackClick() : onResetClick();
-        }}
+        onBack={requestLeave}
         actions={<PlanToolbar />}
         rightCorner={
           <DateClock
