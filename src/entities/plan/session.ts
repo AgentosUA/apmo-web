@@ -164,7 +164,7 @@ class PlanSession {
     this.inFlight = 0;
   };
 
-  /** Mission slots / title changes (title — owner only). */
+  /** Mission slots / title changes (edit access). */
   patch = (patch: PlanPatch) => {
     if (!this.socket) return;
 

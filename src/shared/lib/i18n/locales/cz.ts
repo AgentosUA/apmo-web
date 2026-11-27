@@ -119,6 +119,8 @@ const czLocale: typeof enLocale = {
       saveDescription:
         'Po uložení se každá změna ukládá automaticky a plán lze upravovat společně v reálném čase.',
       planName: 'Název plánu',
+      renameTitle: 'Přejmenovat plán',
+      renamedTitle: 'Plán přejmenován',
       saveFailed: 'Plán se nepodařilo uložit',
       saving: 'Ukládání…',
       saved: 'Všechny změny uloženy',
@@ -184,8 +186,8 @@ const czLocale: typeof enLocale = {
       avatarTooLarge: 'Obrázek může mít nejvýše 5 MB',
       avatarOrUrl: 'nebo zadejte odkaz na obrázek',
       filters: {
-        search: 'Název mise',
-        searchPlaceholder: 'Hledat podle názvu mise…',
+        search: 'Název',
+        searchPlaceholder: 'Hledat podle názvu plánu nebo mise…',
         world: 'Mapa',
         allWorlds: 'Všechny mapy',
         sortBy: 'Řadit podle',

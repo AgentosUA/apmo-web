@@ -32,7 +32,7 @@ const useMenu = (items: Record<string, boolean>) => {
 };
 
 const Header: FC<{
-  title?: string;
+  title?: ReactNode;
   rightCorner?: ReactNode;
   /** Plan controls (presence, save, share…) between the title and `rightCorner`. */
   actions?: ReactNode;

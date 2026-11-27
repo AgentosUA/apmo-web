@@ -117,6 +117,8 @@ const enLocale = {
       saveDescription:
         'After saving, every change is saved automatically and the plan can be edited together in real time.',
       planName: 'Plan name',
+      renameTitle: 'Rename plan',
+      renamedTitle: 'Plan renamed',
       saveFailed: 'Failed to save plan',
       saving: 'Saving…',
       saved: 'All changes saved',
@@ -182,8 +184,8 @@ const enLocale = {
       avatarTooLarge: 'The image must be at most 5 MB',
       avatarOrUrl: 'or set an image URL',
       filters: {
-        search: 'Mission name',
-        searchPlaceholder: 'Search by mission name…',
+        search: 'Name',
+        searchPlaceholder: 'Search by plan or mission name…',
         world: 'Map',
         allWorlds: 'All maps',
         sortBy: 'Sort by',

@@ -189,6 +189,11 @@ class ProfilePlans {
     }
   };
 
+  /** Applies a new title locally (after `PATCH /plans/:id`). */
+  renamePlan = (id: string, title: string) => {
+    this.items = this.items.map((item) => (item.id === id ? { ...item, title } : item));
+  };
+
   /** Clears the state on logout. */
   reset = () => {
     this.clearSearchTimer();

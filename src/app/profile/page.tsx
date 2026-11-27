@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import {
   BsCopy as BsCopyIcon,
   BsEye,
+  BsPencil,
   BsSortDown,
   BsSortUp,
   BsTrash,
@@ -20,6 +21,7 @@ import {
 import { userEntity } from '@/entities/user/model';
 import { profilePlansEntity } from '@/entities/user/plans-model';
 import { useUnAuthorizated } from '@/entities/user/ui/authorization/hook';
+import { RenamePlanDialog } from '@/features/plan/rename-plan';
 import { NotificationSoundSetting } from '@/features/settings/notification-sound';
 import { ChangeUsername } from '@/features/user/change-username';
 import { LogoutConfirm } from '@/features/user/logout';
@@ -233,6 +235,7 @@ type PlanCardProps = {
   onCopyMarkers: (plan: Plan) => void;
   onCopySlots: (plan: Plan) => void;
   onDeletePlan: (plan: Plan) => void;
+  onRenamePlan: (plan: Plan, title: string) => Promise<void>;
   variant: 'mobile' | 'desktop';
 };
 
@@ -270,9 +273,14 @@ const PlanCard = ({
   onCopyMarkers,
   onCopySlots,
   onDeletePlan,
+  onRenamePlan,
   variant,
 }: PlanCardProps) => {
+  const { t } = useTranslation();
   const isMobile = variant === 'mobile';
+  const missionName = plan?.mission?.missionName;
+  const title = plan.title || missionName || '';
+  const renameLabel = t('widgets:planToolbar:renameTitle');
   const actionClass = isMobile ? MOBILE_PLAN_ACTION : DESKTOP_PLAN_ACTION;
 
   return (
@@ -292,9 +300,35 @@ const PlanCard = ({
         alt="island"
       />
       <div className="relative z-[3] flex flex-col flex-1">
-        <h3 className={isMobile ? 'text-base font-semibold pr-2' : 'text-lg font-semibold'}>
-          {plan?.mission?.missionName}
-        </h3>
+        <div className="flex items-center gap-2 min-w-0">
+          <h3
+            className={
+              isMobile
+                ? 'text-base font-semibold pr-2 break-words'
+                : 'text-lg font-semibold truncate'
+            }
+          >
+            {title}
+          </h3>
+          <RenamePlanDialog
+            title={title}
+            onRename={(value) => onRenamePlan(plan, value)}
+            trigger={
+              <button
+                type="button"
+                title={renameLabel}
+                aria-label={renameLabel}
+                className="inline-flex h-7 w-7 shrink-0 items-center justify-center text-white/60 border border-solid border-white/15 hover:text-white hover:border-a3-orange focus-visible:outline-none focus-visible:border-a3-orange transition-colors"
+              >
+                <BsPencil aria-hidden />
+              </button>
+            }
+          />
+        </div>
+        {/* The mission name, when the plan was renamed. */}
+        {missionName && missionName !== title && (
+          <p className="text-sm text-white/70 truncate">{missionName}</p>
+        )}
         <div className="mt-auto flex flex-col">
           <p className="text-sm font-normal">{getPlanIslandName(plan)}</p>
           <PlanDates plan={plan} />
@@ -765,6 +799,14 @@ const Profile = observer(() => {
     }
   };
 
+  // Errors are shown in the rename form.
+  const onRenamePlan = async ({ id }: Plan, title: string) => {
+    await api.plans.update({ id, title });
+    profilePlansEntity.renamePlan(id, title);
+
+    toasterEntity.call({ title: 'widgets:planToolbar:renamedTitle', description: title });
+  };
+
   const avatarForm = useAvatarForm();
 
   const planCardProps = {
@@ -774,6 +816,7 @@ const Profile = observer(() => {
     onCopyMarkers,
     onCopySlots,
     onDeletePlan,
+    onRenamePlan,
   };
 
   const userPanelProps = {

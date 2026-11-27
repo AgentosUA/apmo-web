@@ -119,6 +119,8 @@ const ukLocale: typeof enLocale = {
       saveDescription:
         'Після збереження всі зміни зберігатимуться автоматично, а план можна буде редагувати разом у реальному часі.',
       planName: 'Назва плану',
+      renameTitle: 'Перейменувати план',
+      renamedTitle: 'План перейменовано',
       saveFailed: 'Не вдалося зберегти план',
       saving: 'Збереження…',
       saved: 'Усі зміни збережено',
@@ -184,8 +186,8 @@ const ukLocale: typeof enLocale = {
       avatarTooLarge: 'Зображення має бути не більше 5 МБ',
       avatarOrUrl: 'або вкажіть посилання на зображення',
       filters: {
-        search: 'Назва місії',
-        searchPlaceholder: 'Пошук за назвою місії…',
+        search: 'Назва',
+        searchPlaceholder: 'Пошук за назвою плану або місії…',
         world: 'Карта',
         allWorlds: 'Усі карти',
         sortBy: 'Сортування',

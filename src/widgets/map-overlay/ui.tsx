@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { ChangeEvent, Fragment, MouseEvent, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { BsPencil } from 'react-icons/bs';
 
 import { mapsEntity } from '@/entities/maps';
 import { markersEntity } from '@/entities/markers';
@@ -8,6 +9,7 @@ import { missionEntity } from '@/entities/mission';
 import { findMissionMarkerByName, getIslandClassNameByPboFile } from '@/entities/mission/lib';
 import { planEntity } from '@/entities/plan';
 import { useLeavePlanGuard } from '@/features/plan/leave-plan';
+import { RenamePlanDialog, renameOpenPlan } from '@/features/plan/rename-plan';
 import { i18n } from '@/shared/lib/i18n/config';
 import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
 import { Overlay, useMenu } from '@/shared/ui/atoms/overlay';
@@ -164,6 +166,9 @@ const MapOverlay = observer<{
 
   if (!mapsEntity.selectedMap) return null;
 
+  const title =
+    planEntity.title || missionEntity?.data?.missionName || mapsEntity.selectedMap.name;
+
   return (
     <>
       {leavePlanModal}
@@ -177,9 +182,27 @@ const MapOverlay = observer<{
       />
       <Overlay.Header
         title={
-          planEntity.title ||
-          missionEntity?.data?.missionName ||
-          mapsEntity.selectedMap.name
+          planEntity.canEdit ? (
+            <span className="flex items-center gap-1.5 min-w-0">
+              <span className="truncate">{title}</span>
+              <RenamePlanDialog
+                title={title}
+                onRename={renameOpenPlan}
+                trigger={
+                  <button
+                    type="button"
+                    title={i18n.t('widgets:planToolbar:renameTitle')}
+                    aria-label={i18n.t('widgets:planToolbar:renameTitle')}
+                    className="inline-flex h-[22px] w-[22px] shrink-0 items-center justify-center text-sm text-white/60 border border-solid border-white/15 hover:text-white hover:border-a3-orange focus-visible:outline-none focus-visible:border-a3-orange transition-colors"
+                  >
+                    <BsPencil aria-hidden />
+                  </button>
+                }
+              />
+            </span>
+          ) : (
+            title
+          )
         }
         onBack={requestLeave}
         actions={<PlanToolbar />}
