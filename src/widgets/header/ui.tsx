@@ -29,6 +29,7 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import { Authorized, UnAuthorized } from '@/entities/user/ui/authorization/ui';
 import { LogoutConfirm } from '@/features/user/logout';
 import { Button } from '@/shared/ui/atoms/button';
+import { VersionBadge } from '@/shared/ui/atoms/version-badge';
 import { useMounted } from '@/shared/ui/hooks';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 
@@ -70,6 +71,23 @@ const MenuButton = forwardRef<
 ));
 
 MenuButton.displayName = 'MenuButton';
+
+const DesktopNavButton = forwardRef<
+  HTMLButtonElement,
+  ComponentPropsWithoutRef<typeof Button> & { icon: ComponentType<{ className?: string }> }
+>(({ icon: Icon, children, className, ...props }, ref) => (
+  <Button
+    ref={ref}
+    variant="primary"
+    className={classNames('group inline-flex items-center gap-2', className)}
+    {...props}
+  >
+    <Icon className="text-base text-white/70 group-hover:text-white transition-colors" />
+    {children}
+  </Button>
+));
+
+DesktopNavButton.displayName = 'DesktopNavButton';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -146,9 +164,9 @@ const Header = () => {
             height={91}
             alt="logo"
           />
-          <h1 className="mt-[-2px] text-xs font-medium text-white text-center leading-tight">
+          <h1 className="flex flex-col items-center mt-[-2px] text-xs font-medium text-white text-center leading-tight">
             PLAN MAKER ONLINE
-            <div className="text-[10px] font-light">v{process.env.APP_VERSION}</div>
+            <VersionBadge className="mt-0.5" />
           </h1>
         </Link>
 
@@ -160,46 +178,46 @@ const Header = () => {
       <div className="hidden lg:flex items-center justify-center h-24 relative">
         <div className="flex items-center w-full h-8 bg-black px-4">
           <Link href="https://savelife.in.ua/en/donate-en/" target="_blank">
-            <Button variant="primary">
+            <DesktopNavButton icon={FiHeart}>
               <Localize translationKey="widgets:header:support" />
-            </Button>
+            </DesktopNavButton>
           </Link>
           <Link href="/changelog">
-            <Button variant="primary">
+            <DesktopNavButton icon={FiRefreshCw}>
               <Localize translationKey="widgets:header:changelog" />
-            </Button>
+            </DesktopNavButton>
           </Link>
           <Link href="/licence">
-            <Button variant="primary">
+            <DesktopNavButton icon={FiFileText}>
               <Localize translationKey="widgets:header:licence" />
-            </Button>
+            </DesktopNavButton>
           </Link>
           <div className="grow" />
           <UnAuthorized>
             <Link href="/auth/login">
-              <Button variant="primary">
+              <DesktopNavButton icon={FiLogIn}>
                 <Localize translationKey="widgets:header:logIn" />
-              </Button>
+              </DesktopNavButton>
             </Link>
             <Link href="/auth/sign-up">
-              <Button variant="primary">
+              <DesktopNavButton icon={FiUserPlus}>
                 <Localize translationKey="widgets:header:signUp" />
-              </Button>
+              </DesktopNavButton>
             </Link>
           </UnAuthorized>
 
           <Authorized>
             <Link href="/profile">
-              <Button variant="primary">
+              <DesktopNavButton icon={FiUser}>
                 <Localize translationKey="widgets:header:profile" />
-              </Button>
+              </DesktopNavButton>
             </Link>
 
             <LogoutConfirm
               trigger={
-                <Button variant="primary">
+                <DesktopNavButton icon={FiLogOut}>
                   <Localize translationKey="widgets:header:logOut" />
-                </Button>
+                </DesktopNavButton>
               }
             />
           </Authorized>
@@ -217,7 +235,7 @@ const Header = () => {
           <Link className="flex flex-col items-center" href="/">
             <Image
               className={classNames('duration-300 transition-all', {
-                'flex items-center justify-center h-16 w-auto text-center mx-auto': isScrolled,
+                'flex items-center justify-center h-12 w-auto text-center mx-auto': isScrolled,
               })}
               src="/a3-logo.png"
               width={159}
@@ -228,13 +246,13 @@ const Header = () => {
               className={classNames(
                 'relative mt-[-3px] text-[20px] font-medium text-white text-center transition duration-300 mx-auto',
                 {
-                  'text-sm': isScrolled,
+                  'text-xs': isScrolled,
                 }
               )}
             >
               PLAN MAKER ONLINE
-              <div className="absolute -bottom-2.5 text-xs font-light left-0 right-0">
-                v{process.env.APP_VERSION}
+              <div className="absolute -bottom-3 left-0 right-0 flex justify-center">
+                <VersionBadge />
               </div>
             </h1>
           </Link>
@@ -278,9 +296,9 @@ const Header = () => {
                     height={91}
                     alt="logo"
                   />
-                  <span className="text-xs font-medium text-white leading-tight">
+                  <span className="flex flex-col items-start text-xs font-medium text-white leading-tight">
                     PLAN MAKER ONLINE
-                    <span className="block text-[10px] font-light">v{process.env.APP_VERSION}</span>
+                    <VersionBadge className="mt-1" />
                   </span>
                 </Link>
                 <button
