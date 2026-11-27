@@ -18,6 +18,7 @@ const enLocale = {
     missionLoadedTitle: 'Mission loaded',
     missionLoadFailedTitle: 'Failed to load mission',
     missionLoadFailedDescription: 'Check your file and try again',
+    missionUrlNotAllowed: 'This mission link is not allowed',
     mapAndMissionMismatch: 'Map and mission mismatch',
     missionIsNotOnMap: 'Mission is not on {{map}}!',
     mapNotAvailable: 'Map is not available',

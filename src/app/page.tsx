@@ -68,6 +68,23 @@ const NavAction = ({
     </button>
   );
 
+/**
+ * `?file=<url>` opens a mission by link. The link is usually pasted as is
+ * (`?file=https://host/m.Altis.pbo?v=…&x=…`), so an unencoded value takes the
+ * rest of the query string; an encoded one is read normally.
+ */
+const getMissionUrlFromQuery = (search: string) => {
+  const match = /[?&]file=(.*)$/.exec(search);
+
+  if (!match) return null;
+
+  const raw = match[1];
+
+  if (/^https?:\/\//i.test(raw)) return raw;
+
+  return new URLSearchParams(search).get('file');
+};
+
 const MOBILE_CARD_CLASS =
   'group relative flex items-center gap-4 w-full h-24 px-4 overflow-hidden text-left border border-white/15 bg-a3-panel transition-colors duration-200 active:border-a3-orange active:bg-a3-orange/20 focus-visible:outline-none focus-visible:border-white';
 
@@ -75,6 +92,8 @@ const HomePage = observer(() => {
   const router = useRouter();
 
   const inputRef = useRef<HTMLInputElement>(null);
+  // React strict mode runs effects twice in dev: open the link only once.
+  const isMissionUrlHandled = useRef(false);
 
   const onMissionUpload = (e: ChangeEvent<HTMLInputElement>) => {
     missionEntity.loadMission(e.target.files?.[0]);
@@ -104,6 +123,16 @@ const HomePage = observer(() => {
       router.replace('/plans/create');
     });
   }, [missionEntity.data?.island]);
+
+  useEffect(() => {
+    if (isMissionUrlHandled.current) return;
+    isMissionUrlHandled.current = true;
+
+    const url = getMissionUrlFromQuery(window.location.search);
+
+    // Then the usual flow: the island effect above loads the map and opens it.
+    if (url) missionEntity.loadMissionFromUrl(url);
+  }, []);
 
   const onLoadMissionClick = () => inputRef.current?.click();
 

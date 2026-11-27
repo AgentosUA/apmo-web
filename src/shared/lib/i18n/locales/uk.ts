@@ -20,6 +20,7 @@ const ukLocale: typeof enLocale = {
     missionLoadedTitle: 'Місію завантажено',
     missionLoadFailedTitle: 'Не вдалося завантажити місію',
     missionLoadFailedDescription: 'Перевірте файл і спробуйте ще раз',
+    missionUrlNotAllowed: 'Посилання на цю місію не дозволене',
     mapAndMissionMismatch: 'Карта і місія не збігаються',
     missionIsNotOnMap: 'Місія не на карті {{map}}!',
     mapNotAvailable: 'Карта недоступна',

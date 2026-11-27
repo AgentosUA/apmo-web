@@ -20,6 +20,7 @@ const czLocale: typeof enLocale = {
     missionLoadedTitle: 'Mise načtena',
     missionLoadFailedTitle: 'Misi se nepodařilo načíst',
     missionLoadFailedDescription: 'Zkontrolujte soubor a zkuste to znovu',
+    missionUrlNotAllowed: 'Odkaz na tuto misi není povolen',
     mapAndMissionMismatch: 'Mapa a mise nesedí',
     missionIsNotOnMap: 'Mise není na mapě {{map}}!',
     mapNotAvailable: 'Mapa není dostupná',

@@ -120,6 +120,9 @@ const fileSchema = z.custom<File>(
 /** `POST /missions/parse` — multipart upload of `mission.sqm`. */
 const parseMissionRequestSchema = z.object({ file: fileSchema });
 
+/** `POST /missions/parse-url` — the API downloads the .pbo (allow-listed URLs only). */
+const parseMissionUrlRequestSchema = z.object({ url: z.string().url() });
+
 /* ----------------------------- responses ---------------------------- */
 
 const parseMissionResponseSchema = missionSchema;
@@ -135,6 +138,7 @@ type Group = z.infer<typeof groupSchema>;
 type Vehicle = z.infer<typeof vehicleSchema>;
 type Mission = z.infer<typeof missionSchema>;
 type ParseMissionRequest = z.input<typeof parseMissionRequestSchema>;
+type ParseMissionUrlRequest = z.input<typeof parseMissionUrlRequestSchema>;
 
 export {
   sideSchema,
@@ -147,6 +151,7 @@ export {
   slotsSchema,
   missionSchema,
   parseMissionRequestSchema,
+  parseMissionUrlRequestSchema,
   parseMissionResponseSchema,
 };
 
@@ -160,4 +165,5 @@ export type {
   Vehicle,
   Mission,
   ParseMissionRequest,
+  ParseMissionUrlRequest,
 };
