@@ -22,6 +22,8 @@ const previewSchema = z.object({
 
 const missionMarkerSchema = z.object({
   id: z.number(),
+  /** Variable name from mission.sqm; briefing links (`<marker name='…'>`) point to it. Missing in old plans. */
+  name: z.string().optional(),
   type: z.string().optional(),
   markerType: z.string().optional(),
   colorName: z.string().optional(),

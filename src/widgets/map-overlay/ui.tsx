@@ -1,13 +1,14 @@
 import { observer } from 'mobx-react-lite';
-import { ChangeEvent, Fragment, useEffect, useRef } from 'react';
+import { ChangeEvent, Fragment, MouseEvent, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { mapsEntity } from '@/entities/maps';
 import { markersEntity } from '@/entities/markers';
 import { missionEntity } from '@/entities/mission';
-import { getIslandClassNameByPboFile } from '@/entities/mission/lib';
+import { findMissionMarkerByName, getIslandClassNameByPboFile } from '@/entities/mission/lib';
 import { planEntity } from '@/entities/plan';
 import { i18n } from '@/shared/lib/i18n/config';
+import { basicMapEntity } from '@/shared/ui/atoms/basic-map/model';
 import { Overlay, useMenu } from '@/shared/ui/atoms/overlay';
 import { DateClock } from '@/shared/ui/moleculas/date-clock/ui';
 import { Modal } from '@/shared/ui/moleculas/modal/ui';
@@ -32,6 +33,28 @@ const formatIntelDate = (language: string, day?: number, month?: number) => {
   return new Intl.DateTimeFormat(toIntlLocale(language), { day: 'numeric', month: 'long' }).format(
     new Date(2000, month - 1, day)
   );
+};
+
+/** Briefing links to markers (`<marker name='…'>`, as in the in-game diary): focus the map on it. */
+const onBriefingClick = (event: MouseEvent<HTMLDivElement>) => {
+  const link = (event.target as HTMLElement).closest('marker');
+  const name = link?.getAttribute('name');
+
+  if (!name) return;
+
+  const marker = findMissionMarkerByName(missionEntity.data?.markers, name);
+
+  if (!marker) {
+    // Markers created by scripts exist only in the game.
+    toasterEntity.call({
+      title: 'toasters:briefingMarkerNotFoundTitle',
+      description: link?.textContent?.trim() || name,
+    });
+
+    return;
+  }
+
+  basicMapEntity.flyTo(marker.position.coordinates.x, marker.position.coordinates.y);
 };
 
 const MapOverlay = observer<{
@@ -336,7 +359,8 @@ const MapOverlay = observer<{
               .map((item) => (
                 <Overlay.MenuItem key={item.id}>
                   <div
-                    className="max-w-[540px] leading-6 [&_a]:underline [&_marker]:underline"
+                    className="max-w-[540px] leading-6 [&_a]:underline [&_marker]:underline [&_marker]:cursor-pointer [&_marker]:text-a3-orange [&_marker:hover]:brightness-125"
+                    onClick={onBriefingClick}
                     dangerouslySetInnerHTML={{ __html: item.value.trim() }}
                   />
                 </Overlay.MenuItem>
