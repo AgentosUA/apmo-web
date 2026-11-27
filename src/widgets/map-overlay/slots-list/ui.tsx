@@ -2,6 +2,11 @@ import { observer } from 'mobx-react-lite';
 import { ChangeEvent, FC, Fragment } from 'react';
 
 import { missionEntity } from '@/entities/mission';
+import {
+  getGroupsWithCallsigns,
+  getSlotLabel,
+  type GroupWithCallsign,
+} from '@/entities/mission/callsigns';
 import { callsigns, callsignsObject } from '@/entities/mission/data';
 import { Group, Mission, Side } from '@/entities/mission/types';
 import { planEntity, planSession } from '@/entities/plan';
@@ -18,34 +23,27 @@ const MissionSlotList: FC<{
   groups?: Group[];
   side: Side;
 }> = ({ groups = [], side }) => {
-  const onGroupClick = (group: Group) => {
-    basicMapEntity.flyTo(
-      group.units[0].position.coordinates.x,
-      group.units[0].position.coordinates.y
-    );
+  const onGroupClick = ({ leader }: GroupWithCallsign) => {
+    basicMapEntity.flyTo(leader.position.coordinates.x, leader.position.coordinates.y);
   };
 
   return (
     <ul className="leading-6 text-white [&_b]:text-white">
-      {groups
-        .filter((group) => group.side === side)
-        .map((group, index) => (
-          <Fragment key={group.id}>
-            <li className="mb-5">
-              <span
-                onClick={() => onGroupClick(group)}
-                className="text-[#ffa30e] hover:underline cursor-pointer"
-              >
-                {callsigns[index]}
-              </span>
-              <ol>
-                {group.units.map((item) => (
-                  <li key={item.id}>{item.description ?? item.type}</li>
-                ))}
-              </ol>
-            </li>
-          </Fragment>
-        ))}
+      {getGroupsWithCallsigns(groups, side).map((item) => (
+        <li key={item.group.id} className="mb-5">
+          <span
+            onClick={() => onGroupClick(item)}
+            className="text-[#ffa30e] hover:underline cursor-pointer"
+          >
+            {item.callsign}
+          </span>
+          <ul>
+            {item.units.map((unit, index) => (
+              <li key={unit.id}>{getSlotLabel(unit, index)}</li>
+            ))}
+          </ul>
+        </li>
+      ))}
     </ul>
   );
 };

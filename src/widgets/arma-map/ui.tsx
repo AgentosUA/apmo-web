@@ -18,8 +18,8 @@ import {
   getMarkerType,
 } from '@/entities/markers/lib';
 import { missionEntity } from '@/entities/mission';
-import { callsigns } from '@/entities/mission/data';
-import { Group, MissionMarker, Side, Vehicle } from '@/entities/mission/types';
+import { getGroupsWithCallsigns, getSlotLabel, getUnitName } from '@/entities/mission/callsigns';
+import { MissionMarker, Side, Vehicle } from '@/entities/mission/types';
 import { createMarkerEntity } from '@/features/markers/create-marker';
 import { CreateMarker } from '@/features/markers/create-marker/ui';
 import type { CanvasItem } from '@/shared/lib/ocap/canvas-layer';
@@ -285,7 +285,7 @@ const MapLayers = observer(() => {
             direction: radToDeg(unit.position.angles?.[1] ?? 0),
             icon: unitIcon(unit.side),
             label: visible
-              ? { text: unit.description ?? unit.type, color: getSideLabelColor(unit.side), size: 12 }
+              ? { text: getUnitName(unit), color: getSideLabelColor(unit.side), size: 12 }
               : undefined,
             interactive: true,
             onClick: () => setToggledUnits((prev) => ({ ...prev, [unit.id]: !prev[unit.id] })),
@@ -294,13 +294,8 @@ const MapLayers = observer(() => {
       );
     } else {
       SIDES_WITH_CALLSIGNS.forEach((side) => {
-        mission.groups
-          .filter((group) => group.side === side)
-          .forEach((group: Group, index) => {
-            const leader = group.units[0];
-            if (!leader) return;
-            const callsign = callsigns[index] ?? leader.description ?? leader.type;
-
+        getGroupsWithCallsigns(mission.groups, side).forEach(
+          ({ group, units, leader, callsign }) => {
             unitItems.push({
               id: `group-${group.id}`,
               x: leader.position.coordinates.x,
@@ -310,16 +305,17 @@ const MapLayers = observer(() => {
               label: { text: callsign, color: getSideLabelColor(side), size: 12, weight: 600 },
               interactive: true,
               onClick: () => {
-                const list = group.units
-                  .map((unit) => `<li>${escapeHtml(unit.description ?? unit.type)}</li>`)
+                const list = units
+                  .map((unit, index) => `<li>${escapeHtml(getSlotLabel(unit, index))}</li>`)
                   .join('');
                 renderer?.openPopup(
                   [leader.position.coordinates.x, leader.position.coordinates.y],
-                  `<div class="apmo-popup-title">${escapeHtml(callsign)}</div><ol class="apmo-popup-list">${list}</ol>`
+                  `<div class="apmo-popup-title">${escapeHtml(callsign)}</div><ul class="apmo-popup-list">${list}</ul>`
                 );
               },
             });
-          });
+          }
+        );
       });
     }
   }

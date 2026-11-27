@@ -65,6 +65,11 @@ const unitSchema = z.object({
 const groupSchema = z.object({
   id: z.number(),
   side: sideSchema,
+  /**
+   * Lobby callsign ("Alpha 1-1"), `@Alpha X-Y` overrides respected. `null` for
+   * groups without playable units; missing in plans saved before it was added.
+   */
+  callsign: z.string().nullish(),
   units: z.array(unitSchema),
 });
 

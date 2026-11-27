@@ -67,6 +67,8 @@ type ShapeHandle = {
 };
 
 const MAPLIBRE_STYLE_STORAGE_KEY = 'apmo-maplibre-style';
+/** Leaflet pane for popups; must stay above the canvas layer (see createPopupPane). */
+const POPUP_PANE = 'apmoPopupPane';
 
 class ArmaMapRenderer {
   readonly world: WorldConfig;
@@ -154,8 +156,31 @@ class ArmaMapRenderer {
       fontFamily: getFontFamily(container),
     });
 
+    this.createPopupPane();
+
     this.bindEvents();
   }
+
+  /**
+   * The canvas layer sits directly in the map container (z-index 625), above the
+   * whole Leaflet map pane (z-index 400) — including Leaflet's own popup pane.
+   * So popups get their own pane next to the canvas, above it, which follows the
+   * map pane's pan offset to stay anchored to its position.
+   */
+  private createPopupPane() {
+    const pane = this.map.createPane(POPUP_PANE, this.map.getContainer());
+    pane.style.zIndex = '700';
+
+    const mapPane = this.map.getPane('mapPane');
+    this.syncPopupPane = () => {
+      if (mapPane) L.DomUtil.setPosition(pane, L.DomUtil.getPosition(mapPane));
+    };
+
+    this.map.on('move zoom viewreset zoomend resize', this.syncPopupPane);
+    this.syncPopupPane();
+  }
+
+  private syncPopupPane: () => void = () => {};
 
   // ==================== init ====================
 
@@ -479,7 +504,13 @@ class ArmaMapRenderer {
   // ==================== popups ====================
 
   openPopup(position: ArmaCoord, content: string | HTMLElement, onClose?: () => void) {
-    const popup = L.popup({ closeButton: false, autoPan: false, className: 'apmo-popup', offset: [0, -6] })
+    const popup = L.popup({
+      closeButton: false,
+      autoPan: false,
+      className: 'apmo-popup',
+      offset: [0, -6],
+      pane: POPUP_PANE,
+    })
       .setLatLng(this.armaToLatLng(position))
       .setContent(content);
     if (onClose) popup.on('remove', onClose);
@@ -1006,6 +1037,7 @@ class ArmaMapRenderer {
     this.canvasLayer.dispose();
     this.shapes.forEach((layer) => layer.forEach((handle) => this.removeShape(handle)));
     this.shapes.clear();
+    this.map.off('move zoom viewreset zoomend resize', this.syncPopupPane);
     if (this.maplibreLayer) this.map.removeLayer(this.maplibreLayer);
     this.map.remove();
     Object.values(this.listeners).forEach((set) => set.clear());

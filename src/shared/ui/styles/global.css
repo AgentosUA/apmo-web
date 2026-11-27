@@ -279,9 +279,12 @@
     margin-bottom: 4px;
   }
 
+  /* Slot names carry their own numbers ("1. Командир"), no list markers. */
   .apmo-popup-list {
-    list-style: decimal;
-    padding-left: 18px;
+    list-style: none;
+    padding-left: 0;
+    max-height: 320px;
+    overflow-y: auto;
   }
 
   .leaflet-tooltip {
