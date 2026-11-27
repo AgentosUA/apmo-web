@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, createContext, useState } from 'react';
+import { useContext, createContext, useEffect, useState } from 'react';
 import type { FC, PropsWithChildren } from 'react';
 
 import { I18nProvider } from '@/shared/lib/i18n/provider';
@@ -34,6 +34,10 @@ const StoreProvider: FC<
   const [store] = useState<Store>(() => ({
     settings: new SettingsStore(initial.settingsLocale),
   }));
+
+  useEffect(() => {
+    store.settings.restoreSoundSetting();
+  }, [store]);
 
   return (
     <I18nProvider initLang={store.settings.getLocale()}>

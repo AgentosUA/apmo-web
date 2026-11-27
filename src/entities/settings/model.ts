@@ -1,10 +1,12 @@
 import cookie from 'js-cookie';
-import { makeObservable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 
 import { i18n } from '@/shared/lib/i18n/config';
 import { isLanguage, Language } from '@/shared/lib/i18n/lib';
+import { toasterEntity } from '@/shared/ui/organisms/toaster/model';
 
 const LOCALE_KEY = 'locale';
+const SOUND_KEY = 'notificationSound';
 
 const readStoredLocale = (): Language | undefined => {
   try {
@@ -21,8 +23,14 @@ class SettingsStore {
   /** True once the user has explicitly picked a language (cookie or localStorage). */
   isLocaleSaved: boolean;
 
+  /** Notification sounds (toasters). Stored per browser in localStorage. */
+  isSoundEnabled = true;
+
   constructor(initialLocale?: Language) {
-    makeObservable(this);
+    makeObservable(this, {
+      isSoundEnabled: observable,
+      setSoundEnabled: action,
+    });
 
     this.locale = isLanguage(initialLocale) ? initialLocale : Language.EN;
     this.isLocaleSaved = isLanguage(initialLocale);
@@ -44,6 +52,29 @@ class SettingsStore {
     }
 
     i18n.changeLanguage(locale);
+  };
+
+  setSoundEnabled = (enabled: boolean) => {
+    this.isSoundEnabled = enabled;
+    toasterEntity.setSoundEnabled(enabled);
+
+    try {
+      window.localStorage.setItem(SOUND_KEY, enabled ? 'on' : 'off');
+    } catch {
+      // storage can be unavailable (private mode, disabled storage)
+    }
+  };
+
+  toggleSound = () => this.setSoundEnabled(!this.isSoundEnabled);
+
+  /** Client-only: applies the sound setting saved in localStorage. */
+  restoreSoundSetting = () => {
+    try {
+      const value = window.localStorage.getItem(SOUND_KEY);
+      if (value === 'on' || value === 'off') this.setSoundEnabled(value === 'on');
+    } catch {
+      // storage can be unavailable (private mode, disabled storage)
+    }
   };
 
   /**

@@ -1,4 +1,5 @@
 import { ChangeLanguage } from '@/features/settings/change-language/ui';
+import { NotificationSoundToggle } from '@/features/settings/notification-sound';
 import { Localize } from '@/shared/ui/quarks/localize/ui';
 
 const Footer = () => {
@@ -25,7 +26,10 @@ const Footer = () => {
         </div>
       </div>
 
-      <ChangeLanguage className="shrink-0" />
+      <div className="flex items-center gap-4 shrink-0">
+        <NotificationSoundToggle />
+        <ChangeLanguage />
+      </div>
     </footer>
   );
 };

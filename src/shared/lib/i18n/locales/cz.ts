@@ -318,6 +318,13 @@ const czLocale: typeof enLocale = {
     },
   },
   features: {
+    notificationSound: {
+      label: 'Zvuk oznámení',
+      on: 'Zvuk zapnut',
+      off: 'Zvuk vypnut',
+      enable: 'Zapnout zvuk oznámení',
+      disable: 'Vypnout zvuk oznámení',
+    },
     principalSearch: {
       placeholder: 'Hledat podle přezdívky nebo jednotky…',
       nothingFound: 'Nic nenalezeno',

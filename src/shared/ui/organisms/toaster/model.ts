@@ -22,6 +22,13 @@ class Toaster {
 
   toasters: ToasterData[] = [];
 
+  /** Global switch for notification sounds (user setting, see SettingsStore). */
+  isSoundEnabled = true;
+
+  setSoundEnabled = (enabled: boolean) => {
+    this.isSoundEnabled = enabled;
+  };
+
   removeToaster = (id: string) => {
     this.toasters = this.toasters.filter((toaster) => toaster.id !== id);
   };
@@ -35,10 +42,12 @@ class Toaster {
     description = '',
     ...data
   }: ToasterData) => {
-    if (sound) {
+    const playSound = sound && this.isSoundEnabled;
+
+    if (playSound) {
       const audio = new Audio('/sounds/notification/start.mp3');
       audio.volume = 0.2;
-      audio.play();
+      audio.play().catch(() => {});
     }
 
     this.toasters.unshift({
@@ -62,11 +71,11 @@ class Toaster {
       this.removeToaster(id);
     }, timer);
 
-    if (sound) {
+    if (playSound) {
       setTimeout(() => {
         const audio = new Audio('/sounds/notification/end.mp3');
         audio.volume = 0.3;
-        audio.play();
+        audio.play().catch(() => {});
       }, timer - 700);
     }
   };

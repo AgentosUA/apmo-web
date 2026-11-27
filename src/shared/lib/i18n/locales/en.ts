@@ -316,6 +316,13 @@ const enLocale = {
     },
   },
   features: {
+    notificationSound: {
+      label: 'Notification sound',
+      on: 'Sound on',
+      off: 'Sound off',
+      enable: 'Turn notification sound on',
+      disable: 'Turn notification sound off',
+    },
     principalSearch: {
       placeholder: 'Search by nickname or squad…',
       nothingFound: 'Nothing found',

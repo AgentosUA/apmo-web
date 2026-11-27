@@ -20,6 +20,7 @@ import {
 import { userEntity } from '@/entities/user/model';
 import { profilePlansEntity } from '@/entities/user/plans-model';
 import { useUnAuthorizated } from '@/entities/user/ui/authorization/hook';
+import { NotificationSoundSetting } from '@/features/settings/notification-sound';
 import { ChangeUsername } from '@/features/user/change-username';
 import { LogoutConfirm } from '@/features/user/logout';
 import { getWorldDisplayName } from '@/shared/lib/ocap/worlds';
@@ -388,6 +389,7 @@ const UserPanel = ({
           <AvatarUrlDetails>
             <AvatarFields avatarForm={avatarForm} id="avatar-mobile" />
           </AvatarUrlDetails>
+          <NotificationSoundSetting />
           <Link href="/profile/change-password" className="w-full">
             <Button variant="orange" className="w-full">
               <Localize
@@ -423,6 +425,7 @@ const UserPanel = ({
         <AvatarUrlDetails>
           <AvatarFields avatarForm={avatarForm} id="avatar-desktop" />
         </AvatarUrlDetails>
+        <NotificationSoundSetting />
         <Link href="/profile/change-password">
           <Button variant="orange">
             <Localize

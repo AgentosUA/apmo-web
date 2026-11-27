@@ -318,6 +318,13 @@ const ukLocale: typeof enLocale = {
     },
   },
   features: {
+    notificationSound: {
+      label: 'Звук сповіщень',
+      on: 'Звук увімкнено',
+      off: 'Звук вимкнено',
+      enable: 'Увімкнути звук сповіщень',
+      disable: 'Вимкнути звук сповіщень',
+    },
     principalSearch: {
       placeholder: 'Пошук за нікнеймом або загоном…',
       nothingFound: 'Нічого не знайдено',
